@@ -5,19 +5,16 @@
 
 <mapper namespace="com.lec.spring.repository.AreacodeRepository">
     <select id="findAll" resultType="com.lec.spring.domain.Areacode">
-    </select>
-
-    <select id="findById" resultType="com.lec.spring.domain.Areacode">
-
-
-
-    </select>
-
-    <select id="findByName" resultType="com.lec.spring.domain.Areacode">
-        SELECT
+        SELECT*
         FROM areacode
-        WHERE
     </select>
+
+    <select id="findByAreaCode" resultType="com.lec.spring.domain.Areacode">
+        SELECT name
+        FROM areacode
+        WHERE areacode = #{areacode};
+    </select>
+
 
 
 
