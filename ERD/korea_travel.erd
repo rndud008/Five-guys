@@ -4,8 +4,8 @@
   "settings": {
     "width": 2500,
     "height": 2500,
-    "scrollTop": -1430,
-    "scrollLeft": -13,
+    "scrollTop": -260,
+    "scrollLeft": -88,
     "zoomLevel": 1,
     "show": 511,
     "database": 4,
@@ -164,8 +164,8 @@
       },
       "9N82LWdYzG2MJqMqJpVTJ": {
         "id": "9N82LWdYzG2MJqMqJpVTJ",
-        "name": "blog_reivew",
-        "comment": "블로그 리뷰 리스트?",
+        "name": "blog_review",
+        "comment": "블로그 리뷰 리스트",
         "columnIds": [
           "OvoUnBFI54J3dSJlXDp6c",
           "Paz-6N0Pnb8Wjee9P8s2h",
@@ -191,11 +191,11 @@
           "y": 1218.5,
           "zIndex": 2,
           "widthName": 65,
-          "widthComment": 110,
+          "widthComment": 105,
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174465984,
+          "updateAt": 1718175143854,
           "createAt": 1717908990082
         }
       },
@@ -233,7 +233,7 @@
       },
       "8E3otwpduzsd9EKTFpNJy": {
         "id": "8E3otwpduzsd9EKTFpNJy",
-        "name": "travel_class",
+        "name": "travel_class_detail",
         "comment": "여행정보 유형분류",
         "columnIds": [
           "BdHSoxGewzhZKc5oOztzT",
@@ -253,15 +253,15 @@
           "0ucTg4qMSRFwxtvgqM84T"
         ],
         "ui": {
-          "x": 1023.1667,
-          "y": 1718.8331,
+          "x": 1047.1667,
+          "y": 1713.8331,
           "zIndex": 2,
-          "widthName": 61,
+          "widthName": 95,
           "widthComment": 101,
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174475208,
+          "updateAt": 1718175185441,
           "createAt": 1717908990084
         }
       },
@@ -390,13 +390,13 @@
         "name": "user_travel_post",
         "comment": "여행 정보 좋아요",
         "columnIds": [
-          "b_9dB9PnY01I28nk1HAd7",
-          "BA2VhdT6uMjG5TTdgllsX"
+          "BA2VhdT6uMjG5TTdgllsX",
+          "b_9dB9PnY01I28nk1HAd7"
         ],
         "seqColumnIds": [
           "S8eJH9dUM5AF6da1D2OVP",
-          "b_9dB9PnY01I28nk1HAd7",
           "BA2VhdT6uMjG5TTdgllsX",
+          "b_9dB9PnY01I28nk1HAd7",
           "OIm4iNeii9sC2NaIDQrkt"
         ],
         "ui": {
@@ -408,7 +408,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174446390,
+          "updateAt": 1718175063260,
           "createAt": 1717908990088
         }
       },
@@ -448,9 +448,7 @@
         "columnIds": [
           "tQ9DOeZBEHO1WeLkTJIAp",
           "YjEPtqavCcXY8dD2jlDD9",
-          "Q4D9uVTAaB6yYalJhfB0K",
-          "arH8-xrWB__dldb4cVhVd",
-          "hjVD7yJBIZy4hhehlm-Td"
+          "Q4D9uVTAaB6yYalJhfB0K"
         ],
         "seqColumnIds": [
           "tQ9DOeZBEHO1WeLkTJIAp",
@@ -461,15 +459,15 @@
           "hjVD7yJBIZy4hhehlm-Td"
         ],
         "ui": {
-          "x": 615,
-          "y": 915.25,
+          "x": 648,
+          "y": 924.25,
           "zIndex": 2,
           "widthName": 92,
           "widthComment": 97,
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174358887,
+          "updateAt": 1718174797248,
           "createAt": 1717908990088
         }
       },
@@ -853,8 +851,8 @@
       },
       "-xVMxq5adpq2r6R8tg0Bc": {
         "id": "-xVMxq5adpq2r6R8tg0Bc",
-        "name": "weather_1",
-        "comment": "단기날씨 1~3일째 날씨",
+        "name": "short_weather",
+        "comment": "단기예보(1~3일)",
         "columnIds": [
           "KawDFK0o6gj9YQ1bGNFx7",
           "Pc1cXGHv-KSuuXJ38EZJg",
@@ -888,19 +886,19 @@
           "x": 1413.75,
           "y": 387.5,
           "zIndex": 2,
-          "widthName": 60,
-          "widthComment": 126,
+          "widthName": 76,
+          "widthComment": 90,
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174258356,
+          "updateAt": 1718175113013,
           "createAt": 1717908990093
         }
       },
       "klnNb2UuGxq3GFcKjK2O4": {
         "id": "klnNb2UuGxq3GFcKjK2O4",
-        "name": "weather_2",
-        "comment": "중기날씨 중기육상예보",
+        "name": "middle_weather",
+        "comment": "중기예보(4~7일)",
         "columnIds": [
           "HzBFlASDrLQcoWCX2aPuF",
           "RhA7uICpb1B1Jbo_YHRAd",
@@ -955,19 +953,19 @@
           "x": 1623.25,
           "y": 754,
           "zIndex": 2,
-          "widthName": 60,
-          "widthComment": 125,
+          "widthName": 86,
+          "widthComment": 90,
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174374674,
+          "updateAt": 1718175124129,
           "createAt": 1717908990094
         }
       },
       "4jQ0IwCIQM_0DenxmK2Yd": {
         "id": "4jQ0IwCIQM_0DenxmK2Yd",
         "name": "travel_type",
-        "comment": "여행분류",
+        "comment": "여행타입",
         "columnIds": [
           "DDr_GeU_xlZRN77RtiX7B",
           "JTud7_sgD51k3PcNyYyxP"
@@ -992,7 +990,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174340140,
+          "updateAt": 1718175226309,
           "createAt": 1717977935101
         }
       },
@@ -5267,7 +5265,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1718115204358,
+          "updateAt": 1718174887307,
           "createAt": 1718019028548
         }
       },
@@ -6207,8 +6205,8 @@
           "columnIds": [
             "tQ9DOeZBEHO1WeLkTJIAp"
           ],
-          "x": 1093,
-          "y": 1061.9166666666665,
+          "x": 1087,
+          "y": 1030.9166666666665,
           "direction": 2
         },
         "end": {
@@ -6487,8 +6485,8 @@
           "columnIds": [
             "tQ9DOeZBEHO1WeLkTJIAp"
           ],
-          "x": 615,
-          "y": 1003.25,
+          "x": 648,
+          "y": 988.25,
           "direction": 1
         },
         "end": {
@@ -7187,8 +7185,8 @@
           "columnIds": [
             "tQ9DOeZBEHO1WeLkTJIAp"
           ],
-          "x": 1093,
-          "y": 944.5833333333333,
+          "x": 1087,
+          "y": 945.5833333333333,
           "direction": 2
         },
         "end": {
@@ -7243,8 +7241,8 @@
           "columnIds": [
             "tQ9DOeZBEHO1WeLkTJIAp"
           ],
-          "x": 1093,
-          "y": 1003.2499999999999,
+          "x": 1087,
+          "y": 988.2499999999999,
           "direction": 2
         },
         "end": {
@@ -7308,8 +7306,8 @@
           "columnIds": [
             "z4gr6iEMv46BrzoAhHsYN"
           ],
-          "x": 1255.1667,
-          "y": 1718.8331,
+          "x": 1279.1667,
+          "y": 1713.8331,
           "direction": 4
         },
         "meta": {
@@ -7794,8 +7792,8 @@
       -1,
       -1,
       {
-        "comment": 1717918410967,
-        "name": 1718019286442
+        "comment": 1718174676269,
+        "name": 1718175113012
       }
     ],
     "Yqrkjx-SgFzAr-Z-EKIK3": [
@@ -7906,7 +7904,7 @@
       -1,
       {
         "name": 1717977941699,
-        "comment": 1718165008949
+        "comment": 1718175226309
       }
     ],
     "DDr_GeU_xlZRN77RtiX7B": [
@@ -8070,7 +8068,7 @@
       -1,
       -1,
       {
-        "name": 1718174475207,
+        "name": 1718175185440,
         "comment": 1718172094301
       }
     ],
@@ -9070,8 +9068,8 @@
       -1,
       -1,
       {
-        "comment": 1718019166831,
-        "name": 1718019288920
+        "comment": 1718174692977,
+        "name": 1718175124128
       }
     ],
     "VQ6YXqN73oiocZsuOpYMd": [
@@ -9225,7 +9223,7 @@
       1718019028548,
       -1,
       {
-        "name": 1718019029129,
+        "name": 1718174887306,
         "comment": 1718020589277,
         "dataType": 1718115204357,
         "options(notNull)": 1718019496639,
@@ -9426,7 +9424,7 @@
     "hjVD7yJBIZy4hhehlm-Td": [
       "tableColumnEntities",
       -1,
-      -1,
+      1718174796021,
       {
         "dataType": 1718105326564
       }
@@ -9434,7 +9432,7 @@
     "arH8-xrWB__dldb4cVhVd": [
       "tableColumnEntities",
       -1,
-      -1,
+      1718174797247,
       {
         "dataType": 1718105333979
       }
@@ -10099,6 +10097,15 @@
       -1,
       {
         "name": 1718174275208
+      }
+    ],
+    "9N82LWdYzG2MJqMqJpVTJ": [
+      "tableEntities",
+      -1,
+      -1,
+      {
+        "comment": 1718174640247,
+        "name": 1718175143853
       }
     ]
   }
