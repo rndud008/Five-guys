@@ -61,7 +61,6 @@ INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
 (2, 9, '옹진군'),
 (2, 10, '중구');
 
-
 SELECT *
 FROM sigungucode
 where areacode = 2 and sigungucode = 3;
