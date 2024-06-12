@@ -4,9 +4,9 @@
   "settings": {
     "width": 2500,
     "height": 2500,
-    "scrollTop": -680,
-    "scrollLeft": 0,
-    "zoomLevel": 1,
+    "scrollTop": -733.8248,
+    "scrollLeft": -114.8325,
+    "zoomLevel": 0.9,
     "show": 511,
     "database": 4,
     "databaseName": "",
@@ -496,7 +496,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1718174314195,
+          "updateAt": 1718180792005,
           "createAt": 1717908990089
         }
       },
@@ -4116,7 +4116,7 @@
         "comment": "지역코드번호",
         "dataType": "INT",
         "default": "",
-        "options": 2,
+        "options": 10,
         "ui": {
           "keys": 1,
           "widthName": 60,
@@ -4125,7 +4125,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1718164502390,
+          "updateAt": 1718177796841,
           "createAt": 1717978790896
         }
       },
@@ -5296,7 +5296,7 @@
         "comment": "발표시각 ",
         "dataType": "VARCHAR(20)",
         "default": "",
-        "options": 13,
+        "options": 0,
         "ui": {
           "keys": 0,
           "widthName": 60,
@@ -5305,7 +5305,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1718169965638,
+          "updateAt": 1718177890496,
           "createAt": 1718020127452
         }
       },
@@ -8238,7 +8238,7 @@
         "name": 1718158621238,
         "dataType": 1718158464024,
         "comment": 1718164502390,
-        "options(notNull)": 1718158459982,
+        "options(notNull)": 1718177796840,
         "options(unique)": 1718113434934,
         "options(primaryKey)": 1718158446026
       }
@@ -9303,9 +9303,9 @@
         "name": 1718169965637,
         "comment": 1718169965637,
         "dataType": 1718169965637,
-        "options(notNull)": 1718169965637,
-        "options(unique)": 1718169965637,
-        "options(autoIncrement)": 1718169965637,
+        "options(notNull)": 1718177890495,
+        "options(unique)": 1718177885421,
+        "options(autoIncrement)": 1718177887787,
         "default": 1718169965637
       }
     ],
