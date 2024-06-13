@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>수정</title>
+</head>
+<body>
+
+<div>
+    <h2>수정</h2>
+    <hr>
+    <div>
+        <span>id: [[${post.id}]]</span>
+        <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+        <span>조회수: [[${post.viewcnt}]]</span>
+    </div>
+
+
+    <form th:action="@{/board/update}" method="post">
+        <input type="hidden" name="id" th:value="${post.id}"/>
+        <div>
+            <label>작성자:</label>
+            <span readonly th:text="${post.user.username}"></span>
+        </div>
+        <div>
+            <label for="subject">제목:</label>
+            <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject} ? ${subject} : ${post.subject}">
+            <br>
+            <span class="text-danger" th:if="${error_subject}" th:utext="${error_subject}"></span>
+        </div>
+        <div>
+            <label for="content">내용:</label>
+            <textarea class="form-control" rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content} ? ${content} : ${post.content}"></textarea>
+        </div>
+
+        <!-- 하단 링크 -->
+        <div>
+            <button type="submit">수정완료</button>
+            <button type="button" onclick="history.back()">이전으로</button>
+            <a th:href="@{/board/list}">목록</a>
+        </div>
+        <!-- 하단 링크 -->
+
+
+    </form>
+</div>
+
+</body>
+</html>

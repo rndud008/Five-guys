@@ -25,7 +25,7 @@ public class User {
     private String email;  // 이메일
 
     @JsonIgnore
-    private LocalDateTime regDate;
+    private LocalDateTime regdate;
 
 
 }

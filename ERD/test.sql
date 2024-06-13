@@ -1,3 +1,5 @@
+
+
 INSERT INTO areacode (areacode, name, regId) VALUES
  (1, '서울', '11B10101'),
  (2, '인천', '11B20201'),
@@ -64,3 +66,41 @@ INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
 SELECT *
 FROM sigungucode
 where areacode = 2 and sigungucode = 3;
+
+INSERT INTO travel_diary_post (user_id, areacode_id, subject, content) VALUES
+(1, 1, '제목1', '내용1'),
+(2, 1, '제목2', '내용2'),
+(2, 2, '제목3', '내용3'),
+(3, 1, '제목4', '내용4'),
+(3, 2, '제목5', '내용5')
+;
+
+SELECT  * FROM travel_diary_post;
+
+DELETE FROM travel_diary_post;
+ALTER TABLE travel_diary_post Auto_Increment = 1;
+
+INSERT INTO user (username, password, name, email) VALUES
+('USER1', '1234', '회원1', 'user1@mail.com'),
+('USER2', '1234', '회원2', 'user2@mail.com'),
+('ADMIN1', '1234', '관리자1', 'admin1@mail.com')
+;
+
+SELECT  * FROM user;
+
+SELECT *
+FROM user
+WHERE id = 3;
+
+
+SELECT * FROM travel_diary_post;
+
+INSERT INTO travel_diary_post (user_id, areacode_id, subject, content)
+VALUES (3, 2, '제목', '내용');
+
+UPDATE travel_diary_post
+SET content = 'test', subject = 'test'
+WHERE id = 1;
+
+DELETE FROM travel_diary_post
+WHERE id = 1;
