@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lec.spring.repository.AreacodeRepository">
+<mapper namespace="com.lec.spring.repository.AreacodeMapper">
     <select id="findAll" resultType="com.lec.spring.domain.Areacode">
         SELECT*
         FROM areacode
