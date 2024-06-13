@@ -64,6 +64,23 @@ INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
 SELECT *
 FROM sigungucode;
 
+INSERT INTO travel_type(id, name) VALUES
+(12, '관광지'),
+(15, '축제')
+;
+
+SELECT *
+FROM travel_type;
+
+SELECT *
+FROM travel_class_detail;
+
+SELECT id
+FROM travel_type;
+
+
+
+
 
 
 

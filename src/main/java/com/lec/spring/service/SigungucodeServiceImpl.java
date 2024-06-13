@@ -28,7 +28,7 @@ import java.util.List;
             List<Integer> areacodes = areacodeMapper.getAllAreacodes();
 
             for (int areacode : areacodes) {
-                JsonNode items = apiService.fetchApiData(areacode);
+                JsonNode items = apiService.fetchsigungu(areacode);
 
                 for (JsonNode item : items) {
                     Sigungucode sigungucode = new Sigungucode();

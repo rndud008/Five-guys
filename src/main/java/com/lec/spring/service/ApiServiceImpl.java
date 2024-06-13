@@ -23,10 +23,20 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public JsonNode fetchApiData(int areaCode) throws IOException {
+    public JsonNode fetchsigungu(int areaCode) throws IOException {
         String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey=YOUR_SERVICE_KEY&numOfRows=30&pageNo=1&MobileOS=ETC&MobileApp=AppTest&areaCode=%d&_type=json", areaCode);
         String response = restTemplate.getForObject(apiUrl, String.class);
         JsonNode rootNode = objectMapper.readTree(response);
         return rootNode.path("response").path("body").path("items").path("item");
     }
+
+    @Override
+    public JsonNode fetchtype(int type) throws IOException {
+        String apiUrl = String.format("http://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=mcw7keMXaCfirqxNz26s6jfbbhIQavF0pTNbArIUT1RLEdHm%2BYx92V%2FJswNwZJJvPhglAPqs%2BAMGMzcqDsuLEQ%3D%3D&contentTypeId=%d&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest ", type);
+        String response = restTemplate.getForObject(apiUrl, String.class);
+        JsonNode rootNode = objectMapper.readTree(response);
+        return rootNode.path("response").path("body").path("items").path("item");
+    }
+
+
 }

@@ -6,6 +6,5 @@ import java.io.IOException;
 
 public interface SigungucodeService {
 
-
     void saveSigungucodes() throws IOException;
 }

@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface AreacodeMapper {
-    @Select("SELECT areacode FROM areacode")
+
     List<Integer> getAllAreacodes();
 }
