@@ -1,13 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lec.spring.repository.SigungucodeMapper">
-
-    <insert id="insertSigungucode">
+<mapper namespace="com.lec.spring.repository.SigungucodeRepository">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode">
         INSERT INTO sigungucode (areacode, sigungucode, name)
-        VALUES (#{areacode}, #{sigungucode}, #{name})
+        values (#{areacode.areacode}, #{sigungucode}, #{name})
     </insert>
+
+    <update id="update" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode">
+        UPDATE sigungucode
+        SET (sigungucode = #{sigungucode}, name = #{name})
+        WHERE areacode = #{areacode.areacode}
+    </update>
+
 
 </mapper>

@@ -3,17 +3,19 @@ package com.lec.spring.controller;
 import com.lec.spring.service.SigungucodeService;
 import com.lec.spring.service.TravelClassDetailService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 @RestController
 public class MainController {
-    private final SigungucodeService sigungucodeService;
-    private final TravelClassDetailService travelClassDetailService;
+    private SigungucodeService sigungucodeService;
+    private TravelClassDetailService travelClassDetailService;
 
 
-    public MainController(SigungucodeService sigungucodeService, TravelClassDetailService travelClassDetailService) {
+    public MainController(SigungucodeService sigungucodeService,TravelClassDetailService travelClassDetailService) {
         this.sigungucodeService = sigungucodeService;
         this.travelClassDetailService = travelClassDetailService;
     }
@@ -22,21 +24,24 @@ public class MainController {
     public String fetchAndSave() {
         try {
             sigungucodeService.saveSigungucodes();
-            return "Data fetched and saved successfully!";
+            return "sigungucodeServiceData fetched and saved successfully!";
         } catch (IOException e) {
             return "Error occurred: " + e.getMessage();
         }
     }
 
-    @GetMapping("/save2")
-    public String Save2() {
+    @GetMapping("/travelTpye")
+    public String travelTpyeFetchAndSave() {
         try {
-            travelClassDetailService.saveTravelClassDetail();
-            return "Data fetched and saved successfully!";
+            travelClassDetailService.saveTravelClassDetails();
+            return "travelClassDetailServiceData fetched and saved successfully!";
         } catch (IOException e) {
             return "Error occurred: " + e.getMessage();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
 
 }
