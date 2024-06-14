@@ -15,6 +15,8 @@ public interface TravelClassDetailRepository extends GenericRepository<TravelCla
     // 여행정보 유형분류 수정
     List<TravelClassDetail> findAll();
     // 여행유형 전체목록
+    List<TravelClassDetail> findByTravelTypeList(@Param("travelType") TravelType travelType);
+    // 특정 여행유형 전체목록
     TravelClassDetail findByCode(String code);
     // 특정 여행유형 찾기
     TravelClassDetail findDecodeByCode(String code, String decode);

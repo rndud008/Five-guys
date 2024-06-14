@@ -31,7 +31,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     public void saveTravelClassDetails() throws IOException, URISyntaxException {
 
 //        String apikey = "mcw7keMXaCfirqxNz26s6jfbbhIQavF0pTNbArIUT1RLEdHm%2BYx92V%2FJswNwZJJvPhglAPqs%2BAMGMzcqDsuLEQ%3D%3D";
-        String apikey = "b3CqPrdJODsJ50VIR2GKwjIafLwOBKd%2BdK7EneQ6eX4mC5Jem3J8cZA5r2W30UwHv2kzFFAkLy10JaLggEKWZA%3D%3D";
+        String apikey = "eRyU75SHuOTMs7QLThUBefQfcNT%2B5FBZJAbhEbnqJOmIgda5NgCT%2BtJlJ%2FB6jyjiNneFra4l%2Bjnq7KdhkUsaOw%3D%3D";
         List<TravelType> travelTypes = travelTypeRepository.findAll();
         System.out.println("travelTypes 시작");
         for (TravelType travelType : travelTypes) {
@@ -63,22 +63,22 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
 
                 String apiUrl2 = null;
 
-                List<TravelClassDetail> travelClassDetails = travelClassDetailRepository.findAll();
+                List<TravelClassDetail> travelClassDetails = travelClassDetailRepository.findByTravelTypeList(travelType);
                 System.out.println("travelClassDetails 시작");
                 for (TravelClassDetail travelClassDetail : travelClassDetails) {
 
                     if (travelClassDetail.getDecode() == null) {
-                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1,code);
+                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1,travelClassDetail.getCode());
                         apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
                                         "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s"
                                 , apikey, travelType.getId(), travelClassDetail1.getCode());
                     } else if (travelClassDetail.getDecode().length() == 3) {
-                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail.getDecode());
+                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail.getCode());
                         apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
                                         "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s&cat2=%s"
                                 , apikey, travelType.getId(), travelClassDetail1.getDecode(), travelClassDetail1.getCode());
                     } else if (travelClassDetail.getDecode().length() == 5) {
-                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail.getDecode());
+                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail.getCode());
                         apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
                                         "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s&cat2=%s&cat3=%s"
                                 , apikey, travelType.getId(), travelClassDetail1.getDecode().substring(0, 3), travelClassDetail1.getDecode(), travelClassDetail1.getCode());
@@ -103,22 +103,22 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
 
                 }// end travelClassDetail
 
-                List<TravelClassDetail> travelClassDetails2 = travelClassDetailRepository.findAll();
+                List<TravelClassDetail> travelClassDetails2 = travelClassDetailRepository.findByTravelTypeList(travelType);
                 System.out.println("travelClassDetails2 시작");
                 for (TravelClassDetail travelClassDetail2 : travelClassDetails2) {
 
                     if (travelClassDetail2.getDecode() == null) {
-                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByDecode(travelType1, null);
+                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1,travelClassDetail2.getCode());
                         apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
                                         "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s"
                                 , apikey, travelType.getId(), travelClassDetail1.getCode());
                     } else if (travelClassDetail2.getDecode().length() == 3) {
-                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail2.getDecode());
+                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail2.getCode());
                         apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
                                         "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s&cat2=%s"
                                 , apikey, travelType.getId(), travelClassDetail1.getDecode(), travelClassDetail1.getCode());
                     } else if (travelClassDetail2.getDecode().length() == 5) {
-                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail2.getDecode());
+                        TravelClassDetail travelClassDetail1 = travelClassDetailRepository.findTravelTypeIdByCode(travelType1, travelClassDetail2.getCode());
                         apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
                                         "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s&cat2=%s&cat3=%s"
                                 , apikey, travelType.getId(), travelClassDetail1.getDecode().substring(0, 3), travelClassDetail1.getDecode(), travelClassDetail1.getCode());
