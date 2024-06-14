@@ -1,28 +1,21 @@
 INSERT INTO areacode (areacode, name, regId) VALUES
- (1, '서울', '11B10101'),
- (2, '인천', '11B20201'),
- (3, '대전', '11C20401'),
- (4, '대구', '11H10701'),
- (5, '광주', '11F20501'),
- (6, '부산', '11H20201'),
- (7, '울산', '11H20101'),
- (8, '세종', '11C20404'),
- (31, '경기', '11B10101'),  -- 서울의 regId를 경기에 포함
- (32, '강원', '11D10101'),  -- 철원의 regId를 강원에 포함
- (33, '충북', '11C10101'),  -- 충주의 regId를 충북에 포함
- (34, '충남', '11C20101'),  -- 서산의 regId를 충남에 포함
- (35, '경북', '11H10101'),  -- 울진의 regId를 경북에 포함
- (36, '경남', '11H20301'),  -- 창원의 regId를 경남에 포함
- (37, '전북', '11F10201'),  -- 전주의 regId를 전북에 포함
- (38, '전남', '11F20101'),  -- 함평의 regId를 전남에 포함
- (39, '제주', '11G00201');
-
-select * from areacode;
-
-SELECT name
-FROM areacode
-WHERE areacode = 1;
-
+(1, '서울', '11B10101'), -- 서울의 regId를 서울에 포함
+(2, '부산', '11H20201'), -- 부산의 regId를 부산에 포함
+(3, '대전', '11C20401'), -- 대전의 regId를 대전에 포함
+(4, '전북', '11F10201'), -- 전주시의 regId를 전북에 포함
+(5, '강원', '11D10301'), -- 춘천시의 regId를 강원에 포함
+(6, '경남', '11H20301'), -- 창원시의 regId를 경남에 포함
+(7, '광주', '11F20501'), -- 전라도의 광주의 regId를 광주에 포함
+(8, '전남', '21F20804'), -- 무안군의 regId를 전남에 포함
+(9, '경기', '11B20202'), -- 시흥의 regId를 경기에 포함
+(10, '세종', '11C20404'), -- 세종의 regId를 세종에 포함
+(11, '충북', '11C10301'), -- 청주의 regId를 충북에 포함
+(12, '충남', '11C20104'), -- 홍성의 regId를 충남에 포함
+(13, '대구', '11H10701'), -- 대구의 regId를 대구에 포함
+(14, '울산', '11H20101'), -- 울산의 regId를 울산에 포함
+(15, '경북', '11H10501'), -- 안동의 regId를 경북에 포함
+(16, '인천', '11B20201'), -- 인천의 regId를 인천에 포함
+(17, '제주', '11G00201'); -- 제주의 regId를 제주에 포함
 
 INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
 (1, 1, '강남구'),
@@ -61,6 +54,36 @@ INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
 (2, 9, '옹진군'),
 (2, 10, '중구');
 
+-- areacode 테이블 데이터 확인
+SELECT * FROM areacode;
+SELECT * FROM sigungucode;
+
+-- 서울의 areacode와 이름 조회
+SELECT name
+FROM areacode
+WHERE areacode = 1;
+
+-- short_weather 테이블 데이터 조회
 SELECT *
-FROM sigungucode
-where areacode = 2 and sigungucode = 3;
+FROM short_weather1 ;
+
+-- middle_weather 테이블 데이터 조회
+SELECT *
+FROM middle_weather;
+
+SELECT *
+FROM last_call_api_date;
+
+INSERT INTO last_call_api_date (id, url, regdate) VALUES
+                                                      (1,'test','2024-06-12');
+
+
+INSERT INTO short_weather (id, last_call_api_id, areacode, basedate, basetime, fcstdate, fcsttime, tmn, tmx, sky, pop, pty) VALUES
+(1, 1 ,1 ,20240612, 0500, 20240612, 0600, 19.0, 21.0, 4, 30, 0);
+
+
+
+
+
+ALTER TABLE short_weather
+    MODIFY COLUMN last_call_api_id INT DEFAULT 0;

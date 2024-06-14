@@ -109,7 +109,7 @@ CREATE TABLE middle_weather
 
 CREATE TABLE short_weather
 (
-    id               INT         NOT NULL AUTO_INCREMENT COMMENT '딘기날씨 id',
+    id               INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
     last_call_api_id INT         NOT NULL COMMENT 'API호출id',
     areacode         INT         NOT NULL COMMENT '지역코드번호',
     basedate         VARCHAR(8)  NULL     COMMENT '발표일자',
