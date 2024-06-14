@@ -66,6 +66,12 @@
         AND p.id = #{id}
     </select>
 
+    <select id="findByAreacode" resultType="com.lec.spring.domain.Post">
+        SELECT *
+        FROM travel_diary_post p, areacode a
+        WHERE p.areacode_id = a.areacode AND p.areacode_id = #{areacode};
+    </select>
+
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.Post">
         UPDATE travel_diary_post
         SET content = #{content}, subject = #{subject}

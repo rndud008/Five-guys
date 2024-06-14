@@ -14,6 +14,8 @@ public interface PostRepository {
 
     List<Post> findAll();
 
+    List<Post> findByAreacode(Long areacode);
+
     int update(Post post);
 
     int delete(Post post);

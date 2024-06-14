@@ -10,7 +10,7 @@
     </select>
 
     <select id="findByAreaCode" resultType="com.lec.spring.domain.Areacode">
-        SELECT *
+        SELECT name
         FROM areacode
         WHERE areacode = #{areacode};
     </select>

@@ -104,3 +104,29 @@ WHERE id = 1;
 
 DELETE FROM travel_diary_post
 WHERE id = 1;
+
+SELECT *
+FROM travel_diary_post p, areacode a
+WHERE p.areacode_id = a.areacode AND p.areacode_id = 1;
+
+SELECT name
+FROM areacode
+WHERE areacode = 1;
+
+SELECT * FROM comment;
+SELECT * FROM travel_diary_post;
+
+INSERT INTO comment (user_id, travel_diary_post_id, content) VALUES
+(1, 1, '1번유저 1번글의 댓글'),
+(1, 2, '1번유저 2번글의 댓글'),
+(2, 1, '2번유저 1번글의 댓글'),
+(2, 2, '2번유저 2번글의 댓글'),
+(3, 1, '3번유저 1번글의 댓글'),
+(3, 2, '3번유저 2번글의 댓글');
+
+DELETE FROM comment;
+ALTER TABLE comment Auto_Increment = 1;
+
+SELECT c.id, c.user_id, c.travel_diary_post_id, c.content, c.regdate
+FROM comment c, travel_diary_post p
+WHERE c.user_id = p.id AND c.travel_diary_post_id = 2;

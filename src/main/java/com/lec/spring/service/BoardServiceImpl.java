@@ -1,6 +1,8 @@
 package com.lec.spring.service;
 
+import com.lec.spring.domain.Areacode;
 import com.lec.spring.domain.Post;
+import com.lec.spring.repository.AreacodeRepository;
 import com.lec.spring.repository.PostRepository;
 import com.lec.spring.repository.UserRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +16,7 @@ public class BoardServiceImpl implements BoardService {
 
     private PostRepository postRepository;
     private UserRepository userRepository;
+    private AreacodeRepository areacodeRepository;
 
     @Autowired
     public BoardServiceImpl(SqlSession sqlSession){
@@ -37,6 +40,17 @@ public class BoardServiceImpl implements BoardService {
     public List<Post> list() {
         return postRepository.findAll();
     }
+
+    @Override
+    public List<Post> listByArea(Long areacode) {
+        return postRepository.findByAreacode(areacode);
+    }
+
+    @Override
+    public Areacode selectNameByAreacode(Long areacode) {
+        return areacodeRepository.findByAreaCode(areacode);
+    }
+
 
     @Override
     public Post selectById(Long id) {

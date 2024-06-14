@@ -6,45 +6,70 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/js/list.js}"></script>
 
     <title>목록</title>
 </head>
 
 <body>
 
-<div>
-    <h2>목록</h2>
-    <hr>
-    <table class="table table-hover">
-        <thead class="table-success">
-        <tr>
-            <th>게시글 번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>조회수</th>
-            <th>작성일</th>
-            <th>좋아요</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post : ${list}">
-            <td th:text="${post.id}"></td>
-            <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}"></a> </td>
-            <td th:text="${post.user.username}">John</td>
-            <td th:text="${post.viewcnt}">23</td>
-            <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}">2021-03-21</td>
-            <td>20</td>
-        </tr>
+<h2>목록</h2>
 
-        </tbody>
-    </table>
+<div style="display: flex;">
+    <!-- 지역명 선택란 -->
+
+    <div class="area">
+        지역:
+        <!-- 나중에 th:each 로 db에 있는 areacode 와 지역명 추출 -->
+        <div id="areacodebtn" style="display: flex; flex-direction: column; justify-content: center;">
+            <button value="1" onclick="findVal()">서울</button>
+            <button value="2">인천</button>
+            <button value="3">대전</button>
+            <button value="4">대구</button>
+            <button value="5">광주</button>
+            <button value="6">부산</button>
+            <button value="7">울산</button>
+        </div>
+
+        <table id="result"></table>
+    </div>
+
+
+    <!-- 게시판 -->
+    <div>
+        <div>
+            <label id="areacode_name" th:text="${areacodename}">1</label>
+            <a th:href="@{/board/write}" style="margin-left: 300px">작성</a>
+        </div>
+        <hr>
+        <table>
+            <thead>
+            <tr>
+                <th>게시글 번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+                <th>좋아요</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${list}">
+                <td th:text="${post.id}"></td>
+                <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}"></a> </td>
+                <td th:text="${post.user.username}">John</td>
+                <td th:text="${post.viewcnt}">23</td>
+                <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}">2021-03-21</td>
+                <td>20</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <!-- 목록 -->
 
-    <div class="row">
-        <div class="col-12">
-            <a th:href="@{/board/write}">작성</a>
-        </div>
-    </div>
+
+
+
 
 
 </div>

@@ -18,7 +18,6 @@ public class BoardController {
     private BoardService boardService;
 
 
-
     @GetMapping("/write")
     public void write(){}
 
@@ -40,6 +39,15 @@ public class BoardController {
     public void list(Model model){
         model.addAttribute("list", boardService.list());
     }
+
+//    TODO 버튼 클릭시 지역명 보여주고 해당 지역 리스트 뽑기
+//    @PostMapping("/list")
+//    public String listRe(Long areacode, Model model){
+//        model.addAttribute("list", boardService.listByArea(areacode));
+//        model.addAttribute("areacodename", boardService.selectNameByAreacode(areacode));
+//
+//        return "board/list";
+//    }
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id, Model model){
