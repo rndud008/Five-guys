@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Areacode {
-    private Long areacode; // id = areacode이다
-
+public class TravelType {
+    private Long id;
+    // 여행 타입 id
     private String name;
-
-    private String regId;
+    // 여행 타입 이름
 
 }
