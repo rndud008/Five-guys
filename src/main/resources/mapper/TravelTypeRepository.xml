@@ -10,8 +10,8 @@
     </select>
 
     <select id="findById" resultType="com.lec.spring.domain.TravelType">
-        select name
-        form travel_type
+        select name, id
+        from travel_type
         where id = #{id}
     </select>
 

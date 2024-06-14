@@ -30,7 +30,7 @@ public class MainController {
         }
     }
 
-    @GetMapping("/travelTpye")
+    @GetMapping("/travelType")
     public String travelTpyeFetchAndSave() {
         try {
             travelClassDetailService.saveTravelClassDetails();

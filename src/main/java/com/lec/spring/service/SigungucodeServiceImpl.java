@@ -31,6 +31,7 @@ public class SigungucodeServiceImpl implements SigungucodeService {
     public void saveSigungucodes() throws IOException {
         List<Areacode> areacodes = areacodeRepository.findAll();
         String apikey = "mcw7keMXaCfirqxNz26s6jfbbhIQavF0pTNbArIUT1RLEdHm%2BYx92V%2FJswNwZJJvPhglAPqs%2BAMGMzcqDsuLEQ%3D%3D";
+
         for (Areacode areacode : areacodes) {
 
             String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey=%s&numOfRows=30&pageNo=1&MobileOS=ETC&MobileApp=AppTest&areaCode=%d&_type=json", apikey, areacode.getAreacode()).trim();
@@ -52,6 +53,7 @@ public class SigungucodeServiceImpl implements SigungucodeService {
                     sigungucode.setSigungucode(item.get("code").asLong());
                     sigungucode.setName(item.get("name").asText());
                     sigungucodeRepository.save(sigungucode);
+
                     System.out.println("저장완료");
                 }
             } else {

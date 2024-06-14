@@ -23,10 +23,42 @@
     </select>
 
     <select id="findByCode" resultType="com.lec.spring.domain.TravelClassDetail">
-        select *
+        select code, decode
         FROM travel_class_detail
         where code = #{code}
     </select>
+
+    <select id="findByTravelTypeId" resultType="com.lec.spring.domain.TravelClassDetail">
+        select travel_type_id, code, decode
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+    </select>
+
+    <select id="findDecodeByCode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select code, decode, travel_type_id
+        FROM travel_class_detail
+        where decode = #{decode} and code = #{code}
+    </select>
+
+    <select id="findTravelTypeIdByCode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select travel_type_id ,code , decode
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+        and code = #{code}
+    </select>
+
+    <select id="findTravelTypeIdByDecode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select travel_type_id ,code , decode
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+        <if test="decode != null">
+            AND decode = #{decode}
+        </if>
+        <if test="decode == null">
+            AND decode IS NULL
+        </if>
+    </select>
+
 
 
 
