@@ -1,7 +1,6 @@
 package com.lec.spring.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lec.spring.domain.Sigungucode;
 import com.lec.spring.domain.TravelClassDetail;
 import com.lec.spring.domain.TravelType;
 import com.lec.spring.repository.TravelClassDetailRepository;
@@ -9,7 +8,6 @@ import com.lec.spring.repository.TravelTypeRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -38,9 +36,14 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
             String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
 
-            JsonNode items = dataService.fetchApiData(apiUrl);
+            JsonNode items = null;
+            try {
+                items = dataService.fetchApiData(apiUrl);
 
-            System.out.println("push 시작");
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+
             for (JsonNode item : items) {
                 String code = item.get("code").asText();
                 if (travelClassDetailRepository.findByCode(code) == null) {
@@ -49,25 +52,44 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
                     travelClassDetail.setCode(item.get("code").asText());
                     travelClassDetail.setName(item.get("name").asText());
                     travelClassDetailRepository.save(travelClassDetail);
+                    System.out.println("저장완료");
                 }
-            }
+                List<TravelClassDetail> travelClassDetails = travelClassDetailRepository.findAll();
+                System.out.println("travelClassDetails 시작");
+                for (TravelClassDetail travelClassDetail : travelClassDetails) {
+                    String apiUrl2 = null;
 
-//            List<TravelClassDetail> travelClassDetails = travelClassDetailRepository.findAll();
-//            for (TravelClassDetail travelClassDetail : travelClassDetails) {
-//                String apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
-//                        "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s", apikey, travelType.getId(), travelClassDetail.getCode());
-//                System.out.println(apiUrl2);
-//                JsonNode items2 = dataService.fetchApiData(apiUrl2);
-//                System.out.println("push2 시작");
-//                for (JsonNode item : items2) {
-//                    TravelClassDetail travelClassDetail2 = new TravelClassDetail();
-//                    travelClassDetail2.setTravelType(travelType);
-//                    travelClassDetail2.setCode(item.get("code").asText());
-//                    travelClassDetail2.setName(item.get("name").asText());
-//                    travelClassDetail2.setDecode(String.valueOf(travelClassDetail.getCode()));
-//                    travelClassDetailRepository.save(travelClassDetail2);
-//                }
-//            }
+                    if (travelClassDetail.getDecode() == null){
+                        apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
+                                        "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s"
+                                , apikey, travelType.getId(), travelClassDetail.getCode());
+                    }else if (travelClassDetail.getDecode().length() == 3){
+                        apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
+                                        "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s&cat2=%s"
+                                , apikey, travelType.getId(), travelClassDetail.getDecode(), travelClassDetail.getCode());
+                    } else if (travelClassDetail.getDecode().length() == 5) {
+                        apiUrl2 = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s" +
+                                        "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d&cat1=%s&cat2=%s&cat3=%s"
+                                , apikey, travelType.getId(), travelClassDetail.getDecode().substring(0,3), travelClassDetail.getDecode(), travelClassDetail.getCode());
+                    }
+
+                    System.out.println(apiUrl2);
+                    JsonNode items2 = dataService.fetchApiData(apiUrl2);
+                    System.out.println("push2 시작");
+                    for (JsonNode item2 : items2) {
+                        String code2 = item2.get("code").asText();
+                        if (travelClassDetailRepository.findByCode(code2) == null) {
+                            TravelClassDetail travelClassDetail2 = new TravelClassDetail();
+                            travelClassDetail2.setTravelType(travelType);
+                            travelClassDetail2.setCode(item2.get("code").asText());
+                            travelClassDetail2.setName(item2.get("name").asText());
+                            travelClassDetail2.setDecode(String.valueOf(travelClassDetail.getCode()));
+                            travelClassDetailRepository.save(travelClassDetail2);
+                        }
+                    }
+                }
+
+            }
 
 
         }
