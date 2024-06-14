@@ -59,6 +59,14 @@
         </if>
     </select>
 
+    <select id="findByTravelTypeList" resultType="com.lec.spring.domain.TravelClassDetail">
+        select travel_type_id ,code , decode
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+    </select>
+
+
+
 
 
 
