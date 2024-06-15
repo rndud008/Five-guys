@@ -1,8 +1,6 @@
 SET SESSION FOREIGN_KEY_CHECKS=0;
 
-
 /* Drop Tables */
-
 
 DROP TABLE IF EXISTS areacode;
 DROP TABLE IF EXISTS attachment;
@@ -158,7 +156,7 @@ CREATE TABLE travel_post
 (
     id               INT          NOT NULL AUTO_INCREMENT COMMENT '여행 정보 목록 id',
     travel_type_id   INT          NOT NULL COMMENT '여행 타입 id',
-    last_call_api_id INT          NOT NULL COMMENT 'API호출id',
+#    last_call_api_id INT          NOT NULL COMMENT 'API호출id',
     areacode         INT          NOT NULL COMMENT '지역코드번호',
     title            VARCHAR(200) NULL     COMMENT '제목',
     addr1            VARCHAR(255) NULL     COMMENT '주소',
@@ -167,20 +165,20 @@ CREATE TABLE travel_post
     firstimage       VARCHAR(255) NULL     COMMENT '대표이미지(원본)',
     firstimage2      VARCHAR(255) NULL     COMMENT '대표이미지(썸네일)',
     cpyrhtDivCd      VARCHAR(10)  NULL     COMMENT '저작권 유형',
-    mapx             FLOAT        NULL     COMMENT 'GPS X좌표',
-    mapy             FLOAT        NULL     COMMENT 'GPS Y좌표',
+    mapx             DOUBLE        NULL     COMMENT 'GPS X좌표',
+    mapy             DOUBLE        NULL     COMMENT 'GPS Y좌표',
     modifiedtime     VARCHAR(20)  NULL     COMMENT '수정일',
-    tel              VARCHAR(20)  NULL     COMMENT '전화번호',
+    tel              VARCHAR(255)  NULL     COMMENT '전화번호',
     eventstartdate   VARCHAR(20)  NULL     COMMENT '행사시작일',
     eventenddate     VARCHAR(20)  NULL     COMMENT '행사종료일',
     infocenter       VARCHAR(100) NULL     COMMENT '문의및안내 / 관광소개정보',
     parking          VARCHAR(100) NULL     COMMENT '주차시설 / 관광소개정보',
     restdate         VARCHAR(100) NULL     COMMENT '쉬는날 / 관광소개정보',
-    usetime          VARCHAR(100) NULL     COMMENT '이용시간 / 관광소개정보',
+    usetime          VARCHAR(255) NULL     COMMENT '이용시간 / 관광소개정보',
     homepage         VARCHAR(255) NULL     COMMENT '홈페이지주소 / 공통정보',
     overview         TEXT         NULL     COMMENT '개요 / 공통정보',
     eventplace       VARCHAR(100) NULL     COMMENT '행사장소 / 축제소개정보',
-    playtime         VARCHAR(100) NULL     COMMENT '공연시간 / 축제소개정보',
+    playtime         TEXT NULL     COMMENT '공연시간 / 축제소개정보',
     usetimefestival  VARCHAR(100) NULL     COMMENT '이용요금 / 축제소개정보',
     infoname         VARCHAR(10)  NULL     COMMENT '행사내용 만 가져옴 title 확인  / 축제반복내용',
     infotext         TEXT         NULL     COMMENT '행사내용 / 축제반복내용',
