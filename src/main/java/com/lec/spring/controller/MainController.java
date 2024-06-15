@@ -30,7 +30,7 @@ public class MainController {
         }
     }
 
-    @GetMapping("/travelTpye")
+    @GetMapping("/travelType")
     public String travelTpyeFetchAndSave() {
         try {
             travelClassDetailService.saveTravelClassDetails();
@@ -41,7 +41,5 @@ public class MainController {
             throw new RuntimeException(e);
         }
     }
-
-
 
 }
