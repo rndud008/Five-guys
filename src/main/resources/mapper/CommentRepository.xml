@@ -27,7 +27,7 @@
             c.id "c_id",
             c.content "c_content",
             c.regdate "c_regdate",
-            c.post_id "c_post_id",
+            c.travel_diary_post_id "c_post_id",
             u.id "u_id",
             u.username "u_username",
             u.password "u_password",
@@ -35,7 +35,7 @@
             u.email "u_email",
             u.regdate "u_regdate"
         FROM comment c, user u
-        WHERE c.user_id = u.id AND c.post_id = #{post_id}
+        WHERE c.user_id = u.id AND c.travel_diary_post_id = #{post_id}
         ORDER BY c.id DESC
     </select>
 

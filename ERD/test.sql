@@ -130,3 +130,18 @@ ALTER TABLE comment Auto_Increment = 1;
 SELECT c.id, c.user_id, c.travel_diary_post_id, c.content, c.regdate
 FROM comment c, travel_diary_post p
 WHERE c.user_id = p.id AND c.travel_diary_post_id = 2;
+
+SELECT
+    c.id "c_id",
+    c.content "c_content",
+    c.regdate "c_regdate",
+    c.travel_diary_post_id "c_post_id",
+    u.id "u_id",
+    u.username "u_username",
+    u.password "u_password",
+    u.name "u_name",
+    u.email "u_email",
+    u.regdate "u_regdate"
+FROM comment c, user u
+WHERE c.user_id = u.id AND c.travel_diary_post_id = 1
+ORDER BY c.id DESC;
