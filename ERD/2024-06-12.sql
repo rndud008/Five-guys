@@ -5,7 +5,6 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS areacode;
 DROP TABLE IF EXISTS attachment;
 DROP TABLE IF EXISTS authority;
-DROP TABLE IF EXISTS blog_review;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS last_call_api_date;
 DROP TABLE IF EXISTS middle_weather;
@@ -13,6 +12,7 @@ DROP TABLE IF EXISTS short_weather;
 DROP TABLE IF EXISTS sigungucode;
 DROP TABLE IF EXISTS travel_class_detail;
 DROP TABLE IF EXISTS travel_diary_post;
+DROP TABLE IF EXISTS blog_review;
 DROP TABLE IF EXISTS travel_post;
 DROP TABLE IF EXISTS travel_type;
 DROP TABLE IF EXISTS user;
@@ -75,8 +75,8 @@ CREATE TABLE comment
 CREATE TABLE last_call_api_date
 (
     id      INT          NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
-    url     VARCHAR(255) NULL     COMMENT 'api url',
-    regdate DATETIME     NULL     DEFAULT now() COMMENT '호출 날짜',
+    url     TEXT NULL     COMMENT 'api url',
+    regdate DATE         DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
     PRIMARY KEY (id)
 ) COMMENT 'api 중복호출 방지';
 
@@ -124,10 +124,11 @@ CREATE TABLE short_weather
 
 CREATE TABLE sigungucode
 (
+    id  INT NOT NULL ,
     areacode    INT         NOT NULL COMMENT '지역코드번호',
     sigungucode INT         NOT NULL COMMENT '코드번호',
     name        VARCHAR(20) NOT NULL COMMENT '시군구 이름',
-    PRIMARY KEY (areacode, sigungucode)
+    PRIMARY KEY (areacode, id)
 ) COMMENT '시군구(sigungucode)';
 
 CREATE TABLE travel_class_detail
@@ -156,8 +157,8 @@ CREATE TABLE travel_post
 (
     id               INT          NOT NULL AUTO_INCREMENT COMMENT '여행 정보 목록 id',
     travel_type_id   INT          NOT NULL COMMENT '여행 타입 id',
-#    last_call_api_id INT          NOT NULL COMMENT 'API호출id',
-    areacode         INT          NOT NULL COMMENT '지역코드번호',
+    last_call_api_id INT          NOT NULL COMMENT 'API호출id',
+    areacode         INT          NULL     COMMENT '지역코드번호',
     title            VARCHAR(200) NULL     COMMENT '제목',
     addr1            VARCHAR(255) NULL     COMMENT '주소',
     addr2            VARCHAR(255) NULL     COMMENT '상세주소',
@@ -165,25 +166,28 @@ CREATE TABLE travel_post
     firstimage       VARCHAR(255) NULL     COMMENT '대표이미지(원본)',
     firstimage2      VARCHAR(255) NULL     COMMENT '대표이미지(썸네일)',
     cpyrhtDivCd      VARCHAR(10)  NULL     COMMENT '저작권 유형',
-    mapx             DOUBLE        NULL     COMMENT 'GPS X좌표',
-    mapy             DOUBLE        NULL     COMMENT 'GPS Y좌표',
+    mapx             DOUBLE       NULL     COMMENT 'GPS X좌표',
+    mapy             DOUBLE       NULL     COMMENT 'GPS Y좌표',
     modifiedtime     VARCHAR(20)  NULL     COMMENT '수정일',
-    tel              VARCHAR(255)  NULL     COMMENT '전화번호',
+    tel              VARCHAR(255) NULL     COMMENT '전화번호',
     eventstartdate   VARCHAR(20)  NULL     COMMENT '행사시작일',
     eventenddate     VARCHAR(20)  NULL     COMMENT '행사종료일',
-    infocenter       VARCHAR(100) NULL     COMMENT '문의및안내 / 관광소개정보',
-    parking          VARCHAR(100) NULL     COMMENT '주차시설 / 관광소개정보',
-    restdate         VARCHAR(100) NULL     COMMENT '쉬는날 / 관광소개정보',
-    usetime          VARCHAR(255) NULL     COMMENT '이용시간 / 관광소개정보',
-    homepage         VARCHAR(255) NULL     COMMENT '홈페이지주소 / 공통정보',
+    infocenter       VARCHAR(255) NULL     COMMENT '문의및안내 / 관광소개정보',
+    parking          VARCHAR(255) NULL     COMMENT '주차시설 / 관광소개정보',
+    restdate         VARCHAR(255) NULL     COMMENT '쉬는날 / 관광소개정보',
+    usetime          TEXT         NULL     COMMENT '이용시간 / 관광소개정보',
+    homepage         TEXT         NULL     COMMENT '홈페이지주소 / 공통정보',
     overview         TEXT         NULL     COMMENT '개요 / 공통정보',
-    eventplace       VARCHAR(100) NULL     COMMENT '행사장소 / 축제소개정보',
-    playtime         TEXT NULL     COMMENT '공연시간 / 축제소개정보',
-    usetimefestival  VARCHAR(100) NULL     COMMENT '이용요금 / 축제소개정보',
+    eventplace       TEXT         NULL     COMMENT '행사장소 / 축제소개정보',
+    playtime         TEXT         NULL     COMMENT '공연시간 / 축제소개정보',
+    usetimefestival  TEXT NULL     COMMENT '이용요금 / 축제소개정보',
     infoname         VARCHAR(10)  NULL     COMMENT '행사내용 만 가져옴 title 확인  / 축제반복내용',
     infotext         TEXT         NULL     COMMENT '행사내용 / 축제반복내용',
     PRIMARY KEY (id)
 ) COMMENT '여행 정보 목록';
+
+ALTER TABLE travel_post
+    MODIFY eventplace TEXT;
 
 CREATE TABLE travel_type
 (
