@@ -14,7 +14,7 @@ public class TravelPost {
     // 여행 정보 목록 id
     private TravelType travelType;
     // 여행 타입 객체
-//    private LastCallApi lastCallApi;
+    private LastCallApiData lastCallApiData;
     // api 호출 객체
     private Areacode areacode;
     // 지역 객체

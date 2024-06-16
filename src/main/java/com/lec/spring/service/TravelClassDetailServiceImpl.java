@@ -7,6 +7,7 @@ import com.lec.spring.repository.TravelClassDetailRepository;
 import com.lec.spring.repository.TravelTypeRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,7 +16,8 @@ import java.util.List;
 
 @Service
 public class TravelClassDetailServiceImpl implements TravelClassDetailService {
-
+    @Value("${app.apikey}")
+    private String apikey;
     private TravelTypeRepository travelTypeRepository;
     private TravelClassDetailRepository travelClassDetailRepository;
     private DataService dataService;
@@ -30,13 +32,12 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     @Override
     public void saveTravelClassDetails() throws IOException, URISyntaxException {
 
-        String apikey = "mcw7keMXaCfirqxNz26s6jfbbhIQavF0pTNbArIUT1RLEdHm%2BYx92V%2FJswNwZJJvPhglAPqs%2BAMGMzcqDsuLEQ%3D%3D";
-//        String apikey = "eRyU75SHuOTMs7QLThUBefQfcNT%2B5FBZJAbhEbnqJOmIgda5NgCT%2BtJlJ%2FB6jyjiNneFra4l%2Bjnq7KdhkUsaOw%3D%3D";
         List<TravelType> travelTypes = travelTypeRepository.findAll();
         System.out.println("travelTypes 시작");
         for (TravelType travelType : travelTypes) {
 
-            String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?serviceKey=%s&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d", apikey, travelType.getId());
+            String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?" +
+                    "serviceKey=%s&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
 
             JsonNode items = null;

@@ -8,14 +8,14 @@
         useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into travel_post
         (
-         travel_type_id, areacode, title, addr1, addr2, contentid, firstimage, firstimage2,
+         travel_type_id, last_call_api_id,areacode, title, addr1, addr2, contentid, firstimage, firstimage2,
          cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
          parking, restdate, usetime, homepage, overview, eventplace, playtime, usetimefestival,
          infoname, infotext
         )
         values
         (
-         #{travelType.id}, #{areacode.areacode}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
+         #{travelType.id}, #{lastCallApiData.id} ,#{areacode.areacode}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
          #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
          #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview}, #{eventplace},
          #{playtime}, #{usetimefestival}, #{infoname}, #{infotext}
