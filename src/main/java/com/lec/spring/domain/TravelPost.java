@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 public class TravelPost {
     private Long id;
     // 여행 정보 목록 id
-    private TravelType travelType;
+    private TravelClassDetail travelClassDetail;
     // 여행 타입 객체
     private LastCallApiData lastCallApiData;
     // api 호출 객체
-    private Areacode areacode;
+    private Sigungucode sigungucode;
     // 지역 객체
     private String title;
     // 제목

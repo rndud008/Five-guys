@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lec.spring.repository.SigungucodeRepository">
-    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode"
+        useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO sigungucode (areacode, sigungucode, name)
         values (#{areacode.areacode}, #{sigungucode}, #{name})
     </insert>
@@ -14,6 +15,12 @@
         SET (sigungucode = #{sigungucode}, name = #{name})
         WHERE areacode = #{areacode.areacode}
     </update>
+
+    <select id="findAreacodeBySigungucode" resultType="com.lec.spring.domain.Sigungucode">
+        select *
+        FROM sigungucode
+        where areacode = #{areacode.areacode} and sigungucode = #{sigungucode}
+    </select>
 
 
 </mapper>
