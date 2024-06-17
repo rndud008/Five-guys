@@ -49,26 +49,43 @@ public class SigungucodeServiceImpl implements SigungucodeService {
             }
 
             if (items != null) {
-                for (JsonNode item : items) {
-                    Sigungucode sigungucode = new Sigungucode();
-                    sigungucode.setAreacode(areacode);
-                    sigungucode.setSigungucode(item.get("code").asLong());
-                    sigungucode.setName(item.get("name").asText());
-                    sigungucodeRepository.save(sigungucode);
 
-                    System.out.println("저장완료");
+                for (JsonNode item : items) {
+                    Long sigunguCheck = item.get("code").asLong();
+                    if (sigungucodeRepository.findAreacodeBySigungucode(areacode, sigunguCheck) == null){
+                        itemSave(item, areacode);
+                    }else {
+                        System.out.println("이미 저장되어있음.");
+                    }
+
                 }
             } else {
                 System.err.println("Failed to fetch data from API for areacode: " + areacode.getAreacode());
             }
 
             // API 호출 간격을 두기 위해 잠시 대기
-            try {
-                TimeUnit.MILLISECONDS.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            timeUnit();
 
+        }
+    }
+
+    public void itemSave(JsonNode item, Areacode areacode){
+        Sigungucode sigungucode = new Sigungucode();
+        sigungucode.setAreacode(areacode);
+        sigungucode.setSigungucode(item.get("code").asLong());
+        sigungucode.setName(item.get("name").asText());
+        sigungucodeRepository.save(sigungucode);
+
+        System.out.println("저장완료");
+    }
+
+    public void timeUnit(){
+        // API 호출 간격을 두기 위해 잠시 대기
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+            System.out.println("timeUnit 실행");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 

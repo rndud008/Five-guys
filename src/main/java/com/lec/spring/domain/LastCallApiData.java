@@ -12,7 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class LastCallApiData {
-
     private Long id;
     private String url;
     private Date regdate;

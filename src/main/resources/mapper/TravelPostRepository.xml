@@ -8,14 +8,14 @@
         useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into travel_post
         (
-         travel_type_id, last_call_api_id,areacode, title, addr1, addr2, contentid, firstimage, firstimage2,
+         travel_class_detail_id, last_call_api_id, sigungucode_id, title, addr1, addr2, contentid, firstimage, firstimage2,
          cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
          parking, restdate, usetime, homepage, overview, eventplace, playtime, usetimefestival,
          infoname, infotext
         )
         values
         (
-         #{travelType.id}, #{lastCallApiData.id} ,#{areacode.areacode}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
+         #{travelClassDetail.id}, #{lastCallApiData.id} ,#{sigungucode.id}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
          #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
          #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview}, #{eventplace},
          #{playtime}, #{usetimefestival}, #{infoname}, #{infotext}
@@ -23,10 +23,12 @@
     </insert>
 
     <select id="findByContentIdAndType" resultType="com.lec.spring.domain.TravelPost">
-        select *
-        FROM travel_post
-        where contentid = #{contentid}
-        AND travel_type_id = #{travelType.id}
+        select tp.*
+        FROM travel_post tp
+                 join travel_class_detail tcd on tp.travel_class_detail_id = tcd.id
+                 join travel_type tt on tcd.travel_type_id = tt.id
+        where tp.contentid = #{contentid}
+          AND tt.id = #{travelClassDetail.travelType.id}
     </select>
 
 </mapper>

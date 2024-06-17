@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Sigungucode {
-
+    private Long id;
     private Areacode areacode;
     private Long sigungucode;
     private String name;
