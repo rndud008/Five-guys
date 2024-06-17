@@ -161,3 +161,5 @@ CREATE TABLE weather_forecast (
 
 #     api_call_id INT,
 #     CONSTRAINT fk_api_call_id FOREIGN KEY (api_call_id) REFERENCES last_call_api_date(id)
+
+select * from short_weather;

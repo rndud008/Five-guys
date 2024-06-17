@@ -7,9 +7,15 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class WeatherDTO {
-    private String category;
+    private long id;
+    private Areacode areacode;
+    private LastCallApiData lastCallApiData;
+    private String tmn;
+    private String tmx;
+    private String sky;
+    private String pop;
+    private String pty;
     private String fcstDate;
     private String fcstTime;
     private String fcstValue;
-    private String url;
 }

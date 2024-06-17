@@ -2,8 +2,13 @@ package com.lec.spring.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lec.spring.domain.Areacode;
+import com.lec.spring.domain.LastCallApiData;
 import com.lec.spring.domain.WeatherDTO;
+import com.lec.spring.repository.AreacodeRepository;
+import com.lec.spring.repository.LastCallApiDataRepository;
 import com.lec.spring.repository.WeatherRepository;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +27,16 @@ import java.util.List;
 public class WeatherServiceImpl implements WeatherService {
 
 
-    private final WeatherRepository weatherRepository;
+    private WeatherRepository weatherRepository;
+    private AreacodeRepository areacodeRepositorye;
+    private LastCallApiDataRepository lastCallApiDataRepository;
 
     @Autowired
-    public WeatherServiceImpl(WeatherRepository weatherRepository) {
-        this.weatherRepository = weatherRepository;
+    public WeatherServiceImpl(SqlSession sqlSession)
+    {
+        weatherRepository = sqlSession.getMapper(WeatherRepository.class);
+        areacodeRepositorye = sqlSession.getMapper(AreacodeRepository.class);
+        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
     }
 
 
@@ -36,8 +46,10 @@ public class WeatherServiceImpl implements WeatherService {
         String baseUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
         String serviceKey = "oshjO8WG9VLp87/CQQK/YzU9KWIOr/3VlA8jNBbi40aHpZM1RyvXyDNiCfF3IMl4wPg0UicSNMFHYNtQZVfzNQ==";
         String baseTime = "0200";
+
         String nx = "60";
         String ny = "127";
+
         String numOfRows = "1000";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -83,10 +95,20 @@ public class WeatherServiceImpl implements WeatherService {
 
             JsonNode itemArray = items.get("item");
 
-            List<WeatherDTO> weatherList = parseAndMapToDTO(itemArray, url);
+            LastCallApiData lastCallApiData = new LastCallApiData();
 
-            for (WeatherDTO weather : weatherList) {
-                weatherRepository.insertWeather(weather);
+            Areacode areacode = areacodeRepositorye.findByAreaCode(1L); // 서울
+
+            if (lastCallApiDataRepository.findByUrl(url) == null) {
+                lastCallApiData.setUrl(url);
+                List<WeatherDTO> weatherList = parseAndMapToDTO(itemArray, lastCallApiData, areacode);
+
+                for (WeatherDTO weather : weatherList) {
+                    weatherRepository.insertWeather(weather);
+                }
+
+            } else {
+                System.out.println("이미 호출됨");
             }
 
         } catch (Exception e) {
@@ -94,21 +116,41 @@ public class WeatherServiceImpl implements WeatherService {
         }
     }
 
-    private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, String url) {
+    private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, LastCallApiData lastCallApiData, Areacode areacode) {
         List<WeatherDTO> weatherList = new ArrayList<>();
+        int cnt = 0;
+        WeatherDTO weather = new WeatherDTO();
 
         for (JsonNode data : itemArray) {
             String fcstTime = data.get("fcstTime").asText();
-            if ("0600".equals(fcstTime) || "1500".equals(fcstTime)) {
-                WeatherDTO weather = new WeatherDTO();
-                weather.setCategory(data.get("category").asText());
+            String category = data.get("category").asText();
+
+            if ("pty".equals(category) && ("0600".equals(fcstTime) || "1500".equals(fcstTime))) {
+                cnt+= 1;
+                weather.setAreacode(areacode);
+                weather.setLastCallApiData(lastCallApiData);
+                weather.setPty(data.get("fcstValue").asText());
                 weather.setFcstDate(data.get("fcstDate").asText());
                 weather.setFcstTime(fcstTime);
-                weather.setFcstValue(data.get("fcstValue").asText());
-                weather.setUrl(url);
 
+            } else if ("tmn".equals(category) && ("0600".equals(fcstTime) || "1500".equals(fcstTime))) {
+                cnt += 1;
+                weather.setTmn(data.get("fcstValue").asText());
+            } else if ("tmx".equals(category) && ("0600".equals(fcstTime) || "1500".equals(fcstTime))) {
+                cnt += 1;
+                weather.setTmx(data.get("fcstValue").asText());
+            } else if("sky".equals(category) && ("0600".equals(fcstTime) || "1500".equals(fcstTime))) {
+                cnt += 1;
+                weather.setSky(data.get("fcstValue").asText());
+            } else if ("pop".equals(category) && ("0600".equals(fcstTime) || "1500".equals(fcstTime))) {
+                cnt += 1;
+                weather.setPop(data.get("fcstValue").asText());
+            }
+
+            if (cnt == 5) {
                 weatherList.add(weather);
             }
+
         }
 
         return weatherList;
