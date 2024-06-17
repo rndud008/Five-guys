@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+// TODO CKEDITOR 추가(WRITE, UPDATE), 첨부파일(UPDATE, DETAIL, WRITE), 좋아요 기능(DETAIL, LIST), 페이징(지역별 페이징)
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -34,12 +34,11 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public void list(Model model){
-        model.addAttribute("list", boardService.list());
+    public void list(Integer page, Model model){
+        model.addAttribute("list", boardService.list(page, model));
         model.addAttribute("areacode", boardService.findAllAreaName());
     }
 
-//    TODO 버튼 클릭시 지역명 보여주고 해당 지역 리스트 뽑기
     @PostMapping("/list")
     public String listArea(@RequestParam("areacode") Long areacode, Model model){
         model.addAttribute("list", boardService.listByAreacode(areacode));

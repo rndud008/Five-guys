@@ -69,13 +69,20 @@ where areacode = 2 and sigungucode = 3;
 
 INSERT INTO travel_diary_post (user_id, areacode_id, subject, content) VALUES
 (1, 1, '제목1', '내용1'),
-(2, 1, '제목2', '내용2'),
-(2, 2, '제목3', '내용3'),
-(3, 1, '제목4', '내용4'),
-(3, 2, '제목5', '내용5')
+(1, 2, '제목2', '내용2'),
+(2, 1, '제목3', '내용3'),
+(2, 2, '제목4', '내용4'),
+(3, 1, '제목5', '내용5'),
+(3, 2, '제목6', '내용6'),
+(1, 2, '제목7', '내용7'),
+(2, 1, '제목8', '내용8')
 ;
+-- 페이징 실습용 다량의 데이터
+INSERT INTO travel_diary_post(user_id, areacode_id, subject, content)
+SELECT user_id, areacode_id, subject, content FROM travel_diary_post;
 
 SELECT  * FROM travel_diary_post;
+SELECT  count(*) FROM travel_diary_post;
 
 DELETE FROM travel_diary_post;
 ALTER TABLE travel_diary_post Auto_Increment = 1;
@@ -160,7 +167,9 @@ SELECT
     u.email "u_email",
     u.regdate "u_regdate"
 FROM travel_diary_post p, user u
-WHERE p.user_id = u.id AND p.areacode_id = 1;
+WHERE p.user_id = u.id AND p.areacode_id = 1
+ORDER BY p.id DESC
+    LIMIT 5, 5;
 
 SELECT
     c.id "c_id",

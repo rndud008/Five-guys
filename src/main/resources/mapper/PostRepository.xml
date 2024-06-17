@@ -26,6 +26,7 @@
             p.content "p_content",
             p.viewcnt "p_viewcnt",
             p.regdate "p_regdate",
+            p.areacode "p_areacode_id",
             u.id "u_id",
             u.username "u_username",
             u.name "u_name",
@@ -71,11 +72,6 @@
         AND p.areacode_id = #{areacode};
     </select>
 
-    <select id="findAllAreacode" resultType="com.lec.spring.domain.Post">
-        SELECT *
-        FROM areacode
-        WHERE p.areacode_id = a.areacode AND p.areacode_id = #{areacode};
-    </select>
 
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.Post">
         UPDATE travel_diary_post
@@ -87,5 +83,28 @@
         DELETE FROM travel_diary_post
         WHERE id = #{id};
     </delete>
+
+    <select id="selectFromRow" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        ORDER BY p.id DESC
+        LIMIT #{param1}, #{param2}
+    </select>
+
+    <select id="selectFromRowArea" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        ORDER BY p.id DESC
+        LIMIT #{param1}, #{param2}
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT count(*)
+        FROM travel_diary_post
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT count(*)
+        FROM travel_diary_post
+        WHERE areacode_id = #{areacode.areacode};
+    </select>
 
 </mapper>

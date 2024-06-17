@@ -24,6 +24,11 @@ public interface BoardService {
     // 글목록
     List<Post> list();
 
+    // 페이징 리스트
+    List<Post> list(Integer page, Model model);
+
+    List<Post> list(Integer page, Model model, Areacode areacode);
+
     // 지역명에 따른 글목록
     List<Post> listByAreacode(Long areacode);
 
