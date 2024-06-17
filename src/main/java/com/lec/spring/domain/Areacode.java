@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Areacode {
+
     private Long areacode; // id = areacode이다
 
     private String name;
