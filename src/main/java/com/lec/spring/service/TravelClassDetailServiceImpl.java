@@ -7,7 +7,6 @@ import com.lec.spring.domain.TravelType;
 import com.lec.spring.repository.LastCallApiDataRepository;
 import com.lec.spring.repository.TravelClassDetailRepository;
 import com.lec.spring.repository.TravelTypeRepository;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,13 +26,16 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     private TravelClassDetailRepository travelClassDetailRepository;
     private LastCallApiDataRepository lastCallApiDataRepository;
     private DataService dataService;
+    private TravelClassTransacionService travelClassTransacionService;
+
 
     @Autowired
-    public TravelClassDetailServiceImpl(SqlSession sqlSession, DataService dataService) {
+    public TravelClassDetailServiceImpl(SqlSession sqlSession, DataService dataService, TravelClassTransacionService travelClassTransacionService) {
         travelTypeRepository = sqlSession.getMapper(TravelTypeRepository.class);
         travelClassDetailRepository = sqlSession.getMapper(TravelClassDetailRepository.class);
         lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
         this.dataService = dataService;
+        this.travelClassTransacionService = travelClassTransacionService;
     }
 
     @Override
@@ -45,100 +47,104 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
         LastCallApiData lastCallApiData = new LastCallApiData();
         for (TravelType travelType : travelTypes) {
 
+
             String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?" +
                     "serviceKey=%s&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
 
             JsonNode items = null;
-            try {
 
-                items = dataService.fetchApiData(apiUrl);
-
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
+            items = dataService.fetchApiData(apiUrl);
 
             for (JsonNode item : items) {
 
                 String code = item.get("code").asText();
                 if (travelClassDetailRepository.findTravelTypeIdByCode(travelType, code) == null) {
-                    travelClassDetailSave(item, travelType);
-                }// travelClassDetail save
-
-                String apiUrl2 = null;
+                    travelClassTransacionService.travelClassDetailSave(item, travelType);
+                }else {
+                    System.out.println("item은 이미 저장 되어 있음.");// travelClassDetail save
+                }
 
                 timeUnit();
 
-                List<TravelClassDetail> travelClassDetails = travelClassDetailRepository.findByTravelTypeList(travelType);
-                System.out.println("travelClassDetails 시작");
-                for (TravelClassDetail travelClassDetail : travelClassDetails) {
-
-                    apiUrl2 = createApiUrl(travelClassDetail, travelType);
-
-                    lastSave(apiUrl2,lastCallApiData, travelType, travelClassDetail);
-
-                    timeUnit();
-
-                }// end travelClassDetail
-
-                List<TravelClassDetail> travelClassDetails2 = travelClassDetailRepository.findByTravelTypeList(travelType);
-                System.out.println("travelClassDetails2 시작");
-                for (TravelClassDetail travelClassDetail2 : travelClassDetails2) {
-
-                    apiUrl2 = createApiUrl(travelClassDetail2, travelType);
-
-                    lastSave(apiUrl2, lastCallApiData, travelType, travelClassDetail2);
-
-                    timeUnit();
-
-                }//end travelClassDetail2
+                lastSave(travelType, lastCallApiData);
 
             }// end item
 
+
         }// end travelType
     }
-    @Transactional
-    public void travelClassDetailSave(JsonNode item, TravelType travelType){
-        TravelClassDetail travelClassDetail = new TravelClassDetail();
-        travelClassDetail.setTravelType(travelType);
-        travelClassDetail.setCode(item.get("code").asText());
-        travelClassDetail.setName(item.get("name").asText());
-        travelClassDetailRepository.save(travelClassDetail);
-        System.out.println("item 저장완료");
-    }
 
-    @Transactional
-    public void travelClassDetailSave(JsonNode item, TravelType travelType, TravelClassDetail travelClassDetail){
-        TravelClassDetail travelClassDetail1 = new TravelClassDetail();
-        travelClassDetail1.setTravelType(travelType);
-        travelClassDetail1.setCode(item.get("code").asText());
-        travelClassDetail1.setName(item.get("name").asText());
-        travelClassDetail1.setDecode(String.valueOf(travelClassDetail.getCode()));
-        travelClassDetailRepository.save(travelClassDetail1);
-        System.out.println("item2 저장완료");
-    }
+    public void lastSave(TravelType travelType, LastCallApiData lastCallApiData) throws IOException, URISyntaxException {
+        String apiUrl2 = null;
+        JsonNode items2 = null;
 
-    public void lastSave(String apiUrl2,LastCallApiData lastCallApiData, TravelType travelType, TravelClassDetail travelClassDetail) throws IOException, URISyntaxException {
-        if (lastCallApiDataRepository.findByUrl(apiUrl2) == null){
-            System.out.println(apiUrl2);
-            lastCallApiData.setUrl(apiUrl2);
-            JsonNode items2 = dataService.fetchApiData(apiUrl2);
-            System.out.println("push2 시작");
-            for (JsonNode item2 : items2) {
-                String code2 = item2.get("code").asText();
-                if (travelClassDetailRepository.findByCode(code2) == null) {
+        List<TravelClassDetail> travelClassDetails = travelClassDetailRepository.findByTravelTypeList(travelType);
+        System.out.println("travelClassDetails 시작");
+        for (TravelClassDetail travelClassDetail : travelClassDetails) {
 
-                    travelClassDetailSave(item2, travelType, travelClassDetail);
 
-                }// travelClassDetail2 save
+            apiUrl2 = createApiUrl(travelClassDetail, travelType);
 
-            }// end items2
-            lastCallApiDataRepository.save(lastCallApiData);
-        }else {
-            System.out.println(apiUrl2);
-            System.out.println("이미 호출 완료");
-        }
-    }
+            if (lastCallApiDataRepository.findByUrl(apiUrl2) == null){
+                System.out.println(apiUrl2);
+                lastCallApiData.setUrl(apiUrl2);
+
+                items2 = dataService.fetchApiData(apiUrl2);
+
+                System.out.println("push2 시작");
+                for (JsonNode item2 : items2) {
+                    String code2 = item2.get("code").asText();
+                    if (travelClassDetailRepository.findByCode(code2) == null) {
+
+                        travelClassTransacionService.travelClassDetailSave(item2, travelType, travelClassDetail);
+
+                    }// travelClassDetail2 save
+
+                }// end items2
+                lastCallApiDataRepository.save(lastCallApiData);
+            }else {
+                System.out.println(apiUrl2);
+                System.out.println("이미 호출 완료");
+            }
+
+            timeUnit();
+
+        }// end travelClassDetail
+
+        List<TravelClassDetail> travelClassDetails2 = travelClassDetailRepository.findByTravelTypeList(travelType);
+        System.out.println("travelClassDetails2 시작");
+        for (TravelClassDetail travelClassDetail2 : travelClassDetails2) {
+
+            apiUrl2 = createApiUrl(travelClassDetail2, travelType);
+
+            if (lastCallApiDataRepository.findByUrl(apiUrl2) == null){
+                System.out.println(apiUrl2);
+                lastCallApiData.setUrl(apiUrl2);
+
+                items2 = dataService.fetchApiData(apiUrl2);
+
+                System.out.println("push2 시작");
+                for (JsonNode item2 : items2) {
+                    String code2 = item2.get("code").asText();
+                    if (travelClassDetailRepository.findByCode(code2) == null) {
+
+                        travelClassTransacionService.travelClassDetailSave(item2, travelType, travelClassDetail2);
+
+                    }// travelClassDetail2 save
+
+                }// end items2
+                lastCallApiDataRepository.save(lastCallApiData);
+            }else {
+                System.out.println(apiUrl2);
+                System.out.println("이미 호출 완료");
+            }
+
+            timeUnit();
+
+        }//end travelClassDetail2
+
+    }// end lastSave
 
     public String createApiUrl(TravelClassDetail travelClassDetail, TravelType travelType){
 
@@ -162,7 +168,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     public void timeUnit(){
         // API 호출 간격을 두기 위해 잠시 대기
         try {
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(1000);
             System.out.println("timeUnit 실행");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

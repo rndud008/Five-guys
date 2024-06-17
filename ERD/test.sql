@@ -85,6 +85,9 @@ select *
 FROM travel_type;
 
 select *
+FROM last_call_api_date;
+
+select *
 FROM travel_class_detail;
 
 select infotext
@@ -92,11 +95,11 @@ FROM travel_post
 where travel_class_detail_id = 15;
 
 select *
-FROM travel_post
-where sigungucode_id is null;
+FROM travel_post;
 
 select *
-FROM travel_post;
+FROM travel_post
+where contentid = 294390;
 
 select *
 FROM travel_post

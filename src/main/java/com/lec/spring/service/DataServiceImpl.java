@@ -27,7 +27,7 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public JsonNode fetchApiData(String url) throws IOException, URISyntaxException {
+    public JsonNode fetchApiData(String url) throws IOException {
 
         JsonNode itemsNode = null;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -60,4 +60,6 @@ public class DataServiceImpl implements DataService {
         }
         return itemsNode;
     }
+
+
 }

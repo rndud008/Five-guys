@@ -105,13 +105,17 @@ CREATE TABLE middle_weather
 
 CREATE TABLE short_weather
 (
-    id               INT        NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
-    category         VARCHAR(50) NULL     COMMENT '카테고리',
-    fcstDate         DATE NULL     COMMENT '예보일자',
-    fcstTime         VARCHAR(10) NULL     COMMENT '예보시각',
-    fcstValue        VARCHAR(50) NULL     COMMENT '카테고리값',
-    url TEXT NULL COMMENT 'url',
-    PRIMARY KEY (id)
+  id               INT         NOT NULL AUTO_INCREMENT COMMENT '딘기날씨 id',
+  last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
+  areacode         INT         NOT NULL COMMENT '지역코드번호',
+  fcstdate         VARCHAR(8)  NULL     COMMENT '예보일자',
+  fcsttime         VARCHAR(4)  NULL     COMMENT '예보시각',
+  tmn              VARCHAR(3)  NULL     COMMENT '최저 기온',
+  tmx              VARCHAR(3)  NULL     COMMENT '최고 기온',
+  sky              VARCHAR(10) NULL     COMMENT '하늘상태',
+  pop              VARCHAR(3)  NULL     COMMENT '강수확률',
+  pty              VARCHAR(3)  NULL     COMMENT '강수형태',
+  PRIMARY KEY (id)
 ) COMMENT '단기예보(1~3일)';
 
 CREATE TABLE sigungucode
@@ -354,13 +358,3 @@ ALTER TABLE short_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
     FOREIGN KEY (last_call_api_id)
     REFERENCES last_call_api_date (id);
-<<<<<<< HEAD
-=======
-
-
-select *
-from short_weather;
-
-select *
-from weather_forecast;
->>>>>>> 이기훈
