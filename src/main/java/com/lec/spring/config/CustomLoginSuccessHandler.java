@@ -9,4 +9,9 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         // 로그인 후 redirect 할 URL 이 특별히 없는 경우 default 로 redirect 할 URL 설정
         setDefaultTargetUrl(defaultTargetUrl);
     }
+
+    // request 한 client 의 ip 가져오기
+    // todo ( 필요한가?)
+
+
 }
