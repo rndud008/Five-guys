@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 public class Areacode {
 
     private Long areacode; // id = areacode이다
-
     private String name;
-
     private String regId;
 }

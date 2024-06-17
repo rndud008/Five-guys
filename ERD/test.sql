@@ -65,7 +65,7 @@ WHERE areacode = 1;
 
 -- short_weather 테이블 데이터 조회
 SELECT *
-FROM short_weather1 ;
+FROM short_weather ;
 
 -- middle_weather 테이블 데이터 조회
 SELECT *
@@ -78,12 +78,43 @@ INSERT INTO last_call_api_date (id, url, regdate) VALUES
                                                       (1,'test','2024-06-12');
 
 
-INSERT INTO short_weather (id, last_call_api_id, areacode, basedate, basetime, fcstdate, fcsttime, tmn, tmx, sky, pop, pty) VALUES
-(1, 1 ,1 ,20240612, 0500, 20240612, 0600, 19.0, 21.0, 4, 30, 0);
 
-
+DROP TABLE IF EXISTS weather_forecast;
 
 
 
 ALTER TABLE short_weather
     MODIFY COLUMN last_call_api_id INT DEFAULT 0;
+
+
+select * from weather_forecast;
+
+SELECT * FROM weather_forecast
+WHERE forecast_date = '2024-06-16';
+
+SELECT * FROM weather_forecast
+WHERE forecast_date = '2024-06-16'
+  AND category = 'tmp';
+
+
+CREATE TABLE last_call_api_date (
+                                    id INT NOT NULL AUTO_INCREMENT COMMENT 'API 호출 id',
+                                    url TEXT NULL COMMENT 'apiurl',
+                                    regdate DATE NULL DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
+                                    PRIMARY KEY (id)
+) COMMENT 'api 중복호출 방지';
+
+CREATE TABLE weather_forecast (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(50),
+    forecast_date DATE,
+    forecast_time VARCHAR(10),
+    forecast_value VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    url TEXT
+
+);
+
+
+#     api_call_id INT,
+#     CONSTRAINT fk_api_call_id FOREIGN KEY (api_call_id) REFERENCES last_call_api_date(id)

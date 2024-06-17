@@ -11,13 +11,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class KTApplicationTests {
-    public static void main(String[] args) throws IOException {
+    // MySQL 접속 정보
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/travel?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true";
+    private static final String DB_USER = "kt326";
+    private static final String DB_PASSWORD = "1234";
+
+    public static void main(String[] args) throws IOException, SQLException {
         String baseUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
         String serviceKey = "oshjO8WG9VLp87/CQQK/YzU9KWIOr/3VlA8jNBbi40aHpZM1RyvXyDNiCfF3IMl4wPg0UicSNMFHYNtQZVfzNQ==";
         String baseTime = "0200";
@@ -62,8 +69,6 @@ public class KTApplicationTests {
         rd.close();
         conn.disconnect();
 
-//        System.out.println(sb.toString());
-
         /* JSON 데이터 파싱 */
         try {
             JSONParser jsonParser = new JSONParser();
@@ -75,28 +80,40 @@ public class KTApplicationTests {
 
             JSONArray itemArray = (JSONArray) items.get("item");
 
+            // MySQL 연결
+            Connection mysqlConn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            // SQL 쿼리 준비
+            String sql = "INSERT INTO weather_forecast (category, forecast_date, forecast_time, forecast_value, url) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = mysqlConn.prepareStatement(sql);
+
             for (int i = 0; i < itemArray.size(); i++) {
                 JSONObject data = (JSONObject) itemArray.get(i);
-                // 카테고리 값을 디버깅 출력
-                String category = (String) data.get("category");
 
-                // 예보시각이 0500 또는 1500일 때 출력
+                // 예보시각이 0600 또는 1500일 때 데이터베이스에 저장
                 String fcstTime = (String) data.get("fcstTime");
-                if (("0600".equals(fcstTime) || "1500".equals(fcstTime))
-                        &&
-                        ("tmn".equalsIgnoreCase(category) ||
-                         "tmx".equalsIgnoreCase(category) ||
-                         "sky".equalsIgnoreCase(category) ||
-                         "pop".equalsIgnoreCase(category) ||
-                         "pty".equalsIgnoreCase(category))) {
-
+                if (("0600".equals(fcstTime) || "1500".equals(fcstTime))) {
+                    String category = (String) data.get("category");
                     String fcstDate = (String) data.get("fcstDate");
                     String fcstValue = (String) data.get("fcstValue");
 
-                    System.out.println("카테고리: " + category + ", 예보일자: " + fcstDate + ", 예보시각: " + fcstTime + ", 예보 값: " + fcstValue + "\n");
+                    // 파라미터 설정
+                    pstmt.setString(1, category);
+                    pstmt.setString(2, fcstDate);
+                    pstmt.setString(3, fcstTime);
+                    pstmt.setString(4, fcstValue);
+                    pstmt.setString(5, url); // URL 파라미터 설정
+
+                    // 쿼리 실행
+                    pstmt.executeUpdate();
                 }
             }
-        } catch (ParseException e) {
+
+            // 자원 해제
+            pstmt.close();
+            mysqlConn.close();
+
+        } catch (ParseException | SQLException e) {
             e.printStackTrace();
         }
     }

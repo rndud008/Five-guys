@@ -1,87 +1,28 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> home </title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("a.region-link").click(function () {
-                var nx = $(this).data("nx");
-                var ny = $(this).data("ny");
-                var baseDate = "20240614"; // 변경 가능
-                var baseTime = "0200"; // 변경 가능
-
-                $.ajax({
-                    url: "/weather/" + nx + "/" + ny + "/" + baseDate + "/" + baseTime,
-                    type: "GET",
-                    dataType: "json",
-                    success: function (data) {
-                        var table = "<table border='1'><tr><th>Category</th><th>Date</th><th>Time</th><th>Value</th></tr>";
-                        $.each(data, function (index, item) {
-                            var weather;
-                            if (item.category === 'sky') {
-                                // Ensure fcstValue is treated as string for comparison
-                                if (item.fcstValue === '1') {
-                                    weather = '해';
-                                } else if (item.fcstValue === '3' || item.fcstValue === '4') {
-                                    weather = '구름';
-                                } else {
-                                    weather = item.fcstValue; // 다른 경우 그대로 표시
-                                }
-                            } else {
-                                weather = item.fcstValue; // 다른 카테고리의 경우 그대로 표시
-                            }
-
-                            table += "<tr><td>" + item.category + "</td><td>" + item.fcstDate + "</td><td>" + item.fcstTime + "</td><td>" + weather + "</td></tr>";
-                        });
-                        table += "</table>";
-                        $("#weather-table").html(table);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error fetching weather data");
-                    }
-                });
-            });
-        });
-
-
-    </script>
+    <title>Weather Forecast</title>
 </head>
 <body>
 <h1>Weather Forecast</h1>
-<p>Click on a region to view weather forecast:</p>
-<ul>
-    <li><a href="#" class="region-link" data-nx="60" data-ny="127">서울</a></li>
-    <li><a href="#" class="region-link" data-nx="98" data-ny="76">부산</a></li>
-    <li><a href="#" class="region-link" data-nx="67" data-ny="100">대전</a></li>
-    <li><a href="#" class="region-link" data-nx="63" data-ny="89">전북(전주)</a></li>
-    <li><a href="#" class="region-link" data-nx="73" data-ny="134">강원(춘천)</a></li>
-    <li><a href="#" class="region-link" data-nx="90" data-ny="77">경남(창원)</a></li>
-    <li><a href="#" class="region-link" data-nx="60" data-ny="74">광주(전라도)</a></li>
-    <li><a href="#" class="region-link" data-nx="52" data-ny="71">전남(무안)</a></li>
-    <li><a href="#" class="region-link" data-nx="57" data-ny="123">경기(시흥)</a></li>
-    <li><a href="#" class="region-link" data-nx="66" data-ny="103">세종</a></li>
-    <li><a href="#" class="region-link" data-nx="69" data-ny="106">충북(청주)</a></li>
-    <li><a href="#" class="region-link" data-nx="55" data-ny="106">충남(홍성)</a></li>
-    <li><a href="#" class="region-link" data-nx="99" data-ny="75">대구</a></li>
-    <li><a href="#" class="region-link" data-nx="102" data-ny="84">울산</a></li>
-    <li><a href="#" class="region-link" data-nx="91" data-ny="106">경북(안동)</a></li>
-    <li><a href="#" class="region-link" data-nx="54" data-ny="125">인천</a></li>
-    <li><a href="#" class="region-link" data-nx="53" data-ny="38">제주</a></li>
-
-
-
-    <!-- Add more regions as needed -->
-</ul>
-<div id="weather-table">
-    <!-- Weather forecast table will be displayed here -->
-</div>
-</body>
-</html>
-</title>
-</head>
-<body>
-
+<table border="1">
+    <thead>
+    <tr>
+        <th>Category</th>
+        <th>Forecast Date</th>
+        <th>Forecast Time</th>
+        <th>Forecast Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.category}"></td>
+        <td th:text="${item.fcstDate}"></td>
+        <td th:text="${item.fcstTime}"></td>
+        <td th:text="${item.fcstValue}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

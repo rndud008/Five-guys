@@ -1,18 +1,14 @@
 package com.lec.spring.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping("/")
-
 public class HomeController {
-    @RequestMapping("/")
+
+    @GetMapping("/")
     public String home() {
-        return "redirect:/home";
+        System.out.println("[실행확인]: home.html");
+        return "home";
     }
-    @RequestMapping("/home")
-    public void home1(){}
 }

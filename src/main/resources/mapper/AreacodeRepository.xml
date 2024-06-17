@@ -14,11 +14,4 @@
         FROM areacode
         WHERE areacode = #{areacode};
     </select>
-
-
-
-
-
-
-
 </mapper>
