@@ -18,3 +18,9 @@ from user_authorities;
 delete
 from user_authorities
 ;
+
+select *
+from user;
+
+delete
+from user;

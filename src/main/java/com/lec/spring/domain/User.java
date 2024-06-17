@@ -28,7 +28,7 @@ public class User {
     private LocalDateTime regDate;
 
     // OAuth2 Client
-    private String provider;
-    private String providerId;
+    private String provide;
+    private String provideId;
 
 }

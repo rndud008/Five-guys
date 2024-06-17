@@ -22,7 +22,7 @@
     </select>
 
     <insert id="addAuthority" flushCache="true">
-        INSERT INTO t5_user_authorities(user_id, authority_id)
+        INSERT INTO user_authorities(user_id, authority_id)
         VALUES(#{param1}, #{param2})
     </insert>
 
