@@ -25,10 +25,13 @@ public interface BoardService {
     List<Post> list();
 
     // 지역명에 따른 글목록
-    List<Post> listByArea(Long areacode);
+    List<Post> listByAreacode(Long areacode);
 
     // 지역코드로 지역명 불러오기
     Areacode selectNameByAreacode(Long areacode);
+
+    // 전체 지역명 불러오기
+    List<Areacode> findAllAreaName();
 
     // 특정 id 의 글 읽어오기 (SELECT)
     // 조회수 증가 없음

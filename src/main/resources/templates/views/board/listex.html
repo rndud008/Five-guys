@@ -19,11 +19,10 @@
 
     <!-- 지역명 선택란 -->
     <div>
-        <span th:if="${selectareacode}">지역: [[${selectareacode.name}]]</span>
-        <span th:unless="${selectareacode}">지역: 전체</span>
+        지역: [[${areacode}]]
         <!-- default 전체 areacode 있으면 지역 전부 표시 -->
-        <form th:action="@{/board/list}" method="post" th:each="areacode : ${areacode}" style="display: flex; flex-direction: column; justify-content: center;">
-            <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
+        <form th:action="@{/board/list}" method="post" th:each="areacode : ${areacode}" id="areacodebtn" style="display: flex; flex-direction: column; justify-content: center;">
+            <button id="areabtn" th:text="${areacode.name}"></button>
         </form>
     </div>
 
@@ -58,10 +57,6 @@
         </table>
     </div>
     <!-- 목록 -->
-
-
-
-
 
 
 </div>

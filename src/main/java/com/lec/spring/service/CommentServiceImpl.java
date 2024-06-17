@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = Comment.builder()
                 .user(user)
                 .content(content)
-                .post_id(postId)
+                .travel_diary_post_id(postId)
                 .build();
 
         int cnt = commentRepository.save(comment);

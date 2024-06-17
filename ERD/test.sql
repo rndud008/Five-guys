@@ -145,3 +145,34 @@ SELECT
 FROM comment c, user u
 WHERE c.user_id = u.id AND c.travel_diary_post_id = 1
 ORDER BY c.id DESC;
+
+SELECT * FROM comment;
+
+SELECT
+    p.id "p_id",
+    p.subject "p_subject",
+    p.content "p_content",
+    p.viewcnt "p_viewcnt",
+    p.regdate "p_regdate",
+    u.id "u_id",
+    u.username "u_username",
+    u.name "u_name",
+    u.email "u_email",
+    u.regdate "u_regdate"
+FROM travel_diary_post p, user u
+WHERE p.user_id = u.id AND p.areacode_id = 1;
+
+SELECT
+    c.id "c_id",
+    c.content "c_content",
+    c.regdate "c_regdate",
+    c.travel_diary_post_id "c_post_id",
+    u.id "u_id",
+    u.username "u_username",
+    u.password "u_password",
+    u.name "u_name",
+    u.email "u_email",
+    u.regdate "u_regdate"
+FROM comment c, user u
+WHERE c.user_id = u.id AND c.travel_diary_post_id = 1
+ORDER BY c.id DESC;

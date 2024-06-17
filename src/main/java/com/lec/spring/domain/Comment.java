@@ -22,7 +22,7 @@ public class Comment {
     private User user;  // 댓글 작성자 (FK)
 
     @JsonIgnore
-    private Long post_id;  // 어느글의 댓글 (FK)
+    private Long travel_diary_post_id;  // 어느글의 댓글 (FK)
 
     private String content; // 댓글 내용
 

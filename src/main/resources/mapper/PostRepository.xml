@@ -66,9 +66,14 @@
         AND p.id = #{id}
     </select>
 
-    <select id="findByAreacode" resultType="com.lec.spring.domain.Post">
+    <select id="findByAreacode" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        AND p.areacode_id = #{areacode};
+    </select>
+
+    <select id="findAllAreacode" resultType="com.lec.spring.domain.Post">
         SELECT *
-        FROM travel_diary_post p, areacode a
+        FROM areacode
         WHERE p.areacode_id = a.areacode AND p.areacode_id = #{areacode};
     </select>
 

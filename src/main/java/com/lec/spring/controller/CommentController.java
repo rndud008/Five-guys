@@ -19,7 +19,7 @@ public class CommentController {
 
     @PostMapping("/write")
     public QryResult write(
-            @RequestParam("post_id") Long postId,
+            @RequestParam("travel_diary_post_id") Long postId,
             @RequestParam("user_id") Long userId,
             String content){
         return commentService.write(postId, userId, content);

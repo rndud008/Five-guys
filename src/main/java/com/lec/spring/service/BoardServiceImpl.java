@@ -22,6 +22,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardServiceImpl(SqlSession sqlSession){
         postRepository = sqlSession.getMapper(PostRepository.class);
         userRepository = sqlSession.getMapper(UserRepository.class);
+        areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
     }
 
     @Override
@@ -42,13 +43,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Post> listByArea(Long areacode) {
+    public List<Post> listByAreacode(Long areacode) {
         return postRepository.findByAreacode(areacode);
     }
 
     @Override
     public Areacode selectNameByAreacode(Long areacode) {
         return areacodeRepository.findByAreaCode(areacode);
+    }
+
+    @Override
+    public List<Areacode> findAllAreaName() {
+        return areacodeRepository.findAllAreaName();
     }
 
 
