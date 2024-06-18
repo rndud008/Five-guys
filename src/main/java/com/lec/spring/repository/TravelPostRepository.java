@@ -12,6 +12,8 @@ public interface TravelPostRepository {
     // 여행 정보 업데이트
     int delete(TravelPost travelPost);
     // 특정 여행타입 정보세부 삭제.
+    List<TravelPost> findAll();
+    // 네이버 블로그 데이터 주입용
     List<TravelPost> findTravelTypeByPostAll(@Param("travelClassDetail") TravelClassDetail travelClassDetail);
     // 특정 여행 타입 전체정보 조회
     List<TravelPost> findAreacodeAndTravelType(Sigungucode sigungucode, @Param("travelClassDetail") TravelClassDetail travelClassDetail);

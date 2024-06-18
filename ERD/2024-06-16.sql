@@ -55,10 +55,13 @@ CREATE TABLE blog_review
   last_call_api_id INT          NOT NULL COMMENT 'API 호출 id',
   title            VARCHAR(200) NULL     COMMENT '블로그 포스트의 제목',
   link             VARCHAR(255) NULL     COMMENT '블로그 포스트의 URL',
-  description      VARCHAR(200) NULL     COMMENT '내용을 요약한 패시지 정보',
+  description      VARCHAR(500) NULL     COMMENT '내용을 요약한 패시지 정보',
   postdate         VARCHAR(20)  NULL     COMMENT '블로그 포스트가 작성된 날짜',
   PRIMARY KEY (id)
 ) COMMENT '블로그 리뷰 리스트';
+
+alter table blog_review
+modify link varchar(500);
 
 CREATE TABLE comment
 (

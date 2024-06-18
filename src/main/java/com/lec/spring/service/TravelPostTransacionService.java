@@ -138,7 +138,7 @@ public class TravelPostTransacionService {
 
         detailCommon1.setUrl(apiUrl);
 
-        timeUnit();
+//        timeUnit();
         items2 = dataService.fetchApiData(apiUrl);
         System.out.println("공통정보 api 호출 완료");
 
@@ -157,7 +157,7 @@ public class TravelPostTransacionService {
 
         detailIntro1.setUrl(apiUrl);
 
-        timeUnit();
+//        timeUnit();
 
         items2 = dataService.fetchApiData(apiUrl);
         System.out.println("소개정보 api 호출 완료");
@@ -197,7 +197,7 @@ public class TravelPostTransacionService {
 
         detailInfo1.setUrl(apiUrl);
 
-        timeUnit();
+//        timeUnit();
 
         items2 = dataService.fetchApiData(apiUrl);
         if (items2 != null) {

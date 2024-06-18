@@ -79,7 +79,8 @@ FROM sigungucode
 where areacode = 2 and sigungucode = 3;
 
 SELECT *
-FROM sigungucode;
+FROM sigungucode
+where areacode= 37;
 
 select *
 FROM travel_type;
@@ -95,11 +96,18 @@ FROM travel_post
 where travel_class_detail_id = 15;
 
 select *
-FROM travel_post;
+FROM travel_post
+where contentid = 127377;
+
+select *
+FROM blog_review;
 
 select *
 FROM travel_post
 where contentid = 294390;
+
+select *
+FROM travel_post;
 
 select *
 FROM travel_post
@@ -112,10 +120,8 @@ select tp.*
 FROM travel_post tp
          join travel_class_detail tcd on tp.travel_class_detail_id = tcd.id
          join travel_type tt on tcd.travel_type_id = tt.id
-where tp.contentid = 2865100
-  AND tt.id = 12
+where tt.id = 15 and infotext is null;
 
-FROM middle_weather;
 
 SELECT *
 FROM last_call_api_date;
@@ -131,7 +137,6 @@ DROP TABLE IF EXISTS weather_forecast;
 
 ALTER TABLE short_weather
     MODIFY COLUMN last_call_api_id INT DEFAULT 0;
-
 
 select * from weather_forecast;
 

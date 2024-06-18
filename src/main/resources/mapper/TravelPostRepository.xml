@@ -22,6 +22,11 @@
         )
     </insert>
 
+    <select id="findAll" resultType="com.lec.spring.domain.TravelPost">
+        select id , title
+        from travel_post
+    </select>
+
     <select id="findByContentIdAndType" resultType="com.lec.spring.domain.TravelPost">
         select tp.*
         FROM travel_post tp
