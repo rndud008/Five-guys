@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Sigungucode {
+public class LastCallApiData {
     private Long id;
-    private Areacode areacode;
-    private Long sigungucode;
-    private String name;
+    private String url;
+    private Date regdate;
 
 }

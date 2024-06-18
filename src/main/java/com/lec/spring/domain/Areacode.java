@@ -16,4 +16,5 @@ public class Areacode {
     private String name;
 
     private String regId;
+
 }

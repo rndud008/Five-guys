@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Sigungucode {
+public class BlogReview {
     private Long id;
-    private Areacode areacode;
-    private Long sigungucode;
-    private String name;
-
+    private TravelPost travelPost;
+    private LastCallApiData lastCallApiData;
+    private String title;
+    private String link;
+    private String description;
+    private String postdate;
 }
