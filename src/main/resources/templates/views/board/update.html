@@ -25,6 +25,12 @@
             <span readonly th:text="${post.user.username}"></span>
         </div>
         <div>
+            <label>지역명</label>
+            <select id="areacode_id" name="areacode_id">
+                <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}" th:selected="${areacode.areacode == post.areacode_id}"></option>
+            </select>
+        </div>
+        <div>
             <label for="subject">제목:</label>
             <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject} ? ${subject} : ${post.subject}">
             <br>

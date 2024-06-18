@@ -81,7 +81,7 @@ INSERT INTO travel_diary_post (user_id, areacode_id, subject, content) VALUES
 INSERT INTO travel_diary_post(user_id, areacode_id, subject, content)
 SELECT user_id, areacode_id, subject, content FROM travel_diary_post;
 
-SELECT  * FROM travel_diary_post;
+SELECT * FROM travel_diary_post ORDER BY 1 DESC;
 SELECT  count(*) FROM travel_diary_post;
 
 DELETE FROM travel_diary_post;

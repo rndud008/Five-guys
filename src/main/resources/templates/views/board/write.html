@@ -19,7 +19,10 @@
 
         <div>
             <label>지역명</label>
-            <span th:value="${areacode}">전체</span>
+            <select id="areacode_id" name="areacode_id">
+                <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}"
+                        th:selected="${areacode.areacode} == ${selectedArea}"></option>
+            </select>
         </div>
 
         <div>

@@ -26,13 +26,13 @@ public interface PostRepository {
     List<Post> selectFromRow(int from, int rows);
 
     // TODO 지역별 postRepository
-    List<Post> selectFromRowArea(int from, int rows, Areacode areacode);
+    List<Post> selectFromRowArea(int from, int rows, Long areacode);
 
     // 전체 글의 개수
     int countAll();
 
     // 지역 게시판 글의 개수
-    int countByArea(Areacode areacode);
+    int countByArea(Long areacode);
 
 
 }

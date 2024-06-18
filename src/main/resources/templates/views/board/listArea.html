@@ -15,14 +15,35 @@
 
 <h2>목록</h2>
 
+<!-- 페이징 헤더 -->
+<div class="mb-3 mt-3 clearfix">
+    <span>총 [[${cnt}]]개</span>
+    <span>page [[${page}]]/[[${totalPage}]]</span>
+    <span>
+        <form name="frmPageRows">
+            <input type="hidden" name="page" th:value="${page}">
+            <select name="pageRows">
+                <option value="10" th:selected="${pageRows==10}">10</option>
+                <option value="15" th:selected="${pageRows==15}">15</option>
+                <option value="20" th:selected="${pageRows==20}">20</option>
+                <option value="50" th:selected="${pageRows==50}">50</option>
+            </select>
+        </form>
+    </span>
+</div>
+<!-- 페이징 헤더 -->
+
 <div style="display: flex;">
 
     <!-- 지역명 선택란 -->
     <div>
-        지역: [[${areacode}]]
+        <span>지역: [[${selectareacode.name}]]</span>
+        <form th:action="@{/board/list}" method="get" style="display: flex; flex-direction: column; justify-content: center;">
+            <button>전체</button>
+        </form>
         <!-- default 전체 areacode 있으면 지역 전부 표시 -->
-        <form th:action="@{/board/list}" method="post" th:each="areacode : ${areacode}" id="areacodebtn" style="display: flex; flex-direction: column; justify-content: center;">
-            <button id="areabtn" th:text="${areacode.name}"></button>
+        <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}" style="display: flex; flex-direction: column; justify-content: center;">
+            <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
         </form>
     </div>
 
@@ -30,7 +51,7 @@
     <!-- 게시판 -->
     <div>
         <div>
-            <a th:href="@{/board/write}" style="margin-left: 400px">작성</a>
+            <a th:href="@{/board/write(areacode=${selectareacode.areacode}, areacodename=${selectareacode.name})}" style="margin-left: 400px">작성</a>
         </div>
         <hr>
         <table>
@@ -57,10 +78,11 @@
         </table>
     </div>
     <!-- 목록 -->
-
-
 </div>
 
+<!-- pagination-->
+<th:block th:insert="~{board/pagination::pagination}"></th:block>
+<!-- pagination-->
 
 </body>
 </html>

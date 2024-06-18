@@ -111,8 +111,13 @@ public class BoardServiceImpl implements BoardService {
         return list;
     }
 
+//    @Override
+//    public List<Post> list(Integer page, Model model, Areacode areacode) {
+//
+//    }
+
     @Override
-    public List<Post> list(Integer page, Model model, Areacode areacode) {
+    public List<Post> listByAreacode(Integer page, Long areacode, Model model) {
         // 현재 페이지
         if(page == null || page < 1) page = 1;
 
@@ -148,7 +153,7 @@ public class BoardServiceImpl implements BoardService {
             endPage = startPage + writePages - 1;
             if (endPage >= totalPage) endPage = totalPage;
             // 해당 페이지의 글 목록 읽어오기
-            list = postRepository.selectFromRow(fromRow, pageRows);
+            list = postRepository.selectFromRowArea(fromRow, pageRows, areacode);
             model.addAttribute("list", list);
         } else {
             page = 0;
@@ -163,23 +168,19 @@ public class BoardServiceImpl implements BoardService {
         model.addAttribute("writePages", writePages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("areacode", areacode);
 
         return list;
     }
 
     @Override
-    public List<Post> listByAreacode(Long areacode) {
-        return postRepository.findByAreacode(areacode);
-    }
-
-    @Override
-    public Areacode selectNameByAreacode(Long areacode) {
+    public Areacode findAreaByAreacode(Long areacode) {
         return areacodeRepository.findByAreaCode(areacode);
     }
 
     @Override
-    public List<Areacode> findAllAreaName() {
-        return areacodeRepository.findAllAreaName();
+    public List<Areacode> findAllArea() {
+        return areacodeRepository.findAllArea();
     }
 
 

@@ -13,13 +13,14 @@ import java.time.LocalDateTime;
 @Builder
 public class Post {
     private Long id;
+    private Long areacode_id;
     private String subject;
     private String content;
     private LocalDateTime regdate;
     private Long viewcnt;
 
     private User user;
-    private Areacode areacode;
-
+//    private Areacode areacode;
+//    필요한가?
 
 }

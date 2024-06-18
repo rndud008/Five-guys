@@ -27,16 +27,16 @@ public interface BoardService {
     // 페이징 리스트
     List<Post> list(Integer page, Model model);
 
-    List<Post> list(Integer page, Model model, Areacode areacode);
+//    List<Post> list(Integer page, Model model, Areacode areacode);
 
     // 지역명에 따른 글목록
-    List<Post> listByAreacode(Long areacode);
+    List<Post> listByAreacode(Integer page, Long areacode, Model model);
 
     // 지역코드로 지역명 불러오기
-    Areacode selectNameByAreacode(Long areacode);
+    Areacode findAreaByAreacode(Long areacode);
 
     // 전체 지역명 불러오기
-    List<Areacode> findAllAreaName();
+    List<Areacode> findAllArea();
 
     // 특정 id 의 글 읽어오기 (SELECT)
     // 조회수 증가 없음
