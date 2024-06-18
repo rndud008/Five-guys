@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TravelType {
+public class BlogReview {
     private Long id;
-    // 여행 타입 id
-    private String name;
-    // 여행 타입 이름
-
+    private TravelPost travelPost;
+    private LastCallApiData lastCallApiData;
+    private String title;
+    private String link;
+    private String description;
+    private String postdate;
 }

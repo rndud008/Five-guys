@@ -4,10 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lec.spring.repository.TravelTypeRepository">
+    <select id="findAll" resultType="com.lec.spring.domain.TravelType">
+        select *
+        from travel_type
+    </select>
 
-    <select id="getAllTravelType" resultType="com.lec.spring.domain.TravelType">
-        SELECT id
-        FROM travel_type
+    <select id="findById" resultType="com.lec.spring.domain.TravelType">
+        select name, id
+        from travel_type
+        where id = #{id}
     </select>
 
 </mapper>

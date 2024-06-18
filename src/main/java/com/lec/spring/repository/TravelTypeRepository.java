@@ -1,12 +1,14 @@
 package com.lec.spring.repository;
 
-import org.apache.ibatis.annotations.Mapper;
+import com.lec.spring.domain.TravelType;
 
 import java.util.List;
 
-@Mapper
 public interface TravelTypeRepository {
 
-    List<Integer> getAllTravelType();
+    List<TravelType> findAll();
+    // 여행타입 전체목록 조회
 
+    TravelType findById(Long id);
+    // 특정 여행타입 id 조회
 }

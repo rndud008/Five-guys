@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TravelType {
+public class LastCallApiData {
     private Long id;
-    // 여행 타입 id
-    private String name;
-    // 여행 타입 이름
+    private String url;
+    private Date regdate;
 
 }

@@ -1,9 +1,9 @@
 package com.lec.spring.service;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public interface TravelClassDetailService {
-
-    void saveTravelClassDetail() throws IOException;
+    void saveTravelClassDetails() throws IOException, URISyntaxException;
 
 }
