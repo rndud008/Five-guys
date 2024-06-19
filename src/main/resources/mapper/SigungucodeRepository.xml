@@ -22,5 +22,16 @@
         where areacode = #{areacode.areacode} and sigungucode = #{sigungucode}
     </select>
 
+    <select id="findAll" resultType="com.lec.spring.domain.Sigungucode">
+        select *
+        FROM sigungucode
+    </select>
+
+    <select id="findByAreacode" resultType="com.lec.spring.domain.Sigungucode">
+        select *
+        from sigungucode
+        where areacode = #{areacode.areacode};
+    </select>
+
 
 </mapper>

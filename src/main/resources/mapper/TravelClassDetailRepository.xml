@@ -64,6 +64,13 @@
         FROM travel_class_detail
         where travel_type_id = #{travelType.id}
     </select>
+    
+    <select id="findTravelTypeByCodeAndDecodeList" resultType="com.lec.spring.domain.TravelClassDetail">
+        select  *
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+        and code = #{code} and decode = #{decode}
+    </select>
 
 
 

@@ -24,6 +24,7 @@ public interface TravelClassDetailRepository extends GenericRepository<TravelCla
     TravelClassDetail findByTravelTypeId(@Param("travelType")TravelType travelType);
 
     TravelClassDetail findTravelTypeIdByCode(@Param("travelType") TravelType travelType, @Param("code") String code);
-    TravelClassDetail findTravelTypeIdByDecode(@Param("travelType") TravelType travelType, @Param("decode") String decode);
+    List<TravelClassDetail> findTravelTypeIdByDecode(@Param("travelType") TravelType travelType, @Param("decode") String decode);
+    List<TravelClassDetail> findTravelTypeByCodeAndDecodeList(@Param("travelType")TravelType travelType, String code, String decode);
 
 }

@@ -75,6 +75,23 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
         }// end travelType
     }
 
+    @Override
+    public List<TravelClassDetail> selectedTravelTypeByCodeAndDecodeList(TravelType travelType, String code, String decode) {
+
+        return travelClassDetailRepository.findTravelTypeByCodeAndDecodeList(travelType, code, decode);
+    }
+
+    @Override
+    public List<TravelClassDetail> selectedByTravelTypeList(TravelType travelType) {
+        return travelClassDetailRepository.findByTravelTypeList(travelType);
+    }
+
+    @Override
+    public List<TravelClassDetail> selectedTravelTypeIdByDecode(TravelType travelType, String decode) {
+
+        return travelClassDetailRepository.findTravelTypeIdByDecode(travelType,decode);
+    }
+
     public void lastSave(TravelType travelType, LastCallApiData lastCallApiData) throws IOException, URISyntaxException {
         String apiUrl2 = null;
         JsonNode items2 = null;

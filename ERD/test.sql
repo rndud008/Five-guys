@@ -92,6 +92,10 @@ FROM last_call_api_date;
 select *
 FROM travel_class_detail;
 
+select *
+FROM travel_class_detail
+where decode = '' ;
+
 select infotext
 FROM travel_post
 where travel_class_detail_id = 15;

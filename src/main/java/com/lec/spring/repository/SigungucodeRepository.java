@@ -13,7 +13,7 @@ public interface SigungucodeRepository extends GenericRepository<Sigungucode> {
 
     List<Sigungucode> findAll();
 
-    List<Sigungucode> findByAreacode(Areacode areacode);
+    List<Sigungucode> findByAreacode(Long areacode);
 
     Sigungucode findAreacodeBySigungucode(Areacode areacode,Long sigungucode);
     // 지역코드에 참조하는 시군구 단일객체 호출.
