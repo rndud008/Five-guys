@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<style>
+    body {
+        margin: 0;
+        min-height: 2000px;
+    }
+
+    .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-container.sticky {
+        height: 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-container a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 0px 15px;
+        vertical-align: middle;
+        font-size: 16px;
+    }
+
+    .navbar-container button {
+        background: lightskyblue;
+        width: 120px;
+        height: 40px;
+        margin: auto 0;
+        border-radius: 4%;
+        border: none;
+        outline: none;
+        padding: auto 0;
+    }
+
+    .navbar-container button:hover {
+        cursor: pointer;
+    }
+
+    .navbar-container button span {
+        color: white;
+    }
+</style>
+
+<th:block th:fragment="navbar">
+    <nav class="">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <a href="#"><img src="logo3.png" alt="" style="width: 120px; "></a>
+            </div>
+            <div class="navbar-content">
+                <a class="" href="#">관광지</a>
+                <a class="" href="#">축제</a>
+                <a class="" href="#">게시판</a>
+            </div>
+            <div class="navbar-content">
+                <button><span><b>TRAVEL</b></span><br><span>login</span></button>
+            </div>
+        </div>
+    </nav>
+</th:block>
+
+<style>
+    /* 모달창 배경 스타일 */
+    #modalSignin {
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1050;
+        overflow: auto;
+    }
+
+    /* 모달창 컨텐츠 스타일 */
+    #modalSignin .modal-dialog {
+        max-width: 400px;
+        margin: 1.75rem auto;
+    }
+
+    #modalSignin .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        outline: 0;
+    }
+
+    /* 모달창 헤더 스타일 */
+    #modalSignin .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        border-top-left-radius: calc(0.3rem - 1px);
+        border-top-right-radius: calc(0.3rem - 1px);
+    }
+
+    #modalSignin .modal-header .close {
+        padding: 1rem;
+        margin: -1rem -1rem -1rem auto;
+    }
+
+    /* 모달창 본문 스타일 */
+    #modalSignin .modal-body {
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1rem;
+    }
+
+    /* 모달창 푸터 스타일 */
+    #modalSignin .modal-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0.75rem;
+        border-top: 1px solid #dee2e6;
+        border-bottom-right-radius: calc(0.3rem - 1px);
+        border-bottom-left-radius: calc(0.3rem - 1px);
+    }
+
+    #modalSignin .modal-footer>* {
+        margin: 0.25rem;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        text-align: center;
+        width: 100%;
+        font-weight: 1000;
+    }
+
+    .close {
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 0.5;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+    }
+
+    .close:hover {
+        color: #000;
+        text-decoration: none;
+        opacity: .75;
+        cursor: pointer;
+    }
+
+    .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+
+    /* 전체 폼 스타일 */
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    /* 입력 필드 스타일 */
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        z-index: 2;
+    }
+
+    /* 버튼 스타일 */
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .btn {
+        border-radius: 4%;
+        height: 40px;
+        margin: auto 0;
+        border-radius: 4%;
+        border: none;
+        outline: none;
+        padding: auto 0;
+        background-color: transparent;
+    }
+
+    .btn-lightblue{
+        background-color: rgba(49, 81, 243, 0.85);
+    }
+
+
+    /* 간편 로그인 섹션 스타일 */
+    .h5 {
+        margin-bottom: 1rem;
+    }
+
+    .btn img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .visually-hidden {
+        position: absolute !important;
+        clip: rect(1px, 1px, 1px, 1px);
+        padding: 0 !important;
+        border: 0 !important;
+        height: 1px !important;
+        width: 1px !important;
+        overflow: hidden;
+    }
+</style>
+
+
+
+<th:block th:fragment="loginModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Travel Login</h1>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-signin">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="name"
+                                   name="floatingInput" autocomplete="floatingInput">
+                            <label for="floatingInput"  class="visually-hidden">ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                                   name="floatingPassword" autocomplete="floatingPassword">
+                            <label for="floatingPassword"  class="visually-hidden">Password</label>
+                        </div>
+                        <button class="btn btn-lightblue btn-block" type="submit">Login</button><br>
+                        <button class="btn btn-lightblue btn-block" type="submit">회원가입</button><br>
+                        <hr class="my-4">
+                        <h2 class="h5 mb-3">간편로그인</h2>
+                        <button class="btn btn-lightblue btn-block" type="submit">
+                            <img src="" alt="">
+                            Sign up with Kakao
+                        </button><br>
+                        <button class="btn btn-lightblue btn-block" type="submit">
+                            <img src="" alt="">
+                            Sign up with Google
+                        </button><br>
+                        <button class="btn btn-lightblue btn-block" type="submit">
+                            <img src="" alt="">
+                            Sign up with Naver
+                        </button><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<script>
+
+    const navbarContainer = document.querySelector('.navbar-container');
+    const navbarHeight = navbarContainer.offsetHeight;
+
+    window.addEventListener('scroll', function () {
+        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
+        if (window.pageYOffset >= navbarHeight) {
+            navbarContainer.classList.add('sticky');
+        } else {
+            navbarContainer.classList.remove('sticky');
+        }
+    });
+
+</script>
+
+<script>
+    // HTML에서 모달창 요소 선택
+    const modal = document.getElementById('modalSignin');
+
+    // HTML에서 모달창 열기 버튼 선택
+    const openModalBtn = document.querySelector('.navbar-content button');
+
+    // 모달창 요소가 존재하는지 확인
+    if (modal !== null) {
+        // 모달창 열기 이벤트 리스너 등록
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            centerModal();
+        });
+
+        // 모달창 닫기 버튼 선택
+        const closeModalBtn = document.querySelector('.modal .close');
+
+        // 모달창 닫기 이벤트 리스너 등록
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // 모달창 외부 클릭 시 닫기
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // 모달 창 중앙 정렬 함수
+        function centerModal() {
+            const dialog = modal.querySelector('.modal-dialog');
+
+            // 모달 창의 높이가 화면 높이보다 작을 경우
+            if (dialog.offsetHeight < window.innerHeight) {
+                dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
+            } else {
+                dialog.style.marginTop = '';
+            }
+        }
+
+        // 새로고침 시 모달창 열리지 않도록 설정
+        window.addEventListener('DOMContentLoaded', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+</script>
+
+</html>
