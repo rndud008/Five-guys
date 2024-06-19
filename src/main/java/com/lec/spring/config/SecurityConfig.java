@@ -10,6 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    //OAuth2 Client
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -19,20 +22,54 @@ public class SecurityConfig {
                  * request URL 에 대한 접근 권한 세팅
                  */
                 .authorizeHttpRequests(auth -> auth
+                        // 게시판 접근 시 block
+                        // todo
+
                         // 그 외 request 는 모두 permit
                         .anyRequest().permitAll()
                 )
 
                 /**
-                 *  폼 로그인 설정
+                 *  로그인 설정
                  */
                 .formLogin(form -> form
                         .loginPage("/user/login")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
                         .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
-                        .defaultSuccessUrl("/")
-                        //todo
-                        .permitAll()
+                        .defaultSuccessUrl("/") // 이전 페이지에서 로그인 요청하여 로그인 성공 시, 해당 페이지로 다시 이동
+                        .successHandler(new CustomLoginSuccessHandler("/home"))
+                        .failureHandler(new CustomLoginFailureHandler())
                 )
+
+                /********************************************
+                 * ③ 로그아웃 설정
+                 * .logout(LogoutConfigurer)
+                 ********************************************/
+                // ※ 아래 설정 없이도 기본적으로 /logout 으로 로그아웃 된다
+                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                                .logoutUrl("/user/logout")  // 로그아웃 수행 url
+
+                                //                              .logoutSuccessUrl("/home")  // 로그아웃 성공후 redirect url
+
+                                .invalidateHttpSession(false)   // session invalidate 수행안함
+                                // 이따가 CustomLogoutSuccessHandler 에서 꺼낼 정보가 있기 때문에
+                                // false 로 세팅한다
+
+//                        .deleteCookies("JSESSIONID")    // 쿠키 제거
+
+                                // 로그아웃 성공후 수행할 코드
+                                // .logoutSuccessHandler(LogoutSuccessHandler)
+                                .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                )
+
+
+                /**
+                 * 예외처리 설정
+                 */
+                // 로그인하지 않은 client 가 게시물 페이지 접근시 수행
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                )
+
                 .build();
     }
 }

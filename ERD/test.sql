@@ -24,3 +24,5 @@ from user;
 
 delete
 from user;
+
+desc user_authorities;

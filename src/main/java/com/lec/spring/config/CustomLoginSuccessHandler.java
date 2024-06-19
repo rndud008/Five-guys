@@ -1,17 +1,22 @@
 package com.lec.spring.config;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     public CustomLoginSuccessHandler(String defaultTargetUrl) {
         // 로그인 후 redirect 할 URL 이 특별히 없는 경우 default 로 redirect 할 URL 설정
         setDefaultTargetUrl(defaultTargetUrl);
+        System.out.println("로그인 성공");
     }
-
-    // request 한 client 의 ip 가져오기
-    // todo ( 필요한가?)
-
 
 }

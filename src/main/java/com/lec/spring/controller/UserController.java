@@ -93,4 +93,7 @@ public class UserController {
     public String rejectAuth() {
         return "common/rejectAuth";
     }
+
+    @RequestMapping("/home")
+    public String home() { return "user/home"; }
 }

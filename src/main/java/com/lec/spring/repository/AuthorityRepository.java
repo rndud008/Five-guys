@@ -2,6 +2,7 @@ package com.lec.spring.repository;
 
 import com.lec.spring.domain.Authority;
 import com.lec.spring.domain.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

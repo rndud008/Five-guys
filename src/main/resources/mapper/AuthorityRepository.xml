@@ -6,7 +6,7 @@
 
     <select id="findByName" resultType="com.lec.spring.domain.Authority">
         SELECT id,
-                name,
+                name
         FROM authority
         WHERE name = #{name}
     </select>
@@ -15,10 +15,10 @@
     <select id="findByUser"
             parameterType="com.lec.spring.domain.User"
             resultType="com.lec.spring.domain.Authority">
-        SELECT *
+        SELECT a.id, a.name
         FROM authority a, user_authorities u
-        WHERE a.id, u.authority_id
-        AND u.user_id = #{id}
+        WHERE a.id = u.authority_id
+        AND u.user_id = #{id};
     </select>
 
     <insert id="addAuthority" flushCache="true">
