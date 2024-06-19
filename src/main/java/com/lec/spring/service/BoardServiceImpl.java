@@ -1,8 +1,10 @@
 package com.lec.spring.service;
 
 import com.lec.spring.domain.Areacode;
+import com.lec.spring.domain.Attachment;
 import com.lec.spring.domain.Post;
 import com.lec.spring.repository.AreacodeRepository;
+import com.lec.spring.repository.AttachmentRepository;
 import com.lec.spring.repository.PostRepository;
 import com.lec.spring.repository.UserRepository;
 import com.lec.spring.util.U;
@@ -11,9 +13,19 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -30,24 +42,104 @@ public class BoardServiceImpl implements BoardService {
     private PostRepository postRepository;
     private UserRepository userRepository;
     private AreacodeRepository areacodeRepository;
+    private AttachmentRepository attachmentRepository;
 
     @Autowired
     public BoardServiceImpl(SqlSession sqlSession){
         postRepository = sqlSession.getMapper(PostRepository.class);
         userRepository = sqlSession.getMapper(UserRepository.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
+        attachmentRepository = sqlSession.getMapper(AttachmentRepository.class);
     }
 
     @Override
-    public int write(Post post) {
-        return postRepository.save(post);
+    public int write(Post post, Map<String, MultipartFile> files) {
+        int cnt = postRepository.save(post);
+
+        addFiles(files, post.getId());
+
+        return cnt;
+    }
+
+    private void addFiles(Map<String, MultipartFile> files, Long id) {
+        if(files == null) return;
+
+        for(Map.Entry<String, MultipartFile> e : files.entrySet()){
+
+            // name="upfile##" 인 경우만 첨부파일 등록
+            if(!e.getKey().startsWith("upfile")) continue;
+
+            // 물리적 파일 저장
+            Attachment file = upload(e.getValue());
+
+            // 성공시 DB 에도 파일 저장
+            if(file != null){
+                file.setTravel_diary_post_id(id);
+                attachmentRepository.save(file);
+            }
+        }
+    }
+
+    private Attachment upload(MultipartFile multipartFile) {
+        Attachment attachment = null;
+
+        // 첨부된 파일 없으면 return
+        String originalFilename = multipartFile.getOriginalFilename();
+        if(originalFilename == null || originalFilename.isEmpty()) return null;
+
+        // 원본파일명
+        String sourceName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        // 저장파일명
+        String fileName = sourceName;
+
+        File file = new File(uploadDir, fileName);
+        if(file.exists()){
+            // .으로 확장자 찾기 -1이면 확장자가 없음
+            int pos = fileName.lastIndexOf(".");
+            if(pos > -1){
+                String name = fileName.substring(0, pos);  // 파일이름
+                String ext = fileName.substring(pos + 1);  // 확장자
+
+                // ex) aaa_31415351.txt 중복방지를 위해 currentTimeMillis 사용
+                fileName = name + "_" + System.currentTimeMillis() + "." + ext;
+
+            } else {
+                // ex) aaa_31415351
+                fileName += "_" + System.currentTimeMillis();
+            }
+        }
+
+        Path copyOfLocation = Paths.get(new File(uploadDir, fileName).getAbsolutePath());
+
+        try {
+            Files.copy(
+                    multipartFile.getInputStream(),
+                    copyOfLocation,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        attachment = Attachment.builder()
+                .filename(fileName)
+                .sourcename(sourceName)
+                .build();
+
+        return attachment;
     }
 
     @Override
+    @Transactional
     public Post detail(Long id) {
         postRepository.incViewCnt(id);
+        Post post = postRepository.findById(id);
 
-        return postRepository.findById(id);
+        if(post != null){
+            List<Attachment> fileList = attachmentRepository.findByPost(post.getId());
+            post.setFileList(fileList);
+        }
+
+        return post;
     }
 
     @Override
@@ -186,20 +278,65 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Post selectById(Long id) {
-        return postRepository.findById(id);
+        Post post = postRepository.findById(id);
+
+        if(post != null){
+            List<Attachment> fileList = attachmentRepository.findByPost(post.getId());
+            post.setFileList(fileList);
+        }
+        return post;
     }
 
     @Override
-    public int update(Post post) {
-        return postRepository.update(post);
+    public int update(Post post, Map<String, MultipartFile> files, Long[] delfile) {
+        int result = 0;
+        result = postRepository.update(post);
+
+        addFiles(files, post.getId());
+
+        if(delfile != null){
+            for(Long fileId : delfile){
+                Attachment file = attachmentRepository.findById(fileId);
+                if(file != null){
+                    delFile(file);
+                    attachmentRepository.delete(file);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private void delFile(Attachment file) {
+        String saveDirectory = new File(uploadDir).getAbsolutePath();
+
+        File f = new File(saveDirectory, file.getFilename());  // 물리적으로 저장된 파일
+
+        // java.io.File 에서 제공하는 함수
+        if (f.exists()) {
+            if (f.delete()) {
+                System.out.println("삭제 성공");
+            } else {
+                System.out.println("삭제 실패");
+            }
+        } else {
+            System.out.println("파일이 존재하지 않습니다");
+        }
     }
 
     @Override
     public int deleteById(Long id) {
         int result = 0;
-        Post post = postRepository.findById(id);
 
+        Post post = postRepository.findById(id);
         if(post != null){
+            List<Attachment> fileList = attachmentRepository.findByPost(id);
+
+            if(fileList != null && fileList.size() > 0){
+                for(Attachment file : fileList){
+                    delFile(file);
+                }
+            }
             result = postRepository.delete(post);
         }
         return result;

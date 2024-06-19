@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface BoardService {
     // 글 작성
-    int write(Post post);
+    int write(Post post, Map<String, MultipartFile> files);
 
     // 특정 id 의 글 조회
     // 트랜잭션 처리
@@ -26,8 +26,6 @@ public interface BoardService {
 
     // 페이징 리스트
     List<Post> list(Integer page, Model model);
-
-//    List<Post> list(Integer page, Model model, Areacode areacode);
 
     // 지역명에 따른 글목록
     List<Post> listByAreacode(Integer page, Long areacode, Model model);
@@ -43,7 +41,7 @@ public interface BoardService {
     Post selectById(Long id);
 
     // 특정 id 글 수정하기 (제목, 내용)  (UPDATE)
-    int update(Post post);
+    int update(Post post, Map<String, MultipartFile> files, Long[] delfile);
 
     // 특정 id 글 삭제하기 (DELETE)
     int deleteById(Long id);

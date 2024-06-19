@@ -18,12 +18,12 @@
 
     <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.User"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO t5_user(username, password, name, email)
+        INSERT INTO user(username, password, name, email)
             VALUE(#{username}, #{password}, #{name}, #{email})
     </insert>
 
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.User">
-        UPDATE t5_user SET username = #{username}, password = #{password}, name = #{name}, email = #{email}
+        UPDATE user SET username = #{username}, password = #{password}, name = #{name}, email = #{email}
         WHERE id = #{id}
     </update>
 

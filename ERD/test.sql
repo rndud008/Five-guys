@@ -81,7 +81,7 @@ INSERT INTO travel_diary_post (user_id, areacode_id, subject, content) VALUES
 INSERT INTO travel_diary_post(user_id, areacode_id, subject, content)
 SELECT user_id, areacode_id, subject, content FROM travel_diary_post;
 
-SELECT * FROM travel_diary_post ORDER BY 1 DESC;
+SELECT * FROM travel_diary_post ORDER BY 1 asc ;
 SELECT  count(*) FROM travel_diary_post;
 
 DELETE FROM travel_diary_post;
@@ -185,3 +185,18 @@ SELECT
 FROM comment c, user u
 WHERE c.user_id = u.id AND c.travel_diary_post_id = 1
 ORDER BY c.id DESC;
+
+INSERT INTO attachment(travel_diary_post_id, sourcename, filename) VALUES
+    (1, 'face01.png', 'face01.png'),
+    (1, 'face02.png', 'face02.png'),
+    (2, 'face03.png', 'face03.png'),
+    (2, 'face04.png', 'face04.png'),
+    (3, 'face05.png', 'face05.png'),
+    (3, 'face06.png', 'face06.png'),
+    (4, 'face07.png', 'face07.png'),
+    (4, 'face08.png', 'face08.png')
+;
+DELETE FROM attachment;
+ALTER TABLE attachment Auto_Increment = 1;
+
+SELECT * FROM attachment;

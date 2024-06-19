@@ -4,6 +4,9 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/js/detail.js}"></script>
+
     <title>수정</title>
 </head>
 <body>
@@ -40,6 +43,29 @@
             <label for="content">내용:</label>
             <textarea class="form-control" rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content} ? ${content} : ${post.content}"></textarea>
         </div>
+
+        <!-- 기존 첨부파일  목록 (삭제 가능) -->
+
+        <div id="delFiles"></div>  <!-- 삭제할 file 의 id 값(들)을 담기위한 div -->
+        <div>
+            <label>첨부파일:</label>
+            <div th:each="attachment : ${post.fileList}">
+                <input type="text" readonly th:value="${attachment.sourcename}">
+                <button type="button" th:data-fileid-del="${attachment.id}">삭제</button>
+            </div>
+        </div>
+
+        <!-- 기존 첨부파일  목록 (삭제 가능) -->
+
+        <!-- 새로운 첨부파일 추가 -->
+        <div>
+            <label>새로운 첨부파일추가:</label>
+            <div id="files">
+                <!-- 추가된 파일들 write.js로 append -->
+            </div>
+            <button type="button" id="btnAdd">추가</button>
+        </div>
+        <!-- 새로운 첨부파일 추가 -->
 
         <!-- 하단 링크 -->
         <div>

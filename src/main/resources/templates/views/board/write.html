@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/js/write.js}"></script>
 
     <title>작성</title>
 </head>
@@ -34,6 +35,18 @@
             <label>내용</label>
             <textarea class="form-control" rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
         </div>
+
+        <!-- 첨부파일 -->
+        <div>
+            <div>
+                <label>첨부파일:</label>
+                <div id="files">
+                    <!-- 추가된 파일들 write.js로 append -->
+                </div>
+                <button type="button" id="btnAdd">추가</button>
+            </div>
+        </div>
+        <!-- 첨부파일 -->
 
         <button type="submit">작성완료</button>
         <a th:href="@{/board/list}">목록</a>

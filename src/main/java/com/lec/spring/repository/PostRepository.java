@@ -25,7 +25,6 @@ public interface PostRepository {
     // from 부터 rows 개 만큼 SELECT
     List<Post> selectFromRow(int from, int rows);
 
-    // TODO 지역별 postRepository
     List<Post> selectFromRowArea(int from, int rows, Long areacode);
 
     // 전체 글의 개수

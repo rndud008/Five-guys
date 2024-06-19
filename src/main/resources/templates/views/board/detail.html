@@ -37,6 +37,17 @@
             <span th:utext="${post.content}"></span>
         </div>
 
+        <!-- 첨부파일목록 -->
+        <div>
+            <label>첨부파일:</label>
+            <!-- 첨부파일 이름, 다운로드 링크 -->
+            <ul>
+                <li th:each="attachment : ${post.fileList}">
+                    <a th:href="@{/board/download(id=${attachment.id})}" th:text="${attachment.sourcename}">aaa.jpg</a>
+                </li>
+            </ul>
+        </div>
+        <!-- 첨부파일목록 -->
 
         <!-- 하단 링크 -->
         <div>

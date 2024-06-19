@@ -1,11 +1,10 @@
 package com.lec.spring.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +19,10 @@ public class Post {
     private Long viewcnt;
 
     private User user;
-//    private Areacode areacode;
+    //    private Areacode areacode;
 //    필요한가?
+    @ToString.Exclude
+    @Builder.Default
+    private List<Attachment> fileList = new ArrayList<>();
 
 }
