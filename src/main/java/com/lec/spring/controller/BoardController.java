@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
-// TODO CKEDITOR 추가(WRITE, UPDATE), 첨부파일(UPDATE, DETAIL, WRITE), 좋아요 기능(DETAIL, LIST)
+// TODO CKEDITOR 추가(WRITE, UPDATE), 좋아요 기능(DETAIL, LIST)
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -28,9 +28,7 @@ public class BoardController {
 
     @PostMapping("/write")
     public String writeOk(@RequestParam Map<String, MultipartFile> files, Post post, Model model){
-        // TODO files 가 안넘어옴 파일 데이터에 안드감
-        // TODO 수정페이지 파일 추가, 삭제 x
-        System.out.println(post);
+
         model.addAttribute("result", boardService.write(post, files));
         return "board/writeOk";
     }
@@ -69,7 +67,7 @@ public class BoardController {
     }
 
     @PostMapping("/update")
-    public String updateOk(Map<String, MultipartFile> files, Post post, Long[] delfile, Model model){
+    public String updateOk(@RequestParam Map<String, MultipartFile> files, Post post, Long[] delfile, Model model){
         model.addAttribute("result", boardService.update(post, files, delfile));
 
         return "board/updateOk";

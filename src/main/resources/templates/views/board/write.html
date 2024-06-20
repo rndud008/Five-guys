@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/ckeditor5/build/ckeditor.js}"></script>
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>-->
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/translations/ko.js"></script>-->
     <script th:src="@{/js/write.js}"></script>
+
+    <style>
+        .ck.ck-editor {
+            max-width: 600px;
+        }
+        .ck-editor__editable {
+            min-height: 300px;
+        }
+    </style>
 
     <title>작성</title>
 </head>
@@ -12,7 +25,7 @@
 <div>
     <h2>작성</h2>
     <hr>
-    <form th:action="@{/board/write}" method="post">
+    <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
         <div>
             <label>작성자</label>
             <span></span>
@@ -33,7 +46,19 @@
 
         <div>
             <label>내용</label>
-            <textarea class="form-control" rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
+            <textarea rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
+
+            <script>
+                ClassicEditor
+                    .create(document.querySelector('#content'), {
+                        language: 'ko',
+                    })
+                    .catch( error => {
+                        console.error(error);
+                    });
+            </script>
+
+
         </div>
 
         <!-- 첨부파일 -->
@@ -41,7 +66,7 @@
             <div>
                 <label>첨부파일:</label>
                 <div id="files">
-                    <!-- 추가된 파일들 write.js로 append -->
+
                 </div>
                 <button type="button" id="btnAdd">추가</button>
             </div>

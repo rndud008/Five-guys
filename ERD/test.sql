@@ -134,6 +134,9 @@ INSERT INTO comment (user_id, travel_diary_post_id, content) VALUES
 DELETE FROM comment;
 ALTER TABLE comment Auto_Increment = 1;
 
+DELETE FROM travel_diary_post;
+ALTER TABLE travel_diary_post Auto_Increment = 1;
+
 SELECT c.id, c.user_id, c.travel_diary_post_id, c.content, c.regdate
 FROM comment c, travel_diary_post p
 WHERE c.user_id = p.id AND c.travel_diary_post_id = 2;

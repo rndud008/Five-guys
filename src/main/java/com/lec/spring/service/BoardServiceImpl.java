@@ -66,6 +66,7 @@ public class BoardServiceImpl implements BoardService {
 
         for(Map.Entry<String, MultipartFile> e : files.entrySet()){
 
+            System.out.println("e : " + e);
             // name="upfile##" 인 경우만 첨부파일 등록
             if(!e.getKey().startsWith("upfile")) continue;
 
