@@ -1,9 +1,9 @@
 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 var markers = []; // 모든 마커를 담을 배열
 var categoryMarkers = []; // 카테고리 검색 결과 마커를 담을 배열
-var travelPosts = /*[[${travelPosts}]]*/ []; // Thymeleaf 템플릿 문법으로 데이터 출력
+var post = /*[[${travelPosts}]]*/ []; // Thymeleaf 템플릿 문법으로 데이터 출력
 
-var centerCoords = new kakao.maps.LatLng(travelPosts[0].mapy, travelPosts[0].mapx); // 초기 중심 좌표
+var centerCoords = new kakao.maps.LatLng(post.mapy, post.mapx); // 초기 중심 좌표
 
 var mapOption = {
     center: centerCoords,
@@ -13,7 +13,7 @@ var mapOption = {
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 // 기존 마커 표시
-travelPosts.forEach(function (post) {
+post.forEach(function (post) {
     var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
     var marker = new kakao.maps.Marker({
         position: markerPosition,

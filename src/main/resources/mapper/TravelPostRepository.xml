@@ -36,4 +36,10 @@
           AND tt.id = #{travelClassDetail.travelType.id}
     </select>
 
+    <select id="findPostByContentId">
+        select *
+        FROM travel_post
+        WHERE id = #{id}
+    </select>
+
 </mapper>
