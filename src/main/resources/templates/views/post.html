@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title th:text="${post.title}"></title>
+
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/map.css">
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
+</head>
+<body>
+<div id="wrap">
+    <!-- header -->
+    <header class="line scroll">
+    </header>
+    <!-- //header -->
+
+    <!-- container -->
+    <main>
+        <!-- intro -->
+
+        <!-- //intro -->
+
+        <section class="sub">
+            <div class="view tour">
+                <article class="content">
+                    <div class="top-wrap">
+                        <div class="tit">
+                            <h2 th:text="${post.title}"></h2>
+                            <span class="txt" th:text="${post.addr1}"></span>
+                        </div>
+                        <div class="util">
+                            <a th:if="${!#strings.isEmpty(post.homepage)}"
+                               th:href="${post.homepage}"
+                               target="_blank"
+                               class="btn-home">홈페이지</a>
+                        </div>
+                    </div>
+                    <div class="gallery">
+                        <img th:if="${!#strings.isEmpty(post.firstimage)}"
+                            th:src="${post.firstimage}" alt="" >
+                    </div>
+
+                    <div class="title">
+                        <h4>상세정보</h4>
+                    </div>
+                    <div class="detail">
+                        <p class="desc" th:text="${post.overview}"></p>
+
+                        <h5 class="hide">지도보기</h5>
+                        <div class="map_wrap">
+                            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+                            <ul id="category">
+                                <li id="CE7" data-order="0">
+                                    <span class="category_bg coffee"></span>
+                                    카페
+                                </li>
+                                <li id="FD6" data-order="1">
+                                    <span class="category_bg food"></span>
+                                    음식점
+                                </li>
+                                <li id="PK6" data-order="2">
+                                    <span class="category_bg park"></span>
+                                    주차장
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <h5 class="hide">세부정보</h5>
+                        <dl class="info">
+                            <dt>홈페이지</dt>
+                            <dd class="homepage" th:utext= "${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}"></dd>
+                            <dt>주소</dt>
+                            <dd th:utext= "${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
+                            <dt>문의 및 안내</dt>
+                            <dd th:text= "${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}" ></dd>
+                            <dt>이용시간</dt>
+                            <dd th:text="${#strings.isEmpty(post.usetime) ? '상시' : post.usetime}"></dd>
+                            <dt>휴일</dt>
+                            <dd th:text="${#strings.isEmpty(post.restdate) ? '없음' : post.restdate}"></dd>
+                            <dt>주차시설</dt>
+                            <dd th:text="${#strings.isEmpty(post.parking) ? '없음' : post.parking}"></dd>
+                        </dl>
+                    </div>
+
+                    <div class="ad ad-c">
+                    </div>
+
+                    <div class="title justify">
+                        <h4>관련 블로그 리뷰</h4>
+                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
+                    </div>
+                    <div class="blog">
+                        <ul id="blogList">
+                            <li>
+                                <div>
+                                    <a href="https://blog.naver.com/karo/223226266787" target="_blank" class="tit">
+                                        <strong><b>경주</b> <b>아이</b>와가볼만한곳추천 <b>경주세계자동차박물관</b> 19개월<b>아기</b></strong>
+                                        <span>2023.10.02</span>
+                                    </a>
+                                    <a href="https://blog.naver.com/karo/223226266787" target="_blank" class="desc">
+                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에 <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여... 										</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <a href="https://blog.naver.com/kko_eun/223330985723" target="_blank" class="tit">
+                                        <strong><b>경주</b> 8개월,36개월 <b>아기</b>랑 갈만한곳 <b>경주세계자동차박물관</b></strong>
+                                        <span>2024.01.23</span>
+                                    </a>
+                                    <a href="https://blog.naver.com/kko_eun/223330985723" target="_blank" class="desc">
+                                        생겼더라고요,ㅎㅎ <b>자동차</b>구경도 하고 <b>아이</b>들이 좋아하는 치킨도 먹고 하면 좋을 거 같다는 생각이 들기도 했어요 <b>경주</b> 8개월,36개월 <b>아기</b>랑 갈만한곳 <b>경주세계자동차박물관</b> 원래라면 다 보고 나오는 코스에... 										</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <a href="https://blog.naver.com/comcommom/223082183627" target="_blank" class="tit">
+                                        <strong><b>경주 세계자동차박물관</b> 주말... 다녀온 찐후기 (feat.16개월<b>아기</b>)</strong>
+                                        <span>2023.04.22</span>
+                                    </a>
+                                    <a href="https://blog.naver.com/comcommom/223082183627" target="_blank" class="desc">
+                                        맘 먹고 가야하는 그런 곳인데 가까워서 넘 좋았다 <b>박물관</b>에 직접 걸어가기엔 다소 거리가 있어... #16개월<b>아기</b> #18개월<b>아기</b> #<b>경주</b>나들이<b>아기</b>랑 #<b>경주세계자동차박물관</b> #<b>자동차</b>구경<b>아기</b>랑 #<b>자동차</b>덕후... 										</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <a href="https://blog.naver.com/cyy0201/223476489357" target="_blank" class="tit">
+                                        <strong>[<b>아기</b>랑 여행] <b>경주</b>, <b>세계자동차박물관</b> &amp; 3층 카페아우토... </strong>
+                                        <span>2024.06.12</span>
+                                    </a>
+                                    <a href="https://blog.naver.com/cyy0201/223476489357" target="_blank" class="desc">
+                                        <b>경주세계자동차박물관</b>은 2017년에 개관했고, 요즘 <b>자동차</b>를 구경한다기보다, <b>박물관</b>인 만큼 <b>자동차</b>... 요구하는 <b>아이</b>가 있는 부모들은 좀 난감할듯? 우리 <b>아이</b>야... 사줄까? 라고 말만 안하면 사달라고 하지... 										</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <a href="https://blog.naver.com/skfcl0844/223369643359" target="_blank" class="tit">
+                                        <strong><b>경주</b> <b>아기</b>랑 실내 놀이시설이 있는 <b>세계자동차박물관</b> 후기</strong>
+                                        <span>2024.03.01</span>
+                                    </a>
+                                    <a href="https://blog.naver.com/skfcl0844/223369643359" target="_blank" class="desc">
+                                        있어 <b>아이</b>와 <b>경주</b> 여행 코스로 오기 좋을 것 같아요 <b>박물관</b> 앞 전용주차장이 있고 보문 관광단지 주차... 다양한 <b>자동차</b>들을 한 곳에 모아둔 <b>경주</b> <b>아기</b>랑 가볼만한 곳 으로 <b>세계자동차박물관</b> 에서 이색체험... 										</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+    <!-- //container -->
+
+    <!-- footer -->
+    <footer>
+        <div>
+            <div class="inner">
+                <div class="copy">
+                    <p>COPYRIGHT (C) 2024 IVORYSTORY. ALL RIGHT RESERVED.</p>
+                    <a href="mailto:dslice@naver.com" class="btn-contact">Contact Us</a>
+                </div>
+
+                <!-- <div class="provider"></div> -->
+                <!-- <button type="button" class="btn-top on" id="btnTop">상단으로 이동</button> -->
+            </div>
+
+
+        </div>
+    </footer>
+</div>
+<script th:inline="javascript">
+    var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+    var markers = []; // 모든 마커를 담을 배열
+    var categoryMarkers = []; // 카테고리 검색 결과 마커를 담을 배열
+    var post = /*[[${post}]]*/ {};
+
+    var centerCoords = new kakao.maps.LatLng(post.mapy, post.mapx); // 초기 중심 좌표
+
+    var mapOption = {
+        center: centerCoords,
+        level: 2 // 지도의 확대 레벨
+    };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 기존 마커 표시
+        var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+        });
+        marker.setMap(map); // 마커를 지도에 표시
+        markers.push(marker); // markers 배열에 추가
+
+    // 각 카테고리에 클릭 이벤트를 등록합니다
+    var category = document.getElementById('category'),
+        children = category.children;
+
+    for (var i = 0; i < children.length; i++) {
+        children[i].onclick = onClickCategory;
+    }
+
+
+    // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
+    function changeCategoryClass(el) {
+        for (var i = 0; i < children.length; i++) {
+            children[i].className = '';
+        }
+        if (el) {
+            el.className = 'on';
+        }
+    }
+
+    // 카테고리를 클릭했을 때 호출되는 함수입니다
+    function onClickCategory() {
+        var id = this.id,
+            className = this.className;
+
+        hidePlaceInfo();
+
+        if (className === 'on') {
+            currCategory = ''; // 현재 카테고리 초기화
+            changeCategoryClass(); // 모든 카테고리 클래스 제거
+            removeCategoryMarkers(); // 카테고리 검색 결과 마커 제거
+        } else {
+            currCategory = id; // 현재 카테고리 설정
+            changeCategoryClass(this); // 해당 카테고리 클래스 설정
+            searchPlaces(); // 장소 검색 실행
+        }
+    }
+
+    // 카테고리 검색을 요청하는 함수입니다
+    function searchPlaces() {
+        if (!currCategory) {
+            return;
+        }
+
+        // 기존 카테고리 검색 결과 마커를 제거합니다
+        removeCategoryMarkers();
+
+        // 카테고리 검색 요청
+        var ps = new kakao.maps.services.Places(map);
+        ps.categorySearch(currCategory, placesSearchCB, {useMapBounds: true});
+    }
+
+    // 장소 검색이 완료된 후 호출되는 콜백 함수입니다
+    function placesSearchCB(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+            // 검색 결과가 정상적으로 나왔을 때 마커 표시
+            displayCategoryPlaces(data);
+        } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+            // 검색 결과가 없을 때 처리
+            console.log("검색 결과가 없습니다.");
+        } else if (status === kakao.maps.services.Status.ERROR) {
+            // 검색 중 오류 발생 시 처리
+            console.error("검색 중 오류가 발생했습니다.");
+        }
+    }
+
+    // 카테고리 검색 결과 마커를 모두 제거합니다
+    function removeCategoryMarkers() {
+        for (var i = 0; i < categoryMarkers.length; i++) {
+            categoryMarkers[i].setMap(null);
+        }
+        categoryMarkers = []; // 배열 초기화
+    }
+
+    // 카테고리 검색 결과를 지도에 표시하는 함수입니다
+    function displayCategoryPlaces(places) {
+        for (var i = 0; i < places.length; i++) {
+            var marker = addCategoryMarker(places[i]);
+            categoryMarkers.push(marker); // categoryMarkers 배열에 추가
+        }
+    }
+
+    // 카테고리 검색 결과 마커를 생성하고 지도에 표시하는 함수입니다
+    function addCategoryMarker(place) {
+        var imageSize = new kakao.maps.Size(35, 35), // 마커 이미지의 크기
+            imageSrc = getImageSrc(currCategory), // 카테고리에 따른 마커 이미지 URL
+            imgOptions = {
+                offset: new kakao.maps.Point(18, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+            },
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+            markerPosition = new kakao.maps.LatLng(place.y, place.x);
+
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage
+        });
+
+        marker.setMap(map); // 지도에 마커 표시
+        kakao.maps.event.addListener(marker, 'click', function () {
+            displayPlaceInfo(place); // 마커 클릭 시 상세 정보 표시
+        });
+
+        return marker;
+    }
+
+    // 카테고리에 따른 마커 이미지 URL을 반환하는 함수입니다
+    function getImageSrc(category) {
+        switch (category) {
+            case 'CE7': // 카페
+                return '/img/coffee.png';
+            case 'FD6': // 음식점
+                return '/img/food.png';
+            case 'PK6': // 주차장
+                return '/img/car.png';
+            default:
+                return '';
+        }
+    }
+
+    // 클릭한 마커에 대한 장소 상세 정보를 커스텀 오버레이로 표시하는 함수입니다
+    var placeOverlay = new kakao.maps.CustomOverlay({
+        zIndex: 1
+    });
+
+    var contentNode = document.createElement('div');
+    contentNode.className = 'placeinfo_wrap';
+
+    addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
+    addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
+
+    placeOverlay.setContent(contentNode);
+
+    function displayPlaceInfo(place) {
+        var content = '<div class="placeinfo">' +
+            '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';
+
+        if (place.road_address_name) {
+            content += '    <span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
+                '  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
+        } else {
+            content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
+        }
+
+        content += '    <span class="tel">' + place.phone + '</span>' +
+            '</div>' +
+            '<div class="after"></div>';
+
+        contentNode.innerHTML = content;
+        placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+        placeOverlay.setMap(map);
+    }
+
+    function hidePlaceInfo() {
+        placeOverlay.setMap(null);
+    }
+
+    // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
+    function addEventHandle(target, type, callback) {
+        if (target.addEventListener) {
+            target.addEventListener(type, callback);
+        } else {
+            target.attachEvent('on' + type, callback);
+        }
+    }
+
+</script>
+</body>
+</html>

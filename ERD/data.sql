@@ -18,7 +18,6 @@ VALUES (1, '서울', '11B10101'),
        (39, '제주', '11G00201')
 ;
 
-
 insert into travel_type (id, name)
 values (12, '관광지'),
        (15, '축제공연행사');

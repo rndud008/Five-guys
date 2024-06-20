@@ -84,6 +84,11 @@ public class TravelPostServiceImpl implements TravelPostService {
         }// end travelTypes
     }// end saveTravelPosts
 
+    @Override
+    public TravelPost getTravelPostById(String id) throws IOException {
+        return travelPostRepository.findPostByContentId(id);
+    }
+
     public void timeUnit() {
         // API 호출 간격을 두기 위해 잠시 대기
         try {
