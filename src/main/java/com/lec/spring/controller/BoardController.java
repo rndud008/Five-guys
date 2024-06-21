@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 // TODO CKEDITOR 추가(WRITE, UPDATE), 좋아요 기능(DETAIL, LIST)
@@ -37,12 +38,14 @@ public class BoardController {
     public String detail(@PathVariable Long id, Model model){
         Post post =  boardService.detail(id);
         model.addAttribute("post", post);
-        model.addAttribute("areacode", boardService.findAreaByAreacode(post.getAreacode_id()));
+        model.addAttribute("areacode", boardService.findAreaByAreacode(post.getAreacode()));
         return "board/detail";
     }
 
     @GetMapping("/list")
     public void list(Integer page, Model model){
+        System.out.println(boardService.list(page, model));
+
         model.addAttribute("list", boardService.list(page, model));
         model.addAttribute("areacode", boardService.findAllArea());
     }

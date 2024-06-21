@@ -21,51 +21,12 @@ select * from areacode;
 
 SELECT name
 FROM areacode
-WHERE areacode = 1;
-
-
-INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
-(1, 1, '강남구'),
-(1, 2, '강동구'),
-(1, 3, '강북구'),
-(1, 4, '강서구'),
-(1, 5, '관악구'),
-(1, 6, '광진구'),
-(1, 7, '구로구'),
-(1, 8, '금천구'),
-(1, 9, '노원구'),
-(1, 10, '도봉구'),
-(1, 11, '동대문구'),
-(1, 12, '동작구'),
-(1, 13, '마포구'),
-(1, 14, '서대문구'),
-(1, 15, '서초구'),
-(1, 16, '성동구'),
-(1, 17, '성북구'),
-(1, 18, '송파구'),
-(1, 19, '양천구'),
-(1, 20, '영등포구'),
-(1, 21, '용산구'),
-(1, 22, '은평구'),
-(1, 23, '종로구'),
-(1, 24, '중구'),
-(1, 25, '중랑구'),
-(2, 1, '강화군'),
-(2, 2, '계양구'),
-(2, 3, '미추홀구'),
-(2, 4, '남동구'),
-(2, 5, '동구'),
-(2, 6, '부평구'),
-(2, 7, '서구'),
-(2, 8, '연수구'),
-(2, 9, '옹진군'),
-(2, 10, '중구');
+WHERE areacode = 9;
 
 SELECT *
-FROM sigungucode
-where areacode = 2 and sigungucode = 3;
+FROM sigungucode;
 
-INSERT INTO travel_diary_post (user_id, areacode_id, subject, content) VALUES
+INSERT INTO travel_diary_post (user_id, areacode, subject, content) VALUES
 (1, 1, '제목1', '내용1'),
 (1, 2, '제목2', '내용2'),
 (2, 1, '제목3', '내용3'),
@@ -188,16 +149,40 @@ WHERE c.user_id = u.id AND c.travel_diary_post_id = 1
 ORDER BY c.id DESC;
 
 INSERT INTO attachment(travel_diary_post_id, sourcename, filename) VALUES
-    (1, 'face01.png', 'face01.png'),
-    (1, 'face02.png', 'face02.png'),
-    (2, 'face03.png', 'face03.png'),
-    (2, 'face04.png', 'face04.png'),
-    (3, 'face05.png', 'face05.png'),
-    (3, 'face06.png', 'face06.png'),
-    (4, 'face07.png', 'face07.png'),
-    (4, 'face08.png', 'face08.png')
+(1, 'face01.png', 'face01.png'),
+(1, 'face02.png', 'face02.png'),
+(2, 'face03.png', 'face03.png'),
+(2, 'face04.png', 'face04.png'),
+(3, 'face05.png', 'face05.png'),
+(3, 'face06.png', 'face06.png'),
+(4, 'face07.png', 'face07.png'),
+(4, 'face08.png', 'face08.png')
 ;
 DELETE FROM attachment;
 ALTER TABLE attachment Auto_Increment = 1;
 
 SELECT * FROM attachment;
+
+SELECT * FROM user_travel_diary_post;
+
+INSERT INTO user_travel_diary_post
+    (user_id, travel_diary_post_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 1),
+    (3, 1)
+    ;
+
+DELETE FROM user_travel_diary_post;
+ALTER TABLE user_travel_diary_post AUTO_INCREMENT = 1;
+# WHERE user_id = 1 AND travel_diary_post_id = 2;
+
+SELECT *
+FROM user_travel_diary_post
+WHERE user_id = 1 AND travel_diary_post_id = 1;
+
+SELECT count(*)
+FROM user_travel_diary_post
+WHERE travel_diary_post_id = 1;

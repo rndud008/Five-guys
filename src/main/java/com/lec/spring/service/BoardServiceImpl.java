@@ -3,10 +3,7 @@ package com.lec.spring.service;
 import com.lec.spring.domain.Areacode;
 import com.lec.spring.domain.Attachment;
 import com.lec.spring.domain.Post;
-import com.lec.spring.repository.AreacodeRepository;
-import com.lec.spring.repository.AttachmentRepository;
-import com.lec.spring.repository.PostRepository;
-import com.lec.spring.repository.UserRepository;
+import com.lec.spring.repository.*;
 import com.lec.spring.util.U;
 import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
@@ -43,6 +40,7 @@ public class BoardServiceImpl implements BoardService {
     private UserRepository userRepository;
     private AreacodeRepository areacodeRepository;
     private AttachmentRepository attachmentRepository;
+    private LikeRepository likeRepository;
 
     @Autowired
     public BoardServiceImpl(SqlSession sqlSession){
@@ -50,6 +48,7 @@ public class BoardServiceImpl implements BoardService {
         userRepository = sqlSession.getMapper(UserRepository.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
         attachmentRepository = sqlSession.getMapper(AttachmentRepository.class);
+        likeRepository = sqlSession.getMapper(LikeRepository.class);
     }
 
     @Override
@@ -186,6 +185,9 @@ public class BoardServiceImpl implements BoardService {
             if (endPage >= totalPage) endPage = totalPage;
             // 해당 페이지의 글 목록 읽어오기
             list = postRepository.selectFromRow(fromRow, pageRows);
+            for(Post p : list){
+                p.setLikecnt(likeRepository.countByPost(p.getId()));
+            }
             model.addAttribute("list", list);
         } else {
             page = 0;

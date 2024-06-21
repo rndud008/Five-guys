@@ -69,10 +69,10 @@
             <tr th:each="post : ${list}">
                 <td th:text="${post.id}"></td>
                 <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}"></a> </td>
-                <td th:text="${post.user.username}">John</td>
-                <td th:text="${post.viewcnt}">23</td>
-                <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}">2021-03-21</td>
-                <td>20</td>
+                <td th:text="${post.user.username}"></td>
+                <td th:text="${post.viewcnt}"></td>
+                <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${post.likecnt}"></td>
             </tr>
             </tbody>
         </table>

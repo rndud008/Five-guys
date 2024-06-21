@@ -12,12 +12,13 @@ import java.util.List;
 @Builder
 public class Post {
     private Long id;
-    private Long areacode_id;
+    private Long areacode;
     private String subject;
     private String content;
     private LocalDateTime regdate;
     private Long viewcnt;
 
+    private Long likecnt;
     private User user;
     //    private Areacode areacode;
 //    필요한가?

@@ -6,6 +6,43 @@ $(function (){
     // 현재 글의 id 값
     const id = $("input[name='id']").val().trim();
 
+
+    LoadLike(id);  // 좋아요 카운트 가져오기
+
+    $("#btnLike").click(function (){
+
+        // 현재 글의 id 값
+        let id = $("input[name='id']").val().trim();
+        // 현재 글의 유저 id 값
+        let uid = $("input[name='uid']").val().trim();
+
+        const data = {
+            "travel_diary_post_id": id,
+            "user_id": 1,
+        }
+
+        $.ajax({
+            url: "/like/click",
+            type: "POST",
+            data: data,
+            cache: false,
+            success: function () {
+                LoadLike(id);  // 좋아요 업데이트
+            }
+        });
+    })
+
+function LoadLike(travel_diary_post_id){
+    $.ajax({
+        url: "/like/count/" + travel_diary_post_id,
+        type: "GET",
+        cache: false,
+        success: function (result) {
+            $("#cntLike").text(result);
+        }
+    });
+}
+
     // 현재 글의 댓글들을 불러온다
     LoadComment(id);
 
