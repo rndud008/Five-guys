@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lec.spring.repository.LastCallApiDataRepository">
-    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.LastCallApiData"
+<mapper namespace="com.lec.spring.repository.LastCallApiDateRepository">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.LastCallApiDate"
         useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into last_call_api_date
             (url)
@@ -12,12 +12,12 @@
 
     </insert>
 
-    <select id="findAll" resultType="com.lec.spring.domain.LastCallApiData">
+    <select id="findAll" resultType="com.lec.spring.domain.LastCallApiDate">
         select *
         from last_call_api_date
     </select>
 
-    <select id="findByUrl" resultType="com.lec.spring.domain.LastCallApiData">
+    <select id="findByUrl" resultType="com.lec.spring.domain.LastCallApiDate">
         select *
         from last_call_api_date
         where url = #{url}

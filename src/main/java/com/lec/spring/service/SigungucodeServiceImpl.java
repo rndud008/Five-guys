@@ -41,6 +41,11 @@ public class SigungucodeServiceImpl implements SigungucodeService {
         return sigungucodeRepository.findByAreacode(areacode);
     }
 
+    @Override
+    public Sigungucode selectedAreacodeBySigungucode(Areacode areacode, Long sigungucode) {
+        return sigungucodeRepository.findAreacodeBySigungucode(areacode, sigungucode);
+    }
+
     public void saveSigungucodes() throws IOException {
         List<Areacode> areacodes = areacodeRepository.findAll();
 

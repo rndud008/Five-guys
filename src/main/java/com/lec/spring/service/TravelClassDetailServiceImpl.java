@@ -1,17 +1,16 @@
 package com.lec.spring.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.TravelClassDetail;
 import com.lec.spring.domain.TravelType;
-import com.lec.spring.repository.LastCallApiDataRepository;
+import com.lec.spring.repository.LastCallApiDateRepository;
 import com.lec.spring.repository.TravelClassDetailRepository;
 import com.lec.spring.repository.TravelTypeRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -24,7 +23,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     private String apikey;
     private TravelTypeRepository travelTypeRepository;
     private TravelClassDetailRepository travelClassDetailRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDataRepository;
     private DataService dataService;
     private TravelClassTransacionService travelClassTransacionService;
 
@@ -33,7 +32,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     public TravelClassDetailServiceImpl(SqlSession sqlSession, DataService dataService, TravelClassTransacionService travelClassTransacionService) {
         travelTypeRepository = sqlSession.getMapper(TravelTypeRepository.class);
         travelClassDetailRepository = sqlSession.getMapper(TravelClassDetailRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         this.dataService = dataService;
         this.travelClassTransacionService = travelClassTransacionService;
     }
@@ -44,7 +43,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
         List<TravelType> travelTypes = travelTypeRepository.findAll();
         System.out.println("travelTypes 시작");
 
-        LastCallApiData lastCallApiData = new LastCallApiData();
+        LastCallApiDate lastCallApiData = new LastCallApiDate();
         for (TravelType travelType : travelTypes) {
 
 
@@ -92,7 +91,17 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
         return travelClassDetailRepository.findTravelTypeIdByDecode(travelType,decode);
     }
 
-    public void lastSave(TravelType travelType, LastCallApiData lastCallApiData) throws IOException, URISyntaxException {
+    @Override
+    public List<TravelClassDetail> selectedTravelTypeByCodeList(TravelType travelType, String code) {
+        return travelClassDetailRepository.findTravelTypeByCodeList(travelType, code);
+    }
+
+    @Override
+    public TravelClassDetail selectedByTravelTypeId(TravelType travelType) {
+        return travelClassDetailRepository.findByTravelTypeId(travelType);
+    }
+
+    public void lastSave(TravelType travelType, LastCallApiDate lastCallApiData) throws IOException, URISyntaxException {
         String apiUrl2 = null;
         JsonNode items2 = null;
 

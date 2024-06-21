@@ -11,4 +11,7 @@ public class HomeController {
         System.out.println("[실행확인]: home.html");
         return "home";
     }
+
+    @GetMapping("/navbar")
+    public void nvabar(){}
 }

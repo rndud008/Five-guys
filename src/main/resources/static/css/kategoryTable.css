@@ -3,8 +3,13 @@
 .region-category-container {
     background-color: #cc18186c;
     padding: 20px;
+}
+
+.category-container div ul,
+.region-category-container ul {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .category-item {
@@ -13,46 +18,49 @@
     padding: 10px 0;
 }
 
-.region-category-link,
-.category-link {
-    display: flex;
+.region-category-list,
+.category-list {
+    display: block;
     align-items: center;
-    text-decoration: none;
     color: #333;
-
 }
 
 .small-container,
 .region-subcategory-container,
 .middle-container {
-    display: flex;
-    list-style-type: none;
+    display: none;
     padding: 0;
     margin: 0;
-    flex-wrap: wrap;
     justify-content: flex-start;
     flex: 1 0 20%;
 }
 
-.category-link,
-.region-category-link {
+.small-container ul,
+.region-subcategory-container ul,
+.middle-container ul {
+    display: flex;
+    list-style-type: none;
+    flex-wrap: wrap;
+}
+
+.category-list,
+.region-category-list {
     text-decoration: none;
     color: #555;
     display: block;
     padding: 10px;
 }
 
-.small-link,
-.region-subcategory-link,
-.middle-link {
-    text-decoration: none;
+.small-list,
+.region-subcategory-list,
+.middle-list {
     color: #555;
     display: block;
     padding: 10px;
 }
 
-.category-selected a,
-.region-selected a {
-    text-decoration: none;
-    color: black;
+.category-selected li,
+.region-selected li {
+    display: inline-block;
 }
+

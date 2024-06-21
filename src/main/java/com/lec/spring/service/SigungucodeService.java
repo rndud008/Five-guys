@@ -13,4 +13,6 @@ public interface SigungucodeService {
 
     List<Sigungucode> selectedByAreacode(Long areacode);
 
+    Sigungucode selectedAreacodeBySigungucode(Areacode areacode, Long sigungucode);
+
 }

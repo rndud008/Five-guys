@@ -2,7 +2,7 @@ package com.lec.spring.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.lec.spring.domain.BlogReview;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.TravelPost;
 import com.lec.spring.repository.BlogReviewRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -21,7 +21,7 @@ public class BlogReviewTransacionService {
     }
 
     @Transactional
-    public void itemSave(JsonNode item, TravelPost travelPost, LastCallApiData lastCallApiData){
+    public void itemSave(JsonNode item, TravelPost travelPost, LastCallApiDate lastCallApiData){
         BlogReview blogReview = new BlogReview();
         blogReview.setTitle(item.get("title").asText());
         blogReview.setLink(item.get("link").asText());

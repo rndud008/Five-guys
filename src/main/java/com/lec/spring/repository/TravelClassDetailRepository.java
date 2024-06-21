@@ -22,9 +22,11 @@ public interface TravelClassDetailRepository extends GenericRepository<TravelCla
     TravelClassDetail findDecodeByCode(String code, String decode);
     // 특정 여행하위유형 찾기
     TravelClassDetail findByTravelTypeId(@Param("travelType")TravelType travelType);
-
     TravelClassDetail findTravelTypeIdByCode(@Param("travelType") TravelType travelType, @Param("code") String code);
     List<TravelClassDetail> findTravelTypeIdByDecode(@Param("travelType") TravelType travelType, @Param("decode") String decode);
+    List<TravelClassDetail> findTravelTypeByCodeList(@Param("travelType") TravelType travelType, @Param("code") String code);
+    // 여행타입 code 유형의 리스트
     List<TravelClassDetail> findTravelTypeByCodeAndDecodeList(@Param("travelType")TravelType travelType, String code, String decode);
+    // 여행타입 중분류, 소분류 code 와 decode 포함 리스트
 
 }

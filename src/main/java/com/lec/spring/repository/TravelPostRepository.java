@@ -14,15 +14,24 @@ public interface TravelPostRepository {
     // 특정 여행타입 정보세부 삭제.
     List<TravelPost> findAll();
     // 네이버 블로그 데이터 주입용
-    List<TravelPost> findTravelTypeByPostAll(@Param("travelClassDetail") TravelClassDetail travelClassDetail);
-    // 특정 여행 타입 전체정보 조회
     List<TravelPost> findAreacodeAndTravelType(Sigungucode sigungucode, @Param("travelClassDetail") TravelClassDetail travelClassDetail);
     // 특정 지역 포함 여행타입 전체정보 조회
-    List<TravelPost> findTravelTypeByTitle(@Param("travelClassDetail") TravelClassDetail travelClassDetail, String title);
+    List<TravelPost> findTravelTypeByTitleList(@Param("travelClassDetail")TravelClassDetail travelClassDetail, String title);
     // 특정 여행타입 정보 제목조회 <검색용>
     List<TravelPost> findTravelTypeByModified(@Param("travelClassDetail") TravelClassDetail travelClassDetail, String modifiedTime);
     // 특정 여행정보 업데이트 리스트 -> last api 활용예정?
     TravelPost findByContentIdAndType(String contentid,@Param("travelClassDetail") TravelClassDetail travelClassDetail);
     // 특정 콘텐츠id 여행타입 을 포함한 정보 조회 <블로그,공통,소개,반복 api 활용예정.>
+    List<TravelPost> findTravelTypeByAreacodeList(
+            @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList,
+            @Param("sigungucodeList") List<Sigungucode> sigungucodeList);
+    // 특정타입 과 해당지역 시군구리스트
+
+    List<TravelPost> findTravelTypeByAreacodeAndSigungucodeList(
+            @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList,
+            @Param("sigungucode") Sigungucode sigungucode);
+    // 특정타입 과 해당지역 단일시군구 리스트
+    List<TravelPost> findByTravelTypeList(@Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList);
+    // 특정 여행 타입 전체정보 조회
 
 }

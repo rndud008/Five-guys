@@ -1,17 +1,15 @@
 package com.lec.spring.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lec.spring.domain.BlogReview;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.TravelPost;
 import com.lec.spring.repository.BlogReviewRepository;
-import com.lec.spring.repository.LastCallApiDataRepository;
+import com.lec.spring.repository.LastCallApiDateRepository;
 import com.lec.spring.repository.TravelPostRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -26,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class BlogReviewServiceImpl implements BlogReviewService {
 
     private TravelPostRepository travelPostRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDataRepository;
     private BlogReviewRepository blogReviewRepository;
     private BlogReviewTransacionService blogReviewTransacionService;
     private DataService dataService;
@@ -38,7 +36,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
     @Autowired
     public BlogReviewServiceImpl(SqlSession sqlSession, DataService dataService, BlogReviewTransacionService blogReviewTransacionService){
         travelPostRepository = sqlSession.getMapper(TravelPostRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         blogReviewRepository = sqlSession.getMapper(BlogReviewRepository.class);
         this.dataService = dataService;
         this.blogReviewTransacionService = blogReviewTransacionService;
@@ -73,7 +71,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
                 System.out.println(responseBody);
 
                 if (items != null){
-                    LastCallApiData lastCallApiData = new LastCallApiData();
+                    LastCallApiDate lastCallApiData = new LastCallApiDate();
                     lastCallApiData.setUrl(apiURL);
                     lastCallApiDataRepository.save(lastCallApiData);
                     for (JsonNode item : items){

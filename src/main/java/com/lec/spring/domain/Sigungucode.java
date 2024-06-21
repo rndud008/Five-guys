@@ -14,5 +14,4 @@ public class Sigungucode {
     private Areacode areacode;
     private Long sigungucode;
     private String name;
-
 }

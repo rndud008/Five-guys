@@ -3,16 +3,15 @@ package com.lec.spring.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.lec.spring.domain.*;
 import com.lec.spring.repository.*;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class TravelPostServiceImpl implements TravelPostService {
@@ -23,7 +22,7 @@ public class TravelPostServiceImpl implements TravelPostService {
     private TravelPostRepository travelPostRepository;
     private AreacodeRepository areacodeRepository;
     private SigungucodeRepository sigungucodeRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDataRepository;
     private DataService dataService;
     private TravelPostTransacionService travelPostTransacionService;
 
@@ -37,7 +36,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         travelPostRepository = sqlSession.getMapper(TravelPostRepository.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
         sigungucodeRepository = sqlSession.getMapper(SigungucodeRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         this.dataService = dataService;
         this.travelPostTransacionService = travelPostTransacionService;
     }
@@ -45,23 +44,21 @@ public class TravelPostServiceImpl implements TravelPostService {
     @Override
     public void saveTravelPosts() throws IOException, URISyntaxException {
 
-        LastCallApiData detailCommon1 = new LastCallApiData(); // 공통정보 url
-        LastCallApiData detailIntro1 = new LastCallApiData(); // 소개정보 url
-        LastCallApiData detailInfo1 = new LastCallApiData(); // 반복정보 url
+        LastCallApiDate detailCommon1 = new LastCallApiDate(); // 공통정보 url
+        LastCallApiDate detailIntro1 = new LastCallApiDate(); // 소개정보 url
+        LastCallApiDate detailInfo1 = new LastCallApiDate(); // 반복정보 url
 
         List<TravelType> travelTypes = travelTypeRepository.findAll();
         System.out.println("travelTypes 시작");
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=1000&pageNo=10&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=1000&pageNo=13&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
             JsonNode items = null;
 
             items = dataService.fetchApiData(apiUrl);
-
-//            timeUnit();
 
             if (items != null) {
 
@@ -78,21 +75,41 @@ public class TravelPostServiceImpl implements TravelPostService {
                         System.out.println("item 저장 실패");
                     }
 
-//                    timeUnit();
                 }// end item
             }//end items if문
         }// end travelTypes
     }// end saveTravelPosts
 
-    public void timeUnit() {
-        // API 호출 간격을 두기 위해 잠시 대기
+    @Override
+    public List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail, String title) {
+
+        List<TravelPost> travelPostList = null;
         try {
-            TimeUnit.MILLISECONDS.sleep(1000);
-            System.out.println("timeUnit 실행");
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            travelPostList = travelPostRepository.findTravelTypeByTitleList(travelClassDetail, title);
+            System.out.println("Result size: " + travelPostList.size());
+            System.out.println(travelClassDetail.getTravelType().getId());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace(); // 더 자세한 로그 출력
         }
+        return travelPostList;
+
     }
 
+    @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeList(List<TravelClassDetail> travelClassDetailList,
+                                                             List<Sigungucode> sigungucodeList) {
+        return travelPostRepository.findTravelTypeByAreacodeList(travelClassDetailList,sigungucodeList);
+    }
+
+    @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList, sigungucode);
+    }
+
+    @Override
+    public List<TravelPost> selectedByTravelTypeList( List<TravelClassDetail> travelClassDetailList) {
+        return travelPostRepository.findByTravelTypeList(travelClassDetailList);
+    }
 
 }
