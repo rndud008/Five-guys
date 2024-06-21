@@ -4,14 +4,16 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title th:text="${post.title}"></title>
 
     <link rel="stylesheet" href="/css/detail.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
 </head>
@@ -19,40 +21,47 @@
 <div id="wrap">
     <!-- header -->
     <header class="line scroll">
+        <div>
+            <h1 class="logo"><a href="/">로고</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="/festival.html"><span>관광지</span></a></li>
+                    <li><a href="/festival.html"><span>축제·공연·행사</span></a></li>
+                    <li><a href="/festival.html"><span>게시판</span></a></li>
+                </ul>
+            </nav>
+            <h1 class="login"><a href="/">로그인</a></h1>
+        </div>
     </header>
     <!-- //header -->
 
-    <!-- container -->
+    <div class="bg-top"></div>
+
+
     <main>
-        <!-- intro -->
-
-        <!-- //intro -->
-
         <section class="sub">
             <div class="view tour">
                 <article class="content">
                     <div class="top-wrap">
                         <div class="tit">
-                            <h2 th:text="${post.title}"></h2>
-                            <span class="txt" th:text="${post.addr1}"></span>
-                        </div>
-                        <div class="util">
-                            <a th:if="${!#strings.isEmpty(post.homepage)}"
-                               th:href="${post.homepage}"
-                               target="_blank"
-                               class="btn-home">홈페이지</a>
+                            <h2 th:utext="${post.title}"></h2>
+                            <h1 class="txt"
+                                th:text="${#strings.substring(post.eventstartdate, 2, 4)} + '.' + ${#strings.substring(post.eventstartdate, 4, 6)} + '.' + ${#strings.substring(post.eventstartdate, 6, 8)}+ ' ~ '+${#strings.substring(post.eventenddate, 2, 4)} + '.' + ${#strings.substring(post.eventenddate, 4, 6)} + '.' + ${#strings.substring(post.eventenddate, 6, 8)}"></h1>
                         </div>
                     </div>
+
                     <div class="gallery">
                         <img th:if="${!#strings.isEmpty(post.firstimage)}"
-                            th:src="${post.firstimage}" alt="" >
+                             th:src="${post.firstimage}" alt="">
                     </div>
+
 
                     <div class="title">
                         <h4>상세정보</h4>
                     </div>
                     <div class="detail">
-                        <p class="desc" th:text="${post.overview}"></p>
+                        <p class="desc" th:utext="${post.overview}"></p>
+
 
                         <h5 class="hide">지도보기</h5>
                         <div class="map_wrap">
@@ -77,17 +86,20 @@
                         <h5 class="hide">세부정보</h5>
                         <dl class="info">
                             <dt>홈페이지</dt>
-                            <dd class="homepage" th:utext= "${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}"></dd>
+                            <dd class="homepage"
+                                th:utext="${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}"></dd>
                             <dt>주소</dt>
-                            <dd th:utext= "${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
+                            <dd th:utext="${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
                             <dt>문의 및 안내</dt>
-                            <dd th:text= "${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}" ></dd>
-                            <dt>이용시간</dt>
-                            <dd th:text="${#strings.isEmpty(post.usetime) ? '상시' : post.usetime}"></dd>
-                            <dt>휴일</dt>
-                            <dd th:text="${#strings.isEmpty(post.restdate) ? '없음' : post.restdate}"></dd>
-                            <dt>주차시설</dt>
-                            <dd th:text="${#strings.isEmpty(post.parking) ? '없음' : post.parking}"></dd>
+                            <dd th:utext="${#strings.isEmpty(post.tel) ? '없음' : post.tel}"></dd>
+                            <dt>축제/행사 장소</dt>
+                            <dd th:utext="${#strings.isEmpty(post.addr2) ? '없음' : post.addr2}"></dd>
+                            <dt>시간</dt>
+                            <dd th:utext="${#strings.isEmpty(post.playtime) ? '축제별 상이' : post.playtime}"></dd>
+                            <dt>이용요금</dt>
+                            <dd th:utext="${#strings.isEmpty(post.usetimefestival) ? '없음' : post.usetimefestival}"></dd>
+                            <dt>축제/행사 내용</dt>
+                            <dd class="full" th:utext="${#strings.isEmpty(post.infotext) ? '없음' : post.infotext}"></dd>
                         </dl>
                     </div>
 
@@ -96,7 +108,8 @@
 
                     <div class="title justify">
                         <h4>관련 블로그 리뷰</h4>
-                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
+                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관"
+                           target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
                     </div>
                     <div class="blog">
                         <ul id="blogList">
@@ -107,7 +120,8 @@
                                         <span>2023.10.02</span>
                                     </a>
                                     <a href="https://blog.naver.com/karo/223226266787" target="_blank" class="desc">
-                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에 <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여... 										</a>
+                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에
+                                        <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여... </a>
                                 </div>
                             </li>
                             <li>
@@ -117,7 +131,8 @@
                                         <span>2024.01.23</span>
                                     </a>
                                     <a href="https://blog.naver.com/kko_eun/223330985723" target="_blank" class="desc">
-                                        생겼더라고요,ㅎㅎ <b>자동차</b>구경도 하고 <b>아이</b>들이 좋아하는 치킨도 먹고 하면 좋을 거 같다는 생각이 들기도 했어요 <b>경주</b> 8개월,36개월 <b>아기</b>랑 갈만한곳 <b>경주세계자동차박물관</b> 원래라면 다 보고 나오는 코스에... 										</a>
+                                        생겼더라고요,ㅎㅎ <b>자동차</b>구경도 하고 <b>아이</b>들이 좋아하는 치킨도 먹고 하면 좋을 거 같다는 생각이 들기도 했어요
+                                        <b>경주</b> 8개월,36개월 <b>아기</b>랑 갈만한곳 <b>경주세계자동차박물관</b> 원래라면 다 보고 나오는 코스에... </a>
                                 </div>
                             </li>
                             <li>
@@ -126,8 +141,11 @@
                                         <strong><b>경주 세계자동차박물관</b> 주말... 다녀온 찐후기 (feat.16개월<b>아기</b>)</strong>
                                         <span>2023.04.22</span>
                                     </a>
-                                    <a href="https://blog.naver.com/comcommom/223082183627" target="_blank" class="desc">
-                                        맘 먹고 가야하는 그런 곳인데 가까워서 넘 좋았다 <b>박물관</b>에 직접 걸어가기엔 다소 거리가 있어... #16개월<b>아기</b> #18개월<b>아기</b> #<b>경주</b>나들이<b>아기</b>랑 #<b>경주세계자동차박물관</b> #<b>자동차</b>구경<b>아기</b>랑 #<b>자동차</b>덕후... 										</a>
+                                    <a href="https://blog.naver.com/comcommom/223082183627" target="_blank"
+                                       class="desc">
+                                        맘 먹고 가야하는 그런 곳인데 가까워서 넘 좋았다 <b>박물관</b>에 직접 걸어가기엔 다소 거리가 있어... #16개월<b>아기</b>
+                                        #18개월<b>아기</b> #<b>경주</b>나들이<b>아기</b>랑 #<b>경주세계자동차박물관</b> #<b>자동차</b>구경<b>아기</b>랑
+                                        #<b>자동차</b>덕후... </a>
                                 </div>
                             </li>
                             <li>
@@ -137,7 +155,9 @@
                                         <span>2024.06.12</span>
                                     </a>
                                     <a href="https://blog.naver.com/cyy0201/223476489357" target="_blank" class="desc">
-                                        <b>경주세계자동차박물관</b>은 2017년에 개관했고, 요즘 <b>자동차</b>를 구경한다기보다, <b>박물관</b>인 만큼 <b>자동차</b>... 요구하는 <b>아이</b>가 있는 부모들은 좀 난감할듯? 우리 <b>아이</b>야... 사줄까? 라고 말만 안하면 사달라고 하지... 										</a>
+                                        <b>경주세계자동차박물관</b>은 2017년에 개관했고, 요즘 <b>자동차</b>를 구경한다기보다, <b>박물관</b>인 만큼
+                                        <b>자동차</b>... 요구하는 <b>아이</b>가 있는 부모들은 좀 난감할듯? 우리 <b>아이</b>야... 사줄까? 라고 말만 안하면
+                                        사달라고 하지... </a>
                                 </div>
                             </li>
                             <li>
@@ -146,8 +166,11 @@
                                         <strong><b>경주</b> <b>아기</b>랑 실내 놀이시설이 있는 <b>세계자동차박물관</b> 후기</strong>
                                         <span>2024.03.01</span>
                                     </a>
-                                    <a href="https://blog.naver.com/skfcl0844/223369643359" target="_blank" class="desc">
-                                        있어 <b>아이</b>와 <b>경주</b> 여행 코스로 오기 좋을 것 같아요 <b>박물관</b> 앞 전용주차장이 있고 보문 관광단지 주차... 다양한 <b>자동차</b>들을 한 곳에 모아둔 <b>경주</b> <b>아기</b>랑 가볼만한 곳 으로 <b>세계자동차박물관</b> 에서 이색체험... 										</a>
+                                    <a href="https://blog.naver.com/skfcl0844/223369643359" target="_blank"
+                                       class="desc">
+                                        있어 <b>아이</b>와 <b>경주</b> 여행 코스로 오기 좋을 것 같아요 <b>박물관</b> 앞 전용주차장이 있고 보문 관광단지 주차...
+                                        다양한 <b>자동차</b>들을 한 곳에 모아둔 <b>경주</b> <b>아기</b>랑 가볼만한 곳 으로 <b>세계자동차박물관</b> 에서
+                                        이색체험... </a>
                                 </div>
                             </li>
                         </ul>
@@ -164,18 +187,16 @@
         <div>
             <div class="inner">
                 <div class="copy">
-                    <p>COPYRIGHT (C) 2024 IVORYSTORY. ALL RIGHT RESERVED.</p>
+                    <p>COPYRIGHT (C) 2024 Team KT. ALL RIGHT RESERVED.</p>
                     <a href="mailto:dslice@naver.com" class="btn-contact">Contact Us</a>
                 </div>
-
-                <!-- <div class="provider"></div> -->
-                <!-- <button type="button" class="btn-top on" id="btnTop">상단으로 이동</button> -->
             </div>
-
-
         </div>
     </footer>
 </div>
+
+
+
 <script th:inline="javascript">
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var markers = []; // 모든 마커를 담을 배열
@@ -192,12 +213,12 @@
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // 기존 마커 표시
-        var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
-        var marker = new kakao.maps.Marker({
-            position: markerPosition,
-        });
-        marker.setMap(map); // 마커를 지도에 표시
-        markers.push(marker); // markers 배열에 추가
+    var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
+    var marker = new kakao.maps.Marker({
+        position: markerPosition,
+    });
+    marker.setMap(map); // 마커를 지도에 표시
+    markers.push(marker); // markers 배열에 추가
 
     // 각 카테고리에 클릭 이벤트를 등록합니다
     var category = document.getElementById('category'),
@@ -363,6 +384,22 @@
         }
     }
 
-</script>
+</script> <!--kakaomap-->
+<script>
+
+    const navbarContainer = document.querySelector('header');
+    const navbarHeight = navbarContainer.offsetHeight;
+
+    window.addEventListener('scroll', function () {
+        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
+        if (window.pageYOffset >= navbarHeight) {
+            navbarContainer.classList.add('sticky');
+        } else {
+            navbarContainer.classList.remove('sticky');
+        }
+    });
+
+</script> <!--sticky-->
+
 </body>
 </html>
