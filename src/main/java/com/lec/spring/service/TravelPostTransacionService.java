@@ -20,7 +20,7 @@ public class TravelPostTransacionService {
     private String apikey;
     private TravelPostRepository travelPostRepository;
     private TravelClassDetailRepository travelClassDetailRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDataRepository;
     private AreacodeRepository areacodeRepository;
     private SigungucodeRepository sigungucodeRepository;
     private DataService dataService;
@@ -29,7 +29,7 @@ public class TravelPostTransacionService {
     @Autowired
     public TravelPostTransacionService(SqlSession sqlSession, DataService dataService){
         travelPostRepository = sqlSession.getMapper(TravelPostRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         travelClassDetailRepository = sqlSession.getMapper(TravelClassDetailRepository.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
         sigungucodeRepository = sqlSession.getMapper(SigungucodeRepository.class);
@@ -38,8 +38,8 @@ public class TravelPostTransacionService {
     }
 
     @Transactional
-    public void itemSave(JsonNode item, TravelType travelType, LastCallApiData detailInfo1,
-                         LastCallApiData detailCommon1, LastCallApiData detailIntro1) throws IOException, URISyntaxException {
+    public void itemSave(JsonNode item, TravelType travelType, LastCallApiDate detailInfo1,
+                         LastCallApiDate detailCommon1, LastCallApiDate detailIntro1) throws IOException, URISyntaxException {
 
         String contentidCheck = item.get("contentid").asText();
         Long areacodeCheck = item.get("areacode").asLong();
@@ -134,7 +134,7 @@ public class TravelPostTransacionService {
     }
 
     @Transactional
-    public void detailCommon(LastCallApiData detailCommon1, String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
+    public void detailCommon(LastCallApiDate detailCommon1, String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
         detailCommon1.setUrl(apiUrl);
 
@@ -152,7 +152,7 @@ public class TravelPostTransacionService {
     }
 
     @Transactional
-    public void detailIntro(LastCallApiData detailIntro1, String apiUrl, JsonNode items2,
+    public void detailIntro(LastCallApiDate detailIntro1, String apiUrl, JsonNode items2,
                             TravelPost travelPost, TravelType travelType) throws IOException, URISyntaxException {
 
         detailIntro1.setUrl(apiUrl);
@@ -192,7 +192,7 @@ public class TravelPostTransacionService {
     }
 
     @Transactional
-    public void detailInfo(LastCallApiData detailInfo1, String apiUrl, JsonNode items2, TravelPost travelPost)
+    public void detailInfo(LastCallApiDate detailInfo1, String apiUrl, JsonNode items2, TravelPost travelPost)
             throws IOException, URISyntaxException {
 
         detailInfo1.setUrl(apiUrl);

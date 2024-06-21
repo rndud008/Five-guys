@@ -43,4 +43,7 @@ public class HomeController {
 //    }
 
 
+
+    @GetMapping("/navbar")
+    public void nvabar(){}
 }

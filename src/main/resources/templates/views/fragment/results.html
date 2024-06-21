@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="results">
+    <h2>Search Results</h2>
+    <ul>
+        <li th:each="travelPost : ${travelPostList}">
+            <span th:text="${travelPost.title}">Title</span><br>
+            <span th:text="${travelPost.overview}">Overview</span><br>
+        </li>
+    </ul>
+</div>
+
+</html>

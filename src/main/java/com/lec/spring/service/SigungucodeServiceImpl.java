@@ -30,6 +30,22 @@ public class SigungucodeServiceImpl implements SigungucodeService {
         this.dataService = dataService;
     }
 
+    @Override
+    public List<Sigungucode> list() {
+
+        return sigungucodeRepository.findAll();
+    }
+
+    @Override
+    public List<Sigungucode> selectedByAreacode(Long areacode) {
+        return sigungucodeRepository.findByAreacode(areacode);
+    }
+
+    @Override
+    public Sigungucode selectedAreacodeBySigungucode(Areacode areacode, Long sigungucode) {
+        return sigungucodeRepository.findAreacodeBySigungucode(areacode, sigungucode);
+    }
+
     public void saveSigungucodes() throws IOException {
         List<Areacode> areacodes = areacodeRepository.findAll();
 
@@ -71,6 +87,8 @@ public class SigungucodeServiceImpl implements SigungucodeService {
 
         }
     }
+
+
 
     public void itemSave(JsonNode item, Areacode areacode){
         Sigungucode sigungucode = new Sigungucode();
