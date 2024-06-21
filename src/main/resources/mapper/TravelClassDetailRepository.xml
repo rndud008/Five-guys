@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.spring.repository.TravelClassDetailRepository">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.TravelClassDetail"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into travel_class_detail
+            (travel_type_id, name, code, decode)
+        values
+            (#{travelType.id},#{name},#{code},#{decode})
+    </insert>
+
+    <update id="update" flushCache="true" parameterType="com.lec.spring.domain.TravelClassDetail">
+        update travel_class_detail
+        set (travel_type_id=#{travelType.id},name=#{name},code=#{code},decode=#{decode})
+        where code=#{code} and travel_type_id=#{travelType.id}
+    </update>
+
+    <select id="findAll" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+    </select>
+
+    <select id="findByCode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+        where code = #{code}
+    </select>
+
+    <select id="findByTravelTypeId" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+    </select>
+
+    <select id="findDecodeByCode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+        where decode = #{decode} and code = #{code}
+    </select>
+
+    <select id="findTravelTypeIdByCode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+        and code = #{code}
+    </select>
+
+    <select id="findTravelTypeIdByDecode" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+        <if test="decode != null">
+            AND decode = #{decode}
+        </if>
+        <if test="decode == null">
+            AND decode IS NULL
+        </if>
+    </select>
+
+    <select id="findByTravelTypeList" resultType="com.lec.spring.domain.TravelClassDetail">
+        select *
+        FROM travel_class_detail
+        where travel_type_id = #{travelType.id}
+    </select>
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,5 +1,3 @@
-
-
 INSERT INTO areacode (areacode, name, regId) VALUES
  (1, '서울', '11B10101'),
  (2, '인천', '11B20201'),

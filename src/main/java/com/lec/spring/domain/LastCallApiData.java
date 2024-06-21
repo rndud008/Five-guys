@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Areacode {
-
-    private Long areacode; // id = areacode이다
-
-    private String name;
-
-    private String regId;
+public class LastCallApiData {
+    private Long id;
+    private String url;
+    private Date regdate;
 
 }

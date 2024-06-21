@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lec.spring.repository.TravelPostRepository">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.TravelPost"
+        useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into travel_post
+        (
+         travel_class_detail_id, last_call_api_id, sigungucode_id, title, addr1, addr2, contentid, firstimage, firstimage2,
+         cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
+         parking, restdate, usetime, homepage, overview, eventplace, playtime, usetimefestival,
+         infoname, infotext
+        )
+        values
+        (
+         #{travelClassDetail.id}, #{lastCallApiData.id} ,#{sigungucode.id}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
+         #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
+         #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview}, #{eventplace},
+         #{playtime}, #{usetimefestival}, #{infoname}, #{infotext}
+        )
+    </insert>
+
+    <select id="findAll" resultType="com.lec.spring.domain.TravelPost">
+        select id , title
+        from travel_post
+    </select>
+
+    <select id="findByContentIdAndType" resultType="com.lec.spring.domain.TravelPost">
+        select tp.*
+        FROM travel_post tp
+                 join travel_class_detail tcd on tp.travel_class_detail_id = tcd.id
+                 join travel_type tt on tcd.travel_type_id = tt.id
+        where tp.contentid = #{contentid}
+          AND tt.id = #{travelClassDetail.travelType.id}
+    </select>
+
+    <select id="findPostByContentId">
+        select *
+        FROM travel_post
+        WHERE id = #{id}
+    </select>
+
+</mapper>
