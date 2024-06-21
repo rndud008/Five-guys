@@ -41,13 +41,10 @@ public class HomeController {
     }
 
 
-//    @GetMapping("/detail/{id}")     // detail/글의 ID
-//    public String detail(@PathVariable Long id, Model model){
-//
-//        model.addAttribute("post", boardService.detail(id));
-//
-//        return "board/detail";      // board 밑에 있는 detail.html(뷰) 리턴
-//    }
+    @GetMapping("/nav")     // detail/글의 ID
+    public String navbar(){
+        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
+    }
 
 
 }
