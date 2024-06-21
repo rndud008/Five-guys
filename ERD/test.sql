@@ -59,9 +59,10 @@ SELECT * FROM areacode;
 SELECT * FROM sigungucode;
 
 -- 서울의 areacode와 이름 조회
-SELECT name
-FROM areacode
-WHERE areacode = 1;
+SELECT a.name, s.name
+FROM areacode a, sigungucode s
+WHERE a.areacode = 1 and s.areacode = 1;
+
 
 -- short_weather 테이블 데이터 조회
 SELECT *
