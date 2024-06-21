@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lec.spring.repository.BlogReviewRepository">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.BlogReview"
+        useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+
+        insert into blog_review
+        (travel_post_id, last_call_api_id, title, link, description, postdate)
+        VALUES
+        (#{travelPost.id}, #{lastCallApiData.id}, #{title}, #{link}, #{description}, #{postdate})
+
+    </insert>
+
+    <update id="update" flushCache="true" parameterType="com.lec.spring.domain.BlogReview">
+        update blog_review
+        set (title = #{title}, link = #{link}, description = #{description}, postdate = #{postdate})
+        where travel_post_id = #{travelPost.id}
+    </update>
+
+
+
+
+
+</mapper>
