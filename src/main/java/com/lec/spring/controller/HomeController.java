@@ -27,10 +27,17 @@ public class HomeController {
     }
 
     @GetMapping("/post/{id}")
-    public String post(@PathVariable String id, Model model, TravelPost travelPost) throws IOException {
+    public String post(@PathVariable String id, Model model) throws IOException {
         model.addAttribute("post", travelPostService.getTravelPostById(id));
         System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
         return "post";
+    }
+
+    @GetMapping("/festival/{id}") //495
+    public String festival(@PathVariable String id, Model model) throws IOException {
+        model.addAttribute("post", travelPostService.getTravelPostById(id));
+        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
+        return "festival";
     }
 
 

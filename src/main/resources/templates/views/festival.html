@@ -33,26 +33,37 @@
                 <article class="content">
                     <div class="top-wrap">
                         <div class="tit">
-                            <h2 th:text="${post.title}"></h2>
-                            <span class="txt" th:text="${post.addr1}"></span>
+                            <h2 th:utext="${post.title}"></h2>
+
+<!--                            <h1 class="txt" th:text="${post.eventstartdate}+' ~ '+${post.eventenddate}"></h1>-->
+                            <h1 class="txt" th:text="${#strings.substring(post.eventstartdate, 2, 4)} + '.' + ${#strings.substring(post.eventstartdate, 4, 6)} + '.' + ${#strings.substring(post.eventstartdate, 6, 8)}+ ' ~ '+${#strings.substring(post.eventenddate, 2, 4)} + '.' + ${#strings.substring(post.eventenddate, 4, 6)} + '.' + ${#strings.substring(post.eventenddate, 6, 8)}" ></h1>
                         </div>
                         <div class="util">
-                            <a th:if="${!#strings.isEmpty(post.homepage)}"
-                               th:href="${post.homepage}"
+                            <a th:if="${not #strings.isEmpty(post.homepage)}"
+                               th:utext="${post.homepage}"
                                target="_blank"
-                               class="btn-home">홈페이지</a>
+                               class="btn-home">홈페이지 바로가기<span class="hide"></span></a>
+
+                            <a href="http://www.paleozoicgp.com/"target="_blank" title="새창: 강원고생대국가지질공원 ">http://www.paleozoicgp.com/</a>
+
+<!--                            <dd class="homepage" th:utext= "${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}"></dd>-->
                         </div>
+
+
                     </div>
                     <div class="gallery">
                         <img th:if="${!#strings.isEmpty(post.firstimage)}"
                             th:src="${post.firstimage}" alt="" >
                     </div>
 
+
+
                     <div class="title">
                         <h4>상세정보</h4>
                     </div>
                     <div class="detail">
-                        <p class="desc" th:text="${post.overview}"></p>
+                        <p class="desc" th:utext="${post.overview}"></p>
+
 
                         <h5 class="hide">지도보기</h5>
                         <div class="map_wrap">
@@ -81,13 +92,15 @@
                             <dt>주소</dt>
                             <dd th:utext= "${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
                             <dt>문의 및 안내</dt>
-                            <dd th:text= "${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}" ></dd>
-                            <dt>이용시간</dt>
-                            <dd th:text="${#strings.isEmpty(post.usetime) ? '상시' : post.usetime}"></dd>
-                            <dt>휴일</dt>
-                            <dd th:text="${#strings.isEmpty(post.restdate) ? '없음' : post.restdate}"></dd>
-                            <dt>주차시설</dt>
-                            <dd th:text="${#strings.isEmpty(post.parking) ? '없음' : post.parking}"></dd>
+                            <dd th:utext= "${#strings.isEmpty(post.tel) ? '없음' : post.tel}" ></dd>
+                            <dt>축제/행사 장소</dt>
+                            <dd th:utext= "${#strings.isEmpty(post.addr2) ? '없음' : post.addr2}"></dd>
+                            <dt>시간</dt>
+                            <dd th:utext="${#strings.isEmpty(post.playtime) ? '축제별 상이' : post.playtime}"></dd>
+                            <dt>이용요금</dt>
+                            <dd th:utext="${#strings.isEmpty(post.usetimefestival) ? '없음' : post.usetimefestival}"></dd>
+                            <dt>축제/행사 내용</dt>
+                            <dd class="full" th:utext= "${#strings.isEmpty(post.infotext) ? '없음' : post.infotext}"></dd>
                         </dl>
                     </div>
 
@@ -161,20 +174,24 @@
 
     <!-- footer -->
     <footer>
+<!--        <div class="mountain">-->
+<!--            <svg viewBox="0 0 120 28" preserveAspectRatio="none" style="display: block; width: 100%; height: auto;">-->
+<!--                <polygon fill="forestgreen" points="0,28 30,10 60,28 90,10 120,28"/>-->
+<!--            </svg>-->
+<!--        </div>-->
         <div>
             <div class="inner">
                 <div class="copy">
                     <p>COPYRIGHT (C) 2024 IVORYSTORY. ALL RIGHT RESERVED.</p>
                     <a href="mailto:dslice@naver.com" class="btn-contact">Contact Us</a>
                 </div>
-
                 <!-- <div class="provider"></div> -->
                 <!-- <button type="button" class="btn-top on" id="btnTop">상단으로 이동</button> -->
             </div>
-
-
         </div>
     </footer>
+
+
 </div>
 <script th:inline="javascript">
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
