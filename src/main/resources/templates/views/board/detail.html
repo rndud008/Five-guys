@@ -2,10 +2,17 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:if="${post}" th:with="logged_user=${#authentication.principal.user}">
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/detail.js}"></script>
+
+    <script th:inline="javascript">
+        // 댓글 작성시 필요
+        const logged_id = [[${logged_user.id}]]
+    </script>
 
     <style>
         .table table {
@@ -22,7 +29,7 @@
 
     <title>조회</title>
 </head>
-<body style="max-width: 600px">
+<body style="max-width: 600px" th:with="logged_user=${#authentication.principal.user}">
 
 <div>
     <h2>조회</h2>
@@ -74,9 +81,9 @@
         <!-- 하단 링크 -->
         <div>
             <a th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
-            <a th:href="@{'/board/update/' + ${post.id}}">수정</a>
-            <button type="button" id="btnDel">삭제</button>
-            <a th:href="@{/board/write}">작성</a>
+            <a th:href="@{'/board/update/' + ${post.id}}" th:if="${logged_user.id == post.user.id}">수정</a>
+            <button type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
+            <a th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
         </div>
         <!-- 하단 링크 -->
 
@@ -88,4 +95,5 @@
 </div>
 
 </body>
+</th:block>
 </html>

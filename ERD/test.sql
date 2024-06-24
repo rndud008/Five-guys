@@ -175,6 +175,8 @@ VALUES
     (3, 1)
     ;
 
+SELECT * FROM user_authorities;
+
 DELETE FROM user_travel_diary_post;
 ALTER TABLE user_travel_diary_post AUTO_INCREMENT = 1;
 # WHERE user_id = 1 AND travel_diary_post_id = 2;
@@ -186,3 +188,33 @@ WHERE user_id = 1 AND travel_diary_post_id = 1;
 SELECT count(*)
 FROM user_travel_diary_post
 WHERE travel_diary_post_id = 1;
+
+INSERT INTO user ( username, password, name, email) VALUES
+    ('user4', '$2a$10$8HVLMZgJLqQTHcFgxgQiSu2FwpUUAHALnW7Iq0PFXkWAXe.Pv6Qqe', '관리자4', 'junho@naver.com');
+
+SELECT * FROM user;
+
+SELECT id, name
+FROM authority
+WHERE id=1;
+
+SELECT * FROM authority;
+
+insert into user_authorities(user_id, authority_id) VALUES
+    (4, 1);
+
+select *
+from user_authorities;
+
+delete
+from user_authorities
+;
+
+select *
+from user;
+
+delete
+from user;
+
+desc user_authorities;
+

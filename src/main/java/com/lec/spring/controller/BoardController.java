@@ -3,16 +3,20 @@ package com.lec.spring.controller;
 import com.lec.spring.domain.Areacode;
 import com.lec.spring.domain.Post;
 import com.lec.spring.service.BoardService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
 
-// TODO CKEDITOR 추가(WRITE, UPDATE), 좋아요 기능(DETAIL, LIST)
+// TODO CKEDITOR 추가(WRITE, UPDATE) VALIDATOR 추가(제목필수)
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -28,7 +32,24 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String writeOk(@RequestParam Map<String, MultipartFile> files, Post post, Model model){
+    public String writeOk(
+            @RequestParam Map<String, MultipartFile> files
+            , @Valid Post post
+            , BindingResult result
+            , Model model
+            , RedirectAttributes redirectAttributes
+    ){
+        if (result.hasErrors()){
+            redirectAttributes.addFlashAttribute("user", post.getUser());
+            redirectAttributes.addFlashAttribute("subject", post.getSubject());
+            redirectAttributes.addFlashAttribute("content", post.getContent());
+
+            List<FieldError> errorList = result.getFieldErrors();
+            for(FieldError err : errorList){
+                redirectAttributes.addFlashAttribute("error_" + err.getField(), err.getCode());
+            }
+            return "redirect:/board/write";
+        }
 
         model.addAttribute("result", boardService.write(post, files));
         return "board/writeOk";
@@ -44,7 +65,6 @@ public class BoardController {
 
     @GetMapping("/list")
     public void list(Integer page, Model model){
-        System.out.println(boardService.list(page, model));
 
         model.addAttribute("list", boardService.list(page, model));
         model.addAttribute("areacode", boardService.findAllArea());

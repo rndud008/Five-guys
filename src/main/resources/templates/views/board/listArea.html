@@ -72,7 +72,7 @@
                 <td th:text="${post.user.username}">John</td>
                 <td th:text="${post.viewcnt}">23</td>
                 <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}">2021-03-21</td>
-                <td>20</td>
+                <td th:text="${post.likecnt}"></td>
             </tr>
             </tbody>
         </table>

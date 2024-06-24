@@ -21,7 +21,6 @@ import java.nio.file.Paths;
 @RestController
 public class AttachmentController {
 
-    // TODO 수정에서 추가, 삭제 X 파일 저장 X
     @Value("${app.upload.path}")
     private String uploadDir;
     private AttachmentService attachmentService;

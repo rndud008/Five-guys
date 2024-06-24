@@ -18,7 +18,7 @@ $(function (){
 
         const data = {
             "travel_diary_post_id": id,
-            "user_id": 1,
+            "user_id": logged_id,
         }
 
         $.ajax({
@@ -63,7 +63,7 @@ function LoadLike(travel_diary_post_id){
         // 전달할 parameter 준비 (POST)
         const data = {
             "travel_diary_post_id": id,
-            "user_id": 1,  // 로그인한 아이디 숫자대신 넣기
+            "user_id": logged_id,  // 로그인한 아이디 숫자대신 넣기
             "content": content,
         };
 

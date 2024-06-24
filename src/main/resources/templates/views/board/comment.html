@@ -9,7 +9,7 @@
         <div class="mb-3 mt-3">
             <label>댓글: <span id="cmt_cnt">3</span> 개</label>
             <!-- ROLE_MEMBER 권한 가진 사용자만 댓글 작성 가능 -->
-<!--            <div class="input-group my-2" sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">-->
+            <div class="input-group my-2" sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
             <div>
                 <input type="text" id="input_comment">
                 <button type="button" id="btn_comment">작성</button>

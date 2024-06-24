@@ -3,6 +3,7 @@ package com.lec.spring.service;
 import com.lec.spring.domain.Areacode;
 import com.lec.spring.domain.Attachment;
 import com.lec.spring.domain.Post;
+import com.lec.spring.domain.User;
 import com.lec.spring.repository.*;
 import com.lec.spring.util.U;
 import jakarta.servlet.http.HttpSession;
@@ -53,6 +54,11 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int write(Post post, Map<String, MultipartFile> files) {
+        User user = U.getLoggedUser();
+
+        userRepository.findById(user.getId());
+        post.setUser(user);
+
         int cnt = postRepository.save(post);
 
         addFiles(files, post.getId());
@@ -249,6 +255,9 @@ public class BoardServiceImpl implements BoardService {
             if (endPage >= totalPage) endPage = totalPage;
             // 해당 페이지의 글 목록 읽어오기
             list = postRepository.selectFromRowArea(fromRow, pageRows, areacode);
+            for(Post p : list){
+                p.setLikecnt(likeRepository.countByPost(p.getId()));
+            }
             model.addAttribute("list", list);
         } else {
             page = 0;

@@ -51,7 +51,7 @@
     <!-- 게시판 -->
     <div>
         <div>
-            <a th:href="@{/board/write}" style="margin-left: 400px">작성</a>
+            <a th:href="@{/board/write}" style="margin-left: 400px" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
         </div>
         <hr>
         <table>

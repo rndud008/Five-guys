@@ -22,13 +22,13 @@
 </head>
 <body>
 
-<div>
+<div th:with="user=${#authentication.getPrincipal().getUser()}">
     <h2>작성</h2>
     <hr>
     <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
         <div>
             <label>작성자</label>
-            <span></span>
+            <span>[[${user.username}]]([[${user.name}]])</span>
         </div>
 
         <div>
@@ -42,6 +42,8 @@
         <div>
             <label>제목</label>
             <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject}">
+            <br>
+            <span class="text-danger" th:if="${error_subject}" th:utext="${error_subject}"></span>
         </div>
 
         <div>
