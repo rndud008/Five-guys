@@ -5,7 +5,7 @@
 
 <mapper namespace="com.lec.spring.repository.AreacodeRepository">
     <select id="findAll" resultType="com.lec.spring.domain.Areacode">
-        SELECT*
+        SELECT *
         FROM areacode
     </select>
 

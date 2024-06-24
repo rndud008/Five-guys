@@ -5,12 +5,11 @@ import com.lec.spring.domain.User;
 import com.lec.spring.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private UserService userService;
 
@@ -28,6 +27,18 @@ public class PrincipalDetails implements UserDetails {
     public PrincipalDetails(User user) {
         this.user = user;
     }
+
+    // OAuth2 로그인용 생성자
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        System.out.println("""
+                UserDetails(user, oauth attributes) 생성:
+                    user: %s
+                    attributes: %s
+                """.formatted(user, attributes));
+        this.user = user;
+        this.attributes = attributes;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -78,7 +89,18 @@ public class PrincipalDetails implements UserDetails {
         return true;
     }
 
-    // OAuth 로그인용 생성자
-    // todo
 
+    // OAuth 로그인용 생성자
+
+    private Map<String, Object> attributes;
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }

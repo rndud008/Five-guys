@@ -1,7 +1,11 @@
 package com.lec.spring.config;
 
+import com.lec.spring.config.oauth.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -11,7 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     //OAuth2 Client
-
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,10 +47,9 @@ public class SecurityConfig {
                         .failureHandler(new CustomLoginFailureHandler())
                 )
 
-                /********************************************
-                 * ③ 로그아웃 설정
-                 * .logout(LogoutConfigurer)
-                 ********************************************/
+                /**
+                 * 로그아웃 설정
+                 */
                 // ※ 아래 설정 없이도 기본적으로 /logout 으로 로그아웃 된다
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                                 .logoutUrl("/user/logout")  // 로그아웃 수행 url
@@ -56,14 +60,10 @@ public class SecurityConfig {
                                 // 이따가 CustomLogoutSuccessHandler 에서 꺼낼 정보가 있기 때문에
                                 // false 로 세팅한다
 
-//                        .deleteCookies("JSESSIONID")    // 쿠키 제거
-
                                 // 로그아웃 성공후 수행할 코드
                                 // .logoutSuccessHandler(LogoutSuccessHandler)
                                 .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 )
-
-
                 /**
                  * 예외처리 설정
                  */
@@ -72,6 +72,20 @@ public class SecurityConfig {
                         .accessDeniedHandler(new CustomAccessDeniedHandler())
                 )
 
+
+                /**
+                 * OAuth2 로그인
+                 */
+                .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
+                        .loginPage("/user/login")
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(principalOauth2UserService)))
+
                 .build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
