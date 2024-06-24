@@ -27,5 +27,8 @@ public class User {
     @JsonIgnore
     private LocalDateTime regdate;
 
+    // OAuth2 Client
+    private String provide;
+    private String provideId;
 
 }

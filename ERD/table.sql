@@ -201,7 +201,7 @@ CREATE TABLE user
     id        INT          NOT NULL AUTO_INCREMENT COMMENT '회원번호',
     username  VARCHAR(100) NOT NULL COMMENT '아이디',
     password  VARCHAR(100) NOT NULL COMMENT '비밀번호',
-    name      VARCHAR(80)  NOT NULL COMMENT '별명',
+    name      VARCHAR(80)  NOT NULL COMMENT '이름',
     email     VARCHAR(80)  NULL     COMMENT '이메일',
     regdate   DATETIME     NULL     DEFAULT now() COMMENT '가입일',
     provide   VARCHAR(30)  NULL     COMMENT 'OAuth 가입처',
