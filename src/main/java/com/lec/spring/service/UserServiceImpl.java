@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         // 신규회원에게는 기본적으로 멤버 권한 부여
-        Authority auth = authorityRepository.findByName("MEMBER");
+        Authority auth = authorityRepository.findByName("ROLE_MEMBER");
 
         authorityRepository.addAuthority(user.getId(), auth.getId());
 

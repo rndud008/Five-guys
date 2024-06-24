@@ -1,3 +1,21 @@
 #board {
     display: flex;
 }
+
+form {
+    /*display: flex; */
+    /*flex-direction: column; */
+    /*justify-content: center;*/
+}
+
+/* 스크롤바 전체 영역 */
+::-webkit-scrollbar {
+    width: 10px;  /* 세로축 스크롤바 폭 너비 */
+    height: 20px;  /* 가로축 스크롤바 폭 너비 */
+}
+
+#areacode {
+    overflow-x: scroll; /* 가로 스크롤 사용 */
+    overflow-y: scroll; /* 세로 스크롤 사용 */
+
+}

@@ -10,7 +10,7 @@
         INSERT INTO travel_diary_post
             (user_id, areacode, subject, content)
         VALUES
-            (1, #{areacode}, #{subject}, #{content})
+            (#{user.id}, #{areacode}, #{subject}, #{content})
     </insert>
 
     <update id="incViewCnt" flushCache="true">

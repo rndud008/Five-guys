@@ -31,6 +31,7 @@
             </select>
         </form>
     </span>
+
 </div>
 <!-- 페이징 헤더 -->
 
@@ -38,11 +39,11 @@
     <!-- 지역명 선택란 -->
     <div id="areamenu">
         <span th:unless="${selectareacode}">지역: 전체</span>
-        <form th:action="@{/board/list}" method="get" style="display: flex; flex-direction: column; justify-content: center;">
+        <form th:action="@{/board/list}" method="get">
             <button>전체</button>
         </form>
         <!-- 지역 전부 표시 버튼 -->
-        <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}" style="display: flex; flex-direction: column; justify-content: center;">
+        <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}">
             <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
         </form>
     </div>

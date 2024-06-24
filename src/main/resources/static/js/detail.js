@@ -124,7 +124,7 @@ function buildComment(result) {
 
         // 삭제버튼 여부
         // (logged_id !== user_id) ? '' : 맴버권한 생성 후 바로아래 붙이기
-        const delBtn = `
+        const delBtn = (logged_id !== user_id) ? '' : `
         <button data-cmtdel-id="${id}" title="삭제" style="height: 30px">삭제</button>
         `;
 

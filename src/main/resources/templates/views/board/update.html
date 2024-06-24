@@ -43,8 +43,8 @@
         </div>
         <div>
             <label>지역명</label>
-            <select id="areacode_id" name="areacode_id">
-                <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}" th:selected="${areacode.areacode == post.areacode_id}"></option>
+            <select id="areacode" name="areacode">
+                <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}" th:selected="${areacode.areacode == post.areacode}"></option>
             </select>
         </div>
         <div>

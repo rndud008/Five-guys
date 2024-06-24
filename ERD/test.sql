@@ -190,7 +190,7 @@ FROM user_travel_diary_post
 WHERE travel_diary_post_id = 1;
 
 INSERT INTO user ( username, password, name, email) VALUES
-    ('user4', '$2a$10$8HVLMZgJLqQTHcFgxgQiSu2FwpUUAHALnW7Iq0PFXkWAXe.Pv6Qqe', '관리자4', 'junho@naver.com');
+    ('USER4', '$2a$10$8HVLMZgJLqQTHcFgxgQiSu2FwpUUAHALnW7Iq0PFXkWAXe.Pv6Qqe', '관리자4', 'junho@naver.com');
 
 SELECT * FROM user;
 
@@ -200,8 +200,14 @@ WHERE id=1;
 
 SELECT * FROM authority;
 
+INSERT INTO authority (id, name)
+VALUES (1, 'ROLE_ADMIN'), (2, 'ROLE_MEMBER');
+
+
+DELETE FROM authority;
+
 insert into user_authorities(user_id, authority_id) VALUES
-    (4, 1);
+    (5, 1);
 
 select *
 from user_authorities;
@@ -218,3 +224,5 @@ from user;
 
 desc user_authorities;
 
+select * from information_schema.table_constraints where table_name = 'user';
+select * from information_schema.table_constraints where constraint_schema = 'travel' ;

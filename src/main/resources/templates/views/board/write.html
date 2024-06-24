@@ -33,7 +33,7 @@
 
         <div>
             <label>지역명</label>
-            <select id="areacode_id" name="areacode_id">
+            <select id="areacode" name="areacode">
                 <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}"
                         th:selected="${areacode.areacode} == ${selectedArea}"></option>
             </select>
@@ -43,7 +43,7 @@
             <label>제목</label>
             <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject}">
             <br>
-            <span class="text-danger" th:if="${error_subject}" th:utext="${error_subject}"></span>
+            <span style="color: red" th:if="${error_subject}" th:utext="${error_subject}"></span>
         </div>
 
         <div>
