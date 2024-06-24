@@ -17,4 +17,5 @@ public class BlogReview {
     private String link;
     private String description;
     private String postdate;
+
 }

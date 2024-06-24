@@ -99,59 +99,19 @@
                         <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
                     </div>
                     <div class="blog">
-                        <ul id="blogList">
+                        <ul id="blogList" th:each="blog : ${blogReview}">
                             <li>
                                 <div>
-                                    <a href="https://blog.naver.com/karo/223226266787" target="_blank" class="tit">
-                                        <strong><b>경주</b> <b>아이</b>와가볼만한곳추천 <b>경주세계자동차박물관</b> 19개월<b>아기</b></strong>
-                                        <span>2023.10.02</span>
+                                    <a th:href="${blog.link}" target="_blank" class="tit">
+                                        <strong th:utext="${blog.title}"><b>경주</b> <b>아이</b>와가볼만한곳추천 <b>경주세계자동차박물관</b> 19개월<b>아기</b></strong>
+                                        <span th:text="${#strings.substring(blog.postdate, 2, 4)} + '.' + ${#strings.substring(blog.postdate, 4, 6)} + '.' + ${#strings.substring(blog.postdate, 6, 8)}">2023.10.02</span>
                                     </a>
-                                    <a href="https://blog.naver.com/karo/223226266787" target="_blank" class="desc">
-                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에 <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여... 										</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <a href="https://blog.naver.com/kko_eun/223330985723" target="_blank" class="tit">
-                                        <strong><b>경주</b> 8개월,36개월 <b>아기</b>랑 갈만한곳 <b>경주세계자동차박물관</b></strong>
-                                        <span>2024.01.23</span>
+                                    <a th:href="${blog.link}" target="_blank" class="desc" th:utext="${blog.description}">
+                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에 <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여...
                                     </a>
-                                    <a href="https://blog.naver.com/kko_eun/223330985723" target="_blank" class="desc">
-                                        생겼더라고요,ㅎㅎ <b>자동차</b>구경도 하고 <b>아이</b>들이 좋아하는 치킨도 먹고 하면 좋을 거 같다는 생각이 들기도 했어요 <b>경주</b> 8개월,36개월 <b>아기</b>랑 갈만한곳 <b>경주세계자동차박물관</b> 원래라면 다 보고 나오는 코스에... 										</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <a href="https://blog.naver.com/comcommom/223082183627" target="_blank" class="tit">
-                                        <strong><b>경주 세계자동차박물관</b> 주말... 다녀온 찐후기 (feat.16개월<b>아기</b>)</strong>
-                                        <span>2023.04.22</span>
-                                    </a>
-                                    <a href="https://blog.naver.com/comcommom/223082183627" target="_blank" class="desc">
-                                        맘 먹고 가야하는 그런 곳인데 가까워서 넘 좋았다 <b>박물관</b>에 직접 걸어가기엔 다소 거리가 있어... #16개월<b>아기</b> #18개월<b>아기</b> #<b>경주</b>나들이<b>아기</b>랑 #<b>경주세계자동차박물관</b> #<b>자동차</b>구경<b>아기</b>랑 #<b>자동차</b>덕후... 										</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <a href="https://blog.naver.com/cyy0201/223476489357" target="_blank" class="tit">
-                                        <strong>[<b>아기</b>랑 여행] <b>경주</b>, <b>세계자동차박물관</b> &amp; 3층 카페아우토... </strong>
-                                        <span>2024.06.12</span>
-                                    </a>
-                                    <a href="https://blog.naver.com/cyy0201/223476489357" target="_blank" class="desc">
-                                        <b>경주세계자동차박물관</b>은 2017년에 개관했고, 요즘 <b>자동차</b>를 구경한다기보다, <b>박물관</b>인 만큼 <b>자동차</b>... 요구하는 <b>아이</b>가 있는 부모들은 좀 난감할듯? 우리 <b>아이</b>야... 사줄까? 라고 말만 안하면 사달라고 하지... 										</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <a href="https://blog.naver.com/skfcl0844/223369643359" target="_blank" class="tit">
-                                        <strong><b>경주</b> <b>아기</b>랑 실내 놀이시설이 있는 <b>세계자동차박물관</b> 후기</strong>
-                                        <span>2024.03.01</span>
-                                    </a>
-                                    <a href="https://blog.naver.com/skfcl0844/223369643359" target="_blank" class="desc">
-                                        있어 <b>아이</b>와 <b>경주</b> 여행 코스로 오기 좋을 것 같아요 <b>박물관</b> 앞 전용주차장이 있고 보문 관광단지 주차... 다양한 <b>자동차</b>들을 한 곳에 모아둔 <b>경주</b> <b>아기</b>랑 가볼만한 곳 으로 <b>세계자동차박물관</b> 에서 이색체험... 										</a>
                                 </div>
                             </li>
                         </ul>
-
                     </div>
                 </article>
             </div>

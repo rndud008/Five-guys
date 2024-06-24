@@ -9,5 +9,6 @@ public interface LastCallApiDateRepository {
     List<LastCallApiDate> findAll();
     LastCallApiDate findByUrl(String url);
 
+    LastCallApiDate findByRegdate(String date);
 
 }

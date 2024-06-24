@@ -1,14 +1,21 @@
 package com.lec.spring.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.lec.spring.domain.*;
 import com.lec.spring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -26,90 +33,152 @@ public class CategoryTableController {
     TravelPostService travelPostService;
 
 
-
-    @PostMapping("/testSearch")
+    @PostMapping("/testSearch/{id}")
     public String searchResult(@RequestParam("Query") String query, @RequestParam("regionQuery") Long regionQuery
-            , @RequestParam("sigunguQuery") Long sigunguQuery ,Model model){
+            , @RequestParam("sigunguQuery") Long sigunguQuery, @RequestParam("searchQuery") String searchQuery, @PathVariable("id") long id, Model model
+            , @RequestParam("offset") int offset, @RequestParam("limit") int limit) throws JsonProcessingException {
 
         List<TravelPost> travelPostList = null;
+        TravelType travelType = travelTypeService.selectById(id);
 
-        if (query.equals("99") && sigunguQuery == 99){
+        String type = null;
+
+        if (travelType.getId() == 12) {
+            type = "tour";
+        } else if (travelType.getId() == 15) {
+            type = "festival";
+        }
+
+        if (query.equals("99") && sigunguQuery == 99 && regionQuery == 99 && searchQuery.equals("99")) {
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
+
+            travelPostList = travelPostService.selectedByTravelTypeList(
+                    travelClassDetailList, travelType.getId(),limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (query.equals("99") && sigunguQuery == 99 && regionQuery == 99) {
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
+
+            travelPostList = travelPostService.selectedByTravelTypAndSearchList(
+                    travelClassDetailList, travelType.getId(), searchQuery,limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (query.equals("99") && searchQuery.equals("99") && sigunguQuery == 99) {
 
             List<Sigungucode> sigungucodes = sigungucodeService.selectedByAreacode(regionQuery);
 
-            TravelType travelType = travelTypeService.selectById(12l);
+
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(travelClassDetailList,sigungucodes);
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(
+                    travelClassDetailList, sigungucodes, travelType.getId(),limit, offset);
             System.out.println(travelPostList.size());
 
-        }
-        else if (query.equals("99")){
+        } else if (query.equals("99") && sigunguQuery == 99) {
 
-            Areacode areacode = areacodeService.selectedByAreacode(regionQuery);
-            Sigungucode sigungucode = sigungucodeService.selectedAreacodeBySigungucode(areacode, sigunguQuery);
-
-            TravelType travelType = travelTypeService.selectById(12l);
-            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
-
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList,sigungucode);
-            System.out.println(travelPostList.size());
-
-        }
-        else if(regionQuery == 99 && sigunguQuery==99){
-            TravelType travelType = travelTypeService.selectById(12l);
-            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType,query);
-
-            travelPostList = travelPostService.selectedByTravelTypeList(travelClassDetailList);
-            System.out.println(travelPostList.size());
-
-        }
-        else if(sigunguQuery==99){
             List<Sigungucode> sigungucodes = sigungucodeService.selectedByAreacode(regionQuery);
 
-            TravelType travelType = travelTypeService.selectById(12l);
-            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType,query);
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(travelClassDetailList,sigungucodes);
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
+
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSearchList(
+                    travelClassDetailList, sigungucodes, travelType.getId(), searchQuery,limit, offset);
             System.out.println(travelPostList.size());
 
-        }
-        else {
+        } else if (query.equals("99") && searchQuery.equals("99")) {
+
+            Areacode areacode = areacodeService.selectedByAreacode(regionQuery);
+            Sigungucode sigungucode = sigungucodeService.selectedAreacodeBySigungucode(areacode, sigunguQuery);
+            System.out.println(sigungucode.getSigungucode() + "시군구 코드");
+            System.out.println(sigungucode.getAreacode().getAreacode() + "지역코드");
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
+            System.out.println(travelClassDetailList.size() + "size");
+
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeList(
+                    travelClassDetailList, sigungucode, travelType.getId(),limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (query.equals("99")) {
+
+            Areacode areacode = areacodeService.selectedByAreacode(regionQuery);
+            Sigungucode sigungucode = sigungucodeService.selectedAreacodeBySigungucode(areacode, sigunguQuery);
+            System.out.println(sigungucode.getSigungucode() + "시군구 코드");
+            System.out.println(sigungucode.getAreacode().getAreacode() + "지역코드");
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
+            System.out.println(travelClassDetailList.size() + "size");
+
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchList(
+                    travelClassDetailList, sigungucode, travelType.getId(), searchQuery, limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (regionQuery == 99 && sigunguQuery == 99 && searchQuery.equals("99")) {
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
+
+            travelPostList = travelPostService.selectedByTravelTypeList(
+                    travelClassDetailList, travelType.getId(),limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (regionQuery == 99 && sigunguQuery == 99) {
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
+
+            travelPostList = travelPostService.selectedByTravelTypAndSearchList(
+                    travelClassDetailList, travelType.getId(), searchQuery,limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (sigunguQuery == 99 && searchQuery.equals("99")) {
+            List<Sigungucode> sigungucodes = sigungucodeService.selectedByAreacode(regionQuery);
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
+
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(
+                    travelClassDetailList, sigungucodes, travelType.getId(),limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (sigunguQuery == 99) {
+            List<Sigungucode> sigungucodes = sigungucodeService.selectedByAreacode(regionQuery);
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
+
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSearchList(
+                    travelClassDetailList, sigungucodes, travelType.getId(), searchQuery, limit, offset);
+            System.out.println(travelPostList.size());
+
+        } else if (searchQuery.equals("99")) {
             Areacode areacode = areacodeService.selectedByAreacode(regionQuery);
             Sigungucode sigungucode = sigungucodeService.selectedAreacodeBySigungucode(areacode, sigunguQuery);
 
-            TravelType travelType = travelTypeService.selectById(12l);
-            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType,query);
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList,sigungucode);
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeList(
+                    travelClassDetailList, sigungucode, travelType.getId(), limit, offset);
+            System.out.println(travelPostList.size());
+        } else {
+            Areacode areacode = areacodeService.selectedByAreacode(regionQuery);
+            Sigungucode sigungucode = sigungucodeService.selectedAreacodeBySigungucode(areacode, sigunguQuery);
+
+            List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
+
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchList(
+                    travelClassDetailList, sigungucode, travelType.getId(), searchQuery, limit, offset);
             System.out.println(travelPostList.size());
 
         }
 
-        model.addAttribute("travelPostList",travelPostList);
+        model.addAttribute(type, travelPostList);
+
 
         return "fragment/results :: results";
     }
 
 
-    /*
-        디폴트 여행정보 전체 출력
-
-        TravelType travelType = travelTypeService.selectById(12l);
-        List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
-
-        List<TravelPost> travelPostList = travelPostService.selectedByTravelTypeList(travelClassDetailList);
-        System.out.println(travelPostList.size());
-        model.addAttribute("travelPostList",travelPostList);
-
-     */
-
-
-    @GetMapping("/kategoryTable")
-    public String list(
-            Model model
-//            ,@PathVariable Long id
-    ) {
+    @GetMapping("/categoryTable/{id}")
+    public String list(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
         model.addAttribute("areacode", areacodeService.list());
         List<Areacode> areacodes = areacodeService.list();
         for (Areacode areacode : areacodes) {
@@ -117,7 +186,10 @@ public class CategoryTableController {
             model.addAttribute("sigungucodes_" + areacode.getAreacode(), sigungucodes);
         }
 
-        TravelType travelType = travelTypeService.selectById(12L);
+        TravelType travelType = travelTypeService.selectById(id);
+
+        model.addAttribute("categoryId", travelType.getId());
+
         List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
         Map<String, Boolean> checkedDecodes = new HashMap<>();
         for (TravelClassDetail travelClassDetail : travelClassDetailList) {
@@ -139,27 +211,9 @@ public class CategoryTableController {
 
         model.addAttribute("decodes", checkedDecodes.keySet());
 
-        return "kategoryTable";
 
-    }
-    @GetMapping("/travelSearch")
-    public void search(){}
+        return "categoryTable";
 
-    @PostMapping("/travelSearch")
-    public String searchList(@RequestParam("searchQuery") String searchQuery, Model model){
-
-        TravelType travelType = travelTypeService.selectById(12l);
-        List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
-        List<TravelPost> travelPostList = null;
-
-        for (TravelClassDetail travelClassDetail : travelClassDetailList){
-            travelPostList = travelPostService.selectedTravelTypeByTitleList(travelClassDetail, searchQuery);
-            System.out.println(travelPostList.size());
-        }
-
-        model.addAttribute("travelPostList",travelPostList);
-
-        return "fragment/results :: results";
     }
 
 

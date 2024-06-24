@@ -31,7 +31,7 @@
         <association property="areacode" resultMap="mapAreacode"/>
     </resultMap>
 
-    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode">
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode"
         useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO sigungucode (areacode, sigungucode, name)
         values (#{areacode.areacode}, #{sigungucode}, #{name})

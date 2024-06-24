@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class TravelPostServiceImpl implements TravelPostService {
     @Value("${app.apikey}")
@@ -53,7 +55,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=1000&pageNo=13&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=1000&pageNo=2&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
             JsonNode items = null;
@@ -68,10 +70,10 @@ public class TravelPostServiceImpl implements TravelPostService {
 
                         travelPostTransacionService.itemSave(item, travelType, detailInfo1, detailCommon1, detailIntro1);
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
-                        System.out.println( "contentid : " + item.get("contentid").asText());
-                        System.out.println( "contenttypeid" + travelType.getId());
+                        System.out.println("contentid : " + item.get("contentid").asText());
+                        System.out.println("contenttypeid" + travelType.getId());
                         System.out.println("item 저장 실패");
                     }
 
@@ -85,13 +87,6 @@ public class TravelPostServiceImpl implements TravelPostService {
 
         List<TravelPost> travelPostList = null;
 
-        @Override
-    public TravelPost getTravelPostById(String id) throws IOException {
-        return travelPostRepository.findPostByContentId(id);
-    }
-
-    public void timeUnit() {
-        // API 호출 간격을 두기 위해 잠시 대기
         try {
             travelPostList = travelPostRepository.findTravelTypeByTitleList(travelClassDetail, title);
             System.out.println("Result size: " + travelPostList.size());
@@ -101,23 +96,47 @@ public class TravelPostServiceImpl implements TravelPostService {
             e.printStackTrace(); // 더 자세한 로그 출력
         }
         return travelPostList;
-
     }
 
     @Override
-    public List<TravelPost> selectedTravelTypeByAreacodeList(List<TravelClassDetail> travelClassDetailList,
-                                                             List<Sigungucode> sigungucodeList) {
-        return travelPostRepository.findTravelTypeByAreacodeList(travelClassDetailList,sigungucodeList);
+    public List<TravelPost> selectedTravelTypeByAreacodeList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList
+            , long travelTypeId,int limit, int offset) {
+        return travelPostRepository.findTravelTypeByAreacodeList(travelClassDetailList, sigungucodeList, travelTypeId, limit, offset);
     }
 
     @Override
-    public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode) {
-        return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList, sigungucode);
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSearchList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList
+            , long travelTypeId, String searchQuery,int limit, int offset) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSearchList(travelClassDetailList, sigungucodeList, travelTypeId, searchQuery, limit, offset);
     }
 
     @Override
-    public List<TravelPost> selectedByTravelTypeList( List<TravelClassDetail> travelClassDetailList) {
-        return travelPostRepository.findByTravelTypeList(travelClassDetailList);
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode, long travelTypeId
+            ,int limit, int offset) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList,sigungucode,travelTypeId, limit, offset);
     }
+
+    @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeAndSearchList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode
+            , long travelTypeId, String searchQuery,int limit, int offset) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeAndSearchList(travelClassDetailList,sigungucode, travelTypeId, searchQuery, limit, offset);
+    }
+
+    @Override
+    public List<TravelPost> selectedByTravelTypeList(List<TravelClassDetail> travelClassDetailList, long travelTypeId,int limit, int offset) {
+        return travelPostRepository.findByTravelTypeList(travelClassDetailList, travelTypeId, limit, offset);
+    }
+
+    @Override
+    public List<TravelPost> selectedByTravelTypAndSearchList(List<TravelClassDetail> travelClassDetailList, long travelTypeId, String searchQuery,int limit, int offset) {
+        return travelPostRepository.findByTravelTypAndSearchList(travelClassDetailList, travelTypeId, searchQuery, limit, offset);
+    }
+
+    @Override
+    public TravelPost getTravelPostById(String id) throws IOException {
+        return travelPostRepository.findPostByContentId(id);
+    }
+
+
 
 }
