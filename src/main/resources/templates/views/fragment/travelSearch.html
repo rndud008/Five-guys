@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+
+</style>
+<th:block th:fragment="search">
+    <div >
+        <h1>Search</h1>
+        <form id="searchForm">
+            <label for="searchQuery">Enter search query:</label>
+            <input type="text" id="searchQuery" name="searchQuery" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="search-result">
+
+    </div>
+
+</th:block>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#searchForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting via the browser
+
+            const searchQuery = $('#searchQuery').val();
+
+            $.ajax({
+                url: '/travelSearch',
+                type: 'POST',
+                data: {searchQuery: searchQuery},
+                success: function (response) {
+                    $('#results').html(response);
+                },
+                error: function (xhr, status, error) {
+                    $('#results').html('<p>An error occurred: ' + error + '</p>');
+                }
+            });
+        });
+    });
+
+</script>
+
+</html>

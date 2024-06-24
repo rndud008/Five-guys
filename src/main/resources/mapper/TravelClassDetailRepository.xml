@@ -3,6 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lec.spring.repository.TravelClassDetailRepository">
+
+    <sql id="SELECT_BASE">
+        select tcd.id             "tcd_id",
+               tcd.travel_type_id "tcd_travel_type_id",
+               tcd.name           "tcd_name",
+               tcd.code           "tcd_code",
+               tcd.decode         "tcd_decode",
+               tt.id               "tt_id",
+               tt.name             "tt_name"
+        FROM travel_class_detail tcd
+                 LEFT JOIN
+             travel_class_detail tcd2 ON tcd.decode = tcd2.code
+                 join travel_type tt on tcd.travel_type_id = tt.id
+    </sql>
+
+
+
+    <resultMap id="mapTravelType" type="com.lec.spring.domain.TravelType">
+        <result column="tt_id" property="id"/>
+        <result column="tt_name" property="name"/>
+    </resultMap>
+
+    <resultMap id="mapTravelDetailClass" type="com.lec.spring.domain.TravelClassDetail">
+        <result column="tcd_id" property="id"/>
+        <result column="tcd_name" property="name"/>
+        <result column="tcd_code" property="code"/>
+        <result column="tcd_decode" property="decode"/>
+        <association property="travelType" resultMap="mapTravelType"/>
+    </resultMap>
+
+    <resultMap id="mapTravelDetailClassAndTravelTypeList" type="com.lec.spring.domain.TravelClassDetail">
+        <result column="tcd_id" property="id"/>
+        <result column="tcd_name" property="name"/>
+        <result column="tcd_code" property="code"/>
+        <result column="tcd_decode" property="decode"/>
+        <collection property="travelType" resultMap="mapTravelType"/>
+    </resultMap>
+
     <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.TravelClassDetail"
             useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into travel_class_detail
@@ -26,12 +64,6 @@
         select *
         FROM travel_class_detail
         where code = #{code}
-    </select>
-
-    <select id="findByTravelTypeId" resultType="com.lec.spring.domain.TravelClassDetail">
-        select *
-        FROM travel_class_detail
-        where travel_type_id = #{travelType.id}
     </select>
 
     <select id="findDecodeByCode" resultType="com.lec.spring.domain.TravelClassDetail">
@@ -58,11 +90,43 @@
             AND decode IS NULL
         </if>
     </select>
-
-    <select id="findByTravelTypeList" resultType="com.lec.spring.domain.TravelClassDetail">
-        select *
+    
+    <select id="findTravelTypeByCodeAndDecodeList" resultType="com.lec.spring.domain.TravelClassDetail">
+        select  *
         FROM travel_class_detail
         where travel_type_id = #{travelType.id}
+        and code = #{code} and decode = #{decode}
+    </select>
+
+    <select id="findByTravelTypeId" resultMap="mapTravelDetailClass">
+        <include refid="SELECT_BASE"/>
+        and tt.id = #{travelType.id}
+    </select>
+
+    <select id="findByTravelTypeList" resultMap="mapTravelDetailClassAndTravelTypeList">
+        <include refid="SELECT_BASE"/>
+        and tt.id = #{travelType.id}
+    </select>
+
+    <select id="findTravelTypeByCodeList" resultMap="mapTravelDetailClass">
+        <include refid="SELECT_BASE"/>
+        <where>
+            tt.id = #{travelType.id}
+            <choose>
+                <!-- code 길이가 3일 때 -->
+                <when test="code != null and code.length() == 3">
+                    AND tcd2.decode = #{code}
+                </when>
+                <!-- code 길이가 5일 때 -->
+                <when test="code != null and code.length() == 5">
+                    AND tcd2.code = #{code}
+                </when>
+                <!-- code 길이가 9일 때 -->
+                <when test="code != null and code.length() == 9">
+                    AND tcd.code = #{code}
+                </when>
+            </choose>
+        </where>
     </select>
 
 

@@ -3,10 +3,10 @@ package com.lec.spring.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lec.spring.domain.Areacode;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.WeatherDTO;
 import com.lec.spring.repository.AreacodeRepository;
-import com.lec.spring.repository.LastCallApiDataRepository;
+import com.lec.spring.repository.LastCallApiDateRepository;
 import com.lec.spring.repository.WeatherRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +29,14 @@ public class WeatherServiceImpl implements WeatherService {
 
     private WeatherRepository weatherRepository;
     private AreacodeRepository areacodeRepositorye;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDataRepository;
 
     @Autowired
     public WeatherServiceImpl(SqlSession sqlSession)
     {
         weatherRepository = sqlSession.getMapper(WeatherRepository.class);
         areacodeRepositorye = sqlSession.getMapper(AreacodeRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
     }
 
 
@@ -95,7 +95,7 @@ public class WeatherServiceImpl implements WeatherService {
 
             JsonNode itemArray = items.get("item");
 
-            LastCallApiData lastCallApiData = new LastCallApiData();
+            LastCallApiDate lastCallApiData = new LastCallApiDate();
 
             Areacode areacode = areacodeRepositorye.findByAreaCode(1L); // 서울
 
@@ -116,7 +116,7 @@ public class WeatherServiceImpl implements WeatherService {
         }
     }
 
-    private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, LastCallApiData lastCallApiData, Areacode areacode) {
+    private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, LastCallApiDate lastCallApiData, Areacode areacode) {
         List<WeatherDTO> weatherList = new ArrayList<>();
         int cnt = 0;
         WeatherDTO weather = new WeatherDTO();
