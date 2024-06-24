@@ -361,3 +361,10 @@ ALTER TABLE short_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
     FOREIGN KEY (last_call_api_id)
     REFERENCES last_call_api_date (id);
+
+
+ALTER TABLE user_authorities
+    ADD CONSTRAINT FK_user_TO_user_authorities2
+        FOREIGN KEY (user_id)
+            REFERENCES user(id)
+            ON DELETE CASCADE;

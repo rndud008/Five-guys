@@ -23,5 +23,10 @@ values (12, '관광지'),
 
 
 insert into authority (id, name)
-VALUES (1, 'ADMIN'),
-       (2, 'MEMBER')
+VALUES (1, 'ROLE_ADMIN'),
+       (2, 'ROLE_MEMBER');
+
+drop table authority;
+
+select *
+from authority;
