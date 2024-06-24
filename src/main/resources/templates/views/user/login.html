@@ -37,13 +37,16 @@
         </div>
         <button type="submit">로그인</button>
 
-        <a th:href="@{/user/register}">회원가입</a>
+        <div>
+            <a th:href="@{/user/register}">회원가입</a>
+        </div>
 
         <!-- OAuth 로그인 -->
-        <a th:href="@{https://kauth.kakao.com/oauth/authorize
-            (response_type=${'code'}, client_id=${@environment.getProperty('app.oauth2.kakao.client-id')}, redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
-        <img th:src="@{/img/kakao_login_button.png}" width="260" height="45">
+        <a class="btn btn-lg my-1" th:href="@{/oauth2/authorization/naver}">
+            <img th:src="@{/img/naver_login_button.png}" width="260" height="45">
         </a>
+
+
     </form>
 </div>
 </body>

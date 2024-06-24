@@ -20,7 +20,7 @@
 
     <select id="findById" resultType="com.lec.spring.domain.User">
         <include refid="SELECT_BASE"/>
-        AND username = #{username}
+        AND id = #{id}
     </select>
 
     <select id="findByUsername" resultType="com.lec.spring.domain.User">

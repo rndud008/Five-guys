@@ -21,3 +21,7 @@ insert into travel_type (id, name)
 values (12, '관광지'),
        (15, '축제공연행사');
 
+
+insert into authority (id, name)
+VALUES (1, 'ADMIN'),
+       (2, 'MEMBER')

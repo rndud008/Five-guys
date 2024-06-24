@@ -13,12 +13,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+import com.lec.spring.util.U;
 
 @Controller
 @RequestMapping("/oauth2")
@@ -34,6 +40,9 @@ public class OAuth2Controller {
     @Value("${app.oauth2.kakao.user-info-uri}")
     private String kakaoUserInfoUri;
 
+    @Value("${app.oauth2.password}")
+    private String oauth2Password;
+
     @Autowired
     private UserService userService;
 
@@ -43,7 +52,7 @@ public class OAuth2Controller {
     @GetMapping("/kakao/callback")
     public String kakaoCallback(String code) {
 
-        // code 값 확인 <- 인증완료
+        // 인가 code 확인 <- 인증완료
         System.out.println("\n<<카카오 인증 완료>>\ncode: " + code);
 
         // Access token 받아오기
@@ -58,7 +67,7 @@ public class OAuth2Controller {
         // 사이트 로그인
         loginKakaoUser(kakaoUser);
 
-        return null;
+        return "redirect:/";
     }
 
     public KakaoOAuthToken kakaoAccessToken(String code) {
@@ -78,14 +87,14 @@ public class OAuth2Controller {
         params.add("code", code);
 
         // header, body 를 담은 HttpEntity 생성
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(params, headers);
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
 
         // 요청
         // 카카오 API에 POST 요청을 보내고, 사용자 정보를 문자열 형태로 응답받을 수 있음.
         ResponseEntity<String> response = rt.exchange( // RestTemplate 의 exchange 메소드를 사용하여 HTTP 요청을 보냄
-                kakaoUserInfoUri,  // 요청을 보낼 카카오 사용자 정보 API 의 URI
+                kakaoTokenUri,  // Access Code 발급 URI
                 HttpMethod.POST,    // POST 메소드를 사용하여 요청
-                kakaoProfileRequest,    // 요청 엔티티, 요청의 헤더와 본문을 포함함.
+                kakaoTokenRequest,    // 요청 엔티티, 요청의 헤더와 본문을 포함함.
                 String.class
         );
 
@@ -104,6 +113,8 @@ public class OAuth2Controller {
 
         return token;
     }
+
+
 
     public KakaoProfile kakaoUserInfo(String accessToken) {
         RestTemplate rt = new RestTemplate();
@@ -148,6 +159,7 @@ public class OAuth2Controller {
         String providerId = "" + profile.getId();
         String username = provider + "_" + providerId;
         String name = profile.getKakaoAccount().getProfile().getNickname();
+        String password = oauth2Password;
 
         // 이미 가입된 회원인지 유부
         User user = userService.findByUsername(username);
@@ -155,15 +167,46 @@ public class OAuth2Controller {
             User newUser = User.builder()
                     .username(username)
                     .name(name)
-//                    .password(password)
-                    .provider(provider)
-                    .providerId(providerId)
+                    .password(password)
+                    .provide(provider)
+                    .provideId(providerId)
                     .build();
 
+            int cnt = userService.register(newUser);    // 회원가입 -> 성공시 1 return
+            if(cnt > 0) {
+                user = userService.findByUsername(username);
+                System.out.println("[카카오] 가입 성공");
+            } else {
+                System.out.println("[카카오] 가입 실패");
+            }
+        } else {
+            System.out.println("[카카오] 이미 가입된 회원입니다");
         }
 
 
+        return user;
     }
+
+
+
+    // 카카오 아이디로 로그인
+    public void loginKakaoUser(User kakaoUser) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken( // 사용자 인증 정보를 담고 있는 객체
+                kakaoUser.getUsername(),
+                oauth2Password
+        );
+
+        System.out.println("Authentication token: " + authenticationToken);
+
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        SecurityContext sc = SecurityContextHolder.getContext();
+        sc.setAuthentication(authentication);
+
+        U.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+        System.out.println("카카오 로그인 완료");
+    }
+
+
 
 
 }

@@ -1,7 +1,11 @@
 package com.lec.spring.config;
 
+import com.lec.spring.config.oauth.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -11,7 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     //OAuth2 Client
-
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,14 +41,13 @@ public class SecurityConfig {
                         .loginPage("/user/login")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
                         .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
                         .defaultSuccessUrl("/") // 이전 페이지에서 로그인 요청하여 로그인 성공 시, 해당 페이지로 다시 이동
-                        .successHandler(new CustomLoginSuccessHandler("/home"))
-                        .failureHandler(new CustomLoginFailureHandler())
+                        .successHandler(new CustomLoginSuccessHandler("/home")) // 로그인 성공시 수행
+                        .failureHandler(new CustomLoginFailureHandler())    // 로그인 실패시 수행
                 )
 
-                /********************************************
-                 * ③ 로그아웃 설정
-                 * .logout(LogoutConfigurer)
-                 ********************************************/
+                /**
+                 * 로그아웃 설정
+                 */
                 // ※ 아래 설정 없이도 기본적으로 /logout 으로 로그아웃 된다
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                                 .logoutUrl("/user/logout")  // 로그아웃 수행 url
@@ -54,14 +58,10 @@ public class SecurityConfig {
                                 // 이따가 CustomLogoutSuccessHandler 에서 꺼낼 정보가 있기 때문에
                                 // false 로 세팅한다
 
-//                        .deleteCookies("JSESSIONID")    // 쿠키 제거
-
                                 // 로그아웃 성공후 수행할 코드
                                 // .logoutSuccessHandler(LogoutSuccessHandler)
                                 .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 )
-
-
                 /**
                  * 예외처리 설정
                  */
@@ -70,6 +70,20 @@ public class SecurityConfig {
                         .accessDeniedHandler(new CustomAccessDeniedHandler())
                 )
 
+
+                /**
+                 * OAuth2 로그인
+                 */
+                .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
+                        .loginPage("/user/login")
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(principalOauth2UserService)))
+
                 .build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
