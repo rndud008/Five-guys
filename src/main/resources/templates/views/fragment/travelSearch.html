@@ -23,29 +23,4 @@
 
 </th:block>
 
-
-<script>
-
-    $(document).ready(function () {
-        $('#searchForm').on('submit', function (event) {
-            event.preventDefault(); // Prevent the form from submitting via the browser
-
-            const searchQuery = $('#searchQuery').val();
-
-            $.ajax({
-                url: '/travelSearch',
-                type: 'POST',
-                data: {searchQuery: searchQuery},
-                success: function (response) {
-                    $('#results').html(response);
-                },
-                error: function (xhr, status, error) {
-                    $('#results').html('<p>An error occurred: ' + error + '</p>');
-                }
-            });
-        });
-    });
-
-</script>
-
 </html>

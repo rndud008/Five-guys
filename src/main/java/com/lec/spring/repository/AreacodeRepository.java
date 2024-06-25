@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface AreacodeRepository {
 
-    Areacode findByAreaCode(Long areaCode); // Areacode를 받고 지역을 리턴
+    Areacode findByAreaCode(Long areacode); // Areacode를 받고 지역을 리턴
 
     List<Areacode> findAll(); // 전체 지역목록조회
+    List<Areacode> findAllArea(); // 전체 목록조회 이름 헷갈려서 바꿈
 
 }

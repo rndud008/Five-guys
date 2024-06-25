@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/ckeditor5/build/ckeditor.js}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/translations/ko.js"></script>
+    <script th:src="@{/js/write.js}"></script>
+
+    <style>
+        .ck.ck-editor {
+            max-width: 600px;
+        }
+        .ck-editor__editable {
+            min-height: 300px;
+        }
+    </style>
+
+    <title>작성</title>
+</head>
+<body>
+
+<div th:with="user=${#authentication.getPrincipal().getUser()}">
+    <h2>작성</h2>
+    <hr>
+    <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
+        <div>
+            <label>작성자</label>
+            <span>[[${user.username}]]([[${user.name}]])</span>
+        </div>
+
+        <div>
+            <label>지역명</label>
+            <select id="areacode" name="areacode">
+                <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}"
+                        th:selected="${areacode.areacode} == ${selectedArea}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label>제목</label>
+            <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject}">
+            <br>
+            <span style="color: red" th:if="${error_subject}" th:utext="${error_subject}"></span>
+        </div>
+
+        <div>
+            <label>내용</label>
+            <textarea rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
+
+            <script>
+                ClassicEditor
+                    .create(document.querySelector('#content'), {
+                        language: 'ko',
+                    })
+                    .catch( error => {
+                        console.error(error);
+                    });
+            </script>
+
+
+        </div>
+
+        <!-- 첨부파일 -->
+        <div>
+            <div>
+                <label>첨부파일:</label>
+                <div id="files">
+
+                </div>
+                <button type="button" id="btnAdd">추가</button>
+            </div>
+        </div>
+        <!-- 첨부파일 -->
+
+        <button type="submit">작성완료</button>
+        <a th:href="@{/board/list}">목록</a>
+
+    </form>
+</div>
+
+</body>
+</html>

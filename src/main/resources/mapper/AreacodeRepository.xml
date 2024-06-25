@@ -9,6 +9,11 @@
         FROM areacode
     </select>
 
+    <select id="findAllArea" resultType="com.lec.spring.domain.Areacode">
+        SELECT*
+        FROM areacode
+    </select>
+
     <select id="findByAreaCode" resultType="com.lec.spring.domain.Areacode">
         SELECT *
         FROM areacode

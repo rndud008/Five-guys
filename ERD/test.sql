@@ -189,14 +189,14 @@ select tp.id                     as tp_id,
        lcad.url                  AS lcad_url,
        lcad.regdate              AS lcad_regdate
 FROM travel_post tp
-      JOIN travel_class_detail tcd on tcd.id = tp.travel_class_detail_id
-      JOIN travel_class_detail tcd2 ON tcd.decode = tcd2.code
-      JOIN travel_type tt ON tcd.travel_type_id = tt.id
-      JOIN sigungucode s ON tp.sigungucode_id = s.id
-      JOIN areacode a ON s.areacode = a.areacode
-      JOIN last_call_api_date lcad ON tp.last_call_api_id = lcad.id
+         JOIN travel_class_detail tcd on tcd.id = tp.travel_class_detail_id
+         JOIN travel_class_detail tcd2 ON tcd.decode = tcd2.code
+         JOIN travel_type tt ON tcd.travel_type_id = tt.id
+         JOIN sigungucode s ON tp.sigungucode_id = s.id
+         JOIN areacode a ON s.areacode = a.areacode
+         JOIN last_call_api_date lcad ON tp.last_call_api_id = lcad.id
 where
-tt.id= 12
+    tt.id= 12
 # and
 #     tcd2.decode = 'a02'
 #     a.areacode =1
@@ -205,7 +205,9 @@ tt.id= 12
 # and
 #     STR_TO_DATE(tp.eventstartdate, '%Y%m%d') >= CURDATE()
 # order by tp.eventstartdate asc
-limit 10 offset 20
+  and
+    tp.homepage = ''
+
 ;
 
 
@@ -215,7 +217,7 @@ FROM
     travel_class_detail tcd
         LEFT JOIN
     travel_class_detail tcd2 ON tcd.decode = tcd2.code
-    join travel_type tt on tcd.travel_type_id = tt.id
+        join travel_type tt on tcd.travel_type_id = tt.id
 # where
 # tcd2.code = 'a0101'
 #   and tcd2.decode = 'a01'

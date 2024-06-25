@@ -90,8 +90,12 @@
                         <h5 class="hide">세부정보</h5>
                         <dl class="info">
                             <dt>홈페이지</dt>
-                            <dd class="homepage"
-                                th:utext="${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}"></dd>
+                            <dd class="homepage" >
+                                <a th:if="${!#strings.isEmpty(post.homepage)}"
+                                   th:href="${post.homepage}"
+                                   target="_blank"
+                                   th:text="${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}">홈페이지</a>
+                            </dd>
                             <dt>주소</dt>
                             <dd th:utext="${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
                             <dt>문의 및 안내</dt>

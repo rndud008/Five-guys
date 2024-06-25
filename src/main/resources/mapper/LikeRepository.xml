@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lec.spring.repository.LikeRepository">
+
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Like">
+        INSERT INTO user_travel_diary_post
+            (user_id, travel_diary_post_id)
+        VALUE (#{userId}, #{postId});
+    </insert>
+
+    <delete id="delete" flushCache="true" parameterType="com.lec.spring.domain.Like">
+        DELETE FROM user_travel_diary_post
+        WHERE user_id = #{userId} AND travel_diary_post_id = #{postId};
+    </delete>
+
+    <select id="countByPost" resultType="Long">
+        SELECT count(*)
+        FROM user_travel_diary_post
+        WHERE travel_diary_post_id = #{postId};
+    </select>
+
+    <select id="findLike" resultType="com.lec.spring.domain.Like">
+        SELECT *
+        FROM user_travel_diary_post
+        WHERE user_id = #{userId} AND travel_diary_post_id = #{postId};
+    </select>
+
+
+</mapper>

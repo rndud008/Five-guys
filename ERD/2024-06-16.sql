@@ -240,121 +240,169 @@ CREATE TABLE user_travel_post
 ) COMMENT '여행 정보 좋아요';
 
 ALTER TABLE attachment
-  ADD CONSTRAINT FK_travel_diary_post_TO_attachment
-    FOREIGN KEY (travel_diary_post_id)
-    REFERENCES travel_diary_post (id);
+    ADD CONSTRAINT FK_travel_diary_post_TO_attachment
+        FOREIGN KEY (travel_diary_post_id)
+            REFERENCES travel_diary_post (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE blog_review
-  ADD CONSTRAINT FK_travel_post_TO_blog_review
-    FOREIGN KEY (travel_post_id)
-    REFERENCES travel_post (id);
+    ADD CONSTRAINT FK_travel_post_TO_blog_review
+        FOREIGN KEY (travel_post_id)
+            REFERENCES travel_post (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE comment
-  ADD CONSTRAINT FK_user_TO_comment
-    FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    ADD CONSTRAINT FK_user_TO_comment
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE comment
-  ADD CONSTRAINT FK_travel_diary_post_TO_comment
-    FOREIGN KEY (travel_diary_post_id)
-    REFERENCES travel_diary_post (id);
+    ADD CONSTRAINT FK_travel_diary_post_TO_comment
+        FOREIGN KEY (travel_diary_post_id)
+            REFERENCES travel_diary_post (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE middle_weather
-  ADD CONSTRAINT FK_areacode_TO_middle_weather
-    FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    ADD CONSTRAINT FK_areacode_TO_middle_weather
+        FOREIGN KEY (areacode)
+            REFERENCES areacode (areacode)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE short_weather
-  ADD CONSTRAINT FK_areacode_TO_short_weather
-    FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    ADD CONSTRAINT FK_areacode_TO_short_weather
+        FOREIGN KEY (areacode)
+            REFERENCES areacode (areacode)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE sigungucode
-  ADD CONSTRAINT FK_areacode_TO_sigungucode
-    FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    ADD CONSTRAINT FK_areacode_TO_sigungucode
+        FOREIGN KEY (areacode)
+            REFERENCES areacode (areacode)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE travel_class_detail
-  ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
-    FOREIGN KEY (travel_type_id)
-    REFERENCES travel_type (id);
+    ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
+        FOREIGN KEY (travel_type_id)
+            REFERENCES travel_type (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE travel_diary_post
-  ADD CONSTRAINT FK_user_TO_travel_diary_post
-    FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    ADD CONSTRAINT FK_user_TO_travel_diary_post
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE travel_diary_post
-  ADD CONSTRAINT FK_areacode_TO_travel_diary_post
-    FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    ADD CONSTRAINT FK_areacode_TO_travel_diary_post
+        FOREIGN KEY (areacode)
+            REFERENCES areacode (areacode)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_authorities
-  ADD CONSTRAINT FK_user_TO_user_authorities
-    FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    ADD CONSTRAINT FK_user_TO_user_authorities
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_authorities
-  ADD CONSTRAINT FK_authority_TO_user_authorities
-    FOREIGN KEY (authority_id)
-    REFERENCES authority (id);
+    ADD CONSTRAINT FK_authority_TO_user_authorities
+        FOREIGN KEY (authority_id)
+            REFERENCES authority (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_comment
-  ADD CONSTRAINT FK_user_TO_user_comment
-    FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    ADD CONSTRAINT FK_user_TO_user_comment
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_comment
-  ADD CONSTRAINT FK_comment_TO_user_comment
-    FOREIGN KEY (comment_id)
-    REFERENCES comment (id);
+    ADD CONSTRAINT FK_comment_TO_user_comment
+        FOREIGN KEY (comment_id)
+            REFERENCES comment (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_travel_diary_post
-  ADD CONSTRAINT FK_user_TO_user_travel_diary_post
-    FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    ADD CONSTRAINT FK_user_TO_user_travel_diary_post
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_travel_diary_post
-  ADD CONSTRAINT FK_travel_diary_post_TO_user_travel_diary_post
-    FOREIGN KEY (travel_diary_post_id)
-    REFERENCES travel_diary_post (id);
+    ADD CONSTRAINT FK_travel_diary_post_TO_user_travel_diary_post
+        FOREIGN KEY (travel_diary_post_id)
+            REFERENCES travel_diary_post (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_travel_post
-  ADD CONSTRAINT FK_travel_post_TO_user_travel_post
-    FOREIGN KEY (travel_post_id)
-    REFERENCES travel_post (id);
+    ADD CONSTRAINT FK_travel_post_TO_user_travel_post
+        FOREIGN KEY (travel_post_id)
+            REFERENCES travel_post (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE user_travel_post
-  ADD CONSTRAINT FK_user_TO_user_travel_post
-    FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    ADD CONSTRAINT FK_user_TO_user_travel_post
+        FOREIGN KEY (user_id)
+            REFERENCES user (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE travel_post
-  ADD CONSTRAINT FK_travel_class_detail_TO_travel_post
-    FOREIGN KEY (travel_class_detail_id)
-    REFERENCES travel_class_detail (id);
+    ADD CONSTRAINT FK_travel_class_detail_TO_travel_post
+        FOREIGN KEY (travel_class_detail_id)
+            REFERENCES travel_class_detail (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE travel_post
-  ADD CONSTRAINT FK_sigungucode_TO_travel_post
-    FOREIGN KEY (sigungucode_id)
-    REFERENCES sigungucode (id);
+    ADD CONSTRAINT FK_sigungucode_TO_travel_post
+        FOREIGN KEY (sigungucode_id)
+            REFERENCES sigungucode (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE blog_review
-  ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
-    FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
+        FOREIGN KEY (last_call_api_id)
+            REFERENCES last_call_api_date (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE middle_weather
-  ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
-    FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
+        FOREIGN KEY (last_call_api_id)
+            REFERENCES last_call_api_date (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE travel_post
-  ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
-    FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
+        FOREIGN KEY (last_call_api_id)
+            REFERENCES last_call_api_date (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
 
 ALTER TABLE short_weather
-  ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
-    FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
+        FOREIGN KEY (last_call_api_id)
+            REFERENCES last_call_api_date (id)
+            ON UPDATE RESTRICT
+            ON DELETE CASCADE;
