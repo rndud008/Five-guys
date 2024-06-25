@@ -10,16 +10,81 @@
     <link rel="stylesheet" href="/css/detail.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<!--    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>-->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
+
+
+
+
 </head>
 <body>
 <div id="wrap">
     <!-- header -->
     <header class="line scroll">
+        <div>
+            <h1 class="logo">
+                <a href="/">로고</a></h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
+                    <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
+                    <li><a href=""><span>게시판</span></a></li>
+                </ul>
+            </nav>
+            <h1 class="login"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+        </div>
     </header>
+
+    <th:block th:fragment="loginModal">
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Travel Login</h1>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="form-signin">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name"
+                                       name="floatingInput" autocomplete="floatingInput">
+                                <label for="floatingInput"  class="visually-hidden">ID</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                                       name="floatingPassword" autocomplete="floatingPassword">
+                                <label for="floatingPassword"  class="visually-hidden">Password</label>
+                            </div>
+                            <button class="btn btn-lightblue btn-block" type="submit">Login</button><br>
+                            <button class="btn btn-lightblue btn-block" type="submit">회원가입</button><br>
+                            <hr class="my-4">
+                            <h2 class="h5 mb-3">간편로그인</h2>
+                            <button class="btn btn-lightblue btn-block" type="submit">
+                                <img src="" alt="">
+                                Sign up with Kakao
+                            </button><br>
+                            <button class="btn btn-lightblue btn-block" type="submit">
+                                <img src="" alt="">
+                                Sign up with Google
+                            </button><br>
+                            <button class="btn btn-lightblue btn-block" type="submit">
+                                <img src="" alt="">
+                                Sign up with Naver
+                            </button><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
     <!-- //header -->
 
     <!-- container -->
@@ -120,20 +185,17 @@
     <!-- //container -->
 
     <!-- footer -->
-    <footer>
-        <div>
-            <div class="inner">
-                <div class="copy">
-                    <p>COPYRIGHT (C) 2024 IVORYSTORY. ALL RIGHT RESERVED.</p>
-                    <a href="mailto:dslice@naver.com" class="btn-contact">Contact Us</a>
-                </div>
-
-                <!-- <div class="provider"></div> -->
-                <!-- <button type="button" class="btn-top on" id="btnTop">상단으로 이동</button> -->
-            </div>
-
-
-        </div>
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Untitled</li><li>Design: KT</li>
+        </ul>
     </footer>
 </div>
 <script th:inline="javascript">
@@ -321,6 +383,69 @@
         } else {
             target.attachEvent('on' + type, callback);
         }
+    }
+
+</script>
+<script>
+    const navbarContainer = document.querySelector('header');
+    const navbarHeight = navbarContainer.offsetHeight;
+
+    window.addEventListener('scroll', function () {
+        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
+        if (window.pageYOffset >= navbarHeight) {
+            navbarContainer.classList.add('sticky');
+        } else {
+            navbarContainer.classList.remove('sticky');
+        }
+    });
+
+</script>
+<script>
+    // HTML에서 모달창 요소 선택
+    const modal = document.getElementById('modalSignin');
+
+    // HTML에서 모달창 열기 버튼 선택
+    const openModalBtn = document.querySelector('.login button');
+
+    // 모달창 요소가 존재하는지 확인
+    if (modal !== null) {
+        // 모달창 열기 이벤트 리스너 등록
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            centerModal();
+        });
+
+        // 모달창 닫기 버튼 선택
+        const closeModalBtn = document.querySelector('.modal .close');
+
+        // 모달창 닫기 이벤트 리스너 등록
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // 모달창 외부 클릭 시 닫기
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // 모달 창 중앙 정렬 함수
+        function centerModal() {
+            const dialog = modal.querySelector('.modal-dialog');
+
+            // 모달 창의 높이가 화면 높이보다 작을 경우
+            if (dialog.offsetHeight < window.innerHeight) {
+                dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
+            } else {
+                dialog.style.marginTop = '';
+            }
+        }
+
+        // 새로고침 시 모달창 열리지 않도록 설정
+        window.addEventListener('DOMContentLoaded', () => {
+            modal.style.display = 'none';
+        });
     }
 
 </script>
