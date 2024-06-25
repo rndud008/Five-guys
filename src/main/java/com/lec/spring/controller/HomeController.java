@@ -34,13 +34,15 @@ public class HomeController {
     public String post(@PathVariable String id, Model model) throws IOException {
 
         TravelPost travelPost = travelPostService.getTravelPostById(id);
+        travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
+        System.out.println(travelPost.getHomepage());
         model.addAttribute("post", travelPost);
 
         List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost);
 
         model.addAttribute("blogReview",blogReviewList);
 
-        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
+//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
         return "post";
     }
 
@@ -48,14 +50,16 @@ public class HomeController {
     public String festival(@PathVariable String id, Model model) throws IOException {
 
         TravelPost travelPost = travelPostService.getTravelPostById(id);
+        travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
         model.addAttribute("post", travelPost);
+
 
         List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost);
         model.addAttribute("blogReview",blogReviewList);
 
-        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
-
-        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
+//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
+//
+//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
 
         return "festival";
     }
@@ -69,4 +73,17 @@ public class HomeController {
 
     @GetMapping("/fragment/navbar")
     public void nvabar(){}
+
+    public String extraUrl(String homepage){
+        if(homepage == null || homepage.isEmpty()){
+            return "";
+        }
+        int firstQuote = homepage.indexOf('"');
+        int secondQuote = homepage.indexOf('"',firstQuote +1);
+
+        if(firstQuote != -1 && secondQuote != -1){
+            return homepage.substring(firstQuote+1, secondQuote);
+        }
+        return "";
+    }
 }

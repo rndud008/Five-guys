@@ -55,7 +55,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=1000&pageNo=2&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=1000&pageNo=7&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
             JsonNode items = null;
@@ -99,9 +99,20 @@ public class TravelPostServiceImpl implements TravelPostService {
     }
 
     @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeTotalList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList, long travelTypeId) {
+        return travelPostRepository.findTravelTypeByAreacodeTotalList(travelClassDetailList,sigungucodeList,travelTypeId);
+    }
+
+    @Override
     public List<TravelPost> selectedTravelTypeByAreacodeList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList
             , long travelTypeId,int limit, int offset) {
         return travelPostRepository.findTravelTypeByAreacodeList(travelClassDetailList, sigungucodeList, travelTypeId, limit, offset);
+    }
+
+    @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSearchTotalList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList
+            , long travelTypeId, String searchQuery) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSearchTotalList(travelClassDetailList,sigungucodeList,travelTypeId,searchQuery);
     }
 
     @Override
@@ -111,9 +122,21 @@ public class TravelPostServiceImpl implements TravelPostService {
     }
 
     @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeTotalList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode
+            , long travelTypeId) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeTotalList(travelClassDetailList,sigungucode,travelTypeId);
+    }
+
+    @Override
     public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode, long travelTypeId
             ,int limit, int offset) {
         return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList,sigungucode,travelTypeId, limit, offset);
+    }
+
+    @Override
+    public List<TravelPost> selectedTravelTypeByAreacodeAndSigungucodeAndSearchTotalList(List<TravelClassDetail> travelClassDetailList, Sigungucode sigungucode
+            , long travelTypeId, String searchQuery) {
+        return travelPostRepository.findTravelTypeByAreacodeAndSigungucodeAndSearchTotalList(travelClassDetailList,sigungucode,travelTypeId,searchQuery);
     }
 
     @Override
@@ -123,8 +146,18 @@ public class TravelPostServiceImpl implements TravelPostService {
     }
 
     @Override
+    public List<TravelPost> selectedByTravelTypeTotalList(List<TravelClassDetail> travelClassDetailList, long travelTypeId) {
+        return travelPostRepository.findByTravelTypeTotalList(travelClassDetailList,travelTypeId);
+    }
+
+    @Override
     public List<TravelPost> selectedByTravelTypeList(List<TravelClassDetail> travelClassDetailList, long travelTypeId,int limit, int offset) {
         return travelPostRepository.findByTravelTypeList(travelClassDetailList, travelTypeId, limit, offset);
+    }
+
+    @Override
+    public List<TravelPost> selectedByTravelTypAndSearchTotalList(List<TravelClassDetail> travelClassDetailList, long travelTypeId, String searchQuery) {
+        return travelPostRepository.findByTravelTypAndSearchTotalList(travelClassDetailList,travelTypeId,searchQuery);
     }
 
     @Override

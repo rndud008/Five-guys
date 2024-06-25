@@ -230,7 +230,7 @@
         and tp.contentid = #{contentid}
     </select>
 
-    <select id="findTravelTypeByAreacodeList" resultMap="mapTSList">
+    <select id="findTravelTypeByAreacodeTotalList" resultMap="mapTSList">
         <include refid="SELECT_BASE"/>
         WHERE tcd.id IN
         <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
@@ -246,7 +246,56 @@
             order by tp.eventstartdate asc
         </if>
 
+    </select>
+
+    <select id="findTravelTypeByAreacodeList" resultMap="mapTSList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.id IN
+        <foreach item="item" index="index" collection="sigungucodeList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
         limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSearchTotalList" resultMap="mapTSList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.id IN
+        <foreach item="item" index="index" collection="sigungucodeList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+
 
     </select>
 
@@ -261,19 +310,39 @@
             #{item.id}
         </foreach>
 
-        <if test="travelTypeId == 15">
-            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
-            order by tp.eventstartdate asc
-        </if>
-
         <if test="searchQuery != null and !searchQuery.isEmpty()">
             AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
         </if>
 
         limit #{limit} offset #{offset}
 
     </select>
 
+    <select id="findByTravelTypeTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+    </select>
 
     <select id="findByTravelTypeList" resultMap="mapTList">
         <include refid="SELECT_BASE"/>
@@ -284,10 +353,35 @@
 
         <if test="travelTypeId == 15">
             AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
-            order by tp.eventstartdate asc
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
         </if>
 
         limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findByTravelTypAndSearchTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
 
     </select>
 
@@ -298,16 +392,43 @@
             #{item.id}
         </foreach>
 
-        <if test="travelTypeId == 15">
-            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
-            order by tp.eventstartdate asc
-        </if>
-
         <if test="searchQuery != null and !searchQuery.isEmpty()">
             AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
         </if>
 
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
         limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSigungucodeTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.sigungucode = #{sigungucode.sigungucode}
+        and s.areacode = #{sigungucode.areacode.areacode}
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
 
     </select>
 
@@ -326,10 +447,42 @@
 
         <if test="travelTypeId == 15">
             AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
-            order by tp.eventstartdate asc
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
         </if>
 
         limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSigungucodeAndSearchTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.sigungucode = #{sigungucode.sigungucode}
+        and s.areacode = #{sigungucode.areacode.areacode}
+
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
 
     </select>
 
@@ -346,13 +499,20 @@
         AND s.sigungucode = #{sigungucode.sigungucode}
         and s.areacode = #{sigungucode.areacode.areacode}
 
-        <if test="travelTypeId == 15">
-            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
-            order by tp.eventstartdate asc
-        </if>
-
         <if test="searchQuery != null and !searchQuery.isEmpty()">
             AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
         </if>
 
         limit #{limit} offset #{offset}
