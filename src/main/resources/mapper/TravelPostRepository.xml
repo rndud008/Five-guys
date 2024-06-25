@@ -4,26 +4,206 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lec.spring.repository.TravelPostRepository">
+
+    <sql id="SELECT_BASE">
+        select tp.id                     as tp_id,
+               tp.travel_class_detail_id AS tp_travel_class_detail_id,
+               tp.last_call_api_id       AS tp_last_call_api_id,
+               tp.sigungucode_id         AS tp_sigungucode_id,
+               tp.title                  AS tp_title,
+               tp.addr1                  AS tp_addr1,
+               tp.addr2                  AS tp_addr2,
+               tp.contentid              AS tp_contentid,
+               tp.firstimage             AS tp_firstimage,
+               tp.firstimage2            AS tp_firstimage2,
+               tp.cpyrhtDivCd            AS tp_cpyrhtDivCd,
+               tp.mapx                   AS tp_mapx,
+               tp.mapy                   AS tp_mapy,
+               tp.modifiedtime           AS tp_modifiedtime,
+               tp.tel                    AS tp_tel,
+               tp.eventstartdate         AS tp_eventstartdate,
+               tp.eventenddate           AS tp_eventenddate,
+               tp.infocenter             AS tp_infocenter,
+               tp.parking                AS tp_parking,
+               tp.restdate               AS tp_restdate,
+               tp.usetime                AS tp_usetime,
+               tp.homepage               AS tp_homepage,
+               tp.overview               AS tp_overview,
+               tp.eventplace             AS tp_eventplace,
+               tp.playtime               AS tp_playtime,
+               tp.usetimefestival        AS tp_usetimefestival,
+               tp.infoname               AS tp_infoname,
+               tp.infotext               AS tp_infotext,
+               tcd.id                   AS tcd_id,
+               tcd.travel_type_id       AS tcd_travel_type_id,
+               tcd.name                 AS tcd_name,
+               tcd.code                 AS tcd_code,
+               tcd.decode               AS tcd_decode,
+               tt.id                     AS tt_id,
+               tt.name                   AS tt_name,
+               s.id                      AS s_id,
+               s.sigungucode             AS s_sigungucode,
+               s.name                    AS s_name,
+               s.areacode                AS s_areacode,
+               a.areacode                AS a_areacode,
+               a.name                    AS a_name,
+               a.regId                   AS a_regId,
+               lcad.id                   AS lcad_id,
+               lcad.url                  AS lcad_url,
+               lcad.regdate              AS lcad_regdate
+        FROM travel_post tp
+                 JOIN travel_class_detail tcd on tcd.id = tp.travel_class_detail_id
+                 JOIN travel_class_detail tcd2 ON tcd.decode = tcd2.code
+                 JOIN travel_type tt ON tcd.travel_type_id = tt.id
+                 JOIN sigungucode s ON tp.sigungucode_id = s.id
+                 JOIN areacode a ON s.areacode = a.areacode
+                 JOIN last_call_api_date lcad ON tp.last_call_api_id = lcad.id
+    </sql>
+
+
+    <resultMap id="mapTSList" type="com.lec.spring.domain.TravelPost">
+        <result column="tp_id" property="id"/>
+        <result column="tp_title" property="title"/>
+        <result column="tp_addr1" property="addr1"/>
+        <result column="tp_addr2" property="addr2"/>
+        <result column="tp_contentid" property="contentid"/>
+        <result column="tp_firstimage" property="firstimage"/>
+        <result column="tp_firstimage2" property="firstimage2"/>
+        <result column="tp_cpyrhtDivCd" property="cpyrhtDivCd"/>
+        <result column="tp_mapx" property="mapx"/>
+        <result column="tp_mapy" property="mapy"/>
+        <result column="tp_modifiedtime" property="modifiedtime"/>
+        <result column="tp_tel" property="tel"/>
+        <result column="tp_eventstartdate" property="eventstartdate"/>
+        <result column="tp_eventenddate" property="eventenddate"/>
+        <result column="tp_homepage" property="homepage"/>
+        <result column="tp_overview" property="overview"/>
+        <result column="tp_infocenter" property="infocenter"/>
+        <result column="tp_parking" property="parking"/>
+        <result column="tp_restdate" property="restdate"/>
+        <result column="tp_usetime" property="usetime"/>
+        <result column="tp_eventplace" property="eventplace"/>
+        <result column="tp_playtime" property="playtime"/>
+        <result column="tp_usetimefestival" property="usetimefestival"/>
+        <result column="tp_infoname" property="infoname"/>
+        <result column="tp_infotext" property="infotext"/>
+        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <collection property="travelClassDetail" resultMap="mapTravelDetailClass"/>
+        <collection property="sigungucode" resultMap="mapSigungu"/>
+    </resultMap>
+
+    <resultMap id="mapTList" type="com.lec.spring.domain.TravelPost">
+        <result column="tp_id" property="id"/>
+        <result column="tp_title" property="title"/>
+        <result column="tp_addr1" property="addr1"/>
+        <result column="tp_addr2" property="addr2"/>
+        <result column="tp_contentid" property="contentid"/>
+        <result column="tp_firstimage" property="firstimage"/>
+        <result column="tp_firstimage2" property="firstimage2"/>
+        <result column="tp_cpyrhtDivCd" property="cpyrhtDivCd"/>
+        <result column="tp_mapx" property="mapx"/>
+        <result column="tp_mapy" property="mapy"/>
+        <result column="tp_modifiedtime" property="modifiedtime"/>
+        <result column="tp_tel" property="tel"/>
+        <result column="tp_eventstartdate" property="eventstartdate"/>
+        <result column="tp_eventenddate" property="eventenddate"/>
+        <result column="tp_homepage" property="homepage"/>
+        <result column="tp_overview" property="overview"/>
+        <result column="tp_infocenter" property="infocenter"/>
+        <result column="tp_parking" property="parking"/>
+        <result column="tp_restdate" property="restdate"/>
+        <result column="tp_usetime" property="usetime"/>
+        <result column="tp_eventplace" property="eventplace"/>
+        <result column="tp_playtime" property="playtime"/>
+        <result column="tp_usetimefestival" property="usetimefestival"/>
+        <result column="tp_infoname" property="infoname"/>
+        <result column="tp_infotext" property="infotext"/>
+        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <association property="sigungucode" resultMap="mapSigungu"/>
+        <collection property="travelClassDetail" resultMap="mapTravelDetailClass"/>
+    </resultMap>
+
+    <resultMap id="mapAssociation" type="com.lec.spring.domain.TravelPost">
+        <result column="tp_id" property="id"/>
+        <result column="tp_title" property="title"/>
+        <result column="tp_addr1" property="addr1"/>
+        <result column="tp_addr2" property="addr2"/>
+        <result column="tp_contentid" property="contentid"/>
+        <result column="tp_firstimage" property="firstimage"/>
+        <result column="tp_firstimage2" property="firstimage2"/>
+        <result column="tp_cpyrhtDivCd" property="cpyrhtDivCd"/>
+        <result column="tp_mapx" property="mapx"/>
+        <result column="tp_mapy" property="mapy"/>
+        <result column="tp_modifiedtime" property="modifiedtime"/>
+        <result column="tp_tel" property="tel"/>
+        <result column="tp_eventstartdate" property="eventstartdate"/>
+        <result column="tp_eventenddate" property="eventenddate"/>
+        <result column="tp_homepage" property="homepage"/>
+        <result column="tp_overview" property="overview"/>
+        <result column="tp_infocenter" property="infocenter"/>
+        <result column="tp_parking" property="parking"/>
+        <result column="tp_restdate" property="restdate"/>
+        <result column="tp_usetime" property="usetime"/>
+        <result column="tp_eventplace" property="eventplace"/>
+        <result column="tp_playtime" property="playtime"/>
+        <result column="tp_usetimefestival" property="usetimefestival"/>
+        <result column="tp_infoname" property="infoname"/>
+        <result column="tp_infotext" property="infotext"/>
+        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <association property="sigungucode" resultMap="mapSigungu"/>
+        <association property="travelClassDetail" resultMap="mapTravelDetailClass"/>
+    </resultMap>
+
+    <resultMap id="mapLastCallApiDate" type="com.lec.spring.domain.LastCallApiDate">
+        <result column="lcad_id" property="id"/>
+        <result column="lcad_url" property="url"/>
+        <result column="lcad_regdate" property="regdate"/>
+    </resultMap>
+
+    <resultMap id="mapTravelType" type="com.lec.spring.domain.TravelType">
+        <result column="tt_id" property="id"/>
+        <result column="tt_name" property="name"/>
+    </resultMap>
+
+    <resultMap id="mapTravelDetailClass" type="com.lec.spring.domain.TravelClassDetail">
+        <result column="tcd_id" property="id"/>
+        <result column="tcd_name" property="name"/>
+        <result column="tcd_code" property="code"/>
+        <result column="tcd_decode" property="decode"/>
+        <association property="travelType" resultMap="mapTravelType"/>
+    </resultMap>
+
+    <resultMap id="mapAreacode" type="com.lec.spring.domain.Areacode">
+        <result column="a_areacode" property="areacode"/>
+        <result column="a_name" property="name"/>
+        <result column="a_regId" property="regId"/>
+    </resultMap>
+
+    <resultMap id="mapSigungu" type="com.lec.spring.domain.Sigungucode">
+        <result column="s_id" property="id"/>
+        <result column="s_sigungucode" property="sigungucode"/>
+        <result column="s_name" property="name"/>
+        <association property="areacode" resultMap="mapAreacode"/>
+    </resultMap>
+
     <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.TravelPost"
-        useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into travel_post
-        (
-         travel_class_detail_id, last_call_api_id, sigungucode_id, title, addr1, addr2, contentid, firstimage, firstimage2,
+        (travel_class_detail_id, last_call_api_id, sigungucode_id, title, addr1, addr2, contentid, firstimage,
+         firstimage2,
          cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
          parking, restdate, usetime, homepage, overview, eventplace, playtime, usetimefestival,
-         infoname, infotext
-        )
-        values
-        (
-         #{travelClassDetail.id}, #{lastCallApiData.id} ,#{sigungucode.id}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
-         #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
-         #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview}, #{eventplace},
-         #{playtime}, #{usetimefestival}, #{infoname}, #{infotext}
-        )
+         infoname, infotext)
+        values (#{travelClassDetail.id}, #{lastCallApiData.id}, #{sigungucode.id}, #{title}, #{addr1}, #{addr2},
+                #{contentid}, #{firstimage},
+                #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
+                #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview},
+                #{eventplace},
+                #{playtime}, #{usetimefestival}, #{infoname}, #{infotext})
     </insert>
 
     <select id="findAll" resultType="com.lec.spring.domain.TravelPost">
-        select id , title
+        select *
         from travel_post
     </select>
 
@@ -36,10 +216,310 @@
           AND tt.id = #{travelClassDetail.travelType.id}
     </select>
 
-    <select id="findPostByContentId">
-        select *
-        FROM travel_post
-        WHERE id = #{id}
+    <select id="findTravelTypeByTitleList" resultType="com.lec.spring.domain.TravelPost">
+        select tp.*
+        FROM travel_post tp
+                 join travel_class_detail tcd on tp.travel_class_detail_id = tcd.id
+                 join travel_type tt on tcd.travel_type_id = tt.id
+        and tp.title LIKE CONCAT('%', #{title}, '%')
+        and tcd.travel_type_id = #{travelClassDetail.travelType.id}
     </select>
+
+    <select id="findPostByContentId" resultMap="mapAssociation">
+        <include refid="SELECT_BASE"/>
+        and tp.contentid = #{contentid}
+    </select>
+
+    <select id="findTravelTypeByAreacodeTotalList" resultMap="mapTSList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.id IN
+        <foreach item="item" index="index" collection="sigungucodeList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeList" resultMap="mapTSList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.id IN
+        <foreach item="item" index="index" collection="sigungucodeList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
+        limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSearchTotalList" resultMap="mapTSList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.id IN
+        <foreach item="item" index="index" collection="sigungucodeList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSearchList" resultMap="mapTSList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.id IN
+        <foreach item="item" index="index" collection="sigungucodeList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
+        limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findByTravelTypeTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+    </select>
+
+    <select id="findByTravelTypeList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
+        limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findByTravelTypAndSearchTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+    </select>
+
+    <select id="findByTravelTypAndSearchList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
+        limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSigungucodeTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.sigungucode = #{sigungucode.sigungucode}
+        and s.areacode = #{sigungucode.areacode.areacode}
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSigungucodeList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.sigungucode = #{sigungucode.sigungucode}
+        and s.areacode = #{sigungucode.areacode.areacode}
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
+        limit #{limit} offset #{offset}
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSigungucodeAndSearchTotalList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.sigungucode = #{sigungucode.sigungucode}
+        and s.areacode = #{sigungucode.areacode.areacode}
+
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+            order by tp.eventstartdate asc
+        </if>
+
+    </select>
+
+    <select id="findTravelTypeByAreacodeAndSigungucodeAndSearchList" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tcd.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND s.sigungucode = #{sigungucode.sigungucode}
+        and s.areacode = #{sigungucode.areacode.areacode}
+
+        <if test="searchQuery != null and !searchQuery.isEmpty()">
+            AND tp.title LIKE CONCAT('%', #{searchQuery}, '%')
+        </if>
+
+        <if test="travelTypeId == 15">
+            AND STR_TO_DATE(tp.eventenddate, '%Y%m%d') >= CURDATE()
+        </if>
+
+        ORDER BY
+        <if test="travelTypeId == 15">
+            tp.eventstartdate ASC
+        </if>
+        <if test="travelTypeId != 15">
+            tp.title ASC
+        </if>
+
+        limit #{limit} offset #{offset}
+
+    </select>
+
+
+
 
 </mapper>

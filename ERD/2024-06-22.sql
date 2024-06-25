@@ -24,8 +24,11 @@ DROP TABLE IF EXISTS user_travel_post;
 CREATE TABLE areacode
 (
   areacode INT         NOT NULL COMMENT '지역코드번호',
+  nx       INT         NOT NULL COMMENT 'x좌표',
+  ny       INT         NOT NULL COMMENT 'y좌표',
   name     VARCHAR(20) NOT NULL COMMENT '지역이름',
-  regId    VARCHAR(10) NOT NULL COMMENT '중기예보 구역코드',
+  regId    VARCHAR(10) NOT NULL COMMENT '중기예보 기온',
+  regId2   VARCHAR(10) NOT NULL COMMENT '중기예보 날씨예보',
   PRIMARY KEY (areacode)
 ) COMMENT '지역(areacode)';
 
@@ -51,11 +54,11 @@ ALTER TABLE authority
 CREATE TABLE blog_review
 (
   id               INT          NOT NULL AUTO_INCREMENT COMMENT '블로그 리뷰id',
-  travel_post_id   INT          NOT NULL     COMMENT '여행 정보 목록 id',
+  travel_post_id   INT          NULL     COMMENT '여행 정보 목록 id',
   last_call_api_id INT          NOT NULL COMMENT 'API 호출 id',
   title            VARCHAR(200) NULL     COMMENT '블로그 포스트의 제목',
-  link             VARCHAR(500) NULL     COMMENT '블로그 포스트의 URL',
-  description      VARCHAR(500) NULL     COMMENT '내용을 요약한 패시지 정보',
+  link             VARCHAR(255) NULL     COMMENT '블로그 포스트의 URL',
+  description      VARCHAR(200) NULL     COMMENT '내용을 요약한 패시지 정보',
   postdate         VARCHAR(20)  NULL     COMMENT '블로그 포스트가 작성된 날짜',
   PRIMARY KEY (id)
 ) COMMENT '블로그 리뷰 리스트';
@@ -72,49 +75,49 @@ CREATE TABLE comment
 
 CREATE TABLE last_call_api_date
 (
-  id      INT  NOT NULL AUTO_INCREMENT COMMENT 'API 호출 id',
-  url     TEXT NULL     COMMENT 'apiurl',
-  regdate DATE NULL     DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
-  PRIMARY KEY (id)
+  last_api_id INT  NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
+  url         TEXT NULL     COMMENT 'api url',
+  regdate     DATE NULL     DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
+  PRIMARY KEY (last_api_id)
 ) COMMENT 'api 중복호출 방지';
 
 CREATE TABLE middle_weather
 (
-  id               INT         NOT NULL AUTO_INCREMENT COMMENT '중기날씨 중기육상예보 id',
+  id               INT         NOT NULL AUTO_INCREMENT COMMENT '중기날씨 id',
   last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
   areacode         INT         NOT NULL COMMENT '지역코드번호',
-  rnSt4Pm          VARCHAR(3)  NULL     COMMENT '4일 후 오후 강수 확률',
-  taMin4           VARCHAR(2)  NULL     COMMENT '4일 후 예상최저기온(℃)',
-  taMax4           VARCHAR(2)  NULL     COMMENT '4일 후 예상최고기온(℃)',
-  wf4Pm            VARCHAR(10) NULL     COMMENT '4일 후 오후 하늘상태',
-  rnSt5Pm          VARCHAR(3)  NULL     COMMENT '5일 후 오후 강수 확률',
-  taMin5           VARCHAR(2)  NULL     COMMENT '5일 후 예상최저기온(℃)',
-  taMax5           VARCHAR(2)  NULL     COMMENT '5일 후 예상최고기온(℃)',
-  wf5Pm            VARCHAR(10) NULL     COMMENT '5일 후 오후 하늘상태',
-  rnSt6Pm          VARCHAR(3)  NULL     COMMENT '6일 후 오후 강수 확률',
-  taMin6           VARCHAR(2)  NULL     COMMENT '6일 후 예상최저기온(℃)',
-  taMax6           VARCHAR(2)  NULL     COMMENT '6일 후 예상최고기온(℃)',
-  wf6Pm            VARCHAR(10) NULL     COMMENT '6일 후 오후 하늘상태',
-  rnSt7Pm          VARCHAR(3)  NULL     COMMENT '7일 후 오후 강수 확률',
-  taMin7           VARCHAR(2)  NULL     COMMENT '7일 후 예상최저기온(℃)',
-  taMax7           VARCHAR(2)  NULL     COMMENT '7일 후 예상최고기온(℃)',
-  wf7Pm            VARCHAR(10) NULL     COMMENT '7일 후 오후 하늘상태',
-  tmFc             VARCHAR(20) NULL     COMMENT '발표시각 ',
+  tmFc             VARCHAR(20) NULL     COMMENT '예보일자',
+  taMin4           VARCHAR(10) NULL     COMMENT '4일 후 예상최저기온(℃)',
+  taMax4           VARCHAR(10) NULL     COMMENT '4일 후 예상최고기온(℃)',
+  wf4Am            VARCHAR(10) NULL     COMMENT '4일 후 오전 날씨예보',
+  wf4Pm            VARCHAR(10) NULL     COMMENT '4일 후 오후 날씨예보',
+  taMin5           VARCHAR(10) NULL     COMMENT '5일 후 예상최저기온(℃)',
+  taMax5           VARCHAR(10) NULL     COMMENT '5일 후 예상최고기온(℃)',
+  wf5Am            VARCHAR(10) NULL     COMMENT '5일 후 오전 날씨예보',
+  wf5Pm            VARCHAR(10) NULL     COMMENT '5일 후 오후 날씨예보',
+  taMin6           VARCHAR(10) NULL     COMMENT '6일 후 예상최저기온(℃)',
+  taMax6           VARCHAR(10) NULL     COMMENT '6일 후 예상최고기온(℃)',
+  wf6Am            VARCHAR(10) NULL     COMMENT '6일 후 오전 날씨예보',
+  wf6Pm            VARCHAR(10) NULL     COMMENT '6일 후 오후 날씨예보',
+  taMin7           VARCHAR(10) NULL     COMMENT '7일 후 예상최저기온(℃)',
+  taMax7           VARCHAR(10) NULL     COMMENT '7일 후 예상최고기온(℃)',
+  wf7Am            VARCHAR(10) NULL     COMMENT '7일 후 오전 날씨예보',
+  wf7Pm            VARCHAR(10) NULL     COMMENT '7일 후 오후 날씨예보',
   PRIMARY KEY (id)
 ) COMMENT '중기예보(4~7일)';
 
 CREATE TABLE short_weather
 (
-  id               INT         NOT NULL AUTO_INCREMENT COMMENT '딘기날씨 id',
-  last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
-  areacode         INT         NOT NULL COMMENT '지역코드번호',
-  fcstdate         VARCHAR(8)  NULL     COMMENT '예보일자',
-  fcsttime         VARCHAR(4)  NULL     COMMENT '예보시각',
-  tmn              VARCHAR(3)  NULL     COMMENT '최저 기온',
-  tmx              VARCHAR(3)  NULL     COMMENT '최고 기온',
-  sky              VARCHAR(10) NULL     COMMENT '하늘상태',
-  pop              VARCHAR(3)  NULL     COMMENT '강수확률',
-  pty              VARCHAR(3)  NULL     COMMENT '강수형태',
+  id          INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
+  areacode    INT         NOT NULL COMMENT '지역코드번호',
+  last_api_id INT         NOT NULL COMMENT 'API호출id',
+  fcstDate    DATE        NULL     COMMENT '예보일자',
+  fcstTime    VARCHAR(10) NULL     COMMENT '예보시각',
+  tmn         VARCHAR(10) NULL     COMMENT '최저기온',
+  tmx         VARCHAR(10) NULL     COMMENT '최고기온',
+  sky         VARCHAR(10) NULL     COMMENT '하늘상태',
+  pop         VARCHAR(10) NULL     COMMENT '강수량',
+  pty         VARCHAR(10) NULL     COMMENT '강수형태',
   PRIMARY KEY (id)
 ) COMMENT '단기예보(1~3일)';
 
@@ -139,6 +142,7 @@ CREATE TABLE travel_class_detail
   PRIMARY KEY (id),
   UNIQUE KEY UQ_code_travel_type_id (code, travel_type_id)
 ) COMMENT '여행정보 유형분류';
+
 
 CREATE TABLE travel_diary_post
 (
@@ -208,8 +212,8 @@ CREATE TABLE user
 ALTER TABLE user
   ADD CONSTRAINT UQ_username UNIQUE (username);
 
--- ALTER TABLE user
---   ADD CONSTRAINT UQ_name UNIQUE (name);
+# ALTER TABLE user
+#   ADD CONSTRAINT UQ_name UNIQUE (name);
 
 CREATE TABLE user_authorities
 (
@@ -240,169 +244,122 @@ CREATE TABLE user_travel_post
 ) COMMENT '여행 정보 좋아요';
 
 ALTER TABLE attachment
-    ADD CONSTRAINT FK_travel_diary_post_TO_attachment
-        FOREIGN KEY (travel_diary_post_id)
-            REFERENCES travel_diary_post (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_travel_diary_post_TO_attachment
+    FOREIGN KEY (travel_diary_post_id)
+    REFERENCES travel_diary_post (id);
 
 ALTER TABLE blog_review
-    ADD CONSTRAINT FK_travel_post_TO_blog_review
-        FOREIGN KEY (travel_post_id)
-            REFERENCES travel_post (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_travel_post_TO_blog_review
+    FOREIGN KEY (travel_post_id)
+    REFERENCES travel_post (id);
+
+ALTER TABLE blog_review
+  ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
+    FOREIGN KEY (last_call_api_id)
+    REFERENCES last_call_api_date (last_api_id);
 
 ALTER TABLE comment
-    ADD CONSTRAINT FK_user_TO_comment
-        FOREIGN KEY (user_id)
-            REFERENCES user (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_user_TO_comment
+    FOREIGN KEY (user_id)
+    REFERENCES user (id);
 
 ALTER TABLE comment
-    ADD CONSTRAINT FK_travel_diary_post_TO_comment
-        FOREIGN KEY (travel_diary_post_id)
-            REFERENCES travel_diary_post (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_travel_diary_post_TO_comment
+    FOREIGN KEY (travel_diary_post_id)
+    REFERENCES travel_diary_post (id);
 
 ALTER TABLE middle_weather
-    ADD CONSTRAINT FK_areacode_TO_middle_weather
-        FOREIGN KEY (areacode)
-            REFERENCES areacode (areacode)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE short_weather
-    ADD CONSTRAINT FK_areacode_TO_short_weather
-        FOREIGN KEY (areacode)
-            REFERENCES areacode (areacode)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE sigungucode
-    ADD CONSTRAINT FK_areacode_TO_sigungucode
-        FOREIGN KEY (areacode)
-            REFERENCES areacode (areacode)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
+    FOREIGN KEY (last_call_api_id)
+    REFERENCES last_call_api_date (last_api_id);
 
 ALTER TABLE travel_class_detail
-    ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
-        FOREIGN KEY (travel_type_id)
-            REFERENCES travel_type (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
+    FOREIGN KEY (travel_type_id)
+    REFERENCES travel_type (id);
 
 ALTER TABLE travel_diary_post
-    ADD CONSTRAINT FK_user_TO_travel_diary_post
-        FOREIGN KEY (user_id)
-            REFERENCES user (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE travel_diary_post
-    ADD CONSTRAINT FK_areacode_TO_travel_diary_post
-        FOREIGN KEY (areacode)
-            REFERENCES areacode (areacode)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_authorities
-    ADD CONSTRAINT FK_user_TO_user_authorities
-        FOREIGN KEY (user_id)
-            REFERENCES user (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_authorities
-    ADD CONSTRAINT FK_authority_TO_user_authorities
-        FOREIGN KEY (authority_id)
-            REFERENCES authority (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_comment
-    ADD CONSTRAINT FK_user_TO_user_comment
-        FOREIGN KEY (user_id)
-            REFERENCES user (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_comment
-    ADD CONSTRAINT FK_comment_TO_user_comment
-        FOREIGN KEY (comment_id)
-            REFERENCES comment (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_travel_diary_post
-    ADD CONSTRAINT FK_user_TO_user_travel_diary_post
-        FOREIGN KEY (user_id)
-            REFERENCES user (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_travel_diary_post
-    ADD CONSTRAINT FK_travel_diary_post_TO_user_travel_diary_post
-        FOREIGN KEY (travel_diary_post_id)
-            REFERENCES travel_diary_post (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_travel_post
-    ADD CONSTRAINT FK_travel_post_TO_user_travel_post
-        FOREIGN KEY (travel_post_id)
-            REFERENCES travel_post (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
-
-ALTER TABLE user_travel_post
-    ADD CONSTRAINT FK_user_TO_user_travel_post
-        FOREIGN KEY (user_id)
-            REFERENCES user (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_user_TO_travel_diary_post
+    FOREIGN KEY (user_id)
+    REFERENCES user (id);
 
 ALTER TABLE travel_post
-    ADD CONSTRAINT FK_travel_class_detail_TO_travel_post
-        FOREIGN KEY (travel_class_detail_id)
-            REFERENCES travel_class_detail (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_travel_class_detail_TO_travel_post
+    FOREIGN KEY (travel_class_detail_id)
+    REFERENCES travel_class_detail (id);
 
 ALTER TABLE travel_post
-    ADD CONSTRAINT FK_sigungucode_TO_travel_post
-        FOREIGN KEY (sigungucode_id)
-            REFERENCES sigungucode (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_sigungucode_TO_travel_post
+    FOREIGN KEY (sigungucode_id)
+    REFERENCES sigungucode (id);
 
-ALTER TABLE blog_review
-    ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
-        FOREIGN KEY (last_call_api_id)
-            REFERENCES last_call_api_date (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+ALTER TABLE travel_post
+  ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
+    FOREIGN KEY (last_call_api_id)
+    REFERENCES last_call_api_date (last_api_id);
+
+ALTER TABLE user_authorities
+  ADD CONSTRAINT FK_user_TO_user_authorities
+    FOREIGN KEY (user_id)
+    REFERENCES user (id);
+
+ALTER TABLE user_authorities
+  ADD CONSTRAINT FK_authority_TO_user_authorities
+    FOREIGN KEY (authority_id)
+    REFERENCES authority (id);
+
+ALTER TABLE user_comment
+  ADD CONSTRAINT FK_user_TO_user_comment
+    FOREIGN KEY (user_id)
+    REFERENCES user (id);
+
+ALTER TABLE user_comment
+  ADD CONSTRAINT FK_comment_TO_user_comment
+    FOREIGN KEY (comment_id)
+    REFERENCES comment (id);
+
+ALTER TABLE user_travel_diary_post
+  ADD CONSTRAINT FK_user_TO_user_travel_diary_post
+    FOREIGN KEY (user_id)
+    REFERENCES user (id);
+
+ALTER TABLE user_travel_diary_post
+  ADD CONSTRAINT FK_travel_diary_post_TO_user_travel_diary_post
+    FOREIGN KEY (travel_diary_post_id)
+    REFERENCES travel_diary_post (id);
+
+ALTER TABLE user_travel_post
+  ADD CONSTRAINT FK_travel_post_TO_user_travel_post
+    FOREIGN KEY (travel_post_id)
+    REFERENCES travel_post (id);
+
+ALTER TABLE user_travel_post
+  ADD CONSTRAINT FK_user_TO_user_travel_post
+    FOREIGN KEY (user_id)
+    REFERENCES user (id);
 
 ALTER TABLE middle_weather
-    ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
-        FOREIGN KEY (last_call_api_id)
-            REFERENCES last_call_api_date (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_areacode_TO_middle_weather
+    FOREIGN KEY (areacode)
+    REFERENCES areacode (areacode);
 
-ALTER TABLE travel_post
-    ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
-        FOREIGN KEY (last_call_api_id)
-            REFERENCES last_call_api_date (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+ALTER TABLE sigungucode
+  ADD CONSTRAINT FK_areacode_TO_sigungucode
+    FOREIGN KEY (areacode)
+    REFERENCES areacode (areacode);
+
+ALTER TABLE travel_diary_post
+  ADD CONSTRAINT FK_areacode_TO_travel_diary_post
+    FOREIGN KEY (areacode)
+    REFERENCES areacode (areacode);
 
 ALTER TABLE short_weather
-    ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
-        FOREIGN KEY (last_call_api_id)
-            REFERENCES last_call_api_date (id)
-            ON UPDATE RESTRICT
-            ON DELETE CASCADE;
+  ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
+    FOREIGN KEY (last_api_id)
+    REFERENCES last_call_api_date (last_api_id);
+
+ALTER TABLE short_weather
+  ADD CONSTRAINT FK_areacode_TO_short_weather
+    FOREIGN KEY (areacode)
+    REFERENCES areacode (areacode);
+

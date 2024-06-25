@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<style>
+    body {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        background: #f0f4fb;
+        -webkit-font-smoothing: antialiased;
+        max-width: 1000px;
+        margin: 0 auto; /* 중앙 정렬을 위해 추가 */
+        padding: 0 20px; /* 왼쪽 오른쪽 여백 추가 */
+    }
+
+    .site-container {
+        margin: 2rem auto;
+        max-width: calc(100% - 80px);
+    }
+
+    .item-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 이미지 박스 최소 너비 300px로 설정 */
+        gap: 2rem;
+    }
+
+    .item-image {
+        width: 100%;
+        height: 300px; /* 이미지 박스 높이를 조정 */
+        overflow: hidden;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .item-card {
+        background: white;
+        border-radius: 20px;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 기본 그림자 추가 */
+    }
+
+    .item-card:hover {
+        box-shadow: 0 4px 20px rgba(34, 68, 123, 0.2);
+        cursor: pointer;
+    }
+
+    .item-content {
+        padding: 2rem;
+    }
+
+    .item-content .card-category {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        color: #6b82a7;
+        display: block;
+        text-decoration: none;
+    }
+
+    .item-content .card-title {
+        margin: 1rem 0;
+        color: #22447b;
+    }
+
+    .item-content .card-excerpt {
+        font-size: 1rem;
+        line-height: 1.5rem;
+        color: #6b82a7;
+        margin: 0;
+    }
+
+    @media screen and (min-width: 768px) {
+        .item-card {
+            grid-template-rows: 300px 1fr; /* 미디어 쿼리에서 그리드 행 설정 */
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        .site-container {
+            max-width: 1156px;
+        }
+    }
+</style>
+
+
+<th:block th:fragment="results">
+
+
+    <span class="first-item" th:data-value="${#lists.size(count)}" th:text="'총데이터수 : ' + ${#lists.size(count)}"></span>
+    <th:block th:if="${tour}">
+        <div class="item-card" th:each="item : ${tour}">
+            <a th:href="@{'/post/' + ${item.contentid}}">
+                <div class="item-image">
+                    <img th:src="${item.firstimage != '' ? item.firstimage : '/default/default1.jpg'}" th:alt="${item.title}">
+                </div>
+                <div class="item-content">
+                    <span class="card-category">travel korea</span>
+                    <h3 class="card-title" th:text="${item.title}">타이틀</h3>
+                    <p class="card-excerpt">타이틀?</p>
+                </div>
+            </a>
+        </div>
+    </th:block>
+
+    <th:block th:if="${festival}">
+        <div class="item-card" th:each="item : ${festival}">
+            <a th:href="@{'/festival/' + ${item.contentid}}">
+                <div class="item-image">
+                    <img th:src="${item.firstimage != '' ? item.firstimage : '/default/default1.jpg'}" th:alt="${item.title}">
+                </div>
+                <div class="item-content">
+                    <span class="card-category">travel korea</span>
+                    <h3 class="card-title" th:text="${item.title}">타이틀</h3>
+                    <p class="card-excerpt" th:text="${#strings.substring(item.eventstartdate, 2, 4)} + '.'
+                            + ${#strings.substring(item.eventstartdate, 4, 6)} + '.' + ${#strings.substring(item.eventstartdate, 6, 8)}+
+                            ' ~ '+${#strings.substring(item.eventenddate, 2, 4)} + '.' + ${#strings.substring(item.eventenddate, 4, 6)} + '.' + ${#strings.substring(item.eventenddate, 6, 8)}">
+                        행사일정
+                    </p>
+                </div>
+            </a>
+        </div>
+    </th:block>
+
+</th:block>
+
+</html>

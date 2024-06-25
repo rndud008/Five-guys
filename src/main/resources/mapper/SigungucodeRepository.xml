@@ -4,6 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lec.spring.repository.SigungucodeRepository">
+
+    <sql id="SELECT_BASE">
+        select
+            s.id "s_id",
+            s.sigungucode "s_sigungucode",
+            s.name "s_name",
+            s.areacode "s_areacode",
+            a.areacode "a_areacode",
+            a.name "a_name",
+            a.regId "a_regId"
+        FROM sigungucode s ,areacode a
+        where s.areacode = a.areacode
+    </sql>
+
+    <resultMap id="mapAreacode" type="com.lec.spring.domain.Areacode">
+        <result column="a_areacode" property="areacode"/>
+        <result column="a_name" property="name"/>
+        <result column="a_regId" property="regId"/>
+    </resultMap>
+
+    <resultMap id="mapSigungu" type="com.lec.spring.domain.Sigungucode">
+        <result column="s_id" property="id"/>
+        <result column="s_sigungucode" property="sigungucode"/>
+        <result column="s_name" property="name"/>
+        <association property="areacode" resultMap="mapAreacode"/>
+    </resultMap>
+
     <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode"
         useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO sigungucode (areacode, sigungucode, name)
@@ -16,11 +43,20 @@
         WHERE areacode = #{areacode.areacode}
     </update>
 
-    <select id="findAreacodeBySigungucode" resultType="com.lec.spring.domain.Sigungucode">
+    <select id="findAll" resultType="com.lec.spring.domain.Sigungucode">
         select *
         FROM sigungucode
-        where areacode = #{areacode.areacode} and sigungucode = #{sigungucode}
     </select>
 
+    <select id="findByAreacode" resultMap="mapSigungu">
+        <include refid="SELECT_BASE"/>
+        and s.areacode = #{areacode.areacode};
+    </select>
+
+    <select id="findAreacodeBySigungucode" resultMap="mapSigungu">
+        <include refid="SELECT_BASE"/>
+        and s.areacode = #{areacode.areacode}
+        and s.sigungucode = #{sigungucode}
+    </select>
 
 </mapper>

@@ -21,8 +21,6 @@ DROP TABLE IF EXISTS user_comment;
 DROP TABLE IF EXISTS user_travel_diary_post;
 DROP TABLE IF EXISTS user_travel_post;
 
-
-
 CREATE TABLE areacode
 (
     areacode INT         NOT NULL COMMENT '지역코드번호',

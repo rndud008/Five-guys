@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<th:block th:fragment="appendResults">
+
+            <th:block th:if="${tour}">
+                <div class="item-card" th:each="item : ${tour}">
+                    <a th:href="@{'/post/' + ${item.contentid}}">
+                        <div class="item-image">
+                            <img th:src="${item.firstimage != '' ? item.firstimage : '/default/default1.jpg'}" th:alt="${item.title}">
+                        </div>
+                        <div class="item-content">
+                            <span class="card-category">travel korea</span>
+                            <h3 class="card-title" th:text="${item.title}">타이틀</h3>
+                            <p class="card-excerpt">타이틀?</p>
+                        </div>
+                        </a>
+                </div>
+            </th:block>
+
+            <th:block th:if="${festival}">
+                <div class="item-card" th:each="item : ${festival}">
+                    <a th:href="@{'/festival/' + ${item.contentid}}">
+                        <div class="item-image">
+                            <img th:src="${item.firstimage != '' ? item.firstimage : '/default/default1.jpg'}" th:alt="${item.title}">
+                        </div>
+                        <div class="item-content">
+                            <span class="card-category">travel korea</span>
+                            <h3 class="card-title" th:text="${item.title}">타이틀</h3>
+                            <p class="card-excerpt" th:text="${#strings.substring(item.eventstartdate, 2, 4)} + '.'
+                            + ${#strings.substring(item.eventstartdate, 4, 6)} + '.' + ${#strings.substring(item.eventstartdate, 6, 8)}+
+                            ' ~ '+${#strings.substring(item.eventenddate, 2, 4)} + '.' + ${#strings.substring(item.eventenddate, 4, 6)} + '.' + ${#strings.substring(item.eventenddate, 6, 8)}">
+                                행사일정
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </th:block>
+
+</th:block>
+
+</html>
