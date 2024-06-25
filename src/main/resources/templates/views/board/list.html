@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/js/list.js}"></script>
+
+    <title>목록</title>
+</head>
+
+<body>
+
+<h2>목록</h2>
+
+<!-- 페이징 헤더 -->
+<div>
+    <span>총 [[${cnt}]]개</span>
+    <span>page [[${page}]]/[[${totalPage}]]</span>
+</div>
+<!-- 페이징 헤더 -->
+
+<div id="board">
+    <!-- 지역명 선택란 -->
+    <div id="areamenu">
+        <span th:unless="${selectareacode}">지역: 전체</span>
+        <form th:action="@{/board/list}" method="get">
+            <button>전체</button>
+        </form>
+        <!-- 지역 전부 표시 버튼 -->
+        <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}">
+            <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
+        </form>
+    </div>
+
+
+    <!-- 게시판 -->
+    <div>
+        <div>
+            <a th:href="@{/board/write}" style="margin-left: 400px" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
+        </div>
+        <hr>
+        <table>
+            <thead>
+            <tr>
+                <th>게시글 번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+                <th>좋아요</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${list}">
+                <td th:text="${post.id}"></td>
+                <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}"></a> </td>
+                <td th:text="${post.user.username}"></td>
+                <td th:text="${post.viewcnt}"></td>
+                <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${post.likecnt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- pagination-->
+<th:block th:insert="~{board/pagination::pagination}"></th:block>
+<!-- pagination-->
+
+</body>
+</html>

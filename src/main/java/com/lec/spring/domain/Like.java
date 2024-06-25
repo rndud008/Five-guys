@@ -5,15 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LastCallApiData {
-    private Long id;
-    private String url;
-    private Date regdate;
-
+public class Like {
+    private Long user_id;
+    private Long travel_diary_post_id;
 }
