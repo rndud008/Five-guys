@@ -1,0 +1,261 @@
+/* 전체 body 스타일 */
+body {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background: #f0f4fb;
+    -webkit-font-smoothing: antialiased;
+    max-width: 1200px; /* 최대 너비를 더 넓게 설정 */
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box; /* 모든 요소에 패딩과 테두리를 포함한 너비 적용 */
+    margin-top: 60px;
+}
+
+/* 왼쪽 정렬을 위한 추가 스타일 */
+.left-align {
+    text-align: left;
+}
+
+.category-item {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+    text-transform: uppercase;
+    text-align: left;
+    /* 추가적인 스타일링 */
+    background-color: #f0f4fb; /* 배경색 설정 */
+    padding: 10px 20px; /* 패딩 설정 */
+    border-radius: 8px; /* 테두리 설정 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+}
+
+/* 카테고리 선택 창 스타일 */
+.category-container,
+.region-category-container {
+    margin-bottom: 40px;
+    text-align: left; /* 선택 창을 좌측 정렬 */
+}
+
+/* 카테고리 선택 창 스타일 */
+.category-selected,
+.region-selected,
+.search-result {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-right: 20px;
+    display: flex; /* 플렉스 박스로 변경 */
+    align-items: center; /* 수직 정렬 설정 */
+    justify-content: flex-start; /* 좌측 정렬 설정 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    font-weight: bold; /* 글자 두껍게 설정 */
+    text-transform: uppercase; /* 텍스트 대문자로 변환 */
+    font-size: 1.2rem; /* 폰트 사이즈 조정 */
+    border: none; /* 테두리 없애기 */
+    outline: none; /* 포커스시 테두리 제거 */
+    flex-wrap: wrap; /* 아이템들을 여러 줄로 나열 */
+    margin-bottom: 10px;
+}
+
+.search-result{
+    margin-top: 10px
+}
+
+.category-selected li,
+.region-selected li,
+.search-result li{
+    margin: 5px; /* li 요소 간격 조정 */
+    padding: 8px 12px; /* li 요소 패딩 설정 */
+}
+
+.category-selected:hover,
+.region-selected:hover,
+.search-result:hover {
+    background-color: #0056b3;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
+}
+
+.category-selected:focus,
+.region-selected:focus,
+.search-result:focus{
+    transform: translateY(-2px); /* 포커스 시 약간 위로 이동 */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* 포커스 시 그림자 강화 */
+}
+
+.category-selected:active,
+.region-selected:active,
+.search-result:active{
+    transform: translateY(1px); /* 클릭 시 약간 아래로 이동 */
+    box-shadow: none; /* 클릭 시 그림자 제거 */
+}
+
+
+/* 리스트 스타일 */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* 리스트를 왼쪽 정렬 */
+}
+
+li {
+    cursor: pointer;
+    padding: 18px 30px; /* 더 큰 패딩 적용 */
+    border-radius: 40px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1.8rem; /* 더 큰 글자 크기로 조정 */
+    color: #333;
+    border: 1px solid #ddd;
+    width: calc(25% - 20px); /* 한 줄에 4개의 요소 정렬 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
+
+.region-subcategory-container,
+.middle-container,
+.small-container {
+    display: none;
+    margin-top: 20px;
+    /* 추가적인 스타일링 */
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.region-subcategory-container.active,
+.middle-container.active,
+.small-container.active {
+    display: block;
+}
+
+/* 사이트 컨테이너 */
+.site-container {
+    margin: 2rem auto;
+    max-width: 1200px; /* 더 넓은 사이트 컨테이너 너비 */
+    padding: 0 20px; /* 왼쪽, 오른쪽 패딩 추가 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 적용 */
+}
+
+/* 아이템 컨테이너 */
+.item-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 한 줄에 4개의 요소 정렬 */
+    gap: 2rem;
+}
+
+.first-item {
+    grid-column: 1 / -1; /* Grid의 모든 열을 차지하게 함 */
+    width: 100%; /* 너비를 100%로 설정하여 전체 너비를 차지하도록 수정 */
+    background-color: #fff; /* 배경색 설정 */
+    border-radius: 20px; /* 테두리 설정 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 기본 그림자 추가 */
+    overflow: hidden; /* 자식 요소의 넘침을 숨김 */
+    display: flex; /* 플렉스 박스 레이아웃 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 부드러운 트랜지션 효과 */
+    text-align: center;
+    padding: 20px; /* 내용에 패딩 추가 */
+    margin-bottom: 20px; /* 아이템 간격 조정 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+.first-item p {
+    font-size: 1rem; /* 내용 폰트 크기 조정 */
+    line-height: 1.5; /* 내용 줄 간격 설정 */
+    color: #6b82a7; /* 내용 색상 설정 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* 아이템 이미지 */
+.item-image {
+    width: 100%;
+    height: 400px; /* 이미지 박스 높이를 조정 */
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease; /* 이미지 트랜지션 효과 */
+}
+
+.item-image img:hover {
+    transform: scale(1.05); /* 호버 시 이미지 확대 */
+}
+
+/* 아이템 카드 */
+.item-card {
+    background: white;
+    border-radius: 20px;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 기본 그림자 추가 */
+}
+.item-card a{
+    text-decoration: none;
+}
+
+.item-card:hover {
+    box-shadow: 0 4px 20px rgba(34, 68, 123, 0.2);
+    cursor: pointer;
+}
+
+.item-content {
+    padding: 2rem;
+    text-align: center;
+    min-height: 100px; /* 최소 높이 설정 */
+    position: relative; /* 포지션을 추가하여 자식 요소들을 상대적으로 배치 */
+    overflow: hidden; /* 내용이 넘치면 숨김 처리 */
+}
+
+.item-content .card-category {
+    font-size: 0.875rem; /* 조금 더 작은 폰트 크기 */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: #6b82a7;
+    margin-bottom: 0.5rem; /* 마진을 줄임 */
+}
+
+.item-content .card-title {
+    margin: 0.75rem 0; /* 좀 더 적절한 마진 설정 */
+    color: #22447b;
+    white-space: nowrap; /* 넘치는 텍스트를 한 줄에 표시 */
+    overflow: hidden; /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트에 대해 생략 부호(...)를 표시 */
+    font-weight: bold;
+}
+
+.item-content .card-excerpt {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #6b82a7;
+    margin: 0;
+    overflow: hidden; /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트에 대해 생략 부호(...)를 표시 */
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .item-card {
+        grid-template-rows: 300px 1fr; /* 미디어 쿼리에서 그리드 행 설정 */
+    }
+}

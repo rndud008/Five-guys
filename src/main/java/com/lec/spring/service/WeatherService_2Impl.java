@@ -178,6 +178,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 // WeatherDTO_2 리스트 저장
                 for (WeatherDTO_2 weather : weatherList) {
                     try {
+
                         // LastCallApiDate ID를 설정하여 WeatherDTO_2 객체에 저장
                         weather.setLastCallApiDate(lastCallApiDate);
 
@@ -241,14 +242,13 @@ public class WeatherService_2Impl implements WeatherService_2 {
         return weatherList;
     }
 
-    private List<WeatherDTO_2> parseAndMapToDTO_2(JsonNode itemArray, LastCallApiDate lastCallApiDate, Areacode areacode) {
+    private List<WeatherDTO_2> parseAndMapToDTO_2(JsonNode itemArray, LastCallApiDate LastCallApiDate, Areacode areacode) {
         List<WeatherDTO_2> weatherList = new ArrayList<>();
 
         for (JsonNode item : itemArray) {
             WeatherDTO_2 dto = WeatherDTO_2.builder()
                     .areacode(areacode)
-                    .lastCallApiDate(lastCallApiDate)
-
+                    .lastCallApiDate(LastCallApiDate)
                     .wf4Am(item.has("wf4Am") ? item.get("wf4Am").asText() : null)
                     .wf4Pm(item.has("wf4Pm") ? item.get("wf4Pm").asText() : null)
                     .wf5Am(item.has("wf5Am") ? item.get("wf5Am").asText() : null)

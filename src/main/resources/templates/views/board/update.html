@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:if="${post}" th:with="logged_user=${#authentication.principal.user}">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/ckeditor5/build/ckeditor.js}"></script>
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>-->
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/translations/ko.js"></script>-->
+    <script th:src="@{/js/update.js}"></script>
+
+    <style>
+        .ck.ck-editor {
+            max-width: 600px;
+        }
+        .ck-editor__editable {
+            min-height: 300px;
+        }
+    </style>
+
+    <title>수정</title>
+</head>
+<body>
+
+<div>
+    <h2>수정</h2>
+    <hr>
+    <div>
+        <span>id: [[${post.id}]]</span>
+        <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+        <span>조회수: [[${post.viewcnt}]]</span>
+    </div>
+
+
+    <form th:action="@{/board/update}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:value="${post.id}"/>
+        <div>
+            <label>작성자:</label>
+            <span readonly th:text="${post.user.username}"></span>
+        </div>
+        <div>
+            <label>지역명</label>
+            <select id="areacode" name="areacode">
+                <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}" th:selected="${areacode.areacode == post.areacode}"></option>
+            </select>
+        </div>
+        <div>
+            <label for="subject">제목:</label>
+            <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject} ? ${subject} : ${post.subject}">
+            <br>
+            <span class="text-danger" th:if="${error_subject}" th:utext="${error_subject}"></span>
+        </div>
+        <div>
+            <label for="content">내용:</label>
+            <textarea class="form-control" rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content} ? ${content} : ${post.content}"></textarea>
+            <script>
+                ClassicEditor
+                    .create(document.querySelector('#content'), {
+                        language: 'ko',
+                    })
+                    .catch( error => {
+                        console.error(error);
+                    })
+            </script>
+        </div>
+
+        <!-- 기존 첨부파일  목록 (삭제 가능) -->
+
+        <div id="delFiles"></div>  <!-- 삭제할 file 의 id 값(들)을 담기위한 div -->
+        <div>
+            <label>첨부파일:</label>
+            <div th:each="attachment : ${post.fileList}">
+                <input type="text" readonly th:value="${attachment.sourcename}">
+                <button type="button" th:data-fileid-del="${attachment.id}">삭제</button>
+            </div>
+        </div>
+
+        <!-- 기존 첨부파일  목록 (삭제 가능) -->
+
+        <!-- 새로운 첨부파일 추가 -->
+        <div>
+            <label>새로운 첨부파일추가:</label>
+            <div id="files">
+                <!-- 추가된 파일들 write.js로 append -->
+            </div>
+            <button type="button" id="btnAdd">추가</button>
+        </div>
+        <!-- 새로운 첨부파일 추가 -->
+
+        <!-- 하단 링크 -->
+        <div>
+            <button type="submit" th:if="${logged_user.id == post.user.id}">수정완료</button>
+            <button type="button" onclick="history.back()">이전으로</button>
+            <a th:href="@{/board/list}">목록</a>
+        </div>
+        <!-- 하단 링크 -->
+
+
+    </form>
+</div>
+
+</body>
+</th:block>
+</html>

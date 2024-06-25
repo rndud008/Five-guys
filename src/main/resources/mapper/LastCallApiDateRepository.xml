@@ -20,11 +20,13 @@
     <select id="findByUrl" resultType="com.lec.spring.domain.LastCallApiDate">
         select *
         from last_call_api_date
-        where url = #{url} LIMIT 1
+        where url = #{url}
     </select>
 
-
-
-
+    <select id="findByRegdate" resultType="com.lec.spring.domain.LastCallApiDate">
+        select *
+        from last_call_api_date
+        where regdate = #{regdate}
+    </select>
 
 </mapper>
