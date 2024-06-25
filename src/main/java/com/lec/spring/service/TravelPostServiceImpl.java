@@ -23,7 +23,7 @@ public class TravelPostServiceImpl implements TravelPostService {
     private TravelPostRepository travelPostRepository;
     private AreacodeRepository areacodeRepository;
     private SigungucodeRepository sigungucodeRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
     private DataService dataService;
 
     static String BASE_URL = "https://apis.data.go.kr/B551011/KorService1/";
@@ -35,7 +35,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         travelPostRepository = sqlSession.getMapper(TravelPostRepository.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
         sigungucodeRepository = sqlSession.getMapper(SigungucodeRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         this.dataService = dataService;
     }
 
@@ -43,9 +43,9 @@ public class TravelPostServiceImpl implements TravelPostService {
     @Transactional
     public void saveTravelPosts() throws IOException, URISyntaxException {
 
-        LastCallApiData detailCommon1 = new LastCallApiData(); // 공통정보 url
-        LastCallApiData detailIntro1 = new LastCallApiData(); // 소개정보 url
-        LastCallApiData detailInfo1 = new LastCallApiData(); // 반복정보 url
+        LastCallApiDate detailCommon1 = new LastCallApiDate(); // 공통정보 url
+        LastCallApiDate detailIntro1 = new LastCallApiDate(); // 소개정보 url
+        LastCallApiDate detailInfo1 = new LastCallApiDate(); // 반복정보 url
 
         List<TravelType> travelTypes = travelTypeRepository.findAll();
         System.out.println("travelTypes 시작");
@@ -74,8 +74,8 @@ public class TravelPostServiceImpl implements TravelPostService {
     }// end saveTravelPosts
 
     @Transactional
-    public void itemSave(JsonNode item, TravelType travelType, LastCallApiData detailInfo1,
-                         LastCallApiData detailCommon1, LastCallApiData detailIntro1) throws IOException, URISyntaxException {
+    public void itemSave(JsonNode item, TravelType travelType, LastCallApiDate detailInfo1,
+                         LastCallApiDate detailCommon1, LastCallApiDate detailIntro1) throws IOException, URISyntaxException {
 
         String contentidCheck = item.get("contentid").asText();
         Long areacodeCheck = item.get("areacode").asLong();
@@ -115,7 +115,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                     + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
 
-            if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
+            if (lastCallApiDateRepository.findByUrl(apiUrl) == null) {
                 detailCommon1.setUrl(apiUrl);
 
                 timeUnit();
@@ -141,7 +141,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                     "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
                     "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-            if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
+            if (lastCallApiDateRepository.findByUrl(apiUrl) == null) {
                 detailIntro1.setUrl(apiUrl);
 
                 timeUnit();
@@ -189,7 +189,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                         "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
                         "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-                if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
+                if (lastCallApiDateRepository.findByUrl(apiUrl) == null) {
                     detailInfo1.setUrl(apiUrl);
 
                     timeUnit();
@@ -205,7 +205,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                             }
                         }
                         System.out.println("반복정보 api 호출 완료");
-                        lastCallApiDataRepository.save(detailInfo1);
+                        lastCallApiDateRepository.save(detailInfo1);
                     } else {
                         travelPost.setInfoname(null);
                         travelPost.setInfotext(null);
@@ -215,9 +215,9 @@ public class TravelPostServiceImpl implements TravelPostService {
                 travelPost.setInfoname(null);
                 travelPost.setInfotext(null);
             }
-            lastCallApiDataRepository.save(detailCommon1);
-            lastCallApiDataRepository.save(detailIntro1);
-            travelPost.setLastCallApiData(detailIntro1);
+            lastCallApiDateRepository.save(detailCommon1);
+            lastCallApiDateRepository.save(detailIntro1);
+            travelPost.setLastCallApiDate(detailIntro1);
             travelPostRepository.save(travelPost);
             System.out.println("item 저장완료");
         } else {

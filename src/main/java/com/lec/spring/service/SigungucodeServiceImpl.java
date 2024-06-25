@@ -30,6 +30,22 @@ public class SigungucodeServiceImpl implements SigungucodeService {
         this.dataService = dataService;
     }
 
+    @Override
+    public List<Sigungucode> list() {
+
+        return sigungucodeRepository.findAll();
+    }
+
+    @Override
+    public List<Sigungucode> selectedByAreacode(Long areacode) {
+        return sigungucodeRepository.findByAreacode(areacode);
+    }
+
+    @Override
+    public Sigungucode selectedAreacodeBySigungucode(Areacode areacode, Long sigungucode) {
+        return sigungucodeRepository.findAreacodeBySigungucode(areacode, sigungucode);
+    }
+
     public void saveSigungucodes() throws IOException {
         List<Areacode> areacodes = areacodeRepository.findAll();
 
@@ -53,7 +69,10 @@ public class SigungucodeServiceImpl implements SigungucodeService {
                 for (JsonNode item : items) {
                     Long sigunguCheck = item.get("code").asLong();
                     if (sigungucodeRepository.findAreacodeBySigungucode(areacode, sigunguCheck) == null){
+
                         itemSave(item, areacode);
+
+                        System.out.println("저장완료");
                     }else {
                         System.out.println("이미 저장되어있음.");
                     }
@@ -69,6 +88,8 @@ public class SigungucodeServiceImpl implements SigungucodeService {
         }
     }
 
+
+
     public void itemSave(JsonNode item, Areacode areacode){
         Sigungucode sigungucode = new Sigungucode();
         sigungucode.setAreacode(areacode);
@@ -82,7 +103,7 @@ public class SigungucodeServiceImpl implements SigungucodeService {
     public void timeUnit(){
         // API 호출 간격을 두기 위해 잠시 대기
         try {
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(1000);
             System.out.println("timeUnit 실행");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

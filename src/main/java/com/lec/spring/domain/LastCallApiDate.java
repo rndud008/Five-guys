@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LastCallApiData {
+public class LastCallApiDate {
     private Areacode areacode;
     private Long id;
     private String url;

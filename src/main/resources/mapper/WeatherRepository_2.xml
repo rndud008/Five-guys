@@ -6,7 +6,7 @@
     <insert id="insertWeather_1" parameterType="com.lec.spring.domain.WeatherDTO_2" flushCache="true"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO middle_weather (areacode, last_call_api_id,taMin4, tmFc, taMax4, taMin5, taMax5, taMin6, taMax6, taMin7, taMax7)
-        VALUES (#{areacode.areacode}, #{lastCallApiData.id}, #{tmFc} ,#{taMin4}, #{taMax4}, #{taMin5}, #{taMax5}, #{taMin6}, #{taMax6}, #{taMin7}, #{taMax7})
+        VALUES (#{areacode.areacode}, #{lastCallApiDate.id}, #{tmFc} ,#{taMin4}, #{taMax4}, #{taMin5}, #{taMax5}, #{taMin6}, #{taMax6}, #{taMin7}, #{taMax7})
     </insert>
 
 
@@ -14,7 +14,7 @@
     <insert id="insertWeather_2" parameterType="com.lec.spring.domain.WeatherDTO_2" flushCache="true"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO middle_weather (areacode, last_call_api_id,  wf4Am, wf4Pm, wf5Am, wf5Pm, wf6Am, wf6Pm, wf7Am, wf7Pm)
-        VALUES (#{areacode.areacode}, #{lastCallApiData.id},  #{wf4Am}, #{wf4Pm}, #{wf5Am}, #{wf5Pm}, #{wf6Am}, #{wf6Pm}, #{wf7Am}, #{wf7Pm})
+        VALUES (#{areacode.areacode}, #{lastCallApiDate.id},  #{wf4Am}, #{wf4Pm}, #{wf5Am}, #{wf5Pm}, #{wf6Am}, #{wf6Pm}, #{wf7Am}, #{wf7Pm})
     </insert>
 
 

@@ -15,7 +15,7 @@
         )
         values
         (
-         #{travelClassDetail.id}, #{lastCallApiData.id} ,#{sigungucode.id}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
+         #{travelClassDetail.id}, #{lastCallApiDate.id} ,#{sigungucode.id}, #{title}, #{addr1}, #{addr2}, #{contentid}, #{firstimage},
          #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
          #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview}, #{eventplace},
          #{playtime}, #{usetimefestival}, #{infoname}, #{infotext}

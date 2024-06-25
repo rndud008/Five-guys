@@ -9,7 +9,7 @@ import lombok.*;
 public class WeatherDTO {
     private long id;
     private Areacode areacode;
-    private LastCallApiData lastCallApiData;
+    private LastCallApiDate lastCallApiDate;
     private String TMN;
     private String TMX;
     private String SKY;

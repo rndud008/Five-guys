@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class WeatherDTO_2 {
     private long id;
     private Areacode areacode;
-    private LastCallApiData lastCallApiData;
+    private LastCallApiDate lastCallApiDate;
 
     private String tmFc;
 
@@ -40,12 +40,5 @@ public class WeatherDTO_2 {
     private String wf7Am;
     private String wf7Pm;
 
-    public Areacode getAreacode() {
-        return areacode;
-    }
-
-    public void setAreacode(Areacode areacode) {
-        this.areacode = areacode;
-    }
 }
 

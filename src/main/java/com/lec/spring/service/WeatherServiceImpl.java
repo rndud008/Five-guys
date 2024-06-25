@@ -3,10 +3,10 @@ package com.lec.spring.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lec.spring.domain.Areacode;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.WeatherDTO;
 import com.lec.spring.repository.AreacodeRepository;
-import com.lec.spring.repository.LastCallApiDataRepository;
+import com.lec.spring.repository.LastCallApiDateRepository;
 import com.lec.spring.repository.WeatherRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class WeatherServiceImpl implements WeatherService {
     private String numOfRows = "1000";
     private WeatherRepository weatherRepository;
     private AreacodeRepository areacodeRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
 
     // 현재 시간을 yyyyMMdd 형식으로 포맷팅
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -42,7 +42,7 @@ public class WeatherServiceImpl implements WeatherService {
     public WeatherServiceImpl(SqlSession sqlSession) {
         weatherRepository = sqlSession.getMapper(WeatherRepository.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class WeatherServiceImpl implements WeatherService {
         System.out.println("saveWeatherInfo 요청 URL: " + url);
 
         try {
-            LastCallApiData existingData = lastCallApiDataRepository.findByUrl(url);
+            LastCallApiDate existingData = lastCallApiDateRepository.findByUrl(url);
 
             if (existingData == null) {
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -93,14 +93,14 @@ public class WeatherServiceImpl implements WeatherService {
                 JsonNode itemArray = items.get("item");
 
                 // 마지막 호출 데이터 저장
-                LastCallApiData lastCallApiData = new LastCallApiData();
-                lastCallApiData.setUrl(url);
-                lastCallApiDataRepository.save(lastCallApiData);
+                LastCallApiDate lastCallApiDate = new LastCallApiDate();
+                lastCallApiDate.setUrl(url);
+                lastCallApiDateRepository.save(lastCallApiDate);
 
                 // areacode로 Areacode 객체 가져오기
                 Areacode areaCodeObj = areacodeRepository.findByAreaCode(areacode);
                 // WeatherDTO 리스트 생성
-                List<WeatherDTO> weatherList = parseAndMapToDTO(itemArray, lastCallApiData, areaCodeObj);
+                List<WeatherDTO> weatherList = parseAndMapToDTO(itemArray, lastCallApiDate, areaCodeObj);
 
                 // WeatherDTO 리스트 저장
                 for (WeatherDTO weather : weatherList) {
@@ -133,7 +133,7 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     // JSON 데이터를 파싱하고 WeatherDTO_2로 매핑하는 메서드
-    private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, LastCallApiData lastCallApiData, Areacode areacode) {
+    private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, LastCallApiDate lastCallApiDate, Areacode areacode) {
         Map<String, WeatherDTO> weatherMap = new HashMap<>();
 
         for (JsonNode data : itemArray) {
@@ -151,7 +151,7 @@ public class WeatherServiceImpl implements WeatherService {
             String key = fcstDate + fcstTime;
             WeatherDTO weather = weatherMap.getOrDefault(key, new WeatherDTO());
             weather.setAreacode(areacode);
-            weather.setLastCallApiData(lastCallApiData);
+            weather.setLastCallApiDate(lastCallApiDate);
             weather.setFcstDate(fcstDate);
             weather.setFcstTime(fcstTime);
 

@@ -1,13 +1,12 @@
 package com.lec.spring.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.TravelClassDetail;
 import com.lec.spring.domain.TravelType;
-import com.lec.spring.repository.LastCallApiDataRepository;
+import com.lec.spring.repository.LastCallApiDateRepository;
 import com.lec.spring.repository.TravelClassDetailRepository;
 import com.lec.spring.repository.TravelTypeRepository;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,14 +24,14 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
     private String apikey;
     private TravelTypeRepository travelTypeRepository;
     private TravelClassDetailRepository travelClassDetailRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
     private DataService dataService;
 
     @Autowired
     public TravelClassDetailServiceImpl(SqlSession sqlSession, DataService dataService) {
         travelTypeRepository = sqlSession.getMapper(TravelTypeRepository.class);
         travelClassDetailRepository = sqlSession.getMapper(TravelClassDetailRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         this.dataService = dataService;
     }
 
@@ -42,7 +41,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
         List<TravelType> travelTypes = travelTypeRepository.findAll();
         System.out.println("travelTypes 시작");
 
-        LastCallApiData lastCallApiData = new LastCallApiData();
+        LastCallApiDate lastCallApiDate = new LastCallApiDate();
         for (TravelType travelType : travelTypes) {
 
             String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/categoryCode1?" +
@@ -75,7 +74,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
 
                     apiUrl2 = createApiUrl(travelClassDetail, travelType);
 
-                    lastSave(apiUrl2,lastCallApiData, travelType, travelClassDetail);
+                    lastSave(apiUrl2, lastCallApiDate, travelType, travelClassDetail);
 
                     timeUnit();
 
@@ -87,7 +86,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
 
                     apiUrl2 = createApiUrl(travelClassDetail2, travelType);
 
-                    lastSave(apiUrl2, lastCallApiData, travelType, travelClassDetail2);
+                    lastSave(apiUrl2, lastCallApiDate, travelType, travelClassDetail2);
 
                     timeUnit();
 
@@ -118,10 +117,10 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
         System.out.println("item2 저장완료");
     }
 
-    public void lastSave(String apiUrl2,LastCallApiData lastCallApiData, TravelType travelType, TravelClassDetail travelClassDetail) throws IOException, URISyntaxException {
-        if (lastCallApiDataRepository.findByUrl(apiUrl2) == null){
+    public void lastSave(String apiUrl2, LastCallApiDate lastCallApiDate, TravelType travelType, TravelClassDetail travelClassDetail) throws IOException, URISyntaxException {
+        if (lastCallApiDateRepository.findByUrl(apiUrl2) == null){
             System.out.println(apiUrl2);
-            lastCallApiData.setUrl(apiUrl2);
+            lastCallApiDate.setUrl(apiUrl2);
             JsonNode items2 = dataService.fetchApiData(apiUrl2);
             System.out.println("push2 시작");
             for (JsonNode item2 : items2) {
@@ -133,7 +132,7 @@ public class TravelClassDetailServiceImpl implements TravelClassDetailService {
                 }// travelClassDetail2 save
 
             }// end items2
-            lastCallApiDataRepository.save(lastCallApiData);
+            lastCallApiDateRepository.save(lastCallApiDate);
         }else {
             System.out.println(apiUrl2);
             System.out.println("이미 호출 완료");
