@@ -235,4 +235,7 @@ UPDATE comment
 SET content = '111'
 WHERE id = 11;
 
+SELECT * FROM user_travel_post;
+SELECT * FROM travel_diary_post;
+
 
