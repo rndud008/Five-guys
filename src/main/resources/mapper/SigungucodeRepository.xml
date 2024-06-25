@@ -12,7 +12,7 @@
 
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.Sigungucode">
         UPDATE sigungucode
-        SET (sigungucode = #{sigungucode}, name = #{name})
+        SET sigungucode = #{sigungucode}, name = #{name}
         WHERE areacode = #{areacode.areacode}
     </update>
 

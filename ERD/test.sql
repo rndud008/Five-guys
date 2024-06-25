@@ -1,4 +1,4 @@
-INSERT INTO areacode (areacode, name, regId) VALUES
+INSERT INTO areacode (areacode, name, regId, regId2) VALUES
 (1, '서울', '11B10101'), -- 서울의 regId를 서울에 포함
 (2, '부산', '11H20201'), -- 부산의 regId를 부산에 포함
 (3, '대전', '11C20401'), -- 대전의 regId를 대전에 포함
@@ -16,6 +16,54 @@ INSERT INTO areacode (areacode, name, regId) VALUES
 (15, '경북', '11H10501'), -- 안동의 regId를 경북에 포함
 (16, '인천', '11B20201'), -- 인천의 regId를 인천에 포함
 (17, '제주', '11G00201'); -- 제주의 regId를 제주에 포함
+select * from areacode;
+
+
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (1, '서울', '11B10101', '11B00000', 60, 127);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (2, '부산', '11H20201', '11H20000', 98, 76);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (3, '대전', '11C20401', '11C20000', 67, 100);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (4, '전북', '11F10201', '11F10000', 63, 89);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (5, '강원', '11D10301', '11D20000', 73, 134);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (6, '경남', '11H20301', '11H20000', 90, 77);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (7, '광주', '11F20501', '11F20000', 60, 74);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (8, '전남', '11F20601', '11F20000', 52, 71);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (9, '경기', '11B20301', '11B00000', 57, 123);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (10, '세종', '11C20201', '11C20000', 66, 103);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (11, '충북', '11C20402', '11C10000', 69, 106);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (12, '충남', '11C20403', '11C20000', 55, 106);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (13, '대구', '11H10701', '11H10000', 99, 75);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (14, '울산', '11H20101', '11H20000', 102, 84);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (15, '경북', '11H10501', '11H20000', 91, 106);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (16, '인천', '11B20201', '11B00000', 54, 125);
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny) VALUES (17, '제주', '11G00201', '11G00000', 53, 38);
+
+DELETE FROM areacode;
+
+INSERT INTO areacode (areacode, name, regId, regId2, nx, ny)
+VALUES
+    (1, '서울', '11B10101', '11B00000', 60, 127),
+    (2, '부산', '11H20201', '11H20000', 98, 76),
+    (3, '대전', '11C20401', '11C20000', 67, 100),
+    (4, '전북', '11F10201', '11F10000', 63, 89),
+    (5, '강원', '11D10301', '11D20000', 73, 134),
+    (6, '경남', '11H20301', '11H20000', 90, 77),
+    (7, '광주', '11F20501', '11F20000', 60, 74),
+    (8, '전남', '11F20601', '11F20000', 52, 71),
+    (31, '경기', '11B20301', '11B00000', 57, 123),
+    (32, '세종', '11C20201', '11C20000', 66, 103),
+    (33, '충북', '11C20402', '11C10000', 69, 106),
+    (34, '충남', '11C20403', '11C20000', 55, 106),
+    (35, '대구', '11H10701', '11H10000', 99, 75),
+    (36, '울산', '11H20101', '11H20000', 102, 84),
+    (37, '경북', '11H10501', '11H20000', 91, 106),
+    (38, '인천', '11B20201', '11B00000', 54, 125),
+    (39, '제주', '11G00201', '11G00000', 53, 38);
+
+
+
+
+
+
 
 INSERT INTO sigungucode (areacode, sigungucode, name) VALUES
 (1, 1, '강남구'),
@@ -65,7 +113,7 @@ WHERE areacode = 1;
 
 -- short_weather 테이블 데이터 조회
 SELECT *
-FROM short_weather ;
+FROM short_weather;
 
 -- middle_weather 테이블 데이터 조회
 select * from areacode;
@@ -105,14 +153,7 @@ where title LIKE '%도드람%';
 select *
 FROM last_call_api_date;
 
-select tp.*
-FROM travel_post tp
-         join travel_class_detail tcd on tp.travel_class_detail_id = tcd.id
-         join travel_type tt on tcd.travel_type_id = tt.id
-where tp.contentid = 2865100
-  AND tt.id = 12
 
-FROM middle_weather;
 
 SELECT *
 FROM last_call_api_date;
@@ -125,9 +166,6 @@ INSERT INTO last_call_api_date (id, url, regdate) VALUES
 DROP TABLE IF EXISTS weather_forecast;
 
 
-
-ALTER TABLE short_weather
-    MODIFY COLUMN last_call_api_id INT DEFAULT 0;
 
 
 select * from weather_forecast;
@@ -162,4 +200,85 @@ CREATE TABLE weather_forecast (
 #     api_call_id INT,
 #     CONSTRAINT fk_api_call_id FOREIGN KEY (api_call_id) REFERENCES last_call_api_date(id)
 
-select * from short_weather;
+
+select * from sigungucode;
+select * from areacode;
+
+
+
+
+DROP TABLE IF EXISTS last_call_api_date;
+DROP TABLE IF EXISTS blog_review;
+DELETE FROM areacode;
+
+CREATE TABLE last_call_api_date
+(
+    last_api_id INT  NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
+    url         TEXT NULL     COMMENT 'api url',
+    regdate     DATE NULL     DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
+    PRIMARY KEY (last_api_id)
+) COMMENT 'api 중복호출 방지';
+
+-- 유니크 인덱스 생성
+CREATE UNIQUE INDEX idx_unique_url ON last_call_api_date (url);
+
+-- 데이터 삽입 또는 업데이트 쿼리
+INSERT INTO last_call_api_date (url, regdate)
+VALUES ('새로운_URL_값', CURRENT_DATE())
+ON DUPLICATE KEY UPDATE url = VALUES(url), regdate = VALUES(regdate);
+
+
+select *
+from last_call_api_date;
+
+
+
+DROP TABLE IF EXISTS short_weather;
+DELETE FROM short_weather;
+DELETE FROM middle_weather;
+DELETE FROM last_call_api_date;
+
+CREATE TABLE short_weather
+(
+    id          INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
+    last_api_id INT         NOT NULL COMMENT 'API호출id',
+    areacode    INT         NOT NULL COMMENT '지역코드번호',
+    fcstDate    DATE        NULL     COMMENT '예보일자',
+    fcstTime    VARCHAR(10) NULL     COMMENT '예보시각',
+    TMN         VARCHAR(10)  NULL     COMMENT '최저기온',
+    TMX         VARCHAR(10)  NULL     COMMENT '최고기온',
+    SKY         VARCHAR(10)  NULL     COMMENT '하늘상태',
+    POP         VARCHAR(10)  NULL     COMMENT '강수량',
+    PTY         VARCHAR(10)  NULL     COMMENT '강수형태',
+    PRIMARY KEY (id)
+) COMMENT '단기예보(1~3일)';
+
+select *
+from short_weather;
+
+SELECT *
+FROM short_weather
+ORDER BY areacode ASC, fcstDate ASC, fcstTime ASC;
+
+
+
+SELECT * FROM short_weather WHERE areacode = areacode;
+
+SELECT * FROM short_weather WHERE areacode = 1;
+
+DELETE FROM short_weather;
+DELETE FROM middle_weather;
+DELETE FROM last_call_api_date;
+
+select *
+from areacode;
+
+select *
+from short_weather;
+
+select *
+from middle_weather;
+
+select *
+from last_call_api_date;
+

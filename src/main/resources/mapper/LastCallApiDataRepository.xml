@@ -20,7 +20,11 @@
     <select id="findByUrl" resultType="com.lec.spring.domain.LastCallApiData">
         select *
         from last_call_api_date
-        where url = #{url}
+        where url = #{url} LIMIT 1
     </select>
+
+
+
+
 
 </mapper>

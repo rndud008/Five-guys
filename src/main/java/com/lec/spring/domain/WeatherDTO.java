@@ -10,12 +10,11 @@ public class WeatherDTO {
     private long id;
     private Areacode areacode;
     private LastCallApiData lastCallApiData;
-    private String tmn;
-    private String tmx;
-    private String sky;
-    private String pop;
-    private String pty;
+    private String TMN;
+    private String TMX;
+    private String SKY;
+    private String POP;
+    private String PTY;
     private String fcstDate;
     private String fcstTime;
-    private String fcstValue;
 }
