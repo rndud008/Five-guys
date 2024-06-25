@@ -164,6 +164,7 @@ ALTER TABLE attachment Auto_Increment = 1;
 SELECT * FROM attachment;
 
 SELECT * FROM user_travel_diary_post;
+SELECT * FROM user_travel_diary_post WHERE travel_diary_post_id = 2;
 
 INSERT INTO user_travel_diary_post
     (user_id, travel_diary_post_id)

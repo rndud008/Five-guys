@@ -19,17 +19,6 @@
 <div class="mb-3 mt-3 clearfix">
     <span>총 [[${cnt}]]개</span>
     <span>page [[${page}]]/[[${totalPage}]]</span>
-    <span>
-        <form name="frmPageRows">
-            <input type="hidden" name="page" th:value="${page}">
-            <select name="pageRows">
-                <option value="10" th:selected="${pageRows==10}">10</option>
-                <option value="15" th:selected="${pageRows==15}">15</option>
-                <option value="20" th:selected="${pageRows==20}">20</option>
-                <option value="50" th:selected="${pageRows==50}">50</option>
-            </select>
-        </form>
-    </span>
 </div>
 <!-- 페이징 헤더 -->
 
