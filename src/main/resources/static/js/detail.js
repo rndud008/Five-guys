@@ -55,7 +55,7 @@ function LoadLike(travel_diary_post_id){
 
         // 검증
         if (!content) {
-            alert("댓글 입력을 하세요");
+            alert("댓글을 입력하세요");
             $("#input_comment").focus();
             return;
         }
@@ -105,6 +105,7 @@ function LoadComment(travel_diary_post_id){
 
             // ★댓글목록을 불러오고 난뒤에 삭제에 대한 이벤트 리스너를 등록해야 한다
             addDelete();
+            // addUpdate();
 
         }
     })
@@ -122,18 +123,30 @@ function buildComment(result) {
         let username = comment.user.username;
         let name = comment.user.name;
 
-        // 삭제버튼 여부
-        // (logged_id !== user_id) ? '' : 맴버권한 생성 후 바로아래 붙이기
-        const delBtn = (logged_id !== user_id) ? '' : `
-        <button data-cmtdel-id="${id}" title="삭제" style="height: 30px">삭제</button>
+        // 수정버튼 여부
+        const upBtn = (logged_id !== user_id) ? '' : `
+        <button data-cmtup-id="${id}" class="edit-comment-btn" title="수정" style="height: 30px">수정</button>
         `;
+        // 삭제버튼 여부
+        const delBtn = (logged_id !== user_id) ? '' : `
+        <button data-cmtdel-id="${id}" class="delete-comment-btn" title="삭제" style="height: 30px">삭제</button>
+        `;
+        // 수정버튼 눌렀을 때 확인버튼
+        const submitBtn = `
+        <button data-cmtsub-id="${id}" class="confirm-comment-btn" title="확인" style="height: 30px; display: none;">확인</button>
+        `
+        // 수정버튼 눌렀을 때 취소버튼
+        const cancelBtn = `
+        <button data-cmtcan-id="${id}" class="cancel-comment-btn" title="취소" style="height: 30px; display: none;">취소</button>
+        `
 
         const row = `
             <tr>
                 <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
                 <td>
-                    <span>${content}</span>${delBtn}
+                    <input readonly class="content${id}" value="${content}"/>${upBtn}${submitBtn}${cancelBtn}${delBtn}
                 </td>
+                <td>좋아요</td>
                 <td><span><small>${regdate}</small></span></td>
             </tr>
         `;
@@ -174,3 +187,101 @@ function addDelete() {
         });
     });
 }
+
+// function addUpdate() {
+//
+//     // 현재 글의 id
+//     const id = $("input[name='id']").val().trim();
+//     // 원래 댓글
+//     let content = "";
+//     // 수정 후 댓글
+//     let upContent = "";
+//
+//     $("[data-cmtup-id]").click(function () {
+//         // 원래 댓글 내용
+//         content = $(".content").val();
+//
+//         // 새로 작성할 곳 열기
+//         $(".content").removeAttr("readonly");
+//         $(".content").focus();
+//
+//         $(this).hide();
+//         $(this).siblings().show();
+//     });
+// }
+
+$(function () {
+    // 댓글 수정 버튼 클릭 시
+    $("body").on("click", ".edit-comment-btn", function () {
+        const id = $(this).attr("data-cmtup-id");
+        const $contentInput = $(`.content${id}`);
+
+        // 입력란 수정 가능하도록 readonly 속성 제거
+        $contentInput.removeAttr("readonly");
+        $contentInput.focus();
+
+        // 버튼 상태 변경
+        $(this).hide();
+        $(`.confirm-comment-btn[data-cmtsub-id="${id}"]`).show();
+        $(`.cancel-comment-btn[data-cmtcan-id="${id}"]`).show();
+    });
+
+    // 댓글 확인 버튼 클릭 시
+    $("body").on("click", ".confirm-comment-btn", function () {
+        const id = $(this).attr("data-cmtsub-id");
+        const $contentInput = $(`.content${id}`);
+        const updatedContent = $contentInput.val().trim();
+
+        // 입력란 readonly 속성 추가
+        $contentInput.attr("readonly", true);
+
+        // 버튼 상태 변경
+        $(this).hide();
+        $(`.cancel-comment-btn[data-cmtcan-id="${id}"]`).hide();
+        $(`.edit-comment-btn[data-cmtup-id="${id}"]`).show();
+
+        // 현재 글의 id
+        const cid = $("input[name='id']").val().trim();
+
+        // 수정된 댓글 내용을 서버로 전송하는 Ajax 요청 추가
+        // 예시: 여기에 Ajax 요청 추가하여 수정된 내용 서버로 전송
+        $.ajax({
+            url: "/comment/update",
+            type: "POST",
+            cache: false,
+            data: {
+                "id": id,
+                "content": updatedContent
+            },
+            success: function (data, status) {
+                if (status == "success") {
+                    if (data.status !== "OK") {
+                        alert(data.status);
+                        return;
+                    }
+
+                    // 수정후 댓글 목록 불러오기
+                    LoadComment(cid);
+                }
+            },
+        });
+    });
+
+    // 댓글 취소 버튼 클릭 시
+    $("body").on("click", ".cancel-comment-btn", function () {
+        const id = $(this).attr("data-cmtcan-id");
+        const $contentInput = $(`.content${id}`);
+
+        // 입력란 readonly 속성 추가
+        $contentInput.attr("readonly", true);
+
+        // 버튼 상태 변경
+        $(this).hide();
+        $(`.confirm-comment-btn[data-cmtsub-id="${id}"]`).hide();
+        $(`.edit-comment-btn[data-cmtup-id="${id}"]`).show();
+
+        // 현재 글의 id
+        const cid = $("input[name='id']").val().trim();
+        LoadComment(cid);
+    });
+});

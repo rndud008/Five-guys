@@ -21,12 +21,18 @@ public class CommentController {
     public QryResult write(
             @RequestParam("travel_diary_post_id") Long postId,
             @RequestParam("user_id") Long userId,
-            String content){
+            String content
+    ){
         return commentService.write(postId, userId, content);
     }
 
     @PostMapping("/delete")
     public QryResult delete(Long id) {
         return commentService.delete(id);
+    }
+
+    @PostMapping("/update")
+    public QryResult update(Long id, String content) {
+        return commentService.update(id, content);
     }
 }

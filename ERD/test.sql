@@ -228,6 +228,11 @@ FROM
 #   tcd3.travel_type_id = 12
 ;
 
+SELECT * FROM travel_post;
+SELECT * FROM comment;
 
+UPDATE comment
+SET content = '111'
+WHERE id = 11;
 
 

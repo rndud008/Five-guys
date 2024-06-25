@@ -68,4 +68,18 @@ public class CommentServiceImpl implements CommentService {
 
         return result;
     }
+
+    @Override
+    public QryResult update(Long id, String content) {
+        int cnt = commentRepository.update(id, content);
+        String status = "FAIL";
+        if(cnt > 0) status = "OK";
+
+        QryResult result = QryResult.builder()
+                .count(cnt)
+                .status(status)
+                .build();
+
+        return result;
+    }
 }
