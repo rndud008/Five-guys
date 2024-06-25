@@ -3,10 +3,10 @@ package com.lec.spring.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lec.spring.domain.Areacode;
-import com.lec.spring.domain.LastCallApiData;
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.WeatherDTO_2;
 import com.lec.spring.repository.AreacodeRepository;
-import com.lec.spring.repository.LastCallApiDataRepository;
+import com.lec.spring.repository.LastCallApiDateRepository;
 import com.lec.spring.repository.WeatherRepository_2;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
 
     private WeatherRepository_2 weatherRepository_2;
     private AreacodeRepository areacodeRepository;
-    private LastCallApiDataRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository LastCallApiDateRepository;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'0600'");
     String tmFc = dateFormat.format(new Date());
@@ -43,7 +43,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
     public WeatherService_2Impl(SqlSession sqlSession) {
         weatherRepository_2 = sqlSession.getMapper(WeatherRepository_2.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDataRepository.class);
+        LastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
         System.out.println("saveWeatherInfo_1 요청 URL: " + url);
 
         try {
-            LastCallApiData existingData = lastCallApiDataRepository.findByUrl(url);
+            LastCallApiDate existingData = LastCallApiDateRepository.findByUrl(url);
 
             if (existingData == null) {
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -98,15 +98,15 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 // WeatherDTO_2 리스트 저장 및 유효성 검사
                 boolean allValuesPresent = saveWeatherList(weatherList, areacode, regId, "1");
 
-                // 값이 모두 존재할 때만 LastCallApiData 저장
+                // 값이 모두 존재할 때만 LastCallApiDate 저장
                 if (allValuesPresent) {
                     // 마지막 호출 데이터 저장
-                    LastCallApiData lastCallApiData = new LastCallApiData();
-                    lastCallApiData.setUrl(url);
-                    lastCallApiDataRepository.save(lastCallApiData);
-                    System.out.println("LastCallApiData 저장됨: " + lastCallApiData);
+                    LastCallApiDate LastCallApiDate = new LastCallApiDate();
+                    LastCallApiDate.setUrl(url);
+                    LastCallApiDateRepository.save(LastCallApiDate);
+                    System.out.println("LastCallApiDate 저장됨: " + LastCallApiDate);
                 } else {
-                    System.out.println("데이터 유효성 검사 실패로 LastCallApiData 저장되지 않음.");
+                    System.out.println("데이터 유효성 검사 실패로 LastCallApiDate 저장되지 않음.");
                 }
 
                 System.out.println("Weather data to save: " + weatherList);
@@ -134,7 +134,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
         System.out.println("saveWeatherInfo_2 요청 URL: " + url);
 
         try {
-            LastCallApiData existingData = lastCallApiDataRepository.findByUrl(url + areacode);
+            LastCallApiDate existingData = LastCallApiDateRepository.findByUrl(url + areacode);
 
             if (existingData == null) {
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -165,21 +165,21 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 JsonNode itemArray = items.get("item");
 
                 // 마지막 호출 데이터 저장
-                LastCallApiData lastCallApiData = new LastCallApiData();
+                LastCallApiDate LastCallApiDate = new LastCallApiDate();
                 // 이러면 중복호출되긴함..
-                lastCallApiData.setUrl(url+ areacode);
-                lastCallApiDataRepository.save(lastCallApiData);
+                LastCallApiDate.setUrl(url+ areacode);
+                LastCallApiDateRepository.save(LastCallApiDate);
 
                 // areacode로 Areacode 객체 가져오기
                 Areacode areaCodeObj = areacodeRepository.findByAreaCode(areacode);
                 // WeatherDTO_2 리스트 생성
-                List<WeatherDTO_2> weatherList = parseAndMapToDTO_2(itemArray, lastCallApiData, areaCodeObj);
+                List<WeatherDTO_2> weatherList = parseAndMapToDTO_2(itemArray, LastCallApiDate, areaCodeObj);
 
                 // WeatherDTO_2 리스트 저장
                 for (WeatherDTO_2 weather : weatherList) {
                     try {
-                        // LastCallApiData ID를 설정하여 WeatherDTO_2 객체에 저장
-                        weather.setLastCallApiData(lastCallApiData);
+                        // LastCallApiDate ID를 설정하여 WeatherDTO_2 객체에 저장
+                        weather.setLastCallApiDate(LastCallApiDate);
 
                         WeatherDTO_2 existingWeather = weatherRepository_2.findByAreacode(weather);
                         if (existingWeather != null) {
@@ -241,14 +241,13 @@ public class WeatherService_2Impl implements WeatherService_2 {
         return weatherList;
     }
 
-    private List<WeatherDTO_2> parseAndMapToDTO_2(JsonNode itemArray, LastCallApiData lastCallApiData, Areacode areacode) {
+    private List<WeatherDTO_2> parseAndMapToDTO_2(JsonNode itemArray, LastCallApiDate LastCallApiDate, Areacode areacode) {
         List<WeatherDTO_2> weatherList = new ArrayList<>();
 
         for (JsonNode item : itemArray) {
             WeatherDTO_2 dto = WeatherDTO_2.builder()
                     .areacode(areacode)
-                    .lastCallApiData(lastCallApiData )
-
+                    .lastCallApiDate(LastCallApiDate)
                     .wf4Am(item.has("wf4Am") ? item.get("wf4Am").asText() : null)
                     .wf4Pm(item.has("wf4Pm") ? item.get("wf4Pm").asText() : null)
                     .wf5Am(item.has("wf5Am") ? item.get("wf5Am").asText() : null)

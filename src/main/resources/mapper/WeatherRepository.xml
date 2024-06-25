@@ -6,7 +6,7 @@
     <insert id="insertWeather" parameterType="com.lec.spring.domain.WeatherDTO" flushCache="true"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO short_weather (areacode, last_api_id, fcstDate, fcstTime, TMN, TMX, SKY, POP, PTY)
-        VALUES (#{areacode.areacode}, #{lastCallApiData.id}, #{fcstDate}, #{fcstTime}, #{TMN},#{TMX},#{SKY},#{POP},#{PTY})
+        VALUES (#{areacode.areacode}, #{lastCallApiDate.id}, #{fcstDate}, #{fcstTime}, #{TMN},#{TMX},#{SKY},#{POP},#{PTY})
     </insert>
 
     <update id="updateWeather" parameterType="com.lec.spring.domain.WeatherDTO" flushCache="true">
