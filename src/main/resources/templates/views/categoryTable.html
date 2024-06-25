@@ -111,15 +111,14 @@
 
 
 
-    <div id="categoryResults" >
+<div class="site-container">
+    <h2>Search Results</h2>
+    <div id="categoryResults" class="item-container">
         <!-- 검색 결과가 여기에 삽입됩니다. -->
     </div>
-
-
-
+</div>
 
 <div class="loading" id="loading">Loading...</div>
-
 
 <script th:inline="javascript">
 
@@ -142,10 +141,13 @@
 
         $(window).scroll(function (){
             if($(window).scrollTop() + $(window).height() >= $(document).height() - 100){
-                if(!loading ){
+                let count = $('.first-item').eq(0).data('value')
+
+                if(!loading && count > offset){
 
                     resultCategpryAjex();
                 }
+
             }
         })
 
@@ -543,7 +545,11 @@
                 },
             success: function (response) {
 
-                $('#categoryResults').append(response);
+                if (offset === 0){
+                    $('#categoryResults').html(response);
+                }else {
+                    $('#categoryResults').append(response);
+                }
 
                 // 로딩 상태 업데이트
                 loading = false;
@@ -581,6 +587,7 @@
             event.preventDefault(); // Prevent the form from submitting via the browser
 
             searchQuery = $('#searchQuery').val();
+            offset= 0
             updateSearchResultDisplay(searchQuery);
 
             resultCategpryAjex()
@@ -592,6 +599,7 @@
 
             resetSearchResult()
             searchQuery = ''
+            offset= 0
 
             resultCategpryAjex()
 

@@ -205,7 +205,9 @@ tt.id= 12
 # and
 #     STR_TO_DATE(tp.eventstartdate, '%Y%m%d') >= CURDATE()
 # order by tp.eventstartdate asc
-limit 10 offset 20
+and
+    tp.homepage = ''
+
 ;
 
 
