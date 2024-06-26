@@ -565,7 +565,7 @@ ul.icons.major li {
 .view .detail .info dd.full{width: calc(100% - 135px);}
 .view .ad-c{margin: 50px 0 60px; text-align: center;}
 
-.view .blog{margin-top: 20px; text-align: center;}
+.view .blog{margin-top: 20px; text-align: center; margin-bottom: 40px}
 .view .blog ul{border: 1px solid #e5e5e5;}
 .view .blog ul > li{border-top: 1px solid #f5f5f5; text-align: left;}
 .view .blog ul > li:first-child{border-top: 0;}
@@ -701,6 +701,9 @@ ul.icons.major li {
 
 
 
+
+
+/*블로그 더보기 버튼*/
 #loadMore {
     background-color: #007bff; /* 파란색 배경 */
     color: white; /* 흰색 텍스트 */

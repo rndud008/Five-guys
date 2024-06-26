@@ -97,7 +97,7 @@
         <result column="tp_usetimefestival" property="usetimefestival"/>
         <result column="tp_infoname" property="infoname"/>
         <result column="tp_infotext" property="infotext"/>
-        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <association property="lastCallApiDate" resultMap="mapLastCallApiDate"/>
         <association property="sigungucode" resultMap="mapSigungu"/>
         <association property="travelClassDetail" resultMap="mapTravelDetailClass"/>
     </resultMap>
@@ -141,7 +141,7 @@
         <result property="description" column="description"/>
         <result property="postdate" column="postdate"/>
         <association property="travelPost" javaType="com.lec.spring.domain.TravelPost" resultMap="mapAssociation"/>
-        <association property="lastCallApiData" javaType="com.lec.spring.domain.LastCallApiDate" resultMap="mapLastCallApiDate" />
+        <association property="lastCallApiDate" javaType="com.lec.spring.domain.LastCallApiDate" resultMap="mapLastCallApiDate" />
     </resultMap>
 
     <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.BlogReview"
