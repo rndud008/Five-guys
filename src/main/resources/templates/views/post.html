@@ -4,19 +4,24 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title th:text="${post.title}"></title>
 
     <link rel="stylesheet" href="/css/detail.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
+<!--    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>-->
     <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
@@ -76,7 +81,65 @@
 <div id="wrap" >
     <!-- header -->
     <header class="line scroll">
+        <div>
+            <h1 class="logo">
+                <a href="/">로고</a></h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
+                    <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
+                    <li><a href=""><span>게시판</span></a></li>
+                </ul>
+            </nav>
+            <h1 class="login"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+        </div>
     </header>
+
+    <th:block th:fragment="loginModal">
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Travel Login</h1>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="form-signin">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="name"
+                                       name="floatingInput" autocomplete="floatingInput">
+                                <label for="floatingInput"  class="visually-hidden">ID</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                                       name="floatingPassword" autocomplete="floatingPassword">
+                                <label for="floatingPassword"  class="visually-hidden">Password</label>
+                            </div>
+                            <button class="btn btn-lightblue btn-block" type="submit">Login</button><br>
+                            <button class="btn btn-lightblue btn-block" type="submit">회원가입</button><br>
+                            <hr class="my-4">
+                            <h2 class="h5 mb-3">간편로그인</h2>
+                            <button class="btn btn-lightblue btn-block" type="submit">
+                                <img src="" alt="">
+                                Sign up with Kakao
+                            </button><br>
+                            <button class="btn btn-lightblue btn-block" type="submit">
+                                <img src="" alt="">
+                                Sign up with Google
+                            </button><br>
+                            <button class="btn btn-lightblue btn-block" type="submit">
+                                <img src="" alt="">
+                                Sign up with Naver
+                            </button><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
     <!-- //header -->
 
     <!-- container -->
@@ -102,7 +165,7 @@
                     </div>
                     <div class="gallery">
                         <img th:if="${!#strings.isEmpty(post.firstimage)}"
-                             th:src="${post.firstimage}" alt="">
+                            th:src="${post.firstimage}" alt="" >
                     </div>
 
                     <div class="title">
@@ -141,9 +204,9 @@
                                    th:text="${#strings.isEmpty(post.homepage) ? '없음' : post.homepage}">홈페이지</a>
                             </dd>
                             <dt>주소</dt>
-                            <dd th:utext="${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
+                            <dd th:utext= "${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
                             <dt>문의 및 안내</dt>
-                            <dd th:text="${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}"></dd>
+                            <dd th:text= "${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}" ></dd>
                             <dt>이용시간</dt>
                             <dd th:text="${#strings.isEmpty(post.usetime) ? '상시' : post.usetime}"></dd>
                             <dt>휴일</dt>
@@ -163,22 +226,18 @@
 
                     <div class="title justify">
                         <h4>관련 블로그 리뷰</h4>
-                        <a th:href="'https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query='+${post.title}"
-                           target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
+                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
                     </div>
                     <div class="blog">
                         <ul id="blogList" th:each="blog : ${blogReview}">
                             <li>
                                 <div>
                                     <a th:href="${blog.link}" target="_blank" class="tit">
-                                        <strong th:utext="${blog.title}"><b>경주</b> <b>아이</b>와가볼만한곳추천 <b>경주세계자동차박물관</b>
-                                            19개월<b>아기</b></strong>
+                                        <strong th:utext="${blog.title}"><b>경주</b> <b>아이</b>와가볼만한곳추천 <b>경주세계자동차박물관</b> 19개월<b>아기</b></strong>
                                         <span th:text="${#strings.substring(blog.postdate, 2, 4)} + '.' + ${#strings.substring(blog.postdate, 4, 6)} + '.' + ${#strings.substring(blog.postdate, 6, 8)}">2023.10.02</span>
                                     </a>
-                                    <a th:href="${blog.link}" target="_blank" class="desc"
-                                       th:utext="${blog.description}">
-                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에
-                                        <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여...
+                                    <a th:href="${blog.link}" target="_blank" class="desc" th:utext="${blog.description}">
+                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에 <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여...
                                     </a>
                                 </div>
                             </li>
@@ -191,20 +250,17 @@
     <!-- //container -->
 
     <!-- footer -->
-    <footer>
-        <div>
-            <div class="inner">
-                <div class="copy">
-                    <p>COPYRIGHT (C) 2024 IVORYSTORY. ALL RIGHT RESERVED.</p>
-                    <a href="mailto:dslice@naver.com" class="btn-contact">Contact Us</a>
-                </div>
-
-                <!-- <div class="provider"></div> -->
-                <!-- <button type="button" class="btn-top on" id="btnTop">상단으로 이동</button> -->
-            </div>
-
-
-        </div>
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Untitled</li><li>Design: KT</li>
+        </ul>
     </footer>
 </div>
 
@@ -306,12 +362,12 @@
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // 기존 마커 표시
-    var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
-    var marker = new kakao.maps.Marker({
-        position: markerPosition,
-    });
-    marker.setMap(map); // 마커를 지도에 표시
-    markers.push(marker); // markers 배열에 추가
+        var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+        });
+        marker.setMap(map); // 마커를 지도에 표시
+        markers.push(marker); // markers 배열에 추가
 
     // 각 카테고리에 클릭 이벤트를 등록합니다
     var category = document.getElementById('category'),
@@ -475,6 +531,69 @@
         } else {
             target.attachEvent('on' + type, callback);
         }
+    }
+
+</script>
+<script>
+    const navbarContainer = document.querySelector('header');
+    const navbarHeight = navbarContainer.offsetHeight;
+
+    window.addEventListener('scroll', function () {
+        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
+        if (window.pageYOffset >= navbarHeight) {
+            navbarContainer.classList.add('sticky');
+        } else {
+            navbarContainer.classList.remove('sticky');
+        }
+    });
+
+</script>
+<script>
+    // HTML에서 모달창 요소 선택
+    const modal = document.getElementById('modalSignin');
+
+    // HTML에서 모달창 열기 버튼 선택
+    const openModalBtn = document.querySelector('.login button');
+
+    // 모달창 요소가 존재하는지 확인
+    if (modal !== null) {
+        // 모달창 열기 이벤트 리스너 등록
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            centerModal();
+        });
+
+        // 모달창 닫기 버튼 선택
+        const closeModalBtn = document.querySelector('.modal .close');
+
+        // 모달창 닫기 이벤트 리스너 등록
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // 모달창 외부 클릭 시 닫기
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // 모달 창 중앙 정렬 함수
+        function centerModal() {
+            const dialog = modal.querySelector('.modal-dialog');
+
+            // 모달 창의 높이가 화면 높이보다 작을 경우
+            if (dialog.offsetHeight < window.innerHeight) {
+                dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
+            } else {
+                dialog.style.marginTop = '';
+            }
+        }
+
+        // 새로고침 시 모달창 열리지 않도록 설정
+        window.addEventListener('DOMContentLoaded', () => {
+            modal.style.display = 'none';
+        });
     }
 
 </script>

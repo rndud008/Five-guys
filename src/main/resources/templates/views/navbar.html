@@ -54,23 +54,23 @@
     }
 </style>
 
-<th:block th:fragment="navbar">
-    <nav class="">
-        <div class="navbar-container">
-            <div class="navbar-content">
-                <a href="#"><img src="logo3.png" alt="" style="width: 120px; "></a>
-            </div>
-            <div class="navbar-content">
-                <a class="" th:href="@{/categoryTable/{id}(id=${12})}">관광지</a>
-                <a class="" th:href="@{/categoryTable/{id}(id=${15})}">축제</a>
-                <a class="" href="#">게시판</a>
-            </div>
-            <div class="navbar-content">
-                <button><span><b>TRAVEL</b></span><br><span>login</span></button>
-            </div>
-        </div>
-    </nav>
-</th:block>
+<!--<th:block th:fragment="navbar">-->
+<!--    <nav class="">-->
+<!--        <div class="navbar-container">-->
+<!--            <div class="navbar-content">-->
+<!--                <a href="#"><img src="logo3.png" alt="" style="width: 120px; "></a>-->
+<!--            </div>-->
+<!--            <div class="navbar-content">-->
+<!--                <a class="" th:href="@{/categoryTable/{id}(id=${12})}">관광지</a>-->
+<!--                <a class="" th:href="@{/categoryTable/{id}(id=${15})}">축제</a>-->
+<!--                <a class="" href="#">게시판</a>-->
+<!--            </div>-->
+<!--            <div class="navbar-content">-->
+<!--                <button><span><b>TRAVEL</b></span><br><span>login</span></button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--</th:block>-->
 
 <style>
     /* 모달창 배경 스타일 */
@@ -257,51 +257,58 @@
 
 
 
-<th:block th:fragment="loginModal">
-    <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title">Travel Login</h1>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
 
-                <div class="modal-body">
-                    <form class="form-signin">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="name"
-                                   name="floatingInput" autocomplete="floatingInput">
-                            <label for="floatingInput"  class="visually-hidden">ID</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-                                   name="floatingPassword" autocomplete="floatingPassword">
-                            <label for="floatingPassword"  class="visually-hidden">Password</label>
-                        </div>
-                        <button class="btn btn-lightblue btn-block" type="submit">Login</button><br>
-                        <button class="btn btn-lightblue btn-block" type="submit">회원가입</button><br>
-                        <hr class="my-4">
-                        <h2 class="h5 mb-3">간편로그인</h2>
-                        <button class="btn btn-lightblue btn-block" type="submit">
-                            <img src="" alt="">
-                            Sign up with Kakao
-                        </button><br>
-                        <button class="btn btn-lightblue btn-block" type="submit">
-                            <img src="" alt="">
-                            Sign up with Google
-                        </button><br>
-                        <button class="btn btn-lightblue btn-block" type="submit">
-                            <img src="" alt="">
-                            Sign up with Naver
-                        </button><br>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</th:block>
+
+
+<!--<th:block th:fragment="loginModal">-->
+<!--    <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h1 class="modal-title">Travel Login</h1>-->
+<!--                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+
+<!--                <div class="modal-body">-->
+<!--                    <form class="form-signin">-->
+<!--                        <div class="form-floating mb-3">-->
+<!--                            <input type="text" class="form-control" id="floatingInput" placeholder="name"-->
+<!--                                   name="floatingInput" autocomplete="floatingInput">-->
+<!--                            <label for="floatingInput"  class="visually-hidden">ID</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-floating mb-3">-->
+<!--                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password"-->
+<!--                                   name="floatingPassword" autocomplete="floatingPassword">-->
+<!--                            <label for="floatingPassword"  class="visually-hidden">Password</label>-->
+<!--                        </div>-->
+<!--                        <button class="btn btn-lightblue btn-block" type="submit">Login</button><br>-->
+<!--                        <button class="btn btn-lightblue btn-block" type="submit">회원가입</button><br>-->
+<!--                        <hr class="my-4">-->
+<!--                        <h2 class="h5 mb-3">간편로그인</h2>-->
+<!--                        <button class="btn btn-lightblue btn-block" type="submit">-->
+<!--                            <img src="" alt="">-->
+<!--                            Sign up with Kakao-->
+<!--                        </button><br>-->
+<!--                        <button class="btn btn-lightblue btn-block" type="submit">-->
+<!--                            <img src="" alt="">-->
+<!--                            Sign up with Google-->
+<!--                        </button><br>-->
+<!--                        <button class="btn btn-lightblue btn-block" type="submit">-->
+<!--                            <img src="" alt="">-->
+<!--                            Sign up with Naver-->
+<!--                        </button><br>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</th:block>-->
+
+
+
+
 
 <script>
 
@@ -318,6 +325,7 @@
     });
 
 </script>
+<!--stick-->
 
 <script>
     // HTML에서 모달창 요소 선택
