@@ -28,7 +28,7 @@ public class BlogReviewTransacionService {
         blogReview.setDescription(item.get("description").asText());
         blogReview.setPostdate(item.get("postdate").asText());
         blogReview.setTravelPost(travelPost);
-        blogReview.setLastCallApiData(lastCallApiData);
+        blogReview.setLastCallApiDate(lastCallApiData);
         blogReviewRepository.save(blogReview);
 
     }

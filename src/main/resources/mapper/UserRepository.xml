@@ -7,13 +7,13 @@
     <sql id="SELECT_BASE">
         SELECT
             id
-        , username
-        , password
-        , email
-        , name
-        , regdate
-        , provide
-        , provideId
+             , username
+             , password
+             , email
+             , name
+             , regdate
+             , provide
+             , provideId
         FROM user
         WHERE 1 = 1
     </sql>

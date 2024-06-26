@@ -1,6 +1,6 @@
 package com.lec.spring.repository;
 
-import com.lec.spring.domain.WeatherDTO;
+
 import com.lec.spring.domain.WeatherDTO_2;
 import org.apache.ibatis.annotations.Param;
 

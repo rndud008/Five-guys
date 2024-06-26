@@ -245,21 +245,10 @@ FROM
 #   tcd3.travel_type_id = 12
 ;
 
-SELECT * FROM travel_post;
-SELECT * FROM comment;
 
-UPDATE comment
-SET content = '111'
-WHERE id = 11;
 
-SELECT * FROM user_travel_post;
-SELECT * FROM travel_diary_post;
 
-SELECT * FROM user_comment;
-
-INSERT INTO user_comment (user_id, comment_id)
-VALUES (1,11);
-
-SELECT *
-FROM user_comment
-WHERE user_id = 5 AND comment_id = 11;
+select * from user;
+select * from short_weather;
+select * from middle_weather;
+select * from last_call_api_date;

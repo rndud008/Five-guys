@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LastCallApiDateServiceImpl implements LastCallApiDateService {
 
-    private LastCallApiDateRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
 
     @Autowired
     public LastCallApiDateServiceImpl(SqlSession sqlSession){
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
     }
 
     @Override

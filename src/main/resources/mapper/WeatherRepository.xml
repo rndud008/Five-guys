@@ -3,11 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lec.spring.repository.WeatherRepository">
 
+
     <insert id="insertWeather" parameterType="com.lec.spring.domain.WeatherDTO" flushCache="true"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO short_weather (areacode, last_api_id, fcstDate, fcstTime, TMN, TMX, SKY, POP, PTY)
         VALUES (#{areacode.areacode}, #{lastCallApiDate.id}, #{fcstDate}, #{fcstTime}, #{TMN},#{TMX},#{SKY},#{POP},#{PTY})
     </insert>
+
 
     <update id="updateWeather" parameterType="com.lec.spring.domain.WeatherDTO" flushCache="true">
         UPDATE short_weather
@@ -16,6 +18,7 @@
           AND fcstDate = #{fcstDate}
           AND fcstTime = #{fcstTime}
     </update>
+
 
     <!-- areacode, fcstDate, fcstTime으로 데이터 조회하는 쿼리 -->
     <select id="findByAreacodeFcstDateTime" parameterType="com.lec.spring.domain.WeatherDTO" resultType="com.lec.spring.domain.WeatherDTO">
@@ -26,10 +29,13 @@
           AND fcstTime = #{fcstTime}
     </select>
 
-    <select id="findWeatherByAreacodeAndCoordinates" parameterType="map" resultType="WeatherDTO">
+
+    <select id="findWeatherByAreacodeAndCoordinates" parameterType="map" resultType="com.lec.spring.domain.WeatherDTO">
         SELECT *
         FROM short_weather
         WHERE areacode = #{areacode}
     </select>
 
+
 </mapper>
+

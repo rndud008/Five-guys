@@ -33,7 +33,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
 
     private WeatherRepository_2 weatherRepository_2;
     private AreacodeRepository areacodeRepository;
-    private LastCallApiDateRepository LastCallApiDateRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'0600'");
     String tmFc = dateFormat.format(new Date());
@@ -43,7 +43,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
     public WeatherService_2Impl(SqlSession sqlSession) {
         weatherRepository_2 = sqlSession.getMapper(WeatherRepository_2.class);
         areacodeRepository = sqlSession.getMapper(AreacodeRepository.class);
-        LastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
         System.out.println("saveWeatherInfo_1 요청 URL: " + url);
 
         try {
-            LastCallApiDate existingData = LastCallApiDateRepository.findByUrl(url);
+            LastCallApiDate existingData = lastCallApiDateRepository.findByUrl(url);
 
             if (existingData == null) {
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -101,10 +101,10 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 // 값이 모두 존재할 때만 LastCallApiDate 저장
                 if (allValuesPresent) {
                     // 마지막 호출 데이터 저장
-                    LastCallApiDate LastCallApiDate = new LastCallApiDate();
-                    LastCallApiDate.setUrl(url);
-                    LastCallApiDateRepository.save(LastCallApiDate);
-                    System.out.println("LastCallApiDate 저장됨: " + LastCallApiDate);
+                    LastCallApiDate lastCallApiDate = new LastCallApiDate();
+                    lastCallApiDate.setUrl(url);
+                    lastCallApiDateRepository.save(lastCallApiDate);
+                    System.out.println("LastCallApiDate 저장됨: " + lastCallApiDate);
                 } else {
                     System.out.println("데이터 유효성 검사 실패로 LastCallApiDate 저장되지 않음.");
                 }
@@ -134,7 +134,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
         System.out.println("saveWeatherInfo_2 요청 URL: " + url);
 
         try {
-            LastCallApiDate existingData = LastCallApiDateRepository.findByUrl(url + areacode);
+            LastCallApiDate existingData = lastCallApiDateRepository.findByUrl(url + areacode);
 
             if (existingData == null) {
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -165,21 +165,22 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 JsonNode itemArray = items.get("item");
 
                 // 마지막 호출 데이터 저장
-                LastCallApiDate LastCallApiDate = new LastCallApiDate();
+                LastCallApiDate lastCallApiDate = new LastCallApiDate();
                 // 이러면 중복호출되긴함..
-                LastCallApiDate.setUrl(url+ areacode);
-                LastCallApiDateRepository.save(LastCallApiDate);
+                lastCallApiDate.setUrl(url+ areacode);
+                lastCallApiDateRepository.save(lastCallApiDate);
 
                 // areacode로 Areacode 객체 가져오기
                 Areacode areaCodeObj = areacodeRepository.findByAreaCode(areacode);
                 // WeatherDTO_2 리스트 생성
-                List<WeatherDTO_2> weatherList = parseAndMapToDTO_2(itemArray, LastCallApiDate, areaCodeObj);
+                List<WeatherDTO_2> weatherList = parseAndMapToDTO_2(itemArray, lastCallApiDate, areaCodeObj);
 
                 // WeatherDTO_2 리스트 저장
                 for (WeatherDTO_2 weather : weatherList) {
                     try {
+
                         // LastCallApiDate ID를 설정하여 WeatherDTO_2 객체에 저장
-                        weather.setLastCallApiDate(LastCallApiDate);
+                        weather.setLastCallApiDate(lastCallApiDate);
 
                         WeatherDTO_2 existingWeather = weatherRepository_2.findByAreacode(weather);
                         if (existingWeather != null) {
