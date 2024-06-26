@@ -2,6 +2,7 @@ package com.lec.spring.controller;
 
 import com.lec.spring.config.PrincipalDetailService;
 import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.service.CommentLikeService;
 import com.lec.spring.service.LikeService;
 import com.lec.spring.service.TravelPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ public class LikeController {
     private LikeService likeService;
     @Autowired
     private TravelPostService travelPostService;
+    @Autowired
+    private CommentLikeService commentLikeService;
 
+    // 게시판 좋아요
     @PostMapping("/click")
     public void click(@RequestParam("user_id") Long userId, @RequestParam("travel_diary_post_id") Long postId){
 
@@ -31,7 +35,20 @@ public class LikeController {
         Long result = 0L;
         result = likeService.likeCount(postId);
 
-        System.out.println("result ==================================" + result);
+        return result;
+    }
+
+    // 댓글 좋아요
+    @PostMapping("/clickC")
+    public void clickC(@RequestParam("user_id") Long userId, @RequestParam("comment_id") Long commentId){
+        commentLikeService.likeClick(userId, commentId);
+    }
+
+    @GetMapping("/countC/{commentId}")
+    public Long countC(@PathVariable Long commentId){
+        Long result = 0L;
+        result = commentLikeService.likeCount(commentId);
+
         return result;
     }
 
