@@ -3,7 +3,7 @@
 
 <th:block th:fragment="pagination">
     <div>
-        <ul style="width: 400px; display: flex; justify-content: space-between; list-style-type: none">
+        <ul style="width: auto; display: flex; justify-content: space-between; list-style-type: none;">
             <!--/* << 표시여부 지역 게시판은 areacode 를 받아야해서 추가 */-->
             <li class="page-item" th:if="${page > 1}" th:unless="${selectareacode}"><a class="page-link" th:href="${url}" th:title="처음"><<</a></li>
             <li class="page-item" th:if="${page > 1} and ${selectareacode}"><a class="page-link" th:href="@{${url}(areacode=${selectareacode.areacode})}" th:title="처음"><<</a></li>

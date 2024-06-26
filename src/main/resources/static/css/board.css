@@ -1,56 +1,200 @@
-
+/* 전체 body 스타일 */
 body {
-    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1200px;
 }
 
+/* 게시판 컨테이너 스타일 */
 .board {
+    background-color: #fff;
+    height: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-around;
+    align-items: center;
+}
+.post {
+    width: 800px;
 }
 
-.post .conA {
+/* 지역명 선택란 컨테이너 스타일 */
+.areaMenuContainer {
+    width: 200px; /* 지역 선택 메뉴 영역 너비 */
+    height: 600px;
+
+    overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
+}
+
+/* 지역명 선택란 스타일 */
+.areaMenu {
+    padding: 10px;
+}
+
+.areaMenu form {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.areaMenu button {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.areaMenu button:hover {
+    background-color: #0056b3;
+}
+.board .post .conA{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-content: center;
+}
+.board .post .conA .selectedArea{
+    font-size: 30px;
 }
 
-.board .writeBtn {
+.board table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
 
+}
+
+.board th, .board td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    overflow: hidden; /* 넘치는 내용 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 내용을 생략 부호(...)로 표시 */
+    white-space: nowrap; /* 줄 바꿈 방지 */
+}
+.board td {
+    max-width: 200px;
+    overflow: hidden; /* 넘치는 내용 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 내용을 생략 부호(...)로 표시 */
+    white-space: nowrap; /* 줄 바꿈 방지 */
+}
+
+.board th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    max-width: 200px; /* 최대 너비 설정 */
+}
+
+/* 게시글 제목 링크 스타일 */
+.board a {
+    color: #007bff;
     text-decoration: none;
-    color: #99209b;
+    transition: color 0.3s;
 }
 
-.post table {
-    width: 800px;
-    height: 800px;
-    border-spacing: 0;
-
-
+.board a:hover {
+    color: #0056b3;
 }
 
-.post th,td {
-    margin: 0;
-    padding: 15px;
-    font-size: 15px;
-    border-bottom: 1px solid black;
-    align-items: center;
-
-}
-
-.tbody a{
-    width: 80px;
-}
-
-.areaMenu button{
+/* 작성 버튼 스타일 */
+.writeBtn {
+    display: inline-block;
+    padding: 10px 20px;
     background-color: skyblue;
-    border: none;
-    width: 150px;
-    height: 50px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
-.areaMenu button:hover{
-    background-color: dodgerblue;
+.writeBtn:hover {
+    background-color: deepskyblue;
 }
+
+/* 선택된 지역 스타일 */
+.selectedArea {
+    font-weight: bold;
+    display: block;
+}
+
+/*페이징 관련*/
+
+
+
+
+
+
+
+
+
+
+
+/*.areaMenu button{*/
+/*    background-color: skyblue;*/
+/*    border: none;*/
+/*    width: 150px;*/
+/*    height: 50px;*/
+/*    margin-bottom: 10px;*/
+/*    border-radius: 10px;*/
+
+/*}*/
+
+/*.areaMenu button:hover{*/
+/*    background-color: dodgerblue;*/
+/*}*/
+/*.board .writeBtn {*/
+
+/*    text-decoration: none;*/
+/*    color: #99209b;*/
+/*}*/
+
+/*.board .post .conA {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    height: 20px;*/
+/*    margin-bottom: 20px;*/
+/*}*/
+/*.board {*/
+/*    display: flex;*/
+/*    justify-content: space-around;*/
+/*}*/
+/*.board .post {*/
+/*    width: 1000px;*/
+/*    height: 1040px;*/
+/*}*/
+
+/*.post table {*/
+/*    width: 1000px;*/
+/*    height: 1000px;*/
+/*    border-spacing: 0;*/
+
+/*}*/
+
+/*.board .post th,td {*/
+/*    margin: 0;*/
+/*    padding: 15px;*/
+/*    font-size: 15px;*/
+/*    border-bottom: 1px solid black;*/
+/*    align-items: center;*/
+
+/*}*/
+
+/*tbody  {*/
+/*    height: 100px;*/
+/*}*/
+/*thead th {*/
+/*    min-width: 100px;*/
+/*}*/
+
+

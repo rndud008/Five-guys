@@ -263,3 +263,21 @@ VALUES (1,11);
 SELECT *
 FROM user_comment
 WHERE user_id = 5 AND comment_id = 11;
+
+SELECT * FROM travel_post;
+SELECT count(*) FROM travel_post;
+SELECT * FROM travel_class_detail;
+SELECT count(*) FROM blog_review;
+SELECT * FROM blog_review;
+SELECT * FROM travel_post;
+SELECT * FROM user;
+
+SELECT * FROM travel_diary_post;
+INSERT INTO travel_diary_post (user_id, areacode, subject, content)
+VALUES (1,1,1111111111111111111111111111111111111111111111111111111111111111111111111111,1);
+
+UPDATE travel_diary_post SET subject = 11111111111111111111111111111111111 WHERE id = 23;
+# 30개 최대
+
+delete FROM travel_diary_post WHERE id = 22;
+
