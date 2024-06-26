@@ -214,8 +214,8 @@ CREATE TABLE user
 ALTER TABLE user
   ADD CONSTRAINT UQ_username UNIQUE (username);
 
-# ALTER TABLE user
-#   ADD CONSTRAINT UQ_name UNIQUE (name);
+ALTER TABLE user
+ADD CONSTRAINT UQ_name UNIQUE (name);
 
 CREATE TABLE user_authorities
 (

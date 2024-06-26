@@ -16,14 +16,14 @@ VALUES
     (36, '울산', '11H20101', '11H20000', 102, 84),
     (37, '경북', '11H10501', '11H20000', 91, 106),
     (38, '인천', '11B20201', '11B00000', 54, 125),
-    (39, '제주', '11G00201', '11G00000', 53, 38)
-;
+    (39, '제주', '11G00201', '11G00000', 53, 38);
 
 insert into travel_type (id, name)
 values (12, '관광지'),
        (15, '축제공연행사');
 
-# Authority
-INSERT INTO authority (id, name) VALUES
-                                     (1, 'ROLE_ADMIN'),
-                                     (2, 'ROLE_MEMBER');
+
+insert into authority (id, name)
+VALUES (1, 'ROLE_ADMIN'),
+       (2, 'ROLE_MEMBER');
+

@@ -46,6 +46,7 @@ public class OAuth2Controller {
     @Autowired
     private UserService userService;
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     // Kakao 가 보내준 code 값 받아옴
