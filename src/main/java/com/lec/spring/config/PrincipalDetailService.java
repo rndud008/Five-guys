@@ -28,4 +28,5 @@ public class PrincipalDetailService implements UserDetailsService {
         // 해당 username 의 user 가 없을 경우
         throw new UsernameNotFoundException(username);
     }
+
 }
