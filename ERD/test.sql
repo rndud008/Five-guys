@@ -252,3 +252,11 @@ select * from user;
 select * from short_weather;
 select * from middle_weather;
 select * from last_call_api_date;
+
+delete
+from user_authorities
+where user_id = 5;
+
+delete
+from user
+where id = 5;

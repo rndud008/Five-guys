@@ -1,6 +1,7 @@
 package com.lec.spring.controller;
 
 import com.lec.spring.domain.User;
+import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,13 +71,13 @@ public class UserController {
     }
 
 
-//    @Autowired
-//    UserValidator userValidator;
-//
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder){
-//        binder.setValidator(userValidator);
-//    }
+    @Autowired
+    UserValidator userValidator;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.setValidator(userValidator);
+    }
 
     @GetMapping("/login")
     public void login() {
