@@ -11,11 +11,6 @@ $(function (){
 
     $("#btnLike").click(function (){
 
-        // 현재 글의 id 값
-        let id = $("input[name='id']").val().trim();
-        // 현재 글의 유저 id 값
-        let uid = $("input[name='uid']").val().trim();
-
         const data = {
             "travel_diary_post_id": id,
             "user_id": logged_id,
@@ -48,9 +43,6 @@ function LoadLike(travel_diary_post_id){
 
 
     // 댓글 작성 버튼 누르면 댓글 등록 하기.
-    // 1. 어느글에 대한 댓글인지? --> 위에 id 변수에 담겨있다
-    // 2. 어느 사용자가 작성한 댓글인지? --> logged_id 값
-    // 3. 댓글 내용은 무엇인지?  --> 아래 content
     $("#btn_comment").click(function () {
         const content = $("#input_comment").val().trim();
 
@@ -64,7 +56,7 @@ function LoadLike(travel_diary_post_id){
         // 전달할 parameter 준비 (POST)
         const data = {
             "travel_diary_post_id": id,
-            "user_id": logged_id,  // 로그인한 아이디 숫자대신 넣기
+            "user_id": logged_id,
             "content": content,
         };
 
@@ -224,8 +216,8 @@ $(function () {
         const $contentInput = $(`.content${id}`);
 
         // 입력란 수정 가능하도록 readonly 속성 제거
-        $contentInput.removeAttr("readonly");
         $contentInput.focus();
+        $contentInput.removeAttr("readonly");
 
         // 버튼 상태 변경
         $(this).hide();
@@ -250,8 +242,6 @@ $(function () {
         // 현재 글의 id
         const cid = $("input[name='id']").val().trim();
 
-        // 수정된 댓글 내용을 서버로 전송하는 Ajax 요청 추가
-        // 예시: 여기에 Ajax 요청 추가하여 수정된 내용 서버로 전송
         $.ajax({
             url: "/comment/update",
             type: "POST",
