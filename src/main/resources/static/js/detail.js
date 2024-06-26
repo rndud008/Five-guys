@@ -46,6 +46,7 @@ function LoadLike(travel_diary_post_id){
     // 현재 글의 댓글들을 불러온다
     LoadComment(id);
 
+
     // 댓글 작성 버튼 누르면 댓글 등록 하기.
     // 1. 어느글에 대한 댓글인지? --> 위에 id 변수에 담겨있다
     // 2. 어느 사용자가 작성한 댓글인지? --> logged_id 값
@@ -105,7 +106,7 @@ function LoadComment(travel_diary_post_id){
 
             // ★댓글목록을 불러오고 난뒤에 삭제에 대한 이벤트 리스너를 등록해야 한다
             addDelete();
-            // addUpdate();
+
 
         }
     })
@@ -118,6 +119,7 @@ function buildComment(result) {
         let id = comment.id;
         let content = comment.content.trim();
         let regdate = comment.regdate;
+        let likecnt = comment.likecnt;
 
         let user_id = parseInt(comment.user.id);
         let username = comment.user.username;
@@ -139,6 +141,11 @@ function buildComment(result) {
         const cancelBtn = `
         <button data-cmtcan-id="${id}" class="cancel-comment-btn" title="취소" style="height: 30px; display: none;">취소</button>
         `
+        // 댓글 좋아요 버튼
+        const likeBtn = `
+            <button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px">좋아요</button>
+            <span class="like-count">${likecnt}</span>
+        `;
 
         const row = `
             <tr>
@@ -146,7 +153,7 @@ function buildComment(result) {
                 <td>
                     <input readonly class="content${id}" value="${content}"/>${upBtn}${submitBtn}${cancelBtn}${delBtn}
                 </td>
-                <td>좋아요</td>
+                <td>${likeBtn}</td>
                 <td><span><small>${regdate}</small></span></td>
             </tr>
         `;
@@ -188,29 +195,29 @@ function addDelete() {
     });
 }
 
-// function addUpdate() {
-//
-//     // 현재 글의 id
-//     const id = $("input[name='id']").val().trim();
-//     // 원래 댓글
-//     let content = "";
-//     // 수정 후 댓글
-//     let upContent = "";
-//
-//     $("[data-cmtup-id]").click(function () {
-//         // 원래 댓글 내용
-//         content = $(".content").val();
-//
-//         // 새로 작성할 곳 열기
-//         $(".content").removeAttr("readonly");
-//         $(".content").focus();
-//
-//         $(this).hide();
-//         $(this).siblings().show();
-//     });
-// }
-
 $(function () {
+    // 댓글 좋아요 버튼 클릭 시
+    $("body").on("click", ".like-comment-btn", function () {
+        const id = $(this).attr("data-cmtlike-id");
+        const uid = logged_id;
+        const pid = $("input[name='id']").val().trim();
+
+        $.ajax({
+            url: "/like/clickC",
+            type: "POST",
+            cache: false,
+            data: {
+                "user_id": uid,
+                "comment_id": id
+            },
+            success: function () {
+                // 수정후 댓글 목록 불러오기
+                LoadComment(pid);
+
+            },
+        });
+    });
+
     // 댓글 수정 버튼 클릭 시
     $("body").on("click", ".edit-comment-btn", function () {
         const id = $(this).attr("data-cmtup-id");

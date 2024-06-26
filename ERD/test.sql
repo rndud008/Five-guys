@@ -238,4 +238,11 @@ WHERE id = 11;
 SELECT * FROM user_travel_post;
 SELECT * FROM travel_diary_post;
 
+SELECT * FROM user_comment;
 
+INSERT INTO user_comment (user_id, comment_id)
+VALUES (1,11);
+
+SELECT *
+FROM user_comment
+WHERE user_id = 5 AND comment_id = 11;
