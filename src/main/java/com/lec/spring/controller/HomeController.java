@@ -8,6 +8,8 @@ import com.lec.spring.service.BlogReviewService;
 import com.lec.spring.service.BlogReviewServiceImpl;
 import com.lec.spring.service.TravelPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,13 @@ public class HomeController {
     }
 
     @GetMapping("/post/{id}")
-    public String post(@PathVariable String id, Model model) throws IOException {
+    public String post(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
+
+        if(userDetails != null){
+            model.addAttribute("loggedUser", userDetails);
+        }else {
+            model.addAttribute("loggedUser", null);
+        }
 
         TravelPost travelPost = travelPostService.getTravelPostById(id);
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
@@ -42,12 +50,17 @@ public class HomeController {
 
         model.addAttribute("blogReview",blogReviewList);
 
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
         return "post";
     }
 
     @GetMapping("/festival/{id}") //495
-    public String festival(@PathVariable String id, Model model) throws IOException {
+    public String festival(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
+
+        if(userDetails != null){
+            model.addAttribute("loggedUser", userDetails);
+        }else {
+            model.addAttribute("loggedUser", null);
+        }
 
         TravelPost travelPost = travelPostService.getTravelPostById(id);
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
@@ -56,10 +69,6 @@ public class HomeController {
 
         List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost);
         model.addAttribute("blogReview",blogReviewList);
-
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
-//
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
 
         return "festival";
     }

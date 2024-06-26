@@ -16,4 +16,6 @@ public interface CommentRepository {
     // 특정 comment 삭제
     int deleteById(Long id);
 
+    int update(Long id, String content);
+
 }

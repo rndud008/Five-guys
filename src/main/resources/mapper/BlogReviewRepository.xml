@@ -148,7 +148,7 @@
         insert into blog_review
         (travel_post_id, last_call_api_id, title, link, description, postdate)
         VALUES
-        (#{travelPost.id}, #{lastCallApiData.id}, #{title}, #{link}, #{description}, #{postdate})
+        (#{travelPost.id}, #{lastCallApiDate.id}, #{title}, #{link}, #{description}, #{postdate})
 
     </insert>
 

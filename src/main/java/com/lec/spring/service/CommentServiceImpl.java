@@ -4,6 +4,7 @@ import com.lec.spring.domain.Comment;
 import com.lec.spring.domain.QryCommentList;
 import com.lec.spring.domain.QryResult;
 import com.lec.spring.domain.User;
+import com.lec.spring.repository.CommentLikeRepository;
 import com.lec.spring.repository.CommentRepository;
 import com.lec.spring.repository.UserRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -17,16 +18,21 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentRepository commentRepository;
     private UserRepository userRepository;
+    private CommentLikeRepository commentLikeRepository;
 
     @Autowired
     public CommentServiceImpl(SqlSession sqlSession){
         commentRepository = sqlSession.getMapper(CommentRepository.class);
         userRepository = sqlSession.getMapper(UserRepository.class);
+        commentLikeRepository = sqlSession.getMapper(CommentLikeRepository.class);
     }
     @Override
     public QryCommentList list(Long postId) {
         QryCommentList list = new QryCommentList();
         List<Comment> comments = commentRepository.findByPost(postId);
+        for(Comment comment : comments){
+            comment.setLikecnt(commentLikeRepository.countByComment(comment.getId()));
+        }
 
         list.setCount(comments.size());
         list.setList(comments);
@@ -58,6 +64,20 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public QryResult delete(Long id) {
         int cnt = commentRepository.deleteById(id);
+        String status = "FAIL";
+        if(cnt > 0) status = "OK";
+
+        QryResult result = QryResult.builder()
+                .count(cnt)
+                .status(status)
+                .build();
+
+        return result;
+    }
+
+    @Override
+    public QryResult update(Long id, String content) {
+        int cnt = commentRepository.update(id, content);
         String status = "FAIL";
         if(cnt > 0) status = "OK";
 

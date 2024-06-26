@@ -1,6 +1,6 @@
-$(function (){
+$(function () {
     let i = 0;
-    $("#btnAdd").click(function (){
+    $("#btnAdd").click(function () {
         $("#files").append(`
             <div>
                <input type="file" name="upfile${i}"/>
@@ -9,3 +9,4 @@ $(function (){
         i++;
     });
 });
+

@@ -57,8 +57,8 @@ CREATE TABLE blog_review
   travel_post_id   INT          NULL     COMMENT '여행 정보 목록 id',
   last_call_api_id INT          NOT NULL COMMENT 'API 호출 id',
   title            VARCHAR(200) NULL     COMMENT '블로그 포스트의 제목',
-  link             VARCHAR(255) NULL     COMMENT '블로그 포스트의 URL',
-  description      VARCHAR(200) NULL     COMMENT '내용을 요약한 패시지 정보',
+  link             VARCHAR(500) NULL     COMMENT '블로그 포스트의 URL',
+  description      VARCHAR(500) NULL     COMMENT '내용을 요약한 패시지 정보',
   postdate         VARCHAR(20)  NULL     COMMENT '블로그 포스트가 작성된 날짜',
   PRIMARY KEY (id)
 ) COMMENT '블로그 리뷰 리스트';
@@ -75,11 +75,13 @@ CREATE TABLE comment
 
 CREATE TABLE last_call_api_date
 (
-  last_api_id INT  NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
+  id            INT  NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
   url         TEXT NULL     COMMENT 'api url',
   regdate     DATE NULL     DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
-  PRIMARY KEY (last_api_id)
+  PRIMARY KEY (id)
 ) COMMENT 'api 중복호출 방지';
+
+
 
 CREATE TABLE middle_weather
 (
@@ -256,7 +258,7 @@ ALTER TABLE blog_review
 ALTER TABLE blog_review
   ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (last_api_id);
+    REFERENCES last_call_api_date (id);
 
 ALTER TABLE comment
   ADD CONSTRAINT FK_user_TO_comment
@@ -271,7 +273,7 @@ ALTER TABLE comment
 ALTER TABLE middle_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (last_api_id);
+    REFERENCES last_call_api_date (id);
 
 ALTER TABLE travel_class_detail
   ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
@@ -296,7 +298,7 @@ ALTER TABLE travel_post
 ALTER TABLE travel_post
   ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (last_api_id);
+    REFERENCES last_call_api_date (id);
 
 ALTER TABLE user_authorities
   ADD CONSTRAINT FK_user_TO_user_authorities
@@ -356,7 +358,7 @@ ALTER TABLE travel_diary_post
 ALTER TABLE short_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
     FOREIGN KEY (last_api_id)
-    REFERENCES last_call_api_date (last_api_id);
+    REFERENCES last_call_api_date (id);
 
 ALTER TABLE short_weather
   ADD CONSTRAINT FK_areacode_TO_short_weather

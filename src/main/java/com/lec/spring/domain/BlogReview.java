@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 public class BlogReview {
     private Long id;
     private TravelPost travelPost;
-    private LastCallApiDate lastCallApiData;
+    private LastCallApiDate lastCallApiDate;
     private String title;
     private String link;
     private String description;
     private String postdate;
-
 }

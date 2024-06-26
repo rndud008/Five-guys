@@ -83,11 +83,11 @@ public class SigungucodeServiceImpl implements SigungucodeService {
             }
 
             // API 호출 간격을 두기 위해 잠시 대기
-            timeUnit();
+//            timeUnit();
 
         }
-    }
 
+    }
 
 
     public void itemSave(JsonNode item, Areacode areacode){
