@@ -55,7 +55,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=1000&pageNo=7&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=1000&pageNo=12&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
             JsonNode items = null;
@@ -81,6 +81,13 @@ public class TravelPostServiceImpl implements TravelPostService {
             }//end items if문
         }// end travelTypes
     }// end saveTravelPosts
+
+    @Override
+    public void updateTravelPosts() {
+        List<TravelType> travelTypeList = travelTypeRepository.findAll();
+
+
+    }
 
     @Override
     public List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail, String title) {
@@ -170,6 +177,21 @@ public class TravelPostServiceImpl implements TravelPostService {
         return travelPostRepository.findPostByContentId(id);
     }
 
+    @Override
+    public int saveLike(Long postId, Long userId) {
+        return travelPostRepository.addTravelPostLike(postId, userId);
+    }
+
+    @Override
+    public int deleteLike( Long postId, Long userId) {return travelPostRepository.deleteTravelPostLike(postId, userId);}
+
+    @Override
+    public Long selectedLike(Long postId ,Long userId) {return travelPostRepository.findLike(postId, userId);}
+
+    @Override
+    public Long totalLike(Long postId) {
+        return travelPostRepository.countLike(postId);
+    }
 
 
 }

@@ -3,6 +3,15 @@
 SELECT *
 FROM areacode;
 
+select *
+from user_travel_post;
+
+select *
+from user;
+
+delete from user_travel_post
+where user_id =2 and travel_post_id =2;
+
 SELECT s.*
 FROM sigungucode s;
 
@@ -40,6 +49,14 @@ FROM travel_type;
 
 select *
 FROM last_call_api_date;
+
+select travel_post_id
+from user_travel_post
+where travel_post_id =1 and user_id =2;
+
+select *
+from user_travel_post;
+
 
 select *
 FROM travel_class_detail;
@@ -206,8 +223,8 @@ where
 #     STR_TO_DATE(tp.eventstartdate, '%Y%m%d') >= CURDATE()
 # order by tp.eventstartdate asc
   and
-    tp.homepage = ''
-
+    tp.overview is null
+#     tp.contentid = 2702596
 ;
 
 
