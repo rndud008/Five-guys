@@ -30,7 +30,7 @@
     </select>
 
 
-    <select id="findWeatherByAreacodeAndCoordinates" parameterType="map" resultType="WeatherDTO">
+    <select id="findWeatherByAreacodeAndCoordinates" parameterType="map" resultType="com.lec.spring.domain.WeatherDTO">
         SELECT *
         FROM short_weather
         WHERE areacode = #{areacode}

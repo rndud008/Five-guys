@@ -249,3 +249,6 @@ FROM
 
 
 select * from user;
+select * from short_weather;
+select * from middle_weather;
+select * from last_call_api_date;

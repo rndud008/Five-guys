@@ -55,13 +55,13 @@
         WHERE areacode = #{areacode.areacode }
     </select>
 
-    <select id="findWeatherByAreacodeAndRegId" parameterType="map" resultType="WeatherDTO_2">
+    <select id="findWeatherByAreacodeAndRegId" parameterType="map" resultType="com.lec.spring.domain.WeatherDTO_2">
         SELECT *
         FROM middle_weather
         WHERE areacode = #{areacode}
     </select>
 
-    <select id="findWeatherByAreacodeAndRegId2" parameterType="map" resultType="WeatherDTO_2">
+    <select id="findWeatherByAreacodeAndRegId2" parameterType="map" resultType="com.lec.spring.domain.WeatherDTO_2">
         SELECT * FROM middle_weather
         WHERE areacode = #{areacode}
     </select>
