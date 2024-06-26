@@ -48,4 +48,10 @@
     <delete id="deleteById" flushCache="true">
         DELETE FROM comment WHERE id = #{id}
     </delete>
+
+    <update id="update" flushCache="true">
+        UPDATE comment
+        SET content = #{content}
+        WHERE id = #{id};
+    </update>
 </mapper>

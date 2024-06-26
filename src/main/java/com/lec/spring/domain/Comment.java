@@ -26,6 +26,8 @@ public class Comment {
 
     private String content; // 댓글 내용
 
+    private Long likecnt;
+
     // java.time.* 객체 변환을 위한 annotation
     // Serializer 는 Java 객체를 JSON 데이터로 변환할 때 사용되고
     // Deserializer 는 JSON 데이터를 Java 객체로 변환할 때 사용

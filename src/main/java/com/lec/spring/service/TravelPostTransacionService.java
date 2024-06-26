@@ -86,6 +86,7 @@ public class TravelPostTransacionService {
 
             } else {
                 System.out.println("소개정보 이미호출 완료");
+
             }
 
             if (travelType.getId() == 15) {
@@ -107,7 +108,7 @@ public class TravelPostTransacionService {
 
             lastCallApiDataRepository.save(detailCommon1);
             lastCallApiDataRepository.save(detailIntro1);
-            travelPost.setLastCallApiData(detailIntro1);
+            travelPost.setLastCallApiDate(detailIntro1);
             travelPostRepository.save(travelPost);
             System.out.println("item 저장완료");
 

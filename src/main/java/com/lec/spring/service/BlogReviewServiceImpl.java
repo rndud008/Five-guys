@@ -65,9 +65,8 @@ public class BlogReviewServiceImpl implements BlogReviewService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(formatter);
 
-
-            if (lastCallApiDataRepository.findByUrl(apiURL) == null ){
-
+            boolean urlCheck = lastCallApiDataRepository.findByUrl(apiURL) == null || lastCallApiDataRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
+            if (urlCheck){
                 Map<String, String> requestHeaers = new HashMap<>();
                 requestHeaers.put("X-Naver-Client-Id", clientId);
                 requestHeaers.put("X-Naver-Client-Secret", clientSecret);
