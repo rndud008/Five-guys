@@ -190,17 +190,24 @@
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into travel_post
         (travel_class_detail_id, last_call_api_id, sigungucode_id, title, addr1, addr2, contentid, firstimage,
-         firstimage2,
-         cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
+         firstimage2, cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
          parking, restdate, usetime, homepage, overview, eventplace, playtime, usetimefestival,
          infoname, infotext)
         values (#{travelClassDetail.id}, #{lastCallApiData.id}, #{sigungucode.id}, #{title}, #{addr1}, #{addr2},
-                #{contentid}, #{firstimage},
-                #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
-                #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview},
-                #{eventplace},
+                #{contentid}, #{firstimage}, #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
+                #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview},#{eventplace},
                 #{playtime}, #{usetimefestival}, #{infoname}, #{infotext})
     </insert>
+
+    <update id="update" flushCache="true" parameterType="com.lec.spring.domain.TravelPost">
+        update travel_post
+        set (travel_class_detail_id = #{travelClassDetail.id}, last_call_api_id = #{lastCallApiData.id}, sigungucode_id = #{sigungucode.id},
+                title = #{title}, addr1 = #{addr1}, addr2 = #{addr2}, contentid = #{contentid}, firstimage = #{firstimage}, firstimage2 = #{firstimage2},
+                cpyrhtDivCd = #{cpyrhtDivCd}, mapx = #{mapx}, mapy = #{mapy}, modifiedtime = #{modifiedtime}, tel = #{tel}, eventstartdate = #{eventstartdate},
+                eventenddate = #{eventenddate}, eventenddate = #{infocenter}, parking = #{parking}, restdate = #{restdate}, usetime = #{usetime}, homepage = #{homepage},
+                overview = #{overview}, eventplace = #{eventplace}, playtime = #{playtime}, usetimefestival = #{usetimefestival}, infoname = #{infoname}, infotext = #{infotext})
+        where contentid = #{contentid}
+    </update>
 
     <select id="findAll" resultType="com.lec.spring.domain.TravelPost">
         select *
@@ -517,6 +524,28 @@
 
         limit #{limit} offset #{offset}
 
+    </select>
+
+    <insert id="addTravelPostLike" flushCache="true">
+        insert into user_travel_post( travel_post_id, user_id)
+        values (#{postId},#{userId})
+    </insert>
+
+    <delete id="deleteTravelPostLike" flushCache="true">
+        delete from user_travel_post
+        where travel_post_id = #{postId} and  user_id = #{userId}
+    </delete>
+
+    <select id="findLike" resultType="Long">
+        select count(*)
+        FROM user_travel_post
+        where travel_post_id = #{postId} and user_id = #{userId}
+    </select>
+
+    <select id="countLike" resultType="Long">
+        select count(*)
+        from user_travel_post
+        where travel_post_id =#{postId}
     </select>
 
 

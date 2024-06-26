@@ -87,7 +87,10 @@ public interface TravelPostRepository {
     // 특정 여행 타입 전체정보 조회 검색리스트
 
     TravelPost findPostByContentId(String id);
-
+    int addTravelPostLike(@Param("postId")Long postId,@Param("userId")Long userId);
+    int deleteTravelPostLike(@Param("postId")Long postId,@Param("userId")Long userId);
+    Long findLike(@Param("postId")Long postId, @Param("userId")Long userId);
+    Long countLike(@Param("postId")Long postId);
 
 
 }

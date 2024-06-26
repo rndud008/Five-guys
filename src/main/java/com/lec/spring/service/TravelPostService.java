@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface TravelPostService {
     void saveTravelPosts() throws IOException, URISyntaxException;
+    void updateTravelPosts();
     List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail,String title);
 
     List<TravelPost> selectedTravelTypeByAreacodeTotalList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList, long travelTypeId);
@@ -39,5 +40,9 @@ public interface TravelPostService {
 
     TravelPost getTravelPostById(String id) throws IOException;
 
+    int saveLike(Long postId, Long userId);
+    int deleteLike(Long postId, Long userId);
+    Long selectedLike(Long postId, Long userId);
+    Long totalLike(Long postId);
 
 }

@@ -5,6 +5,7 @@ import com.lec.spring.service.SigungucodeService;
 import com.lec.spring.service.TravelClassDetailService;
 import com.lec.spring.service.TravelPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +32,9 @@ public class MainController {
     }
     */
 
-
     @GetMapping("/save")
     public String fetchAndSave() {
+
         try {
             sigungucodeService.saveSigungucodes();
             return "sigungucodeServiceData fetched and saved successfully!";

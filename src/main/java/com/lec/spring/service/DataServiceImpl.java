@@ -86,7 +86,6 @@ public class DataServiceImpl implements DataService {
     }
 
 
-
     public String fetchApiData(String url, Map<String, String> requestHeaders) throws IOException, URISyntaxException{
         HttpURLConnection con = connect(url);
         try {

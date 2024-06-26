@@ -86,6 +86,7 @@ public class TravelPostTransacionService {
 
             } else {
                 System.out.println("소개정보 이미호출 완료");
+
             }
 
             if (travelType.getId() == 15) {

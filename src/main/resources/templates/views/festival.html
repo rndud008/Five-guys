@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
 
+    <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
     <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -107,7 +109,9 @@
                         </dl>
                     </div>
 
-                    <div class="ad ad-c">
+                    <div>
+                        <span class="like-click"></span>
+                        <span class="like-count"></span>
                     </div>
 
                     <div class="title justify">
@@ -151,7 +155,85 @@
 
 
 
-<script th:inline="javascript">
+<script th:inline="javascript" th:with="loggedUser=${loggedUser}">
+    <!--    좋아요 기능 javaScript-->
+    $(document).ready(function () {
+        let postId = [[${post.id}]];
+
+        function loadLikeStatus() {
+            console.log("loadLikeStatus 실행")
+
+            $.ajax({
+                url: '/like/getTravelPostLike',
+                type: 'GET',
+                data: {
+                    travelPostId: postId
+                },
+                success: function (response) {
+                    if (response) {
+                        $('.like-click').html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                    } else {
+                        $('.like-click').html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                    }
+
+                    updateLikeCount();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error);
+
+                }
+            });
+        }
+
+        function updateLikeCount() {
+            $.ajax({
+                url: '/like/travelPostLikeCount',
+                type: 'GET',
+                data: {
+                    travelPostId: postId
+                },
+                success: function (response) {
+                    $('.like-count').html(response)
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
+        }
+
+
+        $('.like-click').on('click', function () {
+
+            if ([[${loggedUser == null}]]) {
+                alert('로그인이 필요합니다.');
+                window.location.href = '/user/login';
+            }
+
+            $.ajax({
+                url: '/like/postTravelPostLike',
+                type: 'POST',
+                data: {
+                    travelPostId: postId
+                },
+                success: function (response) {
+                    if (response === ' ') {
+                        $('.like-click').html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                    } else {
+                        $('.like-click').html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                    }
+
+                    updateLikeCount();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
+        });
+
+        loadLikeStatus();
+
+    })
+
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var markers = []; // 모든 마커를 담을 배열
     var categoryMarkers = []; // 카테고리 검색 결과 마커를 담을 배열
