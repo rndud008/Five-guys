@@ -11,6 +11,6 @@ public interface BlogReviewService {
 
     void blogReviewSaves() throws IOException, URISyntaxException;
 
-    List<BlogReview> selectedTravelPostByBlogReview(TravelPost travelPost);
+    List<BlogReview> selectedTravelPostByBlogReview(TravelPost travelPost, int offset, int limit);
 
 }

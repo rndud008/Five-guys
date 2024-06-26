@@ -105,10 +105,13 @@ public class BlogReviewServiceImpl implements BlogReviewService {
     }
 
     @Override
-    public List<BlogReview> selectedTravelPostByBlogReview(TravelPost travelPost) {
+    public List<BlogReview> selectedTravelPostByBlogReview(TravelPost travelPost, int offset, int limit) {
 
-        return blogReviewRepository.findTravelPostByBlogReview(travelPost);
+        return blogReviewRepository.findTravelPostByBlogReview(travelPost, offset, limit);
     }
+
+
+
 
     public void timeUnit() {
         // API 호출 간격을 두기 위해 잠시 대기
