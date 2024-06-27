@@ -126,5 +126,13 @@ public class HomeController {
 
             return blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3);
         }
+
+        @GetMapping("/api/festival/blogs/count")
+        public List<BlogReview> getMoreBlogs2(@RequestParam("id") String id) throws IOException {
+
+            TravelPost travelPost = travelPostService.getTravelPostById(id);
+
+            return blogReviewService.getsumBlogReview(travelPost);
+        }
     }
 }
