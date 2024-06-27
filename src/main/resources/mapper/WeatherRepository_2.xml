@@ -13,8 +13,8 @@
 
     <insert id="insertWeather_2" parameterType="com.lec.spring.domain.WeatherDTO_2" flushCache="true"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO middle_weather (areacode, last_call_api_id,  wf4Am, wf4Pm, wf5Am, wf5Pm, wf6Am, wf6Pm, wf7Am, wf7Pm)
-        VALUES (#{areacode.areacode}, #{lastCallApiDate.id},  #{wf4Am}, #{wf4Pm}, #{wf5Am}, #{wf5Pm}, #{wf6Am}, #{wf6Pm}, #{wf7Am}, #{wf7Pm})
+        INSERT INTO middle_weather (areacode, last_call_api_id, wf4Am, wf4Pm, rnSt4Am, rnSt4Pm, wf5Am, wf5Pm, rnSt5Am, rnSt5Pm, wf6Am, wf6Pm, rnSt6Am, rnSt6Pm, wf7Am, wf7Pm, rnSt7Am, rnSt7Pm)
+        VALUES (#{areacode.areacode}, #{lastCallApiDate.id}, #{wf4Am}, #{wf4Pm}, #{rnSt4Am}, #{rnSt4Pm}, #{wf5Am}, #{wf5Pm}, #{rnSt5Am}, #{rnSt5Pm}, #{wf6Am}, #{wf6Pm}, #{rnSt6Am}, #{rnSt6Pm}, #{wf7Am}, #{wf7Pm}, #{rnSt7Am}, #{rnSt7Pm});
     </insert>
 
 
@@ -38,12 +38,20 @@
         SET
             wf4Am = #{wf4Am},
             wf4Pm = #{wf4Pm},
+            rnSt4Am = #{rnSt4Am},
+            rnSt4Pm = #{rnSt4Pm},
             wf5Am = #{wf5Am},
             wf5Pm = #{wf5Pm},
+            rnSt5Am = #{rnSt5Am},
+            rnSt5Pm = #{rnSt5Pm},
             wf6Am = #{wf6Am},
             wf6Pm = #{wf6Pm},
+            rnSt6Am = #{rnSt6Am},
+            rnSt6Pm = #{rnSt6Pm},
             wf7Am = #{wf7Am},
-            wf7Pm = #{wf7Pm}
+            wf7Pm = #{wf7Pm},
+            rnSt7Am = #{rnSt7Am},
+            rnSt7Pm = #{rnSt7Pm}
         WHERE areacode = #{areacode.areacode}
     </update>
 

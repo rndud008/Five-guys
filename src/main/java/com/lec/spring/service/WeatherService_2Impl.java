@@ -257,6 +257,16 @@ public class WeatherService_2Impl implements WeatherService_2 {
                     .wf6Pm(item.has("wf6Pm") ? item.get("wf6Pm").asText() : null)
                     .wf7Am(item.has("wf7Am") ? item.get("wf7Am").asText() : null)
                     .wf7Pm(item.has("wf7Pm") ? item.get("wf7Pm").asText() : null)
+
+                    .rnSt4Am(item.get("rnSt4Am").asText())
+                    .rnSt4Pm(item.get("rnSt4Pm").asText())
+                    .rnSt5Am(item.get("rnSt5Am").asText())
+                    .rnSt5Pm(item.get("rnSt5Pm").asText())
+                    .rnSt6Am(item.get("rnSt6Am").asText())
+                    .rnSt6Pm(item.get("rnSt6Pm").asText())
+                    .rnSt7Am(item.get("rnSt7Am").asText())
+                    .rnSt7Pm(item.get("rnSt7Pm").asText())
+
                     .build();
             weatherList.add(dto);
         }

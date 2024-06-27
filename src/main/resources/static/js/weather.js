@@ -86,13 +86,15 @@ $('.map').on('load', function () {
                                     weatherData[short_weather.fcstDate].morning = {
                                         sky: short_weather.sky,
                                         tmn: short_weather.tmn,
-                                        tmx: short_weather.tmx
+                                        tmx: short_weather.tmx,
+                                        pop: short_weather.pop
                                     };
                                 } else if (short_weather.fcstTime === "1500") {
                                     weatherData[short_weather.fcstDate].afternoon = {
                                         sky: short_weather.sky,
                                         tmn: short_weather.tmn,
-                                        tmx: short_weather.tmx
+                                        tmx: short_weather.tmx,
+                                        pop: short_weather.pop
                                     };
                                 }
                             }
@@ -112,8 +114,10 @@ $('.map').on('load', function () {
 
                             let row = "<tr>" +
                                 "<td>" + formattedDate + "</td>" +
+                                "<td>" + (morning.pop) + "</td>" +
                                 "<td><img src='" + shortWeatherGif(morning.sky) + "' alt='" + weatherText(morning.sky) + "'></td>" +
                                 "<td><img src='" + shortWeatherGif(afternoon.sky) + "' alt='" + weatherText(afternoon.sky) + "'></td>" +
+                                "<td>" + (afternoon.pop) + "</td>" +
                                 `<td><span class='blue'>${morningTmn}℃</span> <span class='gray'>/</span> <span class='red'>${afternoonTmx}℃</span></td>` +
                                 "</tr>";
 
@@ -185,8 +189,10 @@ $('.map').on('load', function () {
                                                                 // 행(ROW)의 HTML을 구성합니다
                                                                 let row = "<tr>" +
                                                                     "<td>" + formattedDate + "</td>" +
+                                                                    "<td>" + mid_weather["rnSt" + j + "Am"] + "</td>" +
                                                                     "<td><img src='" + middleWeatherGif(mid_weather["wf" + j + "Am"]) + "' alt='" + mid_weather["wf" + j + "Am"] + "'></td>" +
                                                                     "<td><img src='" + middleWeatherGif(mid_weather["wf" + j + "Pm"]) + "' alt='" + mid_weather["wf" + j + "Pm"] + "'></td>" +
+                                                                    "<td>" + mid_weather["rnSt" + j + "Pm"] + "</td>" +
                                                                     `<td><span class='blue'>${mid_weather["taMin" + j]}℃</span> <span class='gray'>/</span> <span class='red'>${mid_weather["taMax" + j]}℃</span></td>` +
                                                                     "</tr>";
 
@@ -313,3 +319,36 @@ function weatherText(sky) {
     }
 }
 
+const modal = document.getElementById('modalSignin');
+const openModalBtn = document.querySelector('.login');
+
+if (modal !== null) {
+    openModalBtn.addEventListener('click', () => {
+        $('#modalSignin').modal('show'); // jQuery를 사용하여 모달을 표시합니다.
+        centerModal(); // 모달을 중앙 정렬하는 함수 호출
+    });
+
+    const closeModalBtn = document.querySelector('.modal .close');
+    closeModalBtn.addEventListener('click', () => {
+        $('#modalSignin').modal('hide'); // jQuery를 사용하여 모달을 숨깁니다.
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            $('#modalSignin').modal('hide'); // jQuery를 사용하여 모달을 숨깁니다.
+        }
+    });
+
+    function centerModal() {
+        const dialog = modal.querySelector('.modal-dialog');
+        if (dialog.offsetHeight < window.innerHeight) {
+            dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
+        } else {
+            dialog.style.marginTop = '';
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        modal.style.display = 'none'; // 페이지가 로드될 때 모달이 숨겨지도록 설정합니다.
+    });
+}
