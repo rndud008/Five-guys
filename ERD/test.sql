@@ -271,6 +271,7 @@ SELECT count(*) FROM blog_review;
 SELECT * FROM blog_review;
 SELECT * FROM travel_post;
 SELECT * FROM user;
+SELECT * FROM user_authorities;
 
 SELECT * FROM travel_diary_post;
 INSERT INTO travel_diary_post (user_id, areacode, subject, content)

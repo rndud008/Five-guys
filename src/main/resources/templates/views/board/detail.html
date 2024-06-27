@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/boarddetail.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script th:src="@{/js/detail.js}"></script>
 
     <script th:inline="javascript">
@@ -57,7 +58,7 @@
             </div>
             <div class="content">
                 <label>내용:</label>
-                <div th:utext="${post.content}"></div>
+                <div class="contentarea" th:utext="${post.content}"></div>
             </div>
 
             <!-- 첨부파일목록 -->
@@ -74,7 +75,7 @@
 
             <!-- 좋아요 -->
             <div class="actions">
-                <button type="button" id="btnLike">♡</button>
+                <button type="button" id="btnLike"><i class="fa fa-heart" style="font-size: 24px"></i></button>
                 <span id="cntLike"></span>
             </div>
             <!-- 좋아요 -->

@@ -21,7 +21,8 @@ $(function (){
             type: "POST",
             data: data,
             cache: false,
-            success: function () {
+            success: function (result) {
+                // TODO 이미지 바꾸는 작업
                 LoadLike(id);  // 좋아요 업데이트
             }
         });
@@ -34,6 +35,22 @@ function LoadLike(travel_diary_post_id){
         cache: false,
         success: function (result) {
             $("#cntLike").text(result);
+        }
+    });
+    $.ajax({
+        url: "/like/likeChk",
+        type: "POST",
+        data: {
+            "travel_diary_post_id": travel_diary_post_id,
+            "user_id": logged_id,},
+        cache: false,
+        success: function (data){
+            if(data == 0){
+                $("#btnLike").css("color", "#909090");
+            }
+            else {
+                $("#btnLike").css("color", "red");
+            }
         }
     });
 }
@@ -142,8 +159,8 @@ function buildComment(result) {
         const row = `
             <tr>
                 <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
-                <td>
-                    <input readonly class="content${id}" value="${content}"/>${upBtn}${submitBtn}${cancelBtn}${delBtn}
+                <td style="display: flex; justify-content: space-between">
+                    <input readonly class="content${id}" value="${content}"/><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
                 </td>
                 <td>${likeBtn}</td>
                 <td><span><small>${regdate}</small></span></td>

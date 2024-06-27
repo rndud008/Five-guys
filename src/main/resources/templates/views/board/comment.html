@@ -5,28 +5,34 @@
 
 <th:block th:fragment="comment">
 
-    <div>
-        <div class="mb-3 mt-3">
+    <div class="comment-section">
+        <div>
             <label>댓글: <span id="cmt_cnt">3</span> 개</label>
             <!-- ROLE_MEMBER 권한 가진 사용자만 댓글 작성 가능 -->
-            <div class="input-group my-2" sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
-            <div>
+            <div class="comment-form">
                 <input type="text" id="input_comment">
                 <button type="button" id="btn_comment">작성</button>
             </div>
 
-
             <table id="cmt_table">
                 <thead>
                 <tr>
-                    <th style="width: 16.66%">작성자</th>
-                    <th>내용</th>
-                    <th>좋아요</th>
-                    <th style="width: 16.66%">작성일</th>
+                    <th style="width: 15%">작성자</th>
+                    <th style="width: 60%">내용</th>
+                    <th style="width: 10%">좋아요</th>
+                    <th style="width: 15%">작성일</th>
                 </tr>
                 </thead>
-                <tbody id="cmt_list">
 
+                <tbody id="cmt_list">
+                    <tr>
+                        <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
+                        <td>
+                            <input readonly class="content${id}" value="${content}"/>${upBtn}${submitBtn}${cancelBtn}${delBtn}
+                        </td>
+                        <td>${likeBtn}</td>
+                        <td><span><small>${regdate}</small></span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
