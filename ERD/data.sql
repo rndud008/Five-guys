@@ -23,21 +23,6 @@ insert into travel_type (id, name)
 values (12, '관광지'),
        (15, '축제공연행사');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Authority
 INSERT INTO authority (id, name) VALUES
                                      (1, 'ROLE_ADMIN'),

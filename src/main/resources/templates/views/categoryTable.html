@@ -132,7 +132,8 @@
    </div>
 
 </div>
-<script th:inline="javascript">
+<script th:inline="javascript" th:with="loggedUser=${loggedUser}">
+
 
     let categoryId = [[${categoryId}]]
 
@@ -149,7 +150,41 @@
 
     $(document).ready(function () {
         // 지역 카테고리 클릭 이벤트 처리
+
         resultCategpryAjex();
+
+        $('.category-like-button').on('click', function () {
+
+            event.preventDefault();
+
+            if ([[${loggedUser == null}]]) {
+                alert('로그인이 필요합니다.');
+                window.location.href = '/user/login';
+            }
+
+            const $button = $(this);
+            const postId = $(this).data('post');
+            console.log(postId)
+
+            $.ajax({
+                url: '/like/postTravelPostLike',
+                type: 'POST',
+                data: {
+                    travelPostId: postId
+                },
+                success: function (response) {
+                    if (response === ' ') {
+                        $button.html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                    } else {
+                        $button.html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                    }
+                    console.log('변경완료')
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
+        });
 
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
@@ -157,11 +192,13 @@
 
                 if (!loading && count > offset) {
 
+                    $('#loading').show();
                     resultCategpryAjex();
+
                 }
 
             }
-        })
+        });
 
         $('.region-category-list').click(function (event) {
             event.preventDefault();
@@ -201,6 +238,96 @@
                 resultCategpryAjex();
             });
         });
+
+        // 대분류 카테고리 클릭 이벤트 처리
+        $('.category-list').click(function (event) {
+            event.preventDefault();
+            const big = $(this).data('subcategory');
+            const bigName = $(this).data('name');
+
+            queyrtest3 = big;
+
+            offset = 0;
+
+            // 선택한 대분류를 1번 항목에 표시
+            updateSelectedCategoryDisplay(big, bigName);
+
+            // 다른 대분류 카테고리 링크 숨기기
+            hideOtherCategoryCategories();
+
+            // 선택한 대분류의 중분류 카테고리 표시
+            showSelectedCategorySubcategories(big);
+
+            resultCategpryAjex();
+
+            // 중분류 카테고리 클릭 이벤트 처리
+            $('.middle-list').off('click').on('click', function (event) {
+                event.preventDefault();
+                const middle = $(this).data('subcategory');
+                const middleName = $(this).data('name');
+
+                const subcategoryParts = middle.split('-');
+
+                queyrtest3 = subcategoryParts[1];
+
+                offset = 0;
+
+                // 선택한 중분류를 대분류 1번 항목에 표시
+                updateSelectedCategoryDisplay(big, bigName, middle, middleName);
+
+                // 다른 중분류 카테고리 링크 숨기기
+                hideOtherCategoryCategories(middle);
+
+                // 선택한 중분류의 소분류 카테고리 표시
+                showSelectedCategorySubcategories(middle);
+
+                resultCategpryAjex();
+
+                // 소분류 카테고리 클릭 이벤트 처리
+                $('.small-list').off('click').on('click', function (event) {
+                    event.preventDefault();
+                    const small = $(this).data('subcategory');
+                    const smallName = $(this).data('name');
+
+                    const subcategoryParts = small.split('-');
+                    queyrtest3 = subcategoryParts[2];
+
+                    offset = 0;
+
+                    // 선택한 소분류를 대분류 1번 항목에 표시
+                    updateSelectedCategoryDisplay(big, bigName, middle, middleName, small, smallName);
+
+                    // 선택한 소분류 카테고리 강조
+                    highlightSelectedCategorySubcategory(small);
+
+                    resultCategpryAjex();
+
+                });
+            });
+
+        });
+
+        $('#searchForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting via the browser
+
+            searchQuery = $('#searchQuery').val();
+            offset = 0
+            updateSearchResultDisplay(searchQuery);
+
+            resultCategpryAjex()
+
+        });
+
+        $('.search-result').on('click', 'li', function (event) {
+            event.preventDefault(); // Prevent the default action of the list
+
+            resetSearchResult()
+            searchQuery = ''
+            offset = 0
+
+            resultCategpryAjex()
+
+        })
 
         // 선택한 지역을 초기 상태로 돌려놓는 기능
         $('.region-selected').on('click', 'li', function (event) {
@@ -256,125 +383,9 @@
             }
 
         });
-    });
-
-
-    function updateSelectedRegionDisplay(region, regionName, sigungu = '', sigunguName = '') {
-        // 선택한 지역 표시 업데이트
-        const selectedRegionDisplay = $('.region-selected');
-
-        const categoryPath = [];
-        if (region) {
-            categoryPath.push(`<li class="region-selected" data-subcategory="${region}" data-name="${regionName}">${regionName}</li>`);
-        }
-
-        if (sigungu) {
-            categoryPath.push(`<li class="region-selected" data-subcategory="${sigungu}" data-name="${sigunguName}">${sigunguName}</li>`);
-        }
-
-        selectedRegionDisplay.html('<li class="region-selected"> 전체 </li> > ' + categoryPath.join(' > '));
-
-    }
-
-    function hideOtherRegionCategories() {
-        // 다른 지역 카테고리 링크 숨기기
-        $('.region-category-list').hide();
-    }
-
-    function showSelectedRegionSubcategories(sigungu) {
-        // 선택한 지역의 시군구 카테고리 표시
-        $('.region-subcategory-container').hide();
-        $('#' + sigungu).show();
-    }
-
-    function highlightSelectedSubcategory(area, sigungu) {
-        // 선택한 시군구 카테고리 강조
-        $('#' + area + ' .region-subcategory-list').css('color', '');
-        $('#' + area + ' .region-subcategory-list[data-subcategory="' + sigungu + '"]').css('color', 'red');
-    }
-
-    function resetSelectedRegion() {
-        // 선택한 지역 표시 초기화
-        $('.region-selected').html('<li class="region-selected"> 전체 </li>');
-
-        // 모든 지역 카테고리 링크 표시
-        $('.region-category-list').show();
-
-        // 모든 시군구 카테고리 숨기기
-        $('.region-subcategory-container').hide();
-
-        // 시군구 카테고리 강조 초기화
-        $('.region-subcategory-list').css('color', '');
-    }
-
-    // 대분류 카테고리 클릭 이벤트 처리
-    $('.category-list').click(function (event) {
-        event.preventDefault();
-        const big = $(this).data('subcategory');
-        const bigName = $(this).data('name');
-
-        queyrtest3 = big;
-
-        offset = 0;
-
-        // 선택한 대분류를 1번 항목에 표시
-        updateSelectedCategoryDisplay(big, bigName);
-
-        // 다른 대분류 카테고리 링크 숨기기
-        hideOtherCategoryCategories();
-
-        // 선택한 대분류의 중분류 카테고리 표시
-        showSelectedCategorySubcategories(big);
-
-        resultCategpryAjex();
-
-        // 중분류 카테고리 클릭 이벤트 처리
-        $('.middle-list').off('click').on('click', function (event) {
-            event.preventDefault();
-            const middle = $(this).data('subcategory');
-            const middleName = $(this).data('name');
-
-            const subcategoryParts = middle.split('-');
-
-            queyrtest3 = subcategoryParts[1];
-
-            offset = 0;
-
-            // 선택한 중분류를 대분류 1번 항목에 표시
-            updateSelectedCategoryDisplay(big, bigName, middle, middleName);
-
-            // 다른 중분류 카테고리 링크 숨기기
-            hideOtherCategoryCategories(middle);
-
-            // 선택한 중분류의 소분류 카테고리 표시
-            showSelectedCategorySubcategories(middle);
-
-            resultCategpryAjex();
-
-            // 소분류 카테고리 클릭 이벤트 처리
-            $('.small-list').off('click').on('click', function (event) {
-                event.preventDefault();
-                const small = $(this).data('subcategory');
-                const smallName = $(this).data('name');
-
-                const subcategoryParts = small.split('-');
-                queyrtest3 = subcategoryParts[2];
-
-                offset = 0;
-
-                // 선택한 소분류를 대분류 1번 항목에 표시
-                updateSelectedCategoryDisplay(big, bigName, middle, middleName, small, smallName);
-
-                // 선택한 소분류 카테고리 강조
-                highlightSelectedCategorySubcategory(small);
-
-                resultCategpryAjex();
-
-            });
-        });
 
         // 선택한 카테고리 초기 상태로 돌려놓는 기능
-        $('.category-selected').off('click').on('click', 'li', function (event) {
+        $('.category-selected').on('click', 'li', function (event) {
             event.preventDefault(); // Prevent the default action of the list
             const subcategory = $(this).data('subcategory');
             let firstName = $(this).prevAll('[data-name]').eq(0).data('name');
@@ -453,81 +464,7 @@
             }
         });
 
-        function updateSelectedCategoryDisplay(big, bigName, middle = '', middleName = '', small = '', smallName = '') {
-            // 선택한 대분류 표시 업데이트
-            const selectedCategoryDisplay = $('.category-selected');
-            const categoryPath = [];
-            if (big) {
-                categoryPath.push(`<li class="category-selected" data-subcategory="${big}" data-name="${bigName}">${bigName}</li>`);
-            }
-
-            if (middle) {
-                categoryPath.push(`<li class="category-selected" data-subcategory="${middle}" data-name="${middleName}">${middleName}</li>`);
-            }
-
-            if (small) {
-                categoryPath.push(`<li class="category-selected" data-subcategory="${small}" data-name="${smallName}">${smallName}</li>`);
-            }
-
-            selectedCategoryDisplay.html('<li class="category-selected"> 전체 </li> > ' + categoryPath.join(' > '));
-
-        }
-
-        function hideOtherCategoryCategories(middle = '', small = '') {
-            // 다른 대분류 카테고리 링크 숨기기
-            $('.category-list').hide();
-            if (middle) {
-                $('.middle-list').hide();
-                $('[data-subcategory="' + middle + '"]').show();
-            } else if (small) {
-                $('.small-list').hide();
-                $('[data-subcategory="' + small + '"]').show();
-            } else {
-                $('.middle-container, .small-container').hide();
-            }
-        }
-
-        function showSelectedCategorySubcategories(big, middle = '') {
-            // 선택한 대분류의 중분류 카테고리 표시
-            if (middle) {
-                $('.middle-container, .small-container').hide();
-                $('#' + middle).show();
-            } else if (big) {
-                $('.middle-container, .small-container').hide();
-                $('#' + big).show();
-            }
-        }
-
-        function highlightSelectedCategorySubcategory(small) {
-            // 선택한 소분류 카테고리 강조
-            $('.small-list').css('color', '');
-            $('.small-list[data-subcategory="' + small + '"]').css('color', 'red');
-        }
-
-        function resetSelectedCategory() {
-            // 선택한 카테고리 표시 초기화
-            const selectedCategoryDisplay = $('.category-selected');
-            selectedCategoryDisplay.html('<li class="category-selected"> 전체 </li>');
-            selectedCategoryDisplay.removeAttr('data-subcategory');
-
-            // 모든 카테고리 링크 표시
-            $('.category-list').show();
-
-            // 모든 중분류, 소분류 카테고리 숨기기
-
-            $('.middle-list').show();
-            $('.small-list').show();
-
-            $('.middle-container').hide();
-            $('.small-container').hide();
-
-
-            // 소분류 카테고리 강조 초기화
-            $('.small-list').css('color', '');
-        }
-
     });
-
 
     function resultCategpryAjex() {
 
@@ -567,6 +504,7 @@
                 $('#loading').hide();
 
                 offset += limit;
+                loadLikeStatus();
 
             },
             error: function (xhr, status, error) {
@@ -575,6 +513,86 @@
                 $('#loading').hide();
             }
         });
+    }
+
+    function loadLikeStatus() {
+        console.log("loadLikeStatus 실행")
+
+        $('.category-like-button').each(function () {
+
+            const $button = $(this);
+
+            const postId = $button.data('post');
+            console.log(postId)
+
+            $.ajax({
+                url: '/like/getTravelPostLike',
+                type: 'GET',
+                data: {
+                    travelPostId: postId
+                },
+                success: function (response) {
+                    if (response === ' ') {
+                        $button.html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                    } else {
+                        $button.html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                    }
+
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error);
+
+                }
+            });
+        })
+    }
+
+    function updateSelectedRegionDisplay(region, regionName, sigungu = '', sigunguName = '') {
+        // 선택한 지역 표시 업데이트
+        const selectedRegionDisplay = $('.region-selected');
+
+        const categoryPath = [];
+        if (region) {
+            categoryPath.push(`<li class="region-selected" data-subcategory="${region}" data-name="${regionName}">${regionName}</li>`);
+        }
+
+        if (sigungu) {
+            categoryPath.push(`<li class="region-selected" data-subcategory="${sigungu}" data-name="${sigunguName}">${sigunguName}</li>`);
+        }
+
+        selectedRegionDisplay.html('<li class="region-selected"> 전체 </li> > ' + categoryPath.join(' > '));
+
+    }
+
+    function hideOtherRegionCategories() {
+        // 다른 지역 카테고리 링크 숨기기
+        $('.region-category-list').hide();
+    }
+
+    function showSelectedRegionSubcategories(sigungu) {
+        // 선택한 지역의 시군구 카테고리 표시
+        $('.region-subcategory-container').hide();
+        $('#' + sigungu).show();
+    }
+
+    function highlightSelectedSubcategory(area, sigungu) {
+        // 선택한 시군구 카테고리 강조
+        $('#' + area + ' .region-subcategory-list').css('color', '');
+        $('#' + area + ' .region-subcategory-list[data-subcategory="' + sigungu + '"]').css('color', 'red');
+    }
+
+    function resetSelectedRegion() {
+        // 선택한 지역 표시 초기화
+        $('.region-selected').html('<li class="region-selected"> 전체 </li>');
+
+        // 모든 지역 카테고리 링크 표시
+        $('.region-category-list').show();
+
+        // 모든 시군구 카테고리 숨기기
+        $('.region-subcategory-container').hide();
+
+        // 시군구 카테고리 강조 초기화
+        $('.region-subcategory-list').css('color', '');
     }
 
     function updateSearchResultDisplay(searchQueryName) {
@@ -593,33 +611,81 @@
 
     }
 
-    $(document).ready(function () {
-        $('#searchForm').on('submit', function (event) {
-            event.preventDefault(); // Prevent the form from submitting via the browser
+    function updateSelectedCategoryDisplay(big, bigName, middle = '', middleName = '', small = '', smallName = '') {
+        // 선택한 대분류 표시 업데이트
+        const selectedCategoryDisplay = $('.category-selected');
+        const categoryPath = [];
+        if (big) {
+            categoryPath.push(`<li class="category-selected" data-subcategory="${big}" data-name="${bigName}">${bigName}</li>`);
+        }
 
-            searchQuery = $('#searchQuery').val();
-            offset = 0
-            updateSearchResultDisplay(searchQuery);
+        if (middle) {
+            categoryPath.push(`<li class="category-selected" data-subcategory="${middle}" data-name="${middleName}">${middleName}</li>`);
+        }
 
-            resultCategpryAjex()
+        if (small) {
+            categoryPath.push(`<li class="category-selected" data-subcategory="${small}" data-name="${smallName}">${smallName}</li>`);
+        }
 
-        });
+        selectedCategoryDisplay.html('<li class="category-selected"> 전체 </li> > ' + categoryPath.join(' > '));
 
-        $('.search-result').on('click', 'li', function (event) {
-            event.preventDefault(); // Prevent the default action of the list
+    }
 
-            resetSearchResult()
-            searchQuery = ''
-            offset = 0
+    function hideOtherCategoryCategories(middle = '', small = '') {
+        // 다른 대분류 카테고리 링크 숨기기
+        $('.category-list').hide();
+        if (middle) {
+            $('.middle-list').hide();
+            $('[data-subcategory="' + middle + '"]').show();
+        } else if (small) {
+            $('.small-list').hide();
+            $('[data-subcategory="' + small + '"]').show();
+        } else {
+            $('.middle-container, .small-container').hide();
+        }
+    }
 
-            resultCategpryAjex()
+    function showSelectedCategorySubcategories(big, middle = '') {
+        // 선택한 대분류의 중분류 카테고리 표시
+        if (middle) {
+            $('.middle-container, .small-container').hide();
+            $('#' + middle).show();
+        } else if (big) {
+            $('.middle-container, .small-container').hide();
+            $('#' + big).show();
+        }
+    }
 
-        })
+    function highlightSelectedCategorySubcategory(small) {
+        // 선택한 소분류 카테고리 강조
+        $('.small-list').css('color', '');
+        $('.small-list[data-subcategory="' + small + '"]').css('color', 'red');
+    }
 
-    });
+    function resetSelectedCategory() {
+        // 선택한 카테고리 표시 초기화
+        const selectedCategoryDisplay = $('.category-selected');
+        selectedCategoryDisplay.html('<li class="category-selected"> 전체 </li>');
+        selectedCategoryDisplay.removeAttr('data-subcategory');
 
+        // 모든 카테고리 링크 표시
+        $('.category-list').show();
+
+        // 모든 중분류, 소분류 카테고리 숨기기
+
+        $('.middle-list').show();
+        $('.small-list').show();
+
+        $('.middle-container').hide();
+        $('.small-container').hide();
+
+
+        // 소분류 카테고리 강조 초기화
+        $('.small-list').css('color', '');
+    }
 
 </script>
+
 <script src="/js/nav.js"></script>
 <script src="/js/modallogin.js"></script>
 
