@@ -201,13 +201,17 @@
 
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.TravelPost">
         update travel_post
-        set (travel_class_detail_id = #{travelClassDetail.id}, last_call_api_id = #{lastCallApiDate.id}, sigungucode_id = #{sigungucode.id},
+        set travel_class_detail_id = #{travelClassDetail.id}, last_call_api_id = #{lastCallApiDate.id}, sigungucode_id = #{sigungucode.id},
                 title = #{title}, addr1 = #{addr1}, addr2 = #{addr2}, contentid = #{contentid}, firstimage = #{firstimage}, firstimage2 = #{firstimage2},
                 cpyrhtDivCd = #{cpyrhtDivCd}, mapx = #{mapx}, mapy = #{mapy}, modifiedtime = #{modifiedtime}, tel = #{tel}, eventstartdate = #{eventstartdate},
-                eventenddate = #{eventenddate}, eventenddate = #{infocenter}, parking = #{parking}, restdate = #{restdate}, usetime = #{usetime}, homepage = #{homepage},
-                overview = #{overview}, eventplace = #{eventplace}, playtime = #{playtime}, usetimefestival = #{usetimefestival}, infoname = #{infoname}, infotext = #{infotext})
+                eventenddate = #{eventenddate}, infocenter = #{infocenter}, parking = #{parking}, restdate = #{restdate}, usetime = #{usetime}, homepage = #{homepage},
+                overview = #{overview}, eventplace = #{eventplace}, playtime = #{playtime}, usetimefestival = #{usetimefestival}, infoname = #{infoname}, infotext = #{infotext}
         where contentid = #{contentid}
     </update>
+
+    <delete id="delete" flushCache="true">
+        delete from travel_post where id = #{id}
+    </delete>
 
     <select id="findAll" resultType="com.lec.spring.domain.TravelPost">
         select *
@@ -230,6 +234,15 @@
                  join travel_type tt on tcd.travel_type_id = tt.id
         and tp.title LIKE CONCAT('%', #{title}, '%')
         and tcd.travel_type_id = #{travelClassDetail.travelType.id}
+    </select>
+
+    <select id="findByOverviewIsNull" resultMap="mapTList">
+        <include refid="SELECT_BASE"/>
+        WHERE tt.id IN
+        <foreach item="item" index="index" collection="travelClassDetailList" open="(" separator="," close=")">
+            #{item.travelType.id}
+        </foreach>
+        and tp.overview is null
     </select>
 
     <select id="findPostByContentId" resultMap="mapAssociation">

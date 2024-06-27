@@ -4,10 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lec.spring.domain.*;
 import com.lec.spring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -46,24 +49,23 @@ public class CategoryTableController {
 
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
 
-            travelPostList = travelPostService.selectedByTravelTypeList(travelClassDetailList, travelType.getId(),limit, offset);
+            travelPostList = travelPostService.selectedByTravelTypeList(travelClassDetailList, travelType.getId(), limit, offset);
             totalTravelPostList = travelPostService.selectedByTravelTypeTotalList(travelClassDetailList, travelType.getId());
 
         } else if (query.equals("99") && sigunguQuery == 99 && regionQuery == 99) {
 
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
 
-            travelPostList = travelPostService.selectedByTravelTypAndSearchList(travelClassDetailList, travelType.getId(), searchQuery,limit, offset);
+            travelPostList = travelPostService.selectedByTravelTypAndSearchList(travelClassDetailList, travelType.getId(), searchQuery, limit, offset);
             totalTravelPostList = travelPostService.selectedByTravelTypAndSearchTotalList(travelClassDetailList, travelType.getId(), searchQuery);
 
         } else if (query.equals("99") && searchQuery.equals("99") && sigunguQuery == 99) {
 
             List<Sigungucode> sigungucodes = sigungucodeService.selectedByAreacode(regionQuery);
 
-
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(travelClassDetailList, sigungucodes, travelType.getId(),limit, offset);
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(travelClassDetailList, sigungucodes, travelType.getId(), limit, offset);
             totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeTotalList(travelClassDetailList, sigungucodes, travelType.getId());
 
         } else if (query.equals("99") && sigunguQuery == 99) {
@@ -73,7 +75,7 @@ public class CategoryTableController {
 
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSearchList(travelClassDetailList, sigungucodes, travelType.getId(), searchQuery,limit, offset);
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSearchList(travelClassDetailList, sigungucodes, travelType.getId(), searchQuery, limit, offset);
             totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeAndSearchTotalList(travelClassDetailList, sigungucodes, travelType.getId(), searchQuery);
 
         } else if (query.equals("99") && searchQuery.equals("99")) {
@@ -86,7 +88,7 @@ public class CategoryTableController {
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedByTravelTypeList(travelType);
             System.out.println(travelClassDetailList.size() + "size");
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList, sigungucode, travelType.getId(),limit, offset);
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeList(travelClassDetailList, sigungucode, travelType.getId(), limit, offset);
             totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeTotalList(travelClassDetailList, sigungucode, travelType.getId());
 
         } else if (query.equals("99")) {
@@ -100,20 +102,20 @@ public class CategoryTableController {
             System.out.println(travelClassDetailList.size() + "size");
 
             travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchList(travelClassDetailList, sigungucode, travelType.getId(), searchQuery, limit, offset);
-            totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchTotalList( travelClassDetailList, sigungucode, travelType.getId(), searchQuery);
+            totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchTotalList(travelClassDetailList, sigungucode, travelType.getId(), searchQuery);
 
         } else if (regionQuery == 99 && sigunguQuery == 99 && searchQuery.equals("99")) {
 
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
 
-            travelPostList = travelPostService.selectedByTravelTypeList(travelClassDetailList, travelType.getId(),limit, offset);
+            travelPostList = travelPostService.selectedByTravelTypeList(travelClassDetailList, travelType.getId(), limit, offset);
             totalTravelPostList = travelPostService.selectedByTravelTypeTotalList(travelClassDetailList, travelType.getId());
 
         } else if (regionQuery == 99 && sigunguQuery == 99) {
 
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
 
-            travelPostList = travelPostService.selectedByTravelTypAndSearchList(travelClassDetailList, travelType.getId(), searchQuery,limit, offset);
+            travelPostList = travelPostService.selectedByTravelTypAndSearchList(travelClassDetailList, travelType.getId(), searchQuery, limit, offset);
             totalTravelPostList = travelPostService.selectedByTravelTypAndSearchTotalList(travelClassDetailList, travelType.getId(), searchQuery);
 
         } else if (sigunguQuery == 99 && searchQuery.equals("99")) {
@@ -121,7 +123,7 @@ public class CategoryTableController {
 
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
 
-            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(travelClassDetailList, sigungucodes, travelType.getId(),limit, offset);
+            travelPostList = travelPostService.selectedTravelTypeByAreacodeList(travelClassDetailList, sigungucodes, travelType.getId(), limit, offset);
             totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeTotalList(travelClassDetailList, sigungucodes, travelType.getId());
 
         } else if (sigunguQuery == 99) {
@@ -148,23 +150,38 @@ public class CategoryTableController {
             List<TravelClassDetail> travelClassDetailList = travelClassDetailService.selectedTravelTypeByCodeList(travelType, query);
 
             travelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchList(travelClassDetailList, sigungucode, travelType.getId(), searchQuery, limit, offset);
-            totalTravelPostList =travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchTotalList(travelClassDetailList, sigungucode, travelType.getId(), searchQuery);
+            totalTravelPostList = travelPostService.selectedTravelTypeByAreacodeAndSigungucodeAndSearchTotalList(travelClassDetailList, sigungucode, travelType.getId(), searchQuery);
 
         }
 
+        if (travelType.getId() == 15) {
+            travelPostList.forEach(TravelPost::preparaData);
+
+        }
+
+        travelPostList.forEach(TravelPost::defaultImageData);
+
         model.addAttribute(type, travelPostList);
 
-        if(offset == 0){
+        if (offset == 0) {
             model.addAttribute("count", totalTravelPostList);
             return "fragment/results :: results";
-        }else {
+        } else {
             return "fragment/appendResults :: appendResults";
         }
 
     }
 
+
     @GetMapping("/categoryTable/{id}")
-    public String list(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
+    public String list(Model model, @PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) throws JsonProcessingException {
+
+        if (userDetails != null) {
+            model.addAttribute("loggedUser", userDetails);
+        } else {
+            model.addAttribute("loggedUser", null);
+        }
+
         model.addAttribute("areacode", areacodeService.list());
         List<Areacode> areacodes = areacodeService.list();
         for (Areacode areacode : areacodes) {
@@ -195,6 +212,8 @@ public class CategoryTableController {
         }
 
         model.addAttribute("decodes", checkedDecodes.keySet());
+
+
 
         return "categoryTable";
 
