@@ -15,4 +15,6 @@ public interface BlogReviewRepository {
     // 특정 여행정보 블로그 게시물 리스트
     BlogReview findByLink(String link);
 
+    List<BlogReview> getsumBlogReview(@Param("travelPost") TravelPost travelPost);
+
 }

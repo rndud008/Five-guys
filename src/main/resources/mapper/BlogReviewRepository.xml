@@ -169,6 +169,13 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <select id="getsumBlogReview" resultType="com.lec.spring.domain.BlogReview">
+        SELECT br.id
+        FROM blog_review br
+        JOIN travel_post tp ON br.travel_post_id = tp.id
+        WHERE br.travel_post_id = #{travelPost.id}
+    </select>
+
 
 
 
