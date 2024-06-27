@@ -12,17 +12,55 @@
     <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>
-<!--    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>-->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22d9b94181d1047695b69ce686213e6a&libraries=services"></script>
     <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        let offset = 5; // 초기 offset 값 설정
+        let postId = [[${post.contentid}]]; // Thymeleaf를 이용해 postId 가져오기
+        let totalBlogs = 0; // 총 블로그 개수
 
+        $(document).ready(function() {
+            // 페이지 로드 시 총 블로그 개수를 가져옴
+            $.get("/api/festival/blogs/count", { id: postId }, function(data) {
+                totalBlogs = data;
+            });
+        });
 
+        function loadMore() {
+            $.get("/api/festival/blogs", { id: postId, offset: offset }, function(data) {
+                if (data.length > 0) {
+                    let blogList = $('#blogList');
+                    data.forEach(function(blog) {
+                        blogList.append(
+                            '<li>' +
+                            '<div>' +
+                            '<a href="' + blog.link + '" target="_blank" class="tit">' +
+                            '<strong>' + blog.title + '</strong>' +
+                            '<span>' + blog.postdate.substring(2, 4) + '.' + blog.postdate.substring(4, 6) + '.' + blog.postdate.substring(6, 8) + '</span>' +
+                            '</a>' +
+                            '<a href="' + blog.link + '" target="_blank" class="desc">' +
+                            blog.description +
+                            '</a>' +
+                            '</div>' +
+                            '</li>'
+                        );
+                    });
+                    offset += 3; // 다음 요청을 위해 offset 값을 증가
 
+                    // 현재 로드된 블로그 수와 총 블로그 수를 비교
+                    if (offset >= totalBlogs) {
+                        $('#loadMore').hide(); // 모든 블로그가 로드되면 "더보기" 버튼 숨기기
+                    }
+                } else {
+                    $('#loadMore').hide(); // 더 이상 데이터가 없을 때 "더보기" 버튼 숨기기
+                }
+            });
+        }
 
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
         .like-container {
             display: flex;
@@ -75,78 +113,12 @@
     </style>
 </head>
 <body>
-
-
 <div id="wrap" >
     <!-- header -->
-    <header class="line scroll">
-        <div>
-            <h1 class="logo">
-                <a href="/">로고</a></h1>
-            <nav>
-                <ul>
-                    <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
-                    <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
-                    <li><a href=""><span>게시판</span></a></li>
-                </ul>
-            </nav>
-            <h1 class="login"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
-        </div>
-    </header>
+    <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
-    <th:block th:fragment="loginModal">
-        <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Travel Login</h1>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <form class="form-signin">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" placeholder="name"
-                                       name="floatingInput" autocomplete="floatingInput">
-                                <label for="floatingInput"  class="visually-hidden">ID</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-                                       name="floatingPassword" autocomplete="floatingPassword">
-                                <label for="floatingPassword"  class="visually-hidden">Password</label>
-                            </div>
-                            <button class="btn btn-lightblue btn-block" type="submit">Login</button><br>
-                            <button class="btn btn-lightblue btn-block" type="submit">회원가입</button><br>
-                            <hr class="my-4">
-                            <h2 class="h5 mb-3">간편로그인</h2>
-                            <button class="btn btn-lightblue btn-block" type="submit">
-                                <img src="" alt="">
-                                Sign up with Kakao
-                            </button><br>
-                            <button class="btn btn-lightblue btn-block" type="submit">
-                                <img src="" alt="">
-                                Sign up with Google
-                            </button><br>
-                            <button class="btn btn-lightblue btn-block" type="submit">
-                                <img src="" alt="">
-                                Sign up with Naver
-                            </button><br>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
-    <!-- //header -->
-
-    <!-- container -->
     <main>
-        <!-- intro -->
-
-        <!-- //intro -->
-
         <section class="sub">
             <div class="view tour">
                 <article class="content">
@@ -225,7 +197,7 @@
 
                     <div class="title justify">
                         <h4>관련 블로그 리뷰</h4>
-                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 블로그 바로가기</a>
+                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 검색 바로가기</a>
                     </div>
                     <div class="blog">
                         <ul id="blogList" th:each="blog : ${blogReview}">
@@ -241,6 +213,7 @@
                                 </div>
                             </li>
                         </ul>
+                        <button id="loadMore" onclick="loadMore()">블로그 더보기</button>
                     </div>
                 </article>
             </div>
@@ -262,9 +235,6 @@
         </ul>
     </footer>
 </div>
-
-
-
 
 <script th:inline="javascript" th:with="loggedUser=${loggedUser}">
     <!--    좋아요 기능 javaScript-->

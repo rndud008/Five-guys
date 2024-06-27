@@ -115,7 +115,10 @@ public class BlogReviewServiceImpl implements BlogReviewService {
         return blogReviewRepository.findTravelPostByBlogReview(travelPost, offset, limit);
     }
 
-
+    @Override
+    public List<BlogReview> getsumBlogReview(TravelPost travelPost) {
+        return blogReviewRepository.getsumBlogReview(travelPost);
+    }
 
 
     public void timeUnit() {

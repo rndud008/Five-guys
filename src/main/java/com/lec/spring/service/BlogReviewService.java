@@ -13,4 +13,7 @@ public interface BlogReviewService {
 
     List<BlogReview> selectedTravelPostByBlogReview(TravelPost travelPost, int offset, int limit);
 
+    List<BlogReview> getsumBlogReview(TravelPost travelPost);
+
+
 }
