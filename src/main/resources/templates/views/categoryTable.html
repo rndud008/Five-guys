@@ -3,9 +3,16 @@
 
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<link rel="stylesheet" href="/css/reset.css">
+<link rel="stylesheet" href="/css/detail.css">
 <link rel="stylesheet" th:href="@{/css/categoryTable.css}">
-<link rel="stylesheet" th:href="@{/css/navbar.css}">
+<link rel="stylesheet" href="/css/nav.css">
+
+
 
 <style>
     .loading {
@@ -14,112 +21,117 @@
         display: none;
     }
 </style>
+<div id="wrap">
 
-<th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
-<th:block th:fragment="travelCategory" >
+    <div id="travellist">
+    <th:block th:fragment="travelCategory">
 
-    <div class="category-item" >지역</div>
+            <div class="category-item">지역</div>
 
-    <div class="region-category-container">
+            <div class="region-category-container">
 
-        <div class="region-selected">
-            <li class="region-selected"> 전체 </li>
-        </div>
+                <div class="region-selected">
+                    <li class="region-selected"> 전체</li>
+                </div>
 
-        <ul>
-            <li class="region-category-list"
-                th:each="area : ${areacode}"
-                th:data-subcategory="${area.areacode}"
-                th:data-name="${area.name}"
-                th:text="${area.name}">지역이름
-            </li>
-        </ul>
-    </div>
+                <ul>
+                    <li class="region-category-list"
+                        th:each="area : ${areacode}"
+                        th:data-subcategory="${area.areacode}"
+                        th:data-name="${area.name}"
+                        th:text="${area.name}">지역이름
+                    </li>
+                </ul>
+            </div>
 
-    <th:block th:with="categoryId=${categoryId}"></th:block>
-    <div class="region-subcategory-container" th:each="area : ${areacode}" th:id="${area.areacode}">
-        <ul>
-            <th:block th:with="sigunguVariable=${'sigungucodes_' + area.areacode}">
-                <li class="region-subcategory-list"
-                    th:each="sigungucode : ${#vars[sigunguVariable]}"
-                    th:data-subcategory="${area.areacode + '-' + sigungucode.sigungucode}"
-                    th:data-name="${sigungucode.name}"
-                    th:text="${sigungucode.name}">시군구이름
-                </li>
+            <th:block th:with="categoryId=${categoryId}"></th:block>
+            <div class="region-subcategory-container" th:each="area : ${areacode}" th:id="${area.areacode}">
+                <ul>
+                    <th:block th:with="sigunguVariable=${'sigungucodes_' + area.areacode}">
+                        <li class="region-subcategory-list"
+                            th:each="sigungucode : ${#vars[sigunguVariable]}"
+                            th:data-subcategory="${area.areacode + '-' + sigungucode.sigungucode}"
+                            th:data-name="${sigungucode.name}"
+                            th:text="${sigungucode.name}">시군구이름
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+
+
+            <!-- 여행 분류 섹션 -->
+            <th:block th:each="decode : ${decodes}">
+                <th:block th:with="travelDecode=${'decode_' + decode}">
+                    <th:block th:with="travelVariable=${'travelClassDetail_' + decode}">
+                        <th:block th:if="${#vars[travelDecode] == null}">
+                            <!-- 대분류 -->
+                            <div class="category-item">여행분류</div>
+                            <div class="category-container">
+                                <div class="category-selected">
+                                    <li class="category-selected"> 전체</li>
+                                </div>
+                                <ul style="display: flex;">
+                                    <li class="category-list"
+                                        th:each="travel : ${#vars[travelVariable]}"
+                                        th:data-subcategory="${travel.code}"
+                                        th:data-name="${travel.name}"
+                                        th:text="${travel.name}">대분류1
+                                    </li>
+                                </ul>
+                            </div>
+                        </th:block>
+
+
+                        <th:block th:if="${#vars[travelDecode] != null and #strings.length(#vars[travelDecode]) == 3}">
+                            <!-- 중분류 -->
+                            <div class="middle-container" th:id="${#vars[travelDecode]}">
+                                <ul>
+                                    <li class="middle-list"
+                                        th:each="travel : ${#vars[travelVariable]}"
+                                        th:data-subcategory="${travel.decode + '-' + travel.code}"
+                                        th:data-name="${travel.name}"
+                                        th:text="${travel.name}">중분류
+                                    </li>
+                                </ul>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if="${#vars[travelDecode] != null and #strings.length(#vars[travelDecode]) == 5}">
+                            <!-- 소분류 -->
+                            <div class="small-container"
+                                 th:id="${#strings.substring(#vars[travelDecode], 0, 3) + '-' + #vars[travelDecode]}">
+                                <ul>
+                                    <li class="small-list"
+                                        th:each="travel : ${#vars[travelVariable]}"
+                                        th:data-subcategory="${travel.decode.substring(0, 3) + '-' + travel.decode + '-' + travel.code}"
+                                        th:data-name="${travel.name}"
+                                        th:text="${travel.name}">소분류
+                                    </li>
+                                </ul>
+                            </div>
+                        </th:block>
+                    </th:block>
+                </th:block>
             </th:block>
-        </ul>
-    </div>
-
-
-    <!-- 여행 분류 섹션 -->
-    <th:block th:each="decode : ${decodes}">
-        <th:block th:with="travelDecode=${'decode_' + decode}">
-            <th:block th:with="travelVariable=${'travelClassDetail_' + decode}">
-                <th:block th:if="${#vars[travelDecode] == null}">
-                    <!-- 대분류 -->
-                    <div class="category-item">여행분류</div>
-                    <div class="category-container">
-                        <div class="category-selected"><li class="category-selected"> 전체 </li> </div>
-                        <ul style="display: flex;">
-                            <li class="category-list"
-                                th:each="travel : ${#vars[travelVariable]}"
-                                th:data-subcategory="${travel.code}"
-                                th:data-name="${travel.name}"
-                                th:text="${travel.name}">대분류1
-                            </li>
-                        </ul>
-                    </div>
-                </th:block>
-
-
-                <th:block th:if="${#vars[travelDecode] != null and #strings.length(#vars[travelDecode]) == 3}">
-                    <!-- 중분류 -->
-                    <div class="middle-container" th:id="${#vars[travelDecode]}">
-                        <ul>
-                            <li class="middle-list"
-                                th:each="travel : ${#vars[travelVariable]}"
-                                th:data-subcategory="${travel.decode + '-' + travel.code}"
-                                th:data-name="${travel.name}"
-                                th:text="${travel.name}">중분류
-                            </li>
-                        </ul>
-                    </div>
-                </th:block>
-
-                <th:block th:if="${#vars[travelDecode] != null and #strings.length(#vars[travelDecode]) == 5}">
-                    <!-- 소분류 -->
-                    <div class="small-container"
-                         th:id="${#strings.substring(#vars[travelDecode], 0, 3) + '-' + #vars[travelDecode]}">
-                        <ul>
-                            <li class="small-list"
-                                th:each="travel : ${#vars[travelVariable]}"
-                                th:data-subcategory="${travel.decode.substring(0, 3) + '-' + travel.decode + '-' + travel.code}"
-                                th:data-name="${travel.name}"
-                                th:text="${travel.name}">소분류
-                            </li>
-                        </ul>
-                    </div>
-                </th:block>
-            </th:block>
-        </th:block>
     </th:block>
-</th:block>
 
-<th:block th:insert="~{fragment/travelSearch::search}"></th:block>
-
+    <th:block th:insert="~{fragment/travelSearch::search}"></th:block>
 
 
-
-<div class="site-container">
-    <h2>Search Results</h2>
-    <div id="categoryResults" class="item-container">
-        <!-- 검색 결과가 여기에 삽입됩니다. -->
+    <div class="site-container">
+        <h2> 검색 결과</h2>
+        <div id="categoryResults" class="item-container">
+            <!-- 검색 결과가 여기에 삽입됩니다. -->
+        </div>
     </div>
+
+    <div class="loading" id="loading">Loading...</div>
+   </div>
+
 </div>
-
-<div class="loading" id="loading">Loading...</div>
-
 <script th:inline="javascript">
 
     let categoryId = [[${categoryId}]]
@@ -139,11 +151,11 @@
         // 지역 카테고리 클릭 이벤트 처리
         resultCategpryAjex();
 
-        $(window).scroll(function (){
-            if($(window).scrollTop() + $(window).height() >= $(document).height() - 100){
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
                 let count = $('.first-item').eq(0).data('value')
 
-                if(!loading && count > offset){
+                if (!loading && count > offset) {
 
                     resultCategpryAjex();
                 }
@@ -245,7 +257,6 @@
 
         });
     });
-
 
 
     function updateSelectedRegionDisplay(region, regionName, sigungu = '', sigunguName = '') {
@@ -518,7 +529,7 @@
     });
 
 
-    function resultCategpryAjex(){
+    function resultCategpryAjex() {
 
         loading = true;
 
@@ -533,7 +544,7 @@
         console.log(searchQuery)
 
         $.ajax({
-            url: '/testSearch/'+categoryId,
+            url: '/testSearch/' + categoryId,
             type: 'POST',
             data: {
                 Query: queyrtest3,
@@ -542,12 +553,12 @@
                 searchQuery: searchQuery,
                 offset: offset, // 서버에 전달할 offset 값 추가
                 limit: limit   // 서버에 전달할 limit 값 추가
-                },
+            },
             success: function (response) {
 
-                if (offset === 0){
+                if (offset === 0) {
                     $('#categoryResults').html(response);
-                }else {
+                } else {
                     $('#categoryResults').append(response);
                 }
 
@@ -566,7 +577,7 @@
         });
     }
 
-    function updateSearchResultDisplay( searchQueryName) {
+    function updateSearchResultDisplay(searchQueryName) {
         // 선택한 지역 표시 업데이트
         const searchResultDisplay = $('.search-result');
 
@@ -587,7 +598,7 @@
             event.preventDefault(); // Prevent the form from submitting via the browser
 
             searchQuery = $('#searchQuery').val();
-            offset= 0
+            offset = 0
             updateSearchResultDisplay(searchQuery);
 
             resultCategpryAjex()
@@ -599,7 +610,7 @@
 
             resetSearchResult()
             searchQuery = ''
-            offset= 0
+            offset = 0
 
             resultCategpryAjex()
 
@@ -608,9 +619,8 @@
     });
 
 
-
-
-
 </script>
+<script src="/js/nav.js"></script>
+<script src="/js/modallogin.js"></script>
 
 </html>
