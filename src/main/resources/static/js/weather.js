@@ -1,5 +1,6 @@
 // iframe이 로드된 후 실행 -> map.svg 클릭가능
 $('.map').on('load', function () {
+
     // iframe 내부 문서에 접근
     let iframeDocument = this.contentDocument || this.contentWindow.document;
 
@@ -26,8 +27,8 @@ $('.map').on('load', function () {
         let formattedDate = year + "년 " + month + "월 " + day + "일 예보 기준";
 
         document.getElementById("current-date").innerText = formattedDate;
-
-        // 예보날짜 표시 변경
+        // 관광지 살펴보기, 축제 살펴보기 버튼 보이기
+        $("#link-container button").removeClass("d-none")
 
         // AJAX 요청1: 단기예보 정보 업데이트
         $.ajax({
@@ -230,15 +231,8 @@ $('.map').on('load', function () {
             }
         });
     });
-});
 
-// 날짜 형식을 yyyy년 mm월 dd일 형태로 변환하는 함수
-function formatDate(dateString) {
-    let year = dateString.slice(0, 4);
-    let month = dateString.slice(6, 7);
-    let day = dateString.slice(8, 10);
-    return `${year}년 ${month}월 ${day}일`;
-}
+});
 
 function formatDateW(dateString) {
     // 날짜 문자열을 Date 객체로 변환
@@ -318,3 +312,4 @@ function weatherText(sky) {
             return "정보 없음";
     }
 }
+
