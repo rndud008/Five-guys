@@ -3,16 +3,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f7f7f7;
-}
+    flex-direction: column;
 
-/* Navigation Bar */
-nav {
-    background-color: #f7f7f7;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 20px;
 }
 
 .logo {
@@ -36,23 +28,29 @@ nav {
     text-decoration: none;
 }
 
-/* Main Sections */
+
+.main-left, .main-right {
+    flex: 1;
+    margin: 10px;
+}
+
 .main-left {
-    top: -200px;
-    width: 40%;
-    float: left;
+    margin-top: 100px;
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
 }
 
 .main-right {
-    width: 60%;
-    float: right;
-    text-align: center;
-
+    margin-top: 100px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-
 .map {
     border: none;
-    margin-top: -80px;
     margin-left: 100px;
     display: flex;
     justify-content: center;
@@ -88,7 +86,7 @@ nav {
 }
 
 .body-container {
-    margin-top: 0;
+
 }
 
 #tableHeader {
@@ -132,11 +130,84 @@ nav {
 
 /*관광지, 축제 페이지로 이동*/
 .link-container {
-    width: 570px;
-    margin-left: 16%;
+    width: 670px;
+    margin: 0 auto; /* 수평 가운데 정렬을 위해 margin-left을 제거하고 margin을 auto로 설정 */
+    text-align: center; /* 내부 요소들을 가운데 정렬하기 위해 text-align을 center로 설정 */
 }
-.link-container button{
+
+.link-container button {
     width: 200px;
     height: 40px;
-    margin-left: 30px;
+    margin: 0 15px; /* 좌우 여백을 조정 */
+}
+
+
+
+#wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
+
+article {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex: 1;
+
+}
+
+footer {
+    background: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+.d-none {
+    display: none !important;}
+
+
+.navbar-content button {
+    background: #007bff;
+    width: 120px;
+    height: 40px;
+    margin: auto 0;
+    border-radius: 4%;
+    border: none;
+    outline: none;
+}
+
+
+.nav-login{
+    display: flex;
+    justify-content: right;
+}
+.nav-menu {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+}
+
+.nav-login li, .nav-menu li {
+    list-style: none;
+    margin-right: 5px;
+    float: right;
+}
+
+
+.nav-login a, .nav-menu a {
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.nav-login a:hover, .nav-menu a:hover {
+    background-color: lightgrey;
 }

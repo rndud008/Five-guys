@@ -51,14 +51,14 @@
                a.regId                   AS a_regId,
                lcad.id                   AS lcad_id,
                lcad.url                  AS lcad_url,
-               lcad.regdate              AS lcad_regdate ,
-               br.id                     AS br_id,
-               br.travel_post_id        AS br_travel_post_id,
+               lcad.regdate              AS lcad_regdate,
+               br.id                   AS br_id, br.travel_post_id AS br_travel_post_id,
                br.last_call_api_id       AS br_last_call_api_id,
                br.title                  AS br_title,
                br.link                   AS br_link,
                br.description            AS description,
                br.postdate               AS br_postdate
+
 
         FROM blog_review br
                  join travel_post tp on br.travel_post_id = tp.id
@@ -163,20 +163,6 @@
         SELECT br.id, br.travel_post_id, br.last_call_api_id, br.title, br.link, br.description, br.postdate
         FROM blog_review br
         join travel_post tp on br.travel_post_id = tp.id
-        WHERE br.travel_post_id = #{travelPost.id}
-    </select>
-
-    <select id="findByLinkAndTravelPostId" resultType="com.lec.spring.domain.BlogReview">
-        select br.*
-        FROM blog_review br
-        join travel_post tp on br.travel_post_id = tp.id
-        where br.link = #{link} and tp.id = #{id}
-    </select>
-
-    <select id="getsumBlogReview" resultType="com.lec.spring.domain.BlogReview">
-        SELECT br.id
-        FROM blog_review br
-        JOIN travel_post tp ON br.travel_post_id = tp.id
         WHERE br.travel_post_id = #{travelPost.id}
     </select>
 
