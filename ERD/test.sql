@@ -118,8 +118,7 @@ where travel_type_id = 12;
 
 DROP TABLE IF EXISTS weather_forecast;
 
-ALTER TABLE short_weather
-    MODIFY COLUMN last_call_api_id INT DEFAULT 0;
+
 
 select *
 from weather_forecast;
@@ -252,3 +251,11 @@ select * from user;
 select * from short_weather;
 select * from middle_weather;
 select * from last_call_api_date;
+select * from areacode;
+select * from sigungucode;
+select * from blog_review;
+select * from travel_post;
+select * from travel_diary_post;
+select * from travel_type;
+
+

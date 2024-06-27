@@ -107,8 +107,14 @@
         <!-- All areas are listed in the line below. You can use this list in your script. -->
         <!--{id:"KR-11"},{id:"KR-26"},{id:"KR-27"},{id:"KR-28"},{id:"KR-29"},{id:"KR-30"},{id:"KR-31"},{id:"KR-41"},{id:"KR-42"},{id:"KR-43"},{id:"KR-44"},{id:"KR-45"},{id:"KR-46"},{id:"KR-47"},{id:"KR-48"},{id:"KR-49"},{id:"KR-50"}-->
 
+        <clipPath id="cut-off-top">
+            <!-- 상단 부분을 자를 영역 지정 -->
+            <rect x="0" y="0" width="550" height="800" />
+        </clipPath>
     </defs>
-    <g>
+
+    <!-- 클립 경로를 적용할 그룹 요소 -->
+    <g transform="translate(0, -100)" clip-path="url(#cut-off-top)">
         <!--서울-->
         <path id="KR-11" title="서울특별시" class="land Seoul regionLink"
               data-nx="60" data-ny="127"

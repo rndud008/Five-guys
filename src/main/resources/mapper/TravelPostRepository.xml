@@ -87,7 +87,7 @@
         <result column="tp_usetimefestival" property="usetimefestival"/>
         <result column="tp_infoname" property="infoname"/>
         <result column="tp_infotext" property="infotext"/>
-        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <association property="lastCallApiDate" resultMap="mapLastCallApiDate"/>
         <collection property="travelClassDetail" resultMap="mapTravelDetailClass"/>
         <collection property="sigungucode" resultMap="mapSigungu"/>
     </resultMap>
@@ -118,7 +118,7 @@
         <result column="tp_usetimefestival" property="usetimefestival"/>
         <result column="tp_infoname" property="infoname"/>
         <result column="tp_infotext" property="infotext"/>
-        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <association property="lastCallApiDate" resultMap="mapLastCallApiDate"/>
         <association property="sigungucode" resultMap="mapSigungu"/>
         <collection property="travelClassDetail" resultMap="mapTravelDetailClass"/>
     </resultMap>
@@ -149,7 +149,7 @@
         <result column="tp_usetimefestival" property="usetimefestival"/>
         <result column="tp_infoname" property="infoname"/>
         <result column="tp_infotext" property="infotext"/>
-        <association property="lastCallApiData" resultMap="mapLastCallApiDate"/>
+        <association property="lastCallApiDate" resultMap="mapLastCallApiDate"/>
         <association property="sigungucode" resultMap="mapSigungu"/>
         <association property="travelClassDetail" resultMap="mapTravelDetailClass"/>
     </resultMap>
@@ -193,7 +193,7 @@
          firstimage2, cpyrhtDivCd, mapx, mapy, modifiedtime, tel, eventstartdate, eventenddate, infocenter,
          parking, restdate, usetime, homepage, overview, eventplace, playtime, usetimefestival,
          infoname, infotext)
-        values (#{travelClassDetail.id}, #{lastCallApiData.id}, #{sigungucode.id}, #{title}, #{addr1}, #{addr2},
+        values (#{travelClassDetail.id}, #{lastCallApiDate.id}, #{sigungucode.id}, #{title}, #{addr1}, #{addr2},
                 #{contentid}, #{firstimage}, #{firstimage2}, #{cpyrhtDivCd}, #{mapx}, #{mapy}, #{modifiedtime}, #{tel}, #{eventstartdate},
                 #{eventenddate}, #{infocenter}, #{parking}, #{restdate}, #{usetime}, #{homepage}, #{overview},#{eventplace},
                 #{playtime}, #{usetimefestival}, #{infoname}, #{infotext})
@@ -201,11 +201,11 @@
 
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.TravelPost">
         update travel_post
-        set (travel_class_detail_id = #{travelClassDetail.id}, last_call_api_id = #{lastCallApiData.id}, sigungucode_id = #{sigungucode.id},
+        set travel_class_detail_id = #{travelClassDetail.id}, last_call_api_id = #{lastCallApiDate.id}, sigungucode_id = #{sigungucode.id},
                 title = #{title}, addr1 = #{addr1}, addr2 = #{addr2}, contentid = #{contentid}, firstimage = #{firstimage}, firstimage2 = #{firstimage2},
                 cpyrhtDivCd = #{cpyrhtDivCd}, mapx = #{mapx}, mapy = #{mapy}, modifiedtime = #{modifiedtime}, tel = #{tel}, eventstartdate = #{eventstartdate},
                 eventenddate = #{eventenddate}, eventenddate = #{infocenter}, parking = #{parking}, restdate = #{restdate}, usetime = #{usetime}, homepage = #{homepage},
-                overview = #{overview}, eventplace = #{eventplace}, playtime = #{playtime}, usetimefestival = #{usetimefestival}, infoname = #{infoname}, infotext = #{infotext})
+                overview = #{overview}, eventplace = #{eventplace}, playtime = #{playtime}, usetimefestival = #{usetimefestival}, infoname = #{infoname}, infotext = #{infotext}
         where contentid = #{contentid}
     </update>
 
