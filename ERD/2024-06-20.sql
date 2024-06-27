@@ -20,7 +20,6 @@ DROP TABLE IF EXISTS user_authorities;
 DROP TABLE IF EXISTS user_comment;
 DROP TABLE IF EXISTS user_travel_diary_post;
 DROP TABLE IF EXISTS user_travel_post;
-
 CREATE TABLE areacode
 (
   areacode INT         NOT NULL COMMENT '지역코드번호',
@@ -57,8 +56,8 @@ CREATE TABLE blog_review
   travel_post_id   INT          NULL     COMMENT '여행 정보 목록 id',
   last_call_api_id INT          NOT NULL COMMENT 'API 호출 id',
   title            VARCHAR(200) NULL     COMMENT '블로그 포스트의 제목',
-  link             VARCHAR(500) NULL     COMMENT '블로그 포스트의 URL',
-  description      VARCHAR(500) NULL     COMMENT '내용을 요약한 패시지 정보',
+  link             VARCHAR(255) NULL     COMMENT '블로그 포스트의 URL',
+  description      VARCHAR(200) NULL     COMMENT '내용을 요약한 패시지 정보',
   postdate         VARCHAR(20)  NULL     COMMENT '블로그 포스트가 작성된 날짜',
   PRIMARY KEY (id)
 ) COMMENT '블로그 리뷰 리스트';
@@ -75,13 +74,11 @@ CREATE TABLE comment
 
 CREATE TABLE last_call_api_date
 (
-  id            INT  NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
+  last_api_id INT  NOT NULL AUTO_INCREMENT COMMENT 'API호출id',
   url         TEXT NULL     COMMENT 'api url',
   regdate     DATE NULL     DEFAULT (CURRENT_DATE()) COMMENT '호출 날짜',
-  PRIMARY KEY (id)
+  PRIMARY KEY (last_api_id)
 ) COMMENT 'api 중복호출 방지';
-
-
 
 CREATE TABLE middle_weather
 (
@@ -125,26 +122,32 @@ CREATE TABLE short_weather
 
 CREATE TABLE sigungucode
 (
-  id          int         NOT NULL AUTO_INCREMENT COMMENT '시군구 id',
-  areacode    INT         NOT NULL COMMENT '지역코드번호',
-  sigungucode INT         NOT NULL COMMENT '코드번호',
-  name        VARCHAR(20) NOT NULL COMMENT '시군구 이름',
-  PRIMARY KEY (id),
-  UNIQUE KEY UQ_areacode_sigungucode (areacode, sigungucode)
+    id          int         NOT NULL AUTO_INCREMENT COMMENT '시군구 id',
+    areacode    INT         NOT NULL COMMENT '지역코드번호',
+    sigungucode INT         NOT NULL COMMENT '코드번호',
+    name        VARCHAR(20) NOT NULL COMMENT '시군구 이름',
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_areacode_sigungucode (areacode, sigungucode)
 ) COMMENT '시군구(sigungucode)';
 
 
 CREATE TABLE travel_class_detail
 (
-  id             INT         NOT NULL AUTO_INCREMENT COMMENT '여행 분류 id',
-  travel_type_id INT         NOT NULL COMMENT '여행 타입 id',
-  name           VARCHAR(20) NULL     COMMENT '여행 분류이름',
-  code           VARCHAR(10) NULL     COMMENT '코드번호',
-  decode         VARCHAR(10) NULL     COMMENT '상위 코드번호',
-  PRIMARY KEY (id),
-  UNIQUE KEY UQ_code_travel_type_id (code, travel_type_id)
+    id             INT         NOT NULL AUTO_INCREMENT COMMENT '여행 분류 id',
+    travel_type_id INT         NOT NULL COMMENT '여행 타입 id',
+    name           VARCHAR(20) NULL     COMMENT '여행 분류이름',
+    code           VARCHAR(10) NULL     COMMENT '코드번호',
+    decode         VARCHAR(10) NULL     COMMENT '상위 코드번호',
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_code_travel_type_id (code, travel_type_id)
 ) COMMENT '여행정보 유형분류';
 
+
+ALTER TABLE travel_class_detail
+  ADD CONSTRAINT UQ_travel_type_id UNIQUE (travel_type_id);
+
+ALTER TABLE travel_class_detail
+  ADD CONSTRAINT UQ_code UNIQUE (code);
 
 CREATE TABLE travel_diary_post
 (
@@ -215,7 +218,7 @@ ALTER TABLE user
   ADD CONSTRAINT UQ_username UNIQUE (username);
 
 ALTER TABLE user
-ADD CONSTRAINT UQ_name UNIQUE (name);
+  ADD CONSTRAINT UQ_name UNIQUE (name);
 
 CREATE TABLE user_authorities
 (
@@ -258,7 +261,7 @@ ALTER TABLE blog_review
 ALTER TABLE blog_review
   ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (last_api_id);
 
 ALTER TABLE comment
   ADD CONSTRAINT FK_user_TO_comment
@@ -273,7 +276,7 @@ ALTER TABLE comment
 ALTER TABLE middle_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (last_api_id);
 
 ALTER TABLE travel_class_detail
   ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
@@ -298,7 +301,7 @@ ALTER TABLE travel_post
 ALTER TABLE travel_post
   ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (last_api_id);
 
 ALTER TABLE user_authorities
   ADD CONSTRAINT FK_user_TO_user_authorities
@@ -358,7 +361,7 @@ ALTER TABLE travel_diary_post
 ALTER TABLE short_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
     FOREIGN KEY (last_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (last_api_id);
 
 ALTER TABLE short_weather
   ADD CONSTRAINT FK_areacode_TO_short_weather

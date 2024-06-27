@@ -21,14 +21,14 @@ public class BlogReviewTransacionService {
     }
 
     @Transactional
-    public void itemSave(JsonNode item, TravelPost travelPost, LastCallApiDate lastCallApiDate){
+    public void itemSave(JsonNode item, TravelPost travelPost, LastCallApiDate lastCallApiData){
         BlogReview blogReview = new BlogReview();
         blogReview.setTitle(item.get("title").asText());
         blogReview.setLink(item.get("link").asText());
         blogReview.setDescription(item.get("description").asText());
         blogReview.setPostdate(item.get("postdate").asText());
         blogReview.setTravelPost(travelPost);
-        blogReview.setLastCallApiDate(lastCallApiDate);
+        blogReview.setLastCallApiDate(lastCallApiData);
         blogReviewRepository.save(blogReview);
 
     }

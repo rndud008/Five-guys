@@ -380,3 +380,5 @@ ALTER TABLE short_weather
     FOREIGN KEY (areacode)
     REFERENCES areacode (areacode);
 
+ALTER TABLE user
+    DROP CONSTRAINT UQ_name;

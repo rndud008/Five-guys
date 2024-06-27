@@ -51,8 +51,9 @@
                a.regId                   AS a_regId,
                lcad.id                   AS lcad_id,
                lcad.url                  AS lcad_url,
-               lcad.regdate              AS lcad_regdate,
-               br.id                   AS br_id, br.travel_post_id AS br_travel_post_id,
+               lcad.regdate              AS lcad_regdate ,
+               br.id  AS br_id,
+               br.travel_post_id AS br_travel_post_id,
                br.last_call_api_id       AS br_last_call_api_id,
                br.title                  AS br_title,
                br.link                   AS br_link,
@@ -155,15 +156,17 @@
 
     <update id="update" flushCache="true" parameterType="com.lec.spring.domain.BlogReview">
         update blog_review
-        set (title = #{title}, link = #{link}, description = #{description}, postdate = #{postdate})
+        set title = #{title}, link = #{link}, description = #{description}, postdate = #{postdate}
         where travel_post_id = #{travelPost.id}
     </update>
 
     <select id="findTravelPostByBlogReview" resultType="com.lec.spring.domain.BlogReview">
         SELECT br.id, br.travel_post_id, br.last_call_api_id, br.title, br.link, br.description, br.postdate
         FROM blog_review br
-        join travel_post tp on br.travel_post_id = tp.id
+        JOIN travel_post tp ON br.travel_post_id = tp.id
         WHERE br.travel_post_id = #{travelPost.id}
+        ORDER BY br.postdate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
 

@@ -12,10 +12,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -46,10 +46,11 @@ public class HomeController {
         System.out.println(travelPost.getHomepage());
         model.addAttribute("post", travelPost);
 
-        List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost);
+        List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost, 0, 5);
 
         model.addAttribute("blogReview",blogReviewList);
 
+//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
         return "post";
     }
 
@@ -67,8 +68,12 @@ public class HomeController {
         model.addAttribute("post", travelPost);
 
 
-        List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost);
+        List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost, 0, 5);
         model.addAttribute("blogReview",blogReviewList);
+
+//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
+//
+//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
 
         return "festival";
     }
@@ -94,5 +99,18 @@ public class HomeController {
             return homepage.substring(firstQuote+1, secondQuote);
         }
         return "";
+    }
+
+    @RestController
+    public class BlogRestController {
+
+        @GetMapping("/api/festival/blogs")
+        public List<BlogReview> getMoreBlogs(@RequestParam("id") String id, @RequestParam("offset") int offset) throws IOException {
+
+            TravelPost travelPost = travelPostService.getTravelPostById(id);
+            System.out.println(blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3));
+
+            return blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3);
+        }
     }
 }

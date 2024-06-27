@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #f7f7f7;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.menu {
+    display: flex;
+    gap: 10px;
+    margin-left: 50px;
+}
+
+.menu a {
+    color: black;
+    text-decoration: none;
+}
+
+/* Main Sections */
+.main-left {
+    top: -200px;
+    width: 40%;
+    float: left;
+}
+
+.main-right {
+    width: 60%;
+    float: right;
+    text-align: center;
+
+}
+
+.map {
+    border: none;
+    margin-top: -80px;
+    margin-left: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Weather Table */
+.weatherTable {
+    width: 670px;
+    margin-left: 100px;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+.weatherTable th, .weatherTable td {
+    padding: 18px;
+    text-align: center;
+}
+
+.weatherTable th {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+.weatherTable td img {
+    width: 48px;
+    height: 48px;
+}
+
+/* Header and Body Containers */
+.header-container {
+    display: flex;
+    align-items: center;
+}
+
+.body-container {
+    margin-top: 0;
+}
+
+#tableHeader {
+    margin-top: 70px;
+    margin-left: 16%;
+}
+
+/* Date and Time */
+#current-date {
+    font-size: 0.8em;
+    color: gray;
+    padding-left: 20px;
+    padding-top: 90px;
+}
+
+.dayOfWeek {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.date {
+    font-size: 0.9em;
+}
+
+/* Color Classes */
+.blue {
+    color: #6fa3ef;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.gray {
+    color: #a9a9a9;
+}
+
+.red {
+    color: #f08080;
+    font-size: 1.21em;
+    font-weight: bold;
+}
+
+/*관광지, 축제 페이지로 이동*/
+.link-container {
+    width: 570px;
+    margin-left: 16%;
+}
+.link-container button{
+    width: 200px;
+    height: 40px;
+    margin-left: 30px;
+}

@@ -2,6 +2,7 @@ package com.lec.spring.config.oauth;
 
 
 import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.config.oauth.provider.GoogleUserInfo;
 import com.lec.spring.config.oauth.provider.NaverUserInfo;
 import com.lec.spring.config.oauth.provider.OAuth2UserInfo;
 import com.lec.spring.domain.User;
@@ -36,10 +37,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                 AccessToken: %s
                 OAuth2User Attributes: $s
                 """.formatted(
-                        userRequest.getClientRegistration()
-                        , userRequest.getClientRegistration().getRegistrationId()
-                        , userRequest.getAccessToken().getTokenValue()
-                        , oAuth2User.getAttributes()
+                userRequest.getClientRegistration()
+                , userRequest.getClientRegistration().getRegistrationId()
+                , userRequest.getAccessToken().getTokenValue()
+                , oAuth2User.getAttributes()
         ));
 
         // 회원가입
@@ -47,6 +48,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2UserInfo oAuth2UserInfo = switch (provider.toLowerCase()) {
             case "naver" -> new NaverUserInfo(oAuth2User.getAttributes());
+            case "google" -> new GoogleUserInfo(oAuth2User.getAttributes());
             // todo
             default -> null;
         };
@@ -60,22 +62,22 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         // 회원가입 전, 이미 회원인지 확인 후 진행
         User user = userService.findByUsername(username);
         if (user == null) {
-           User newUser = User.builder()
-                   .username(username)
-                   .name(name)
-                   .email(email)
-                   .password(password)
-                   .provide(provider)
-                   .provideId(providerId)
-                   .build();
+            User newUser = User.builder()
+                    .username(username)
+                    .name(name)
+                    .email(email)
+                    .password(password)
+                    .provide(provider)
+                    .provideId(providerId)
+                    .build();
 
-           int cnt = userService.register(newUser);
-           if (cnt > 0) {
-               user = userService.findByUsername(username);
-               System.out.println("[OAuth] 인증. 화원가입 완료.");
-           } else {
-               System.out.println("[OAuth] 회원가입 실패");
-           }
+            int cnt = userService.register(newUser);
+            if (cnt > 0) {
+                user = userService.findByUsername(username);
+                System.out.println("[OAuth] 인증. 화원가입 완료.");
+            } else {
+                System.out.println("[OAuth] 회원가입 실패");
+            }
         } else {
             System.out.println("[OAuth] 이미 가입된 회원");
         }

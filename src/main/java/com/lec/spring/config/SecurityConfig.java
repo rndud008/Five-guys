@@ -21,6 +21,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+
                 .csrf(csrf -> csrf.disable())   // CSRF(Cross-site Request Forgery: 사이트 간 요청 위조)
 
                 /**
@@ -80,6 +81,17 @@ public class SecurityConfig {
                         .loginPage("/user/login")
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(principalOauth2UserService)))
+
+                /**
+                 * - iframe 사용시
+                 * Spring security 에선 해킹 등 을 방지하기위해 (Click Jacking) 막는 설정이 (deny) 되있는데,
+                 * X-Frame-options 에서 동일 출처에서는 사용 가능하게끔 풀어주는 설정 코드 ↓
+                 **/
+                .headers(httpSecurityHeadersConfigurer -> {
+                    httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig -> {
+                        frameOptionsConfig.sameOrigin();
+                    });
+                })
 
                 .build();
     }

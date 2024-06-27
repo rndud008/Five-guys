@@ -20,5 +20,12 @@
         WHERE areacode = #{areacode};
     </select>
 
+    <select id="findByName" parameterType="java.lang.String" resultType="com.lec.spring.domain.Areacode">
+        SELECT * FROM areacode WHERE name = #{name}
+    </select>
+
+
+
+
 
 </mapper>
