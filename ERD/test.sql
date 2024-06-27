@@ -212,7 +212,7 @@ FROM travel_post tp
          JOIN areacode a ON s.areacode = a.areacode
          JOIN last_call_api_date lcad ON tp.last_call_api_id = lcad.id
 where
-    tt.id= 12
+    tt.id= 15
 # and
 #     tcd2.decode = 'a02'
 #     a.areacode =1
@@ -234,15 +234,21 @@ FROM
         LEFT JOIN
     travel_class_detail tcd2 ON tcd.decode = tcd2.code
         join travel_type tt on tcd.travel_type_id = tt.id
-# where
+where
 # tcd2.code = 'a0101'
 #   and tcd2.decode = 'a01'
 #   and
 #     tcd2.code = 'a0101'
 #   and tcd3.code = 'a01011300'
 #   and
-#   tcd3.travel_type_id = 12
+  tt.id = 12
+and tcd.code = 'A01011900'
 ;
+
+select br.*
+from blog_review br
+join travel_post tp on  br.travel_post_id = tp.id
+where br.link = 'https://sweetit.co.kr/11029262'
 
 
 

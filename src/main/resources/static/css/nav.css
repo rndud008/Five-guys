@@ -290,6 +290,11 @@
     justify-content: center;
     position: relative;
     background-color: #FFEB00;
+    color: black;
+}
+
+.btn.kakao:hover{
+    background-color: #E6D700; /* 조금 더 어두운 색상 */
 }
 
 .btn.kakao img {
@@ -309,6 +314,11 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    background-color: white;
+}
+
+.btn.google:hover{
+    background-color: #f1f1f1;
 }
 
 .btn.google img {
@@ -321,6 +331,7 @@
 .btn.google span {
     margin-left: auto;
     margin-right: auto;
+    color: black;
 }
 
 .btn.naver{
@@ -329,6 +340,11 @@
     justify-content: center;
     position: relative;
     background-color: #1DC802;
+    color: white;
+}
+
+.btn.naver:hover{
+    background-color: #1AB402;
 }
 
 .btn.naver img {

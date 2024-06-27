@@ -5,6 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Random;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -66,5 +71,45 @@ public class TravelPost {
     // 축제 반복내용 : 행사내용 title 확인용.
     private String infotext;
     // 축제 반복내용 : 행사내용
+    private String fomatterStartDate;
+    // 축제 시작일 - DB 저장 X
+    private String status;
+    // 축제 진행상태? - DB 저장 X
+    private long daysUtils;
+    // 축제 남은 시작일 - DB 저장 X
+
+
+    public void preparaData(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        LocalDate startDate = LocalDate.parse(this.eventstartdate, formatter);
+        LocalDate endDate = LocalDate.parse(this.eventenddate, formatter);
+        LocalDate today = LocalDate.now();
+        this.fomatterStartDate = startDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+
+        if(today.isBefore(endDate)){
+            this.status = "진행중";
+            this.daysUtils = 0;
+
+            if(today.isBefore(startDate)){
+                this.daysUtils = ChronoUnit.DAYS.between(today,startDate);
+            }
+
+        }
+
+    }
+
+    public void defaultImageData(){
+        String[] defaultImage = new String[]{
+                "/default/default1.jpg","/default/default2.jpg","/default/default3.jpg","/default/default4.jpg","/default/default5.jpg",
+                "/default/default6.jpg"};
+
+        if(this.firstimage == null || this.firstimage.isEmpty()){
+            Random rand = new Random();
+            this.firstimage = defaultImage[rand.nextInt(defaultImage.length)];
+        }
+    }
 
 }
+
+
