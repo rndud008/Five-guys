@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class BlogReviewServiceImpl implements BlogReviewService {
 
     private TravelPostRepository travelPostRepository;
-    private LastCallApiDateRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
     private BlogReviewRepository blogReviewRepository;
     private BlogReviewTransacionService blogReviewTransacionService;
     private DataService dataService;
@@ -39,7 +39,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
     @Autowired
     public BlogReviewServiceImpl(SqlSession sqlSession, DataService dataService, BlogReviewTransacionService blogReviewTransacionService){
         travelPostRepository = sqlSession.getMapper(TravelPostRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         blogReviewRepository = sqlSession.getMapper(BlogReviewRepository.class);
         this.dataService = dataService;
         this.blogReviewTransacionService = blogReviewTransacionService;
@@ -65,7 +65,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(formatter);
 
-            boolean urlCheck = lastCallApiDataRepository.findByUrl(apiURL) == null || lastCallApiDataRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
+            boolean urlCheck = lastCallApiDateRepository.findByUrl(apiURL) == null || lastCallApiDataRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
             if (urlCheck){
                 Map<String, String> requestHeaers = new HashMap<>();
                 requestHeaers.put("X-Naver-Client-Id", clientId);

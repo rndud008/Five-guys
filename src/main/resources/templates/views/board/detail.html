@@ -6,6 +6,7 @@
 <th:block th:if="${post}" th:with="logged_user=${#authentication.principal.user}">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/boarddetail.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/detail.js}"></script>
 
@@ -15,12 +16,12 @@
     </script>
 
     <style>
+        /*표 생성시*/
         .table table {
             border-collapse: collapse;
         }
         .table table, .table td {
             border: 1px solid black; /* 셀 테두리 설정 */
-            /*text-align: center;*/
         }
         .table td {
             width: 50px;
@@ -29,71 +30,77 @@
 
     <title>조회</title>
 </head>
-<body style="max-width: 600px" th:with="logged_user=${#authentication.principal.user}">
 
-<div>
-    <h2>조회</h2>
-    <hr>
-    <div>
-        <span>지역명: [[${areacode.name}]]</span>
-        <span>작성자: [[${post.user.username}]]</span>
-        <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
-        <span>조회수: [[${post.viewcnt}]]</span>
+<body th:with="logged_user=${#authentication.principal.user}">
+
+    <div class="details">
+        <h1>조회</h1>
+        <div class="info">
+            <span>지역명: [[${areacode.name}]]</span>
+            <span>작성자: [[${post.user.name}]]</span>
+            <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+            <span>조회수: [[${post.viewcnt}]]</span>
+        </div>
+
+
+        <section>
+            <!-- 삭제 기능 -->
+            <form name="frmDelete" th:action="@{/board/delete}" method="post">
+                <input type="hidden" name="id" th:value="${post.id}">
+                <input type="hidden" name="uid" th:value="${post.user.id}">
+            </form>
+            <!-- 삭제 기능 -->
+
+            <div class="subject">
+                <label>제목:</label>
+                <span th:text="${post.subject}"></span>
+            </div>
+            <div class="content">
+                <label>내용:</label>
+                <div th:utext="${post.content}"></div>
+            </div>
+
+            <!-- 첨부파일목록 -->
+            <div class="attachments">
+                <label>첨부파일:</label>
+                <!-- 첨부파일 이름, 다운로드 링크 -->
+                <ul>
+                    <li th:each="attachment : ${post.fileList}">
+                        <a th:href="@{/board/download(id=${attachment.id})}" th:text="${attachment.sourcename}">aaa.jpg</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 첨부파일목록 -->
+
+            <!-- 좋아요 -->
+            <div class="actions">
+                <button type="button" id="btnLike">♡</button>
+                <span id="cntLike"></span>
+            </div>
+            <!-- 좋아요 -->
+
+            <!-- 하단 링크 -->
+            <div class="links">
+                <div>
+                    <a th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
+                </div>
+                <div>
+                    <a th:href="@{'/board/update/' + ${post.id}}" th:if="${logged_user.id == post.user.id}">수정</a>
+                    <button type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
+                    <a th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
+                </div>
+            </div>
+            <!-- 하단 링크 -->
+            <hr>
+            <!-- 댓글 -->
+            <div class="comments">
+                <th:block th:insert="~{board/comment::comment}"></th:block>
+            </div>
+            <!-- 댓글 -->
+
+        </section>
     </div>
-
-
-    <section>
-        <!-- 삭제 기능 -->
-        <form name="frmDelete" th:action="@{/board/delete}" method="post">
-            <input type="hidden" name="id" th:value="${post.id}">
-            <input type="hidden" name="uid" th:value="${post.user.id}">
-        </form>
-        <!-- 삭제 기능 -->
-
-        <div>
-            <label>제목:</label>
-            <span th:text="${post.subject}"></span>
-        </div>
-        <div>
-            <label>내용:</label>
-            <span th:utext="${post.content}"></span>
-        </div>
-
-        <!-- 첨부파일목록 -->
-        <div>
-            <label>첨부파일:</label>
-            <!-- 첨부파일 이름, 다운로드 링크 -->
-            <ul>
-                <li th:each="attachment : ${post.fileList}">
-                    <a th:href="@{/board/download(id=${attachment.id})}" th:text="${attachment.sourcename}">aaa.jpg</a>
-                </li>
-            </ul>
-        </div>
-        <!-- 첨부파일목록 -->
-
-        <!-- 좋아요 -->
-        <div>
-            <button type="button" id="btnLike">♡</button>
-            <span id="cntLike"></span>
-        </div>
-        <!-- 좋아요 -->
-
-        <!-- 하단 링크 -->
-        <div>
-            <a th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
-            <a th:href="@{'/board/update/' + ${post.id}}" th:if="${logged_user.id == post.user.id}">수정</a>
-            <button type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
-            <a th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
-        </div>
-        <!-- 하단 링크 -->
-
-        <!-- 댓글 -->
-        <th:block th:insert="~{board/comment::comment}"></th:block>
-        <!-- 댓글 -->
-
-    </section>
-</div>
-
 </body>
+
 </th:block>
 </html>

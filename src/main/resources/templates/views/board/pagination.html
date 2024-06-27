@@ -2,8 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="pagination">
-    <div>
-        <ul style="width: auto; display: flex; justify-content: space-between; list-style-type: none;">
+    <div class="page">
+        <ul>
             <!--/* << 표시여부 지역 게시판은 areacode 를 받아야해서 추가 */-->
             <li class="page-item" th:if="${page > 1}" th:unless="${selectareacode}"><a class="page-link" th:href="${url}" th:title="처음"><<</a></li>
             <li class="page-item" th:if="${page > 1} and ${selectareacode}"><a class="page-link" th:href="@{${url}(areacode=${selectareacode.areacode})}" th:title="처음"><<</a></li>
@@ -19,7 +19,7 @@
                     <!--/* 지역 게시판은 areacode 를 받아야해서 추가 */-->
                     <li class="page-item" th:unless="${k == page }" th:if="${selectareacode}"><a class="page-link" th:href="@{${url }(page=${k}, areacode=${selectareacode.areacode})}" th:text="${k}"></a></li>
                     <li class="page-item" th:unless="${k == page } or ${selectareacode}"><a class="page-link" th:href="@{${url }(page=${k})}" th:text="${k}"></a></li>
-                    <li class="page-item active" th:if="${k == page }"><a class="page-link" href="javascript:void(0);" th:text="${k}"></a></li>
+                    <li class="page-item active" th:if="${k == page }"><a class="page-link active" href="javascript:void(0);" th:text="${k}"></a></li>
                 </th:block>
             </th:block>
 

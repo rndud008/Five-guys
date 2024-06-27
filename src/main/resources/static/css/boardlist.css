@@ -2,7 +2,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f0f0;
-    margin: 0 auto;
+    margin: 50px auto;
     padding: 0;
     max-width: 1200px;
 }
@@ -21,6 +21,7 @@ body {
 }
 .post {
     width: 800px;
+    height: 650px;
 }
 
 /* 지역명 선택란 컨테이너 스타일 */
@@ -59,17 +60,17 @@ body {
 .board .post .conA{
     display: flex;
     justify-content: space-between;
-    align-content: center;
+    margin: 10px 0;
+
 }
-.board .post .conA .selectedArea{
-    font-size: 30px;
+.pagingHeader{
+    align-content: center;
 }
 
 .board table {
     width: 100%;
     max-width: 800px;
     border-collapse: collapse;
-    margin-top: 20px;
 
 }
 
@@ -95,16 +96,15 @@ body {
     text-transform: uppercase;
     max-width: 200px; /* 최대 너비 설정 */
 }
+.tableContainer{
+    table-layout: fixed;
+}
 
 /* 게시글 제목 링크 스타일 */
-.board a {
+.tableContainer a {
     color: #007bff;
     text-decoration: none;
     transition: color 0.3s;
-}
-
-.board a:hover {
-    color: #0056b3;
 }
 
 /* 작성 버튼 스타일 */
@@ -116,23 +116,61 @@ body {
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s;
+    font-weight: bold;
 }
 
 .writeBtn:hover {
     background-color: deepskyblue;
+    color: white;
 }
 
 /* 선택된 지역 스타일 */
 .selectedArea {
     font-weight: bold;
     display: block;
+    font-size: 30px;
+}
+.page {
+
 }
 
 /*페이징 관련*/
+.page ul {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+.page li {
+    margin: 5px 9px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    align-items: center;
+}
 
-
-
-
+.page a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-decoration: none;
+    color: white;
+    background-color: skyblue;
+    border: 1px solid skyblue;
+    border-radius: 5px;
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+.page a:hover{
+    background-color: deepskyblue;
+    color: white;
+}
+.page .active a{
+    /*현재 페이지 색상변경*/
+    background-color: deepskyblue;
+}
 
 
 

@@ -276,8 +276,12 @@ SELECT * FROM travel_diary_post;
 INSERT INTO travel_diary_post (user_id, areacode, subject, content)
 VALUES (1,1,1111111111111111111111111111111111111111111111111111111111111111111111111111,1);
 
-UPDATE travel_diary_post SET subject = 11111111111111111111111111111111111 WHERE id = 23;
+UPDATE travel_diary_post SET subject = 111111111111111111111111111111111111111111111111111111111111111111111111111111111 WHERE id = 23;
 # 30개 최대
 
 delete FROM travel_diary_post WHERE id = 22;
+
+INSERT INTO travel_diary_post (user_id, areacode, subject, content)
+SELECT user_id, areacode, subject, content
+FROM travel_diary_post;
 
