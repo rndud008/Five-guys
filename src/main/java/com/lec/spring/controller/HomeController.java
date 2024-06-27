@@ -14,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class HomeController {
@@ -42,6 +45,9 @@ public class HomeController {
         }
 
         TravelPost travelPost = travelPostService.getTravelPostById(id);
+
+        travelPost = travelPostService.update(travelPost);
+
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
         System.out.println(travelPost.getHomepage());
         model.addAttribute("post", travelPost);
@@ -63,6 +69,9 @@ public class HomeController {
         }
 
         TravelPost travelPost = travelPostService.getTravelPostById(id);
+
+        travelPost = travelPostService.update(travelPost);
+
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
         model.addAttribute("post", travelPost);
 
@@ -87,12 +96,15 @@ public class HomeController {
         if(homepage == null || homepage.isEmpty()){
             return "";
         }
-        int firstQuote = homepage.indexOf('"');
-        int secondQuote = homepage.indexOf('"',firstQuote +1);
 
-        if(firstQuote != -1 && secondQuote != -1){
-            return homepage.substring(firstQuote+1, secondQuote);
+        Pattern pattern = Pattern.compile("\"(http[^\"]*)\"");
+        Matcher matcher = pattern.matcher(homepage);
+
+        if (matcher.find()) {
+            return matcher.group(1);
         }
+
         return "";
     }
+
 }

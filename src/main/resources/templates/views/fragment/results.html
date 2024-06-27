@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 
 <style>
     body {
@@ -97,7 +98,12 @@
         <div class="item-card" th:each="item : ${tour}">
             <a th:href="@{'/post/' + ${item.contentid}}">
                 <div class="item-image">
-                    <img th:src="${item.firstimage != '' ? item.firstimage : '/default/default1.jpg'}" th:alt="${item.title}">
+                    <div class="like-container">
+                        <button class="category-like-button" th:data-post="${item.id}">
+                        </button>
+                    </div>
+                    <img th:src="${item.firstimage}" th:alt="${item.title}">
+
                 </div>
                 <div class="item-content">
                     <span class="card-category">travel korea</span>
@@ -112,7 +118,16 @@
         <div class="item-card" th:each="item : ${festival}">
             <a th:href="@{'/festival/' + ${item.contentid}}">
                 <div class="item-image">
-                    <img th:src="${item.firstimage != '' ? item.firstimage : '/default/default1.jpg'}" th:alt="${item.title}">
+                    <div class="like-container">
+                        <button class="category-like-button" th:data-post="${item.id}">
+                        </button>
+                    </div>
+                    <img th:src="${item.firstimage}" th:alt="${item.title}">
+
+                    <div class="event-container" style="position: absolute; top: 10px; right: 10px; z-index: 1; color: white">
+                        <span th:if="${item.status == '진행중' && item.daysUtils != 0}" th:text="'D - ' + ${item.daysUtils}"></span>
+                        <span th:unless="${item.status == '진행중' && item.daysUtils != 0}" th:text="${item.status}"></span>
+                    </div>
                 </div>
                 <div class="item-content">
                     <span class="card-category">travel korea</span>

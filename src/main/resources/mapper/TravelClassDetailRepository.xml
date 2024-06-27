@@ -72,11 +72,10 @@
         where decode = #{decode} and code = #{code}
     </select>
 
-    <select id="findTravelTypeIdByCode" resultType="com.lec.spring.domain.TravelClassDetail">
-        select *
-        FROM travel_class_detail
-        where travel_type_id = #{travelType.id}
-        and code = #{code}
+    <select id="findTravelTypeIdByCode" resultMap="mapTravelDetailClass">
+        <include refid="SELECT_BASE"/>
+        where tt.id = #{travelType.id}
+        and tcd.code = #{code}
     </select>
 
     <select id="findTravelTypeIdByDecode" resultType="com.lec.spring.domain.TravelClassDetail">

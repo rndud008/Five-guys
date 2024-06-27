@@ -50,6 +50,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
 
         List<TravelPost> travelPostList = travelPostRepository.findAll();
         JsonNode items = null;
+
         for (TravelPost travelPost : travelPostList){
 
             String text = null;
@@ -65,7 +66,8 @@ public class BlogReviewServiceImpl implements BlogReviewService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(formatter);
 
-            boolean urlCheck = lastCallApiDataRepository.findByUrl(apiURL) == null || lastCallApiDataRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
+            boolean urlCheck = lastCallApiDataRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
+
             if (urlCheck){
                 Map<String, String> requestHeaers = new HashMap<>();
                 requestHeaers.put("X-Naver-Client-Id", clientId);
@@ -82,19 +84,23 @@ public class BlogReviewServiceImpl implements BlogReviewService {
                     lastCallApiDataRepository.save(lastCallApiData);
                     for (JsonNode item : items){
 
-                        blogReviewTransacionService.itemSave(item, travelPost, lastCallApiData);
+                        boolean linkCheck = blogReviewRepository.findByLinkAndTravelPostId(item.get("link").asText(),travelPost.getId()) == null;
+
+                        if(linkCheck){
+                            blogReviewTransacionService.itemSave(item, travelPost, lastCallApiData);
+                        }else {
+                            System.out.println("이미 저장 되어 있음.");
+                            System.out.println(item.get("link").asText());
+                        }
 
                     }
                     // url set.
                 }else {
                     System.out.println(" 검색 결과 없음.");
                 }
-
             }else {
-
                 System.out.println(" 오늘 이미 호출함.");
                 System.out.println(travelPost.getId());
-
             }
 
             timeUnit();

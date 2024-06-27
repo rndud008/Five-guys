@@ -13,11 +13,8 @@
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-
     <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -113,9 +110,12 @@
                         </dl>
                     </div>
 
-                    <div>
-                        <span class="like-click"></span>
-                        <span class="like-count"></span>
+                    <div class="like-container">
+                        <button class="like-button">
+                            <i class="far fa-heart"></i>
+                            <span class="like-text">좋아요</span>
+                        </button>
+                        <span class="like-count">0</span>
                     </div>
 
                     <div class="title justify">
@@ -175,10 +175,10 @@
                     travelPostId: postId
                 },
                 success: function (response) {
-                    if (response) {
-                        $('.like-click').html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                    if (response === ' ') {
+                        $('.like-button').html(`<i class="fa-regular fa-thumbs-up"></i>`)
                     } else {
-                        $('.like-click').html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                        $('.like-button').html(`<i class="fa-solid fa-thumbs-up"></i>`)
                     }
 
                     updateLikeCount();
@@ -207,7 +207,7 @@
         }
 
 
-        $('.like-click').on('click', function () {
+        $('.like-button').on('click', function () {
 
             if ([[${loggedUser == null}]]) {
                 alert('로그인이 필요합니다.');
@@ -222,9 +222,9 @@
                 },
                 success: function (response) {
                     if (response === ' ') {
-                        $('.like-click').html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                        $('.like-button').html(`<i class="fa-regular fa-thumbs-up"></i>`)
                     } else {
-                        $('.like-click').html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                        $('.like-button').html(`<i class="fa-solid fa-thumbs-up"></i>`)
                     }
 
                     updateLikeCount();
@@ -238,6 +238,8 @@
         loadLikeStatus();
 
     })
+
+
 
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var markers = []; // 모든 마커를 담을 배열
