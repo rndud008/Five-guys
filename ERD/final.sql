@@ -56,17 +56,11 @@ CREATE TABLE blog_review
   travel_post_id   INT          NULL     COMMENT '여행 정보 목록 id',
   last_call_api_id INT          NOT NULL COMMENT 'API 호출 id',
   title            VARCHAR(200) NULL     COMMENT '블로그 포스트의 제목',
-  link             VARCHAR(500) NULL     COMMENT '블로그 포스트의 URL',
+  link             text NULL     COMMENT '블로그 포스트의 URL',
   description      VARCHAR(500) NULL     COMMENT '내용을 요약한 패시지 정보',
   postdate         VARCHAR(20)  NULL     COMMENT '블로그 포스트가 작성된 날짜',
   PRIMARY KEY (id)
 ) COMMENT '블로그 리뷰 리스트';
-
-
-alter table blog_review
-modify column link VARCHAR(500);
-
-
 
 CREATE TABLE comment
 (
@@ -180,7 +174,7 @@ CREATE TABLE travel_post
   tel                    VARCHAR(255) NULL     COMMENT '전화번호',
   eventstartdate         VARCHAR(20)  NULL     COMMENT '행사시작일',
   eventenddate           VARCHAR(20)  NULL     COMMENT '행사종료일',
-  infocenter             VARCHAR(255) NULL     COMMENT '문의및안내 / 관광소개정보',
+  infocenter             TEXT         NULL     COMMENT '문의및안내 / 관광소개정보',
   parking                VARCHAR(255) NULL     COMMENT '주차시설 / 관광소개정보',
   restdate               VARCHAR(255) NULL     COMMENT '쉬는날 / 관광소개정보',
   usetime                TEXT         NULL     COMMENT '이용시간 / 관광소개정보',
@@ -193,6 +187,9 @@ CREATE TABLE travel_post
   infotext               TEXT         NULL     COMMENT '행사내용 / 축제반복내용',
   PRIMARY KEY (id)
 ) COMMENT '여행 정보 목록';
+
+alter table travel_post
+modify infocenter text;
 
 CREATE TABLE travel_type
 (
@@ -217,8 +214,8 @@ CREATE TABLE user
 ALTER TABLE user
   ADD CONSTRAINT UQ_username UNIQUE (username);
 
-ALTER TABLE user
-  ADD CONSTRAINT UQ_name UNIQUE (name);
+# ALTER TABLE user
+#   ADD CONSTRAINT UQ_name UNIQUE (name);
 
 CREATE TABLE user_authorities
 (

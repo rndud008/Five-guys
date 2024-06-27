@@ -24,14 +24,6 @@ public class MainController {
     @Autowired
     private BlogReviewService blogReviewService;
 
-    /*
-    public MainController(SigungucodeService sigungucodeService,TravelClassDetailService travelClassDetailService) {
-        this.sigungucodeService = sigungucodeService;
-        this.travelClassDetailService = travelClassDetailService;
-
-    }
-    */
-
     @GetMapping("/save")
     public String fetchAndSave() {
 
@@ -65,6 +57,13 @@ public class MainController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/travelPostUpdate")
+    public String apiErrorTravelPostUpdate() throws IOException, URISyntaxException {
+        travelPostService.updateApiErrorTravelPosts();
+
+        return "travelPostServiceData travelPostUpdate successfully!";
     }
 
     @GetMapping("/travelBlog")

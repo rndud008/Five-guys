@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface TravelPostService {
     void saveTravelPosts() throws IOException, URISyntaxException;
-    void updateTravelPosts();
+    void updateApiErrorTravelPosts() throws IOException, URISyntaxException;
+    TravelPost update(TravelPost travelPost);
+
     List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail,String title);
+
+    List<TravelPost> selectedByOverviewIsNull(List<TravelClassDetail> travelClassDetailList);
 
     List<TravelPost> selectedTravelTypeByAreacodeTotalList(List<TravelClassDetail> travelClassDetailList, List<Sigungucode> sigungucodeList, long travelTypeId);
     // 특정타입 과 해당지역 시군구리스트 총데이터수 확인
