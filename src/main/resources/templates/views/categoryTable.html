@@ -153,39 +153,6 @@
 
         resultCategpryAjex();
 
-        $('.category-like-button').on('click', function () {
-
-            event.preventDefault();
-
-            if ([[${loggedUser == null}]]) {
-                alert('로그인이 필요합니다.');
-                window.location.href = '/user/login';
-            }
-
-            const $button = $(this);
-            const postId = $(this).data('post');
-            console.log(postId)
-
-            $.ajax({
-                url: '/like/postTravelPostLike',
-                type: 'POST',
-                data: {
-                    travelPostId: postId
-                },
-                success: function (response) {
-                    if (response === ' ') {
-                        $button.html(`<i class="fa-regular fa-thumbs-up"></i>`)
-                    } else {
-                        $button.html(`<i class="fa-solid fa-thumbs-up"></i>`)
-                    }
-                    console.log('변경완료')
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching search results:', error);
-                }
-            });
-        });
-
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
                 let count = $('.first-item').eq(0).data('value')
@@ -462,6 +429,43 @@
 
                 resultCategpryAjex();
             }
+        });
+
+
+        $(document).on('click', '.category-like-button', function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            console.log('라이크버튼 클릭')
+
+            if ([[${loggedUser == null}]]) {
+                alert('로그인이 필요합니다.');
+                // window.location.href = '/user/login';
+            }
+
+            const $button = $(this);
+            const postId = $(this).data('post');
+            console.log(postId)
+
+            $.ajax({
+                url: '/like/postTravelPostLike',
+                type: 'POST',
+                data: {
+                    travelPostId: postId
+                },
+                success: function (response) {
+                    if (response === ' ') {
+                        $button.html(`<i class="fa-regular fa-thumbs-up"></i>`)
+                    } else {
+                        $button.html(`<i class="fa-solid fa-thumbs-up"></i>`)
+                    }
+                    console.log('변경완료')
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
         });
 
     });

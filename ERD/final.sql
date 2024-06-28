@@ -82,43 +82,53 @@ CREATE TABLE last_call_api_date
 
 CREATE TABLE middle_weather
 (
-  id               INT         NOT NULL AUTO_INCREMENT COMMENT '중기날씨 id',
-  last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
-  areacode         INT         NOT NULL COMMENT '지역코드번호',
-  tmFc             VARCHAR(20) NULL     COMMENT '예보일자',
-  taMin4           VARCHAR(10) NULL     COMMENT '4일 후 예상최저기온(℃)',
-  taMax4           VARCHAR(10) NULL     COMMENT '4일 후 예상최고기온(℃)',
-  wf4Am            VARCHAR(10) NULL     COMMENT '4일 후 오전 날씨예보',
-  wf4Pm            VARCHAR(10) NULL     COMMENT '4일 후 오후 날씨예보',
-  taMin5           VARCHAR(10) NULL     COMMENT '5일 후 예상최저기온(℃)',
-  taMax5           VARCHAR(10) NULL     COMMENT '5일 후 예상최고기온(℃)',
-  wf5Am            VARCHAR(10) NULL     COMMENT '5일 후 오전 날씨예보',
-  wf5Pm            VARCHAR(10) NULL     COMMENT '5일 후 오후 날씨예보',
-  taMin6           VARCHAR(10) NULL     COMMENT '6일 후 예상최저기온(℃)',
-  taMax6           VARCHAR(10) NULL     COMMENT '6일 후 예상최고기온(℃)',
-  wf6Am            VARCHAR(10) NULL     COMMENT '6일 후 오전 날씨예보',
-  wf6Pm            VARCHAR(10) NULL     COMMENT '6일 후 오후 날씨예보',
-  taMin7           VARCHAR(10) NULL     COMMENT '7일 후 예상최저기온(℃)',
-  taMax7           VARCHAR(10) NULL     COMMENT '7일 후 예상최고기온(℃)',
-  wf7Am            VARCHAR(10) NULL     COMMENT '7일 후 오전 날씨예보',
-  wf7Pm            VARCHAR(10) NULL     COMMENT '7일 후 오후 날씨예보',
-  PRIMARY KEY (id)
+    id               INT         NOT NULL AUTO_INCREMENT COMMENT '중기날씨 id',
+    last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
+    areacode         INT         NOT NULL COMMENT '지역코드번호',
+    tmFc             VARCHAR(20) NULL     COMMENT '예보일자',
+    taMin4           VARCHAR(10) NULL     COMMENT '4일 후 예상최저기온(℃)',
+    taMax4           VARCHAR(10) NULL     COMMENT '4일 후 예상최고기온(℃)',
+    wf4Am            VARCHAR(10) NULL     COMMENT '4일 후 오전 날씨예보',
+    wf4Pm            VARCHAR(10) NULL     COMMENT '4일 후 오후 날씨예보',
+    rnSt4Am          VARCHAR(10) NULL     COMMENT '4일 후 오전 강수량',
+    rnSt4Pm          VARCHAR(10) NULL     COMMENT '4일 후 오후 강수량',
+    taMin5           VARCHAR(10) NULL     COMMENT '5일 후 예상최저기온(℃)',
+    taMax5           VARCHAR(10) NULL     COMMENT '5일 후 예상최고기온(℃)',
+    wf5Am            VARCHAR(10) NULL     COMMENT '5일 후 오전 날씨예보',
+    wf5Pm            VARCHAR(10) NULL     COMMENT '5일 후 오후 날씨예보',
+    rnSt5Am          VARCHAR(10) NULL     COMMENT '5일 후 오전 강수량',
+    rnSt5Pm          VARCHAR(10) NULL     COMMENT '5일 후 오후 강수량',
+    taMin6           VARCHAR(10) NULL     COMMENT '6일 후 예상최저기온(℃)',
+    taMax6           VARCHAR(10) NULL     COMMENT '6일 후 예상최고기온(℃)',
+    wf6Am            VARCHAR(10) NULL     COMMENT '6일 후 오전 날씨예보',
+    wf6Pm            VARCHAR(10) NULL     COMMENT '6일 후 오후 날씨예보',
+    rnSt6Am          VARCHAR(10) NULL     COMMENT '6일 후 오전 강수량',
+    rnSt6Pm          VARCHAR(10) NULL     COMMENT '6일 후 오후 강수량',
+    taMin7           VARCHAR(10) NULL     COMMENT '7일 후 예상최저기온(℃)',
+    taMax7           VARCHAR(10) NULL     COMMENT '7일 후 예상최고기온(℃)',
+    wf7Am            VARCHAR(10) NULL     COMMENT '7일 후 오전 날씨예보',
+    wf7Pm            VARCHAR(10) NULL     COMMENT '7일 후 오후 날씨예보',
+    rnSt7Am          VARCHAR(10) NULL     COMMENT '7일 후 오전 강수량',
+    rnSt7Pm          VARCHAR(10) NULL     COMMENT '7일 후 오후 강수량',
+    PRIMARY KEY (id)
 ) COMMENT '중기예보(4~7일)';
+
 
 CREATE TABLE short_weather
 (
-  id          INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
-  areacode    INT         NOT NULL COMMENT '지역코드번호',
-  last_api_id INT         NOT NULL COMMENT 'API호출id',
-  fcstDate    DATE        NULL     COMMENT '예보일자',
-  fcstTime    VARCHAR(10) NULL     COMMENT '예보시각',
-  tmn         VARCHAR(10) NULL     COMMENT '최저기온',
-  tmx         VARCHAR(10) NULL     COMMENT '최고기온',
-  sky         VARCHAR(10) NULL     COMMENT '하늘상태',
-  pop         VARCHAR(10) NULL     COMMENT '강수량',
-  pty         VARCHAR(10) NULL     COMMENT '강수형태',
-  PRIMARY KEY (id)
+    id          INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
+    areacode    INT         NOT NULL COMMENT '지역코드번호',
+    last_api_id INT         NOT NULL COMMENT 'API호출id',
+    fcstDate    DATE        NULL     COMMENT '예보일자',
+    fcstTime    VARCHAR(10) NULL     COMMENT '예보시각',
+    tmn         VARCHAR(10) NULL     COMMENT '최저기온',
+    tmx         VARCHAR(10) NULL     COMMENT '최고기온',
+    sky         VARCHAR(10) NULL     COMMENT '하늘상태',
+    pop         VARCHAR(10) NULL     COMMENT '강수량',
+    pty         VARCHAR(10) NULL     COMMENT '강수형태',
+    PRIMARY KEY (id)
 ) COMMENT '단기예보(1~3일)';
+
 
 CREATE TABLE sigungucode
 (
