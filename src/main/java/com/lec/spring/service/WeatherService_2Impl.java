@@ -13,14 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class WeatherService_2Impl implements WeatherService_2 {
@@ -48,16 +49,14 @@ public class WeatherService_2Impl implements WeatherService_2 {
 
     @Override
     @Transactional
-    public void saveWeatherInfo_1(Long areacode, String regId) {
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl_1)
-                .queryParam("serviceKey", apiKey)
-                .queryParam("pageNo", "1")
-                .queryParam("numOfRows", numOfRows)
-                .queryParam("dataType", "JSON")
-                .queryParam("regId", regId)
-                .queryParam("tmFc", tmFc)
-                .toUriString();
-        System.out.println("saveWeatherInfo_1 요청 URL: " + url);
+    public void saveWeatherInfo_middle(Long areacode, String regId) {
+        String url =
+                baseUrl_1 +
+                        "?serviceKey=" + apiKey +
+                        "&pageNo=1&numOfRows=" + numOfRows +
+                        "&dataType=JSON&regId=" + regId +
+                        "&tmFc=" + tmFc;
+        System.out.println("중기날씨(4 ~ 7일) 정보[기온] 요청 URL: " + url);
 
         try {
             LastCallApiDate existingData = lastCallApiDateRepository.findByUrl(url);
@@ -95,208 +94,140 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 // WeatherDTO_2 리스트 생성
                 List<WeatherDTO_2> weatherList = parseAndMapToDTO_1(itemArray, areaCodeObj);
 
-                // WeatherDTO_2 리스트 저장 및 유효성 검사
-                boolean allValuesPresent = saveWeatherList(weatherList, areacode, regId, "1");
+                url = baseUrl_2 +
+                        "?serviceKey=" + apiKey +
+                        "&pageNo=1&numOfRows=" + numOfRows +
+                        "&dataType=JSON&regId=" + areaCodeObj.getRegId2() +
+                        "&tmFc=" + tmFc;
 
-                // 값이 모두 존재할 때만 LastCallApiDate 저장
-                if (allValuesPresent) {
-                    // 마지막 호출 데이터 저장
-                    LastCallApiDate lastCallApiDate = new LastCallApiDate();
-                    lastCallApiDate.setUrl(url);
-                    lastCallApiDateRepository.save(lastCallApiDate);
-                    System.out.println("LastCallApiDate 저장됨: " + lastCallApiDate);
-                } else {
-                    System.out.println("데이터 유효성 검사 실패로 LastCallApiDate 저장되지 않음.");
-                }
+                System.out.println("중기날씨(4 ~ 7일) 정보[기상] 요청 URL: " + url);
 
-                System.out.println("Weather data to save: " + weatherList);
-            } else {
-                System.out.println("이미 호출됨: " + url);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("saveWeatherInfo_1 finished execution");
-    }
-
-    @Override
-    @Transactional
-    public void saveWeatherInfo_2(Long areacode, String regId2) {
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl_2)
-                .queryParam("serviceKey", apiKey)
-                .queryParam("pageNo", "1")
-                .queryParam("numOfRows", numOfRows)
-                .queryParam("dataType", "JSON")
-                .queryParam("regId", regId2)
-                .queryParam("tmFc", tmFc)
-                .toUriString();
-        System.out.println("saveWeatherInfo_2 요청 URL: " + url);
-
-        try {
-            LastCallApiDate existingData = lastCallApiDateRepository.findByUrl(url + areacode);
-
-            if (existingData == null) {
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                conn = (HttpURLConnection) new URL(url).openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Content-type", "application/json");
 
-                BufferedReader rd;
                 if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                     rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 } else {
                     rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                 }
 
-                StringBuilder sb = new StringBuilder();
-                String line;
+                sb = new StringBuilder();
                 while ((line = rd.readLine()) != null) {
                     sb.append(line);
                 }
                 rd.close();
                 conn.disconnect();
 
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode jsonObject = mapper.readTree(sb.toString());
+                mapper = new ObjectMapper();
+                jsonObject = mapper.readTree(sb.toString());
 
-                JsonNode response = jsonObject.get("response");
-                JsonNode body = response.get("body");
-                JsonNode items = body.get("items");
-                JsonNode itemArray = items.get("item");
+                response = jsonObject.get("response");
+                body = response.get("body");
+                items = body.get("items");
+                itemArray = items.get("item");
 
                 // 마지막 호출 데이터 저장
                 LastCallApiDate lastCallApiDate = new LastCallApiDate();
-                // 이러면 중복호출되긴함..
-                lastCallApiDate.setUrl(url+ areacode);
+                lastCallApiDate.setUrl(url + areacode);
                 lastCallApiDateRepository.save(lastCallApiDate);
 
-                // areacode로 Areacode 객체 가져오기
-                Areacode areaCodeObj = areacodeRepository.findByAreaCode(areacode);
                 // WeatherDTO_2 리스트 생성
-                List<WeatherDTO_2> weatherList = parseAndMapToDTO_2(itemArray, lastCallApiDate, areaCodeObj);
+                weatherList = parseAndMapToDTO_2(weatherList, itemArray, lastCallApiDate, areaCodeObj);
 
-                // WeatherDTO_2 리스트 저장
-                for (WeatherDTO_2 weather : weatherList) {
-                    try {
+                // WeatherDTO_2 리스트 저장 및 유효성 검사
+                boolean allValuesPresent = saveWeatherList(weatherList, areacode, regId);
 
-                        // LastCallApiDate ID를 설정하여 WeatherDTO_2 객체에 저장
-                        weather.setLastCallApiDate(lastCallApiDate);
-
-                        WeatherDTO_2 existingWeather = weatherRepository_2.findByAreacode(weather);
-                        if (existingWeather != null) {
-                            weatherRepository_2.updateWeather_2(weather);
-                        } else {
-                            weatherRepository_2.insertWeather_2(weather);
-                        }
-                    } catch (Exception e) {
-                        System.err.println("날씨 정보 저장 중 오류 발생: " + e.getMessage());
-                    }
+                // 값이 모두 존재할 때만 LastCallApiDate 저장
+                if (allValuesPresent) {
+                } else {
+                    System.out.println("데이터 유효성 검사 실패로 LastCallApiDate 저장되지 않음.");
                 }
-                System.out.println("Weather data to save: " + weatherList);
-
             } else {
-                System.out.println("이미 호출된 URL: " + url + areacode);
+                System.out.println("중기날씨(4 ~ 7일) 이미 호출된 URL:" + url);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("중기날씨(4 ~ 7일) 저장 성공!");
     }
 
 
     @Override
-    public List<WeatherDTO_2> getWeatherInfo_1(Long areacode, String regId) {
-        System.out.println("Fetching weather information for areacode: " + areacode + ", regId: " + regId);
+    public List<WeatherDTO_2> getWeatherInfo_middle(Long areacode, String regId) {
+        System.out.println("지역코드: " + areacode + "\n지역고유번호: " + regId);
         List<WeatherDTO_2> weatherList = weatherRepository_2.findWeatherByAreacodeAndRegId(areacode, regId);
-        System.out.println("getWeatherInfo_1 성공" + weatherList);
-        return weatherList;
-    }
-
-    @Override
-    public List<WeatherDTO_2> getWeatherInfo_2(Long areacode, String regId2) {
-        System.out.println("Fetching weather information for areacode: " + areacode + ", regId2: " + regId2);
-        List<WeatherDTO_2> weatherList = weatherRepository_2.findWeatherByAreacodeAndRegId2(areacode, regId2);
-        System.out.println("getWeatherInfo_2 성공" + weatherList);
+        System.out.println("중기날씨(4 ~ 7일) 불러오기 성공!: " + weatherList);
+        System.out.println();
         return weatherList;
     }
 
     private List<WeatherDTO_2> parseAndMapToDTO_1(JsonNode itemArray, Areacode areacode) {
         List<WeatherDTO_2> weatherList = new ArrayList<>();
-
+        WeatherDTO_2 dto = new WeatherDTO_2();
         for (JsonNode item : itemArray) {
-            WeatherDTO_2 dto = WeatherDTO_2.builder()
-                    .areacode(areacode)
-                    .tmFc(tmFc1)
-                    .taMin4(item.get("taMin4").asText())
-                    .taMax4(item.get("taMax4").asText())
-                    .taMin5(item.get("taMin5").asText())
-                    .taMax5(item.get("taMax5").asText())
-                    .taMin6(item.get("taMin6").asText())
-                    .taMax6(item.get("taMax6").asText())
-                    .taMin7(item.get("taMin7").asText())
-                    .taMax7(item.get("taMax7").asText())
-                    .build();
-            weatherList.add(dto);
+            dto.setAreacode(areacode);
+            dto.setTmFc(tmFc1);
+            dto.setTaMin4(item.get("taMin4").asText());
+            dto.setTaMax4(item.get("taMax4").asText());
+            dto.setTaMin5(item.get("taMin5").asText());
+            dto.setTaMax5(item.get("taMax5").asText());
+            dto.setTaMin6(item.get("taMin6").asText());
+            dto.setTaMax6(item.get("taMax6").asText());
+            dto.setTaMin7(item.get("taMin7").asText());
+            dto.setTaMax7(item.get("taMax7").asText());
         }
+        weatherList.add(dto);
 
-        System.out.println("parseAndMapToDTO_1 finished execution, result: " + weatherList);
+        System.out.println("중기날씨(4 ~ 7일) [기온] 파싱결과: " + weatherList);
         return weatherList;
     }
 
-    private List<WeatherDTO_2> parseAndMapToDTO_2(JsonNode itemArray, LastCallApiDate LastCallApiDate, Areacode areacode) {
-        List<WeatherDTO_2> weatherList = new ArrayList<>();
+    private List<WeatherDTO_2> parseAndMapToDTO_2(List<WeatherDTO_2> weatherList, JsonNode itemArray, LastCallApiDate LastCallApiDate, Areacode areacode) {
 
-        for (JsonNode item : itemArray) {
-            WeatherDTO_2 dto = WeatherDTO_2.builder()
-                    .areacode(areacode)
-                    .lastCallApiDate(LastCallApiDate)
-                    .wf4Am(item.has("wf4Am") ? item.get("wf4Am").asText() : null)
-                    .wf4Pm(item.has("wf4Pm") ? item.get("wf4Pm").asText() : null)
-                    .wf5Am(item.has("wf5Am") ? item.get("wf5Am").asText() : null)
-                    .wf5Pm(item.has("wf5Pm") ? item.get("wf5Pm").asText() : null)
-                    .wf6Am(item.has("wf6Am") ? item.get("wf6Am").asText() : null)
-                    .wf6Pm(item.has("wf6Pm") ? item.get("wf6Pm").asText() : null)
-                    .wf7Am(item.has("wf7Am") ? item.get("wf7Am").asText() : null)
-                    .wf7Pm(item.has("wf7Pm") ? item.get("wf7Pm").asText() : null)
+        for (WeatherDTO_2 dto : weatherList) {
+            for (JsonNode item : itemArray) {
+                        dto.setLastCallApiDate(LastCallApiDate);
+                        dto.setWf4Am(item.get("wf4Am").asText());
+                        dto.setWf4Pm(item.get("wf4Pm").asText());
+                        dto.setWf5Am(item.get("wf5Am").asText());
+                        dto.setWf5Pm(item.get("wf5Pm").asText());
+                        dto.setWf6Am(item.get("wf6Am").asText());
+                        dto.setWf6Pm(item.get("wf6Pm").asText());
+                        dto.setWf7Am(item.get("wf7Am").asText());
+                        dto.setWf7Pm(item.get("wf7Pm").asText());
+                        dto.setRnSt4Am(item.get("rnSt4Am").asText());
+                        dto.setRnSt4Pm(item.get("rnSt4Pm").asText());
+                        dto.setRnSt5Am(item.get("rnSt5Am").asText());
+                        dto.setRnSt5Pm(item.get("rnSt5Pm").asText());
+                        dto.setRnSt6Am(item.get("rnSt6Am").asText());
+                        dto.setRnSt6Pm(item.get("rnSt6Pm").asText());
+                        dto.setRnSt7Am(item.get("rnSt7Am").asText());
+                        dto.setRnSt7Pm(item.get("rnSt7Pm").asText());
 
-                    .rnSt4Am(item.get("rnSt4Am").asText())
-                    .rnSt4Pm(item.get("rnSt4Pm").asText())
-                    .rnSt5Am(item.get("rnSt5Am").asText())
-                    .rnSt5Pm(item.get("rnSt5Pm").asText())
-                    .rnSt6Am(item.get("rnSt6Am").asText())
-                    .rnSt6Pm(item.get("rnSt6Pm").asText())
-                    .rnSt7Am(item.get("rnSt7Am").asText())
-                    .rnSt7Pm(item.get("rnSt7Pm").asText())
 
-                    .build();
-            weatherList.add(dto);
+            }
         }
-
-        System.out.println("parseAndMapToDTO_2 finished execution, result: " + weatherList);
+        System.out.println("중기날씨(4 ~ 7일) [기상] 파싱결과: " + weatherList);
         return weatherList;
     }
 
-    private boolean saveWeatherList(List<WeatherDTO_2> weatherList, Long areacode, String regId, String type) {
+    private boolean saveWeatherList(List<WeatherDTO_2> weatherList, Long areacode, String regId) {
         boolean allValuesPresent = true;
 
         for (WeatherDTO_2 weather : weatherList) {
             try {
                 WeatherDTO_2 existingWeather = weatherRepository_2.findByAreacode(weather);
                 if (existingWeather != null) {
-                    if ("1".equals(type)) {
-                        weatherRepository_2.updateWeather_1(weather);
-                    } else if ("2".equals(type)) {
-                        weatherRepository_2.updateWeather_2(weather);
-                    }
+
+                        weatherRepository_2.updateWeather_middle(weather);
                 } else {
-                    if ("1".equals(type)) {
-                        weatherRepository_2.insertWeather_1(weather);
-                    } else if ("2".equals(type)) {
-                        weatherRepository_2.insertWeather_2(weather);
-                    }
+                        weatherRepository_2.insertWeather_middle(weather);
                 }
             } catch (Exception e) {
                 allValuesPresent = false;
-                System.err.println("날씨 정보 저장 중 오류 발생: " + e.getMessage());
+                System.err.println("중기날씨 정보 저장 중 오류 발생: " + e.getMessage());
             }
         }
 
