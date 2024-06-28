@@ -3,9 +3,26 @@ $(function (){
         confirm("삭제하시겠습니까?") && $("form[name='frmDelete']").submit();
     })
 
+    // 댓글 현재 글자수
+    const textarea = document.getElementById('input_comment');
+    const charCountDiv = document.getElementById('char_count');
+
+    textarea.addEventListener('input', function() {
+        let inputText = textarea.value;
+
+        // 입력된 텍스트가 최대 길이를 초과하는 경우
+        if (inputText.length > 100) {
+            // 초과된 부분을 잘라내고 다시 textarea에 설정
+            textarea.value = inputText.slice(0, 100);
+            inputText = textarea.value; // 잘린 텍스트 다시 가져오기
+        }
+
+        const charCount = textarea.value.length;
+        charCountDiv.textContent = `${charCount}/100`;
+    });
+
     // 현재 글의 id 값
     const id = $("input[name='id']").val().trim();
-
 
     LoadLike(id);  // 좋아요 카운트 가져오기
 
@@ -159,8 +176,8 @@ function buildComment(result) {
         const row = `
             <tr>
                 <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
-                <td style="display: flex; justify-content: space-between">
-                    <input readonly class="content${id}" value="${content}"/><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
+                <td style="display: flex; justify-content: space-between; align-items: center">
+                    <textarea readonly class="content${id}" value="${content}">${content}</textarea><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
                 </td>
                 <td>${likeBtn}</td>
                 <td><span><small>${regdate}</small></span></td>
@@ -240,6 +257,7 @@ $(function () {
         $(this).hide();
         $(`.confirm-comment-btn[data-cmtsub-id="${id}"]`).show();
         $(`.cancel-comment-btn[data-cmtcan-id="${id}"]`).show();
+        $(`.delete-comment-btn[data-cmtdel-id="${id}"]`).hide();
     });
 
     // 댓글 확인 버튼 클릭 시
@@ -255,6 +273,7 @@ $(function () {
         $(this).hide();
         $(`.cancel-comment-btn[data-cmtcan-id="${id}"]`).hide();
         $(`.edit-comment-btn[data-cmtup-id="${id}"]`).show();
+        $(`.delete-comment-btn[data-cmtdel-id="${id}"]`).show();
 
         // 현재 글의 id
         const cid = $("input[name='id']").val().trim();
@@ -293,6 +312,7 @@ $(function () {
         $(this).hide();
         $(`.confirm-comment-btn[data-cmtsub-id="${id}"]`).hide();
         $(`.edit-comment-btn[data-cmtup-id="${id}"]`).show();
+        $(`.delete-comment-btn[data-cmtdel-id="${id}"]`).show();
 
         // 현재 글의 id
         const cid = $("input[name='id']").val().trim();

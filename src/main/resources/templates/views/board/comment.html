@@ -10,8 +10,9 @@
             <label>댓글: <span id="cmt_cnt">3</span> 개</label>
             <!-- ROLE_MEMBER 권한 가진 사용자만 댓글 작성 가능 -->
             <div class="comment-form">
-                <input type="text" id="input_comment">
+                <textarea id="input_comment"></textarea>
                 <button type="button" id="btn_comment">작성</button>
+                <div id="char_count">0/100</div>
             </div>
 
             <table id="cmt_table">
@@ -25,14 +26,7 @@
                 </thead>
 
                 <tbody id="cmt_list">
-                    <tr>
-                        <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
-                        <td>
-                            <input readonly class="content${id}" value="${content}"/>${upBtn}${submitBtn}${cancelBtn}${delBtn}
-                        </td>
-                        <td>${likeBtn}</td>
-                        <td><span><small>${regdate}</small></span></td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
