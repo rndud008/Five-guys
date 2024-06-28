@@ -250,8 +250,43 @@ from blog_review br
 join travel_post tp on  br.travel_post_id = tp.id
 where br.link = 'https://sweetit.co.kr/11029262'
 
+SELECT * FROM travel_post;
+SELECT * FROM comment;
 
+UPDATE comment
+SET content = '111'
+WHERE id = 11;
 
+SELECT * FROM user_travel_post;
+SELECT * FROM travel_diary_post;
+
+SELECT * FROM user_comment;
+
+INSERT INTO user_comment (user_id, comment_id)
+VALUES (1,11);
+
+SELECT *
+FROM user_comment
+WHERE user_id = 5 AND comment_id = 11;
+
+SELECT * FROM travel_post;
+SELECT count(*) FROM travel_post;
+SELECT * FROM travel_class_detail;
+SELECT count(*) FROM blog_review;
+SELECT * FROM blog_review;
+SELECT * FROM travel_post;
+SELECT * FROM user;
+SELECT * FROM user_authorities;
+SELECT * FROM comment;
+
+SELECT * FROM travel_diary_post;
+INSERT INTO travel_diary_post (user_id, areacode, subject, content)
+VALUES (1,1,1111111111111111111111111111111111111111111111111111111111111111111111111111,1);
+
+UPDATE travel_diary_post SET subject = 111111111111111111111111111111111111111111111111111111111111111111111111111111111 WHERE id = 23;
+# 30개 최대
+
+delete FROM travel_diary_post WHERE id = 22;
 
 select * from user;
 select * from short_weather;
@@ -264,4 +299,8 @@ select * from travel_post;
 select * from travel_diary_post;
 select * from travel_type;
 
+
+INSERT INTO travel_diary_post (user_id, areacode, subject, content)
+SELECT user_id, areacode, subject, content
+FROM travel_diary_post;
 

@@ -25,9 +25,12 @@ public class LikeController {
 
     // 게시판 좋아요
     @PostMapping("/click")
-    public void click(@RequestParam("user_id") Long userId, @RequestParam("travel_diary_post_id") Long postId){
-
-        likeService.likeClick(userId,postId);
+    public int click(@RequestParam("user_id") Long userId, @RequestParam("travel_diary_post_id") Long postId){
+        return likeService.likeClick(userId,postId);
+    }
+    @PostMapping("/likeChk")
+    public int likeChk(@RequestParam("user_id") Long userId, @RequestParam("travel_diary_post_id") Long postId){
+        return likeService.likeChk(userId, postId);
     }
 
     @GetMapping("/count/{postId}")

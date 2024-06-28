@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class BlogReviewServiceImpl implements BlogReviewService {
 
     private TravelPostRepository travelPostRepository;
-    private LastCallApiDateRepository lastCallApiDataRepository;
+    private LastCallApiDateRepository lastCallApiDateRepository;
     private BlogReviewRepository blogReviewRepository;
     private BlogReviewTransacionService blogReviewTransacionService;
     private DataService dataService;
@@ -39,7 +39,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
     @Autowired
     public BlogReviewServiceImpl(SqlSession sqlSession, DataService dataService, BlogReviewTransacionService blogReviewTransacionService){
         travelPostRepository = sqlSession.getMapper(TravelPostRepository.class);
-        lastCallApiDataRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
+        lastCallApiDateRepository = sqlSession.getMapper(LastCallApiDateRepository.class);
         blogReviewRepository = sqlSession.getMapper(BlogReviewRepository.class);
         this.dataService = dataService;
         this.blogReviewTransacionService = blogReviewTransacionService;
@@ -66,8 +66,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(formatter);
 
-            boolean urlCheck = lastCallApiDataRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
-
+            boolean urlCheck = lastCallApiDateRepository.findByUrl(apiURL) == null || lastCallApiDateRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
             if (urlCheck){
                 Map<String, String> requestHeaers = new HashMap<>();
                 requestHeaers.put("X-Naver-Client-Id", clientId);
@@ -81,7 +80,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
                 if (items != null){
                     LastCallApiDate lastCallApiData = new LastCallApiDate();
                     lastCallApiData.setUrl(apiURL);
-                    lastCallApiDataRepository.save(lastCallApiData);
+                    lastCallApiDateRepository.save(lastCallApiData);
                     for (JsonNode item : items){
 
                         boolean linkCheck = blogReviewRepository.findByLinkAndTravelPostId(item.get("link").asText(),travelPost.getId()) == null;

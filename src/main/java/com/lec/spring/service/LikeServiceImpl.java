@@ -17,22 +17,27 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public void likeClick(Long userId, Long postId) {
-        System.out.println(postId + " " + userId);
+    public int likeClick(Long userId, Long postId) {
 
         Like like = likeRepository.findLike(userId, postId);
 
-        System.out.println(like);
-
         if(like == null){
-            likeRepository.save(userId, postId);
+            return likeRepository.save(userId, postId);
         } else {
-            likeRepository.delete(userId, postId);
+            return likeRepository.delete(userId, postId);
         }
     }
 
     @Override
     public Long likeCount(Long postId) {
+
         return likeRepository.countByPost(postId);
+    }
+
+    @Override
+    public int likeChk(Long userId, Long postId) {
+        if(likeRepository.findLike(userId, postId) == null){
+            return 0;
+        } else return 1;
     }
 }
