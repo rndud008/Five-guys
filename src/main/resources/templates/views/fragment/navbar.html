@@ -268,17 +268,27 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="form-signin">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="아이디"
-                                   name="floatingInput" autocomplete="floatingInput">
-                            <label for="floatingInput"  class="visually-hidden">아이디</label>
+                    <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
+                        <!-- 에러 메세지 -->
+                        <div>
+                            <div th:text="${errorMessage}"></div>
                         </div>
+
+                        <!-- 아이디 입력란 -->
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호"
-                                   name="floatingPassword" autocomplete="floatingPassword">
-                            <label for="floatingPassword"  class="visually-hidden">비밀번호</label>
+                            <input type="text" class="form-control" id="username" placeholder="아이디"
+                                   name="username" autocomplete="floatingInput">
+                            <label for="username"  class="visually-hidden">아이디</label>
                         </div>
+
+                        <!-- 비밀번호 입력란 -->
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="비밀번호"
+                                   name="password">
+                            <label for="password"  class="visually-hidden">비밀번호</label>
+                        </div>
+
+                        <!-- 로그인 및 회원가입 버튼 -->
                         <button class="btn btn-lightblue btn-block user" type="submit">로그인</button><br>
                         <button class="btn btn-lightblue btn-block user" type="submit">회원가입</button><br>
                         <hr class="my-4">

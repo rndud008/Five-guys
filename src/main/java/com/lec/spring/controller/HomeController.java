@@ -97,7 +97,7 @@ public class HomeController {
 
 
     @GetMapping("/fragment/navbar")
-    public void nvabar(){}
+    public void navbar(){}
 
     public String extraUrl(String homepage){
         if(homepage == null || homepage.isEmpty()){
