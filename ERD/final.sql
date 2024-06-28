@@ -82,51 +82,53 @@ CREATE TABLE last_call_api_date
 
 CREATE TABLE middle_weather
 (
-  id               INT         NOT NULL AUTO_INCREMENT COMMENT '중기날씨 id',
-  last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
-  areacode         INT         NOT NULL COMMENT '지역코드번호',
-  tmFc             VARCHAR(20) NULL     COMMENT '예보일자',
-  taMin4           VARCHAR(10) NULL     COMMENT '4일 후 예상최저기온(℃)',
-  taMax4           VARCHAR(10) NULL     COMMENT '4일 후 예상최고기온(℃)',
-  wf4Am            VARCHAR(10) NULL     COMMENT '4일 후 오전 날씨예보',
-  wf4Pm            VARCHAR(10) NULL     COMMENT '4일 후 오후 날씨예보',
-  rnSt4Am          VARCHAR(10) NULL     COMMENT '4일 후 오전 강수량',
-  rnSt4Pm          VARCHAR(10) NULL     COMMENT '4일 후 오후 강수량',
-  taMin5           VARCHAR(10) NULL     COMMENT '5일 후 예상최저기온(℃)',
-  taMax5           VARCHAR(10) NULL     COMMENT '5일 후 예상최고기온(℃)',
-  wf5Am            VARCHAR(10) NULL     COMMENT '5일 후 오전 날씨예보',
-  wf5Pm            VARCHAR(10) NULL     COMMENT '5일 후 오후 날씨예보',
-  rnSt5Am          VARCHAR(10) NULL     COMMENT '5일 후 오전 강수량',
-  rnSt5Pm          VARCHAR(10) NULL     COMMENT '5일 후 오후 강수량',
-  taMin6           VARCHAR(10) NULL     COMMENT '6일 후 예상최저기온(℃)',
-  taMax6           VARCHAR(10) NULL     COMMENT '6일 후 예상최고기온(℃)',
-  wf6Am            VARCHAR(10) NULL     COMMENT '6일 후 오전 날씨예보',
-  wf6Pm            VARCHAR(10) NULL     COMMENT '6일 후 오후 날씨예보',
-  rnSt6Am          VARCHAR(10) NULL     COMMENT '6일 후 오전 강수량',
-  rnSt6Pm          VARCHAR(10) NULL     COMMENT '6일 후 오후 강수량',
-  taMin7           VARCHAR(10) NULL     COMMENT '7일 후 예상최저기온(℃)',
-  taMax7           VARCHAR(10) NULL     COMMENT '7일 후 예상최고기온(℃)',
-  wf7Am            VARCHAR(10) NULL     COMMENT '7일 후 오전 날씨예보',
-  wf7Pm            VARCHAR(10) NULL     COMMENT '7일 후 오후 날씨예보',
-  rnSt7Am          VARCHAR(10) NULL     COMMENT '7일 후 오전 강수량',
-  rnSt7Pm          VARCHAR(10) NULL     COMMENT '7일 후 오후 강수량',
-  PRIMARY KEY (id)
+    id               INT         NOT NULL AUTO_INCREMENT COMMENT '중기날씨 id',
+    last_call_api_id INT         NOT NULL COMMENT 'API 호출 id',
+    areacode         INT         NOT NULL COMMENT '지역코드번호',
+    tmFc             VARCHAR(20) NULL     COMMENT '예보일자',
+    taMin4           VARCHAR(10) NULL     COMMENT '4일 후 예상최저기온(℃)',
+    taMax4           VARCHAR(10) NULL     COMMENT '4일 후 예상최고기온(℃)',
+    wf4Am            VARCHAR(10) NULL     COMMENT '4일 후 오전 날씨예보',
+    wf4Pm            VARCHAR(10) NULL     COMMENT '4일 후 오후 날씨예보',
+    rnSt4Am          VARCHAR(10) NULL     COMMENT '4일 후 오전 강수량',
+    rnSt4Pm          VARCHAR(10) NULL     COMMENT '4일 후 오후 강수량',
+    taMin5           VARCHAR(10) NULL     COMMENT '5일 후 예상최저기온(℃)',
+    taMax5           VARCHAR(10) NULL     COMMENT '5일 후 예상최고기온(℃)',
+    wf5Am            VARCHAR(10) NULL     COMMENT '5일 후 오전 날씨예보',
+    wf5Pm            VARCHAR(10) NULL     COMMENT '5일 후 오후 날씨예보',
+    rnSt5Am          VARCHAR(10) NULL     COMMENT '5일 후 오전 강수량',
+    rnSt5Pm          VARCHAR(10) NULL     COMMENT '5일 후 오후 강수량',
+    taMin6           VARCHAR(10) NULL     COMMENT '6일 후 예상최저기온(℃)',
+    taMax6           VARCHAR(10) NULL     COMMENT '6일 후 예상최고기온(℃)',
+    wf6Am            VARCHAR(10) NULL     COMMENT '6일 후 오전 날씨예보',
+    wf6Pm            VARCHAR(10) NULL     COMMENT '6일 후 오후 날씨예보',
+    rnSt6Am          VARCHAR(10) NULL     COMMENT '6일 후 오전 강수량',
+    rnSt6Pm          VARCHAR(10) NULL     COMMENT '6일 후 오후 강수량',
+    taMin7           VARCHAR(10) NULL     COMMENT '7일 후 예상최저기온(℃)',
+    taMax7           VARCHAR(10) NULL     COMMENT '7일 후 예상최고기온(℃)',
+    wf7Am            VARCHAR(10) NULL     COMMENT '7일 후 오전 날씨예보',
+    wf7Pm            VARCHAR(10) NULL     COMMENT '7일 후 오후 날씨예보',
+    rnSt7Am          VARCHAR(10) NULL     COMMENT '7일 후 오전 강수량',
+    rnSt7Pm          VARCHAR(10) NULL     COMMENT '7일 후 오후 강수량',
+    PRIMARY KEY (id)
 ) COMMENT '중기예보(4~7일)';
+
 
 CREATE TABLE short_weather
 (
-  id          INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
-  areacode    INT         NOT NULL COMMENT '지역코드번호',
-  last_api_id INT         NOT NULL COMMENT 'API호출id',
-  fcstDate    DATE        NULL     COMMENT '예보일자',
-  fcstTime    VARCHAR(10) NULL     COMMENT '예보시각',
-  tmn         VARCHAR(10) NULL     COMMENT '최저기온',
-  tmx         VARCHAR(10) NULL     COMMENT '최고기온',
-  sky         VARCHAR(10) NULL     COMMENT '하늘상태',
-  pop         VARCHAR(10) NULL     COMMENT '강수량',
-  pty         VARCHAR(10) NULL     COMMENT '강수형태',
-  PRIMARY KEY (id)
+    id          INT         NOT NULL AUTO_INCREMENT COMMENT '단기날씨 id',
+    areacode    INT         NOT NULL COMMENT '지역코드번호',
+    last_api_id INT         NOT NULL COMMENT 'API호출id',
+    fcstDate    DATE        NULL     COMMENT '예보일자',
+    fcstTime    VARCHAR(10) NULL     COMMENT '예보시각',
+    tmn         VARCHAR(10) NULL     COMMENT '최저기온',
+    tmx         VARCHAR(10) NULL     COMMENT '최고기온',
+    sky         VARCHAR(10) NULL     COMMENT '하늘상태',
+    pop         VARCHAR(10) NULL     COMMENT '강수량',
+    pty         VARCHAR(10) NULL     COMMENT '강수형태',
+    PRIMARY KEY (id)
 ) COMMENT '단기예보(1~3일)';
+
 
 CREATE TABLE sigungucode
 (
@@ -263,12 +265,16 @@ ALTER TABLE attachment
 ALTER TABLE blog_review
   ADD CONSTRAINT FK_travel_post_TO_blog_review
     FOREIGN KEY (travel_post_id)
-    REFERENCES travel_post (id);
+    REFERENCES travel_post (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE blog_review
   ADD CONSTRAINT FK_last_call_api_date_TO_blog_review
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE comment
   ADD CONSTRAINT FK_user_TO_comment
@@ -287,12 +293,16 @@ ALTER TABLE comment
 ALTER TABLE middle_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE travel_class_detail
   ADD CONSTRAINT FK_travel_type_TO_travel_class_detail
     FOREIGN KEY (travel_type_id)
-    REFERENCES travel_type (id);
+    REFERENCES travel_type (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE travel_diary_post
   ADD CONSTRAINT FK_user_TO_travel_diary_post
@@ -304,27 +314,37 @@ ALTER TABLE travel_diary_post
 ALTER TABLE travel_post
   ADD CONSTRAINT FK_travel_class_detail_TO_travel_post
     FOREIGN KEY (travel_class_detail_id)
-    REFERENCES travel_class_detail (id);
+    REFERENCES travel_class_detail (id)
+ON UPDATE RESTRICT
+   ON DELETE CASCADE;
 
 ALTER TABLE travel_post
   ADD CONSTRAINT FK_sigungucode_TO_travel_post
     FOREIGN KEY (sigungucode_id)
-    REFERENCES sigungucode (id);
+    REFERENCES sigungucode (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE travel_post
   ADD CONSTRAINT FK_last_call_api_date_TO_travel_post
     FOREIGN KEY (last_call_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_authorities
   ADD CONSTRAINT FK_user_TO_user_authorities
     FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    REFERENCES user (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_authorities
   ADD CONSTRAINT FK_authority_TO_user_authorities
     FOREIGN KEY (authority_id)
-    REFERENCES authority (id);
+    REFERENCES authority (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_comment
   ADD CONSTRAINT FK_user_TO_user_comment
@@ -343,47 +363,65 @@ ALTER TABLE user_comment
 ALTER TABLE user_travel_diary_post
   ADD CONSTRAINT FK_user_TO_user_travel_diary_post
     FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    REFERENCES user (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_travel_diary_post
   ADD CONSTRAINT FK_travel_diary_post_TO_user_travel_diary_post
     FOREIGN KEY (travel_diary_post_id)
-    REFERENCES travel_diary_post (id);
+    REFERENCES travel_diary_post (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_travel_post
   ADD CONSTRAINT FK_travel_post_TO_user_travel_post
     FOREIGN KEY (travel_post_id)
-    REFERENCES travel_post (id);
+    REFERENCES travel_post (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_travel_post
   ADD CONSTRAINT FK_user_TO_user_travel_post
     FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    REFERENCES user (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE middle_weather
   ADD CONSTRAINT FK_areacode_TO_middle_weather
     FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    REFERENCES areacode (areacode)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE sigungucode
   ADD CONSTRAINT FK_areacode_TO_sigungucode
     FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    REFERENCES areacode (areacode)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE travel_diary_post
   ADD CONSTRAINT FK_areacode_TO_travel_diary_post
     FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
+    REFERENCES areacode (areacode)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE short_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_short_weather
     FOREIGN KEY (last_api_id)
-    REFERENCES last_call_api_date (id);
+    REFERENCES last_call_api_date (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE short_weather
   ADD CONSTRAINT FK_areacode_TO_short_weather
     FOREIGN KEY (areacode)
-    REFERENCES areacode (areacode);
-
-ALTER TABLE user
-    DROP CONSTRAINT UQ_name;
+    REFERENCES areacode (areacode)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
+#
+# ALTER TABLE user
+#     DROP CONSTRAINT UQ_name;
