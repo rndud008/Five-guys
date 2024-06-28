@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="/css/nav.css">
 
 
-
 <style>
     .loading {
         text-align: center;
@@ -27,7 +26,7 @@
     <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
     <div id="travellist">
-    <th:block th:fragment="travelCategory">
+        <th:block th:fragment="travelCategory">
 
             <div class="category-item">지역</div>
 
@@ -116,20 +115,20 @@
                     </th:block>
                 </th:block>
             </th:block>
-    </th:block>
+        </th:block>
 
-    <th:block th:insert="~{fragment/travelSearch::search}"></th:block>
+        <th:block th:insert="~{fragment/travelSearch::search}"></th:block>
 
 
-    <div class="site-container">
-        <h2> 검색 결과</h2>
-        <div id="categoryResults" class="item-container">
-            <!-- 검색 결과가 여기에 삽입됩니다. -->
+        <div class="site-container">
+            <h2> 검색 결과</h2>
+            <div id="categoryResults" class="item-container">
+                <!-- 검색 결과가 여기에 삽입됩니다. -->
+            </div>
         </div>
-    </div>
 
-    <div class="loading" id="loading">Loading...</div>
-   </div>
+        <div class="loading" id="loading">Loading...</div>
+    </div>
 
 </div>
 <script th:inline="javascript" th:with="loggedUser=${loggedUser}">
@@ -137,7 +136,7 @@
 
     let categoryId = [[${categoryId}]]
 
-    let regiontest1;
+    let regiontest1 = getUrlParameter('regionQuery');
     let sigungutest2;
     let queyrtest3;
     let searchQuery;
@@ -147,9 +146,67 @@
     let offset = 0;
     const limit = 20; // 한 번에 가져올 데이터의 개수
 
+    let test;
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        let results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
 
     $(document).ready(function () {
         // 지역 카테고리 클릭 이벤트 처리
+
+        test = getUrlParameter('regionQuery')
+        console.log(test);
+        let count = 0;
+
+        if (test !== '' && count === 0) {
+
+            // test 값과 일치하는 지역을 찾습니다.
+            let $element = $('.region-category-list').filter(function () {
+                return $(this).data('subcategory') === parseInt(test);
+            });
+
+            console.log($element); // 선택된 요소를 콘솔에 출력합니다.
+
+            let nameValue = $element.data('name'); // 선택된 요소의 지역 이름을 가져옵니다.
+            console.log(nameValue); // 지역 이름을 콘솔에 출력합니다.
+
+
+            // 선택한 지역을 1번 항목에 표시
+            updateSelectedRegionDisplay(test, nameValue);
+
+            // 다른 지역 카테고리 링크 숨기기
+            hideOtherRegionCategories();
+
+            // 선택한 지역의 시군구 카테고리 표시
+            showSelectedRegionSubcategories(test);
+
+            count++;
+            // 시군구 카테고리 클릭 이벤트 처리
+            $('.region-subcategory-list').off('click').click(function (event) {
+                event.preventDefault();
+                const sigungu = $(this).data('subcategory');
+                const sigunguName = $(this).data('name');
+
+                const regionSubCategoryParts = sigungu.split('-');
+                sigungutest2 = regionSubCategoryParts[1];
+
+                offset = 0;
+
+                // 선택한 시군구 지역을 1번 항목에 표시
+                updateSelectedRegionDisplay(test, nameValue, sigungu, sigunguName);
+
+                // 선택한 시군구 카테고리 강조
+                highlightSelectedSubcategory(test, sigungu);
+
+                resultCategpryAjex();
+            });
+
+        }
 
         resultCategpryAjex();
 
@@ -206,6 +263,9 @@
             const regionName = $(this).data('name');
             regiontest1 = region
             offset = 0;
+
+            console.log(region)
+            console.log(regionName);
 
             // 선택한 지역을 1번 항목에 표시
             updateSelectedRegionDisplay(region, regionName);

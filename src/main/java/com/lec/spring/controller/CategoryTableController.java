@@ -174,13 +174,17 @@ public class CategoryTableController {
 
 
     @GetMapping("/categoryTable/{id}")
-    public String list(Model model, @PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) throws JsonProcessingException {
+    public String list(Model model, @PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails
+            , @RequestParam(value = "regionQuery" ,required = false) Long regionQuery) throws JsonProcessingException {
 
         if (userDetails != null) {
             model.addAttribute("loggedUser", userDetails);
         } else {
             model.addAttribute("loggedUser", null);
         }
+
+        System.out.println();
+        System.out.println(regionQuery);
 
         model.addAttribute("areacode", areacodeService.list());
         List<Areacode> areacodes = areacodeService.list();
