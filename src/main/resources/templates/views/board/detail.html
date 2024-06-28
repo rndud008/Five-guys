@@ -75,7 +75,7 @@
 
             <!-- 좋아요 -->
             <div class="actions">
-                <button type="button" id="btnLike"><i class="fa fa-heart" style="font-size: 24px"></i></button>
+                <button type="button" id="btnLike"><i class="fa fa-heart" style="font-size: 40px"></i></button>
                 <span id="cntLike"></span>
             </div>
             <!-- 좋아요 -->
@@ -87,7 +87,7 @@
                 </div>
                 <div>
                     <a th:href="@{'/board/update/' + ${post.id}}" th:if="${logged_user.id == post.user.id}">수정</a>
-                    <button type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
+                    <button style="margin: 0 10px" type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
                     <a th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
                 </div>
             </div>

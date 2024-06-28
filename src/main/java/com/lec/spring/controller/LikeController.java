@@ -47,6 +47,13 @@ public class LikeController {
         commentLikeService.likeClick(userId, commentId);
     }
 
+    // 댓글 좋아요 찾기
+    @PostMapping("/cLikeChk")
+    public int clickChk(@RequestParam("user_id") Long userId, @RequestParam("comment_id") Long commentId){
+        return commentLikeService.likeChk(userId, commentId);
+    }
+
+
     @GetMapping("/countC/{commentId}")
     public Long countC(@PathVariable Long commentId){
         Long result = 0L;

@@ -3,7 +3,7 @@ $(function (){
         confirm("삭제하시겠습니까?") && $("form[name='frmDelete']").submit();
     })
 
-    // 댓글 현재 글자수
+    // 댓글 작성란 현재 글자수
     const textarea = document.getElementById('input_comment');
     const charCountDiv = document.getElementById('char_count');
 
@@ -39,7 +39,6 @@ $(function (){
             data: data,
             cache: false,
             success: function (result) {
-                // TODO 이미지 바꾸는 작업
                 LoadLike(id);  // 좋아요 업데이트
             }
         });
@@ -74,7 +73,6 @@ function LoadLike(travel_diary_post_id){
 
     // 현재 글의 댓글들을 불러온다
     LoadComment(id);
-
 
     // 댓글 작성 버튼 누르면 댓글 등록 하기.
     $("#btn_comment").click(function () {
@@ -131,97 +129,224 @@ function LoadComment(travel_diary_post_id){
             buildComment(data);  // 댓글 화면 렌더링
 
             // ★댓글목록을 불러오고 난뒤에 삭제에 대한 이벤트 리스너를 등록해야 한다
-            addDelete();
+            // addDelete();
 
 
         }
     })
 }
 function buildComment(result) {
+    // $("#cmt_cnt").text(result.count);  // 댓글 총 개수
+    //
+    // const out = [];
+    // result.data.forEach(comment => {
+    //     let id = comment.id;
+    //     let content = comment.content.trim();
+    //     let regdate = comment.regdate;
+    //     let likecnt = comment.likecnt;
+    //
+    //     let user_id = parseInt(comment.user.id);
+    //     let username = comment.user.username;
+    //     let name = comment.user.name;
+    //
+    //     let likechk;
+    //
+    //     $.ajax({
+    //         url: "/like/cLikeChk",
+    //         type: "POST",
+    //         data: {
+    //             "user_id": logged_id,
+    //             "comment_id": id,
+    //         },
+    //         cache: false,
+    //         success: function (data){
+    //             console.log(data + "commentId = " + content);
+    //             (data == 0) ? likechk = 0 : likechk = 1;
+    //
+    //             // 수정버튼 여부
+    //             const upBtn = (logged_id !== user_id) ? '' : `
+    //     <button data-cmtup-id="${id}" class="edit-comment-btn" title="수정" style="height: 30px">수정</button>
+    //     `;
+    //             // 삭제버튼 여부
+    //             const delBtn = (logged_id !== user_id) ? '' : `
+    //     <button data-cmtdel-id="${id}" class="delete-comment-btn" title="삭제" style="height: 30px">삭제</button>
+    //     `;
+    //             // 수정버튼 눌렀을 때 확인버튼
+    //             const submitBtn = `
+    //     <button data-cmtsub-id="${id}" class="confirm-comment-btn" title="확인" style="height: 30px; display: none;">확인</button>
+    //     `
+    //             // 수정버튼 눌렀을 때 취소버튼
+    //             const cancelBtn = `
+    //     <button data-cmtcan-id="${id}" class="cancel-comment-btn" title="취소" style="height: 30px; display: none;">취소</button>
+    //     `
+    //             // 댓글 좋아요 버튼 userid 가 다르면 좋아요 회색 같으면 빨간색
+    //             const likeBtn = (likechk == 1) ?
+    //                 `<button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px; color: red;"><i class="fa fa-heart" style="font-size: 24px"></i></button>
+    //             <span class="like-count">${likecnt}</span>`
+    //                 :
+    //                 `<button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px; color: #909090;"><i class="fa fa-heart" style="font-size: 24px"></i></button>
+    //             <span class="like-count">${likecnt}</span>`
+    //
+    //             ;
+    //
+    //             const row = `
+    //         <tr>
+    //             <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
+    //             <td style="display: flex; justify-content: space-between; align-items: center">
+    //                 <textarea readonly class="content${id}" id="textarea_comment" value="${content}">${content}</textarea><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
+    //             </td>
+    //             <td>${likeBtn}</td>
+    //             <td><span><small>${regdate}</small></span></td>
+    //         </tr>
+    //     `;
+    //             out.push(row);
+    //
+    //             $("#cmt_list").html(out.join('\n'));
+    //         }
+    //     });
+    // });
+
     $("#cmt_cnt").text(result.count);  // 댓글 총 개수
 
     const out = [];
-    result.data.forEach(comment => {
-        let id = comment.id;
-        let content = comment.content.trim();
-        let regdate = comment.regdate;
-        let likecnt = comment.likecnt;
 
-        let user_id = parseInt(comment.user.id);
-        let username = comment.user.username;
-        let name = comment.user.name;
+    // Promise 를 사용하여 순서대로 댓글 정보를 처리하고 화면에 추가
+    // ajax 비동기 특성 때문에 Promise 와 async/await 를 사용하여 각 댓글의 좋아요 상태를 순서대로 확인하고 화면에 추가하는 방법
+    // 이를 통해 각각의 AJAX 요청이 완료된 후에만 다음 댓글을 처리하고 HTML 을 업데이트
+    const processComments = async () => {
+        for (const comment of result.data) {
+            const id = comment.id;
+            const content = comment.content.trim();
+            const regdate = comment.regdate;
+            const likecnt = comment.likecnt;
+            const user_id = parseInt(comment.user.id);
+            const username = comment.user.username;
+            const name = comment.user.name;
 
-        // 수정버튼 여부
-        const upBtn = (logged_id !== user_id) ? '' : `
-        <button data-cmtup-id="${id}" class="edit-comment-btn" title="수정" style="height: 30px">수정</button>
+            // 좋아요 상태 체크하는 AJAX 요청
+            const likechk = await new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "/like/cLikeChk",
+                    type: "POST",
+                    data: {
+                        "user_id": logged_id,
+                        "comment_id": id,
+                    },
+                    cache: false,
+                    success: function (data) {
+                        resolve(data === 0 ? 0 : 1);
+                    },
+                    error: function () {
+                        reject(new Error("Failed to check like status"));
+                    }
+                });
+            }).catch(err => {
+                console.error(err);
+                return 0; // 예외 발생 시 기본 값으로 처리
+            });
+
+            // 좋아요 버튼 HTML 설정
+            const likeBtn = (likechk == 1) ?
+                `<button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px; color: red;"><i class="fa fa-heart" style="font-size: 24px"></i></button>
+            <span class="like-count">${likecnt}</span>`
+                :
+                `<button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px; color: #909090;"><i class="fa fa-heart" style="font-size: 24px"></i></button>
+            <span class="like-count">${likecnt}</span>`;
+
+            // 수정, 삭제 버튼 HTML 설정
+            const upBtn = (logged_id !== user_id) ? '' : `
+            <button data-cmtup-id="${id}" class="edit-comment-btn" title="수정" style="height: 30px">수정</button>
         `;
-        // 삭제버튼 여부
-        const delBtn = (logged_id !== user_id) ? '' : `
-        <button data-cmtdel-id="${id}" class="delete-comment-btn" title="삭제" style="height: 30px">삭제</button>
+            const delBtn = (logged_id !== user_id) ? '' : `
+            <button data-cmtdel-id="${id}" class="delete-comment-btn" title="삭제" style="height: 30px">삭제</button>
         `;
-        // 수정버튼 눌렀을 때 확인버튼
-        const submitBtn = `
-        <button data-cmtsub-id="${id}" class="confirm-comment-btn" title="확인" style="height: 30px; display: none;">확인</button>
-        `
-        // 수정버튼 눌렀을 때 취소버튼
-        const cancelBtn = `
-        <button data-cmtcan-id="${id}" class="cancel-comment-btn" title="취소" style="height: 30px; display: none;">취소</button>
-        `
-        // 댓글 좋아요 버튼
-        const likeBtn = `
-            <button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px">좋아요</button>
-            <span class="like-count">${likecnt}</span>
+            const submitBtn = `
+            <button data-cmtsub-id="${id}" class="confirm-comment-btn" title="확인" style="height: 30px; display: none;">확인</button>
+        `;
+            const cancelBtn = `
+            <button data-cmtcan-id="${id}" class="cancel-comment-btn" title="취소" style="height: 30px; display: none;">취소</button>
         `;
 
-        const row = `
+            // 댓글 행 HTML 생성
+            const row = `
             <tr>
                 <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
                 <td style="display: flex; justify-content: space-between; align-items: center">
-                    <textarea readonly class="content${id}" value="${content}">${content}</textarea><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
+                    <textarea readonly class="content${id}" id="textarea_comment" value="${content}">${content}</textarea><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
                 </td>
                 <td>${likeBtn}</td>
                 <td><span><small>${regdate}</small></span></td>
             </tr>
         `;
-        out.push(row);
-    });
+            out.push(row);
+        }
 
-    $("#cmt_list").html(out.join('\n'));
+        // 모든 댓글 HTML을 한 번에 추가
+        $("#cmt_list").html(out.join('\n'));
+    };
+// 댓글 처리 함수 호출
+    processComments();
 }
 
 // 댓글 삭제 버튼이 눌렸을때, 해당 댓글 삭제하는 이벤트를 등록
-function addDelete() {
+// function addDelete() {
+//
+//     // 현재 글의 id
+//     const id = $("input[name='id']").val().trim();
+//
+//     $("[data-cmtdel-id]").click(function () {
+//         if(!confirm("댓글을 삭제하시겠습니까?")) return;
+//
+//         // 삭제할 댓글의 id
+//         const comment_id = $(this).attr("data-cmtdel-id");
+//
+//         $.ajax({
+//             url: "/comment/delete",
+//             type: "POST",
+//             cache: false,
+//             data: {"id": comment_id},
+//             success: function (data, status) {
+//                 if (status == "success") {
+//                     if (data.status !== "OK") {
+//                         alert(data.status);
+//                         return;
+//                     }
+//
+//                     // 삭제후에도 댓글 목록 불러와야 한다
+//                     LoadComment(id);
+//                 }
+//             },
+//         });
+//     });
+// }
 
-    // 현재 글의 id
-    const id = $("input[name='id']").val().trim();
+$(function () {
 
-    $("[data-cmtdel-id]").click(function () {
-        if(!confirm("댓글을 삭제하시겠습니까?")) return;
+    // 댓글 삭제 버튼 클릭 시
+    $("body").on("click", "[data-cmtdel-id]", function () {
+        if (!confirm("댓글을 삭제하시겠습니까?")) return;
 
-        // 삭제할 댓글의 id
         const comment_id = $(this).attr("data-cmtdel-id");
+        const id = $("input[name='id']").val().trim();
 
         $.ajax({
             url: "/comment/delete",
             type: "POST",
             cache: false,
-            data: {"id": comment_id},
+            data: { "id": comment_id },
             success: function (data, status) {
-                if (status == "success") {
+                if (status === "success") {
                     if (data.status !== "OK") {
                         alert(data.status);
                         return;
                     }
-
-                    // 삭제후에도 댓글 목록 불러와야 한다
+                    // 삭제 후에도 댓글 목록 불러오기
                     LoadComment(id);
                 }
             },
         });
     });
-}
 
-$(function () {
     // 댓글 좋아요 버튼 클릭 시
     $("body").on("click", ".like-comment-btn", function () {
         const id = $(this).attr("data-cmtlike-id");
@@ -258,6 +383,17 @@ $(function () {
         $(`.confirm-comment-btn[data-cmtsub-id="${id}"]`).show();
         $(`.cancel-comment-btn[data-cmtcan-id="${id}"]`).show();
         $(`.delete-comment-btn[data-cmtdel-id="${id}"]`).hide();
+
+        // 수정할 때도 글자수 제한 추가
+        $contentInput.on('input', function() {
+            let inputText = $contentInput.val().trim();
+
+            // 입력된 텍스트가 최대 길이를 초과하는 경우
+            if (inputText.length > 100) {
+                // 초과된 부분을 잘라내고 다시 textarea에 설정
+                $contentInput.val(inputText.slice(0, 100));
+            }
+        });
     });
 
     // 댓글 확인 버튼 클릭 시
