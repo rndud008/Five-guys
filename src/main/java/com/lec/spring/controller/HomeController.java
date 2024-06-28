@@ -91,7 +91,7 @@ public class HomeController {
 
 
     @GetMapping("/nav")     // detail/글의 ID
-    public String navbar(){
+    public String nvabar(){
         return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
     }
 
