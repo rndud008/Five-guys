@@ -256,7 +256,9 @@ CREATE TABLE user_travel_post
 ALTER TABLE attachment
   ADD CONSTRAINT FK_travel_diary_post_TO_attachment
     FOREIGN KEY (travel_diary_post_id)
-    REFERENCES travel_diary_post (id);
+    REFERENCES travel_diary_post (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE blog_review
   ADD CONSTRAINT FK_travel_post_TO_blog_review
@@ -271,12 +273,16 @@ ALTER TABLE blog_review
 ALTER TABLE comment
   ADD CONSTRAINT FK_user_TO_comment
     FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    REFERENCES user (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE comment
   ADD CONSTRAINT FK_travel_diary_post_TO_comment
     FOREIGN KEY (travel_diary_post_id)
-    REFERENCES travel_diary_post (id);
+    REFERENCES travel_diary_post (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE middle_weather
   ADD CONSTRAINT FK_last_call_api_date_TO_middle_weather
@@ -291,7 +297,9 @@ ALTER TABLE travel_class_detail
 ALTER TABLE travel_diary_post
   ADD CONSTRAINT FK_user_TO_travel_diary_post
     FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    REFERENCES user (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE travel_post
   ADD CONSTRAINT FK_travel_class_detail_TO_travel_post
@@ -321,12 +329,16 @@ ALTER TABLE user_authorities
 ALTER TABLE user_comment
   ADD CONSTRAINT FK_user_TO_user_comment
     FOREIGN KEY (user_id)
-    REFERENCES user (id);
+    REFERENCES user (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_comment
   ADD CONSTRAINT FK_comment_TO_user_comment
     FOREIGN KEY (comment_id)
-    REFERENCES comment (id);
+    REFERENCES comment (id)
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE;
 
 ALTER TABLE user_travel_diary_post
   ADD CONSTRAINT FK_user_TO_user_travel_diary_post

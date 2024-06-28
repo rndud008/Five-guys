@@ -65,7 +65,6 @@
                 }
             });
         }
-
     </script>
 
 
@@ -157,9 +156,10 @@
                         </button>
                         <span class="like-count">0</span>
                     </div>
+
                     <div class="title justify">
                         <h4>관련 블로그 리뷰</h4>
-                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 검색 바로가기</a>
+                        <a th:href="'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=' + ${post.title}" target="_blank" class="btn-search">네이버 검색 바로가기</a>
                     </div>
                     <div class="blog">
                         <ul id="blogList">
