@@ -304,3 +304,11 @@ INSERT INTO travel_diary_post (user_id, areacode, subject, content)
 SELECT user_id, areacode, subject, content
 FROM travel_diary_post;
 
+
+delete
+from user_authorities
+where user_id = 9;
+
+delete
+from user
+where id = 9;
