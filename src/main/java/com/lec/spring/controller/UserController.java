@@ -29,8 +29,6 @@ public class UserController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        List<String> domains = Arrays.asList("naver.com", "gmail.com", "daum.net");
-        model.addAttribute("domains", domains);
         return "/user/register";
     }
 
@@ -42,10 +40,12 @@ public class UserController {
             RedirectAttributes redirectAttrs,
             @RequestParam("email_id") String emailId,
             @RequestParam("domain") String domain,
-            @RequestParam("custom_domain") String customDomain
+            @RequestParam(value = "custom_domain", required = false) String customDomain
     ) {
-        String emailDomain = domain.isEmpty() ? customDomain : domain;  // domain 이 비어있을 경우, 직접입력한 domain 을 가져옴. 아닌 경우, 선택된 domain 을 가져옴.
-        String email = emailId + "@" + emailDomain;
+        String email;
+        if (domain.equals("custom")) { email = emailId + "@" + customDomain; }
+        else { email = emailId + "@" + domain; }
+
         user.setEmail(email);
 
         // 검증 에러가 있을 경우 redirect 한다
@@ -56,8 +56,7 @@ public class UserController {
 
             List<FieldError> errList = result.getFieldErrors();
             for (FieldError err : errList) {
-                redirectAttrs.addFlashAttribute("error", err.getCode());  // 가장 처음에 발견된 에러를 담아 보낸다
-                break;
+                redirectAttrs.addFlashAttribute("error", err.getCode());
             }
 
             return "redirect:/user/register";

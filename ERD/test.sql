@@ -255,8 +255,8 @@ select * from last_call_api_date;
 
 delete
 from user_authorities
-where user_id = 5;
+where user_id = 9;
 
 delete
 from user
-where id = 5;
+where id = 9;
