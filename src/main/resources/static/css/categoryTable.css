@@ -76,6 +76,9 @@ body {
     outline: none;
     border-color: #66afe9;
 }
+#searchForm button{
+    background-color: #f9f9f9;
+}
 
 button[type="submit"] i {
     /*padding: 10px 20px;*/
@@ -87,6 +90,7 @@ button[type="submit"] i {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-left: 10px;
+    /*color: #f9f9f9;*/
 }
 
 /*button[type="submit"]:hover {*/
