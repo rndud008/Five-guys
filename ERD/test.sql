@@ -258,4 +258,5 @@ select * from travel_post;
 select * from travel_diary_post;
 select * from travel_type;
 
-
+select *
+from sigungucode;

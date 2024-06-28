@@ -17,7 +17,6 @@ public class WeatherController {
 
     private final WeatherService weatherService;
     private final WeatherService_2 weatherService_2;
-
     private AreaService areaService;
 
     @Autowired
@@ -29,42 +28,29 @@ public class WeatherController {
 
     // 단기예보
     @PostMapping("/update1")
-    public void updateWeather(@RequestParam Long areacode) {
+    public void updateWeatherInfo_short(@RequestParam Long areacode) {
         Areacode area = areaService.findByAreaCode(areacode);
-        weatherService.saveWeatherInfo(area.getAreacode(), area.getNx(), area.getNy());
+        weatherService.saveWeatherInfo_short(area.getAreacode(), area.getNx(), area.getNy());
     }
 
-    @GetMapping("/getweather1")
-    public List<WeatherDTO> getWeather(@RequestParam Long areacode) {
+    @GetMapping("/getWeather1")
+    public List<WeatherDTO> getWeatherInfo_short(@RequestParam Long areacode) {
         Areacode area = areaService.findByAreaCode(areacode);
-        return weatherService.getWeatherInfo(area.getAreacode(), area.getNx(), area.getNy());
+        return weatherService.getWeatherInfo_short(area.getAreacode(), area.getNx(), area.getNy());
     }
 
     // 중기예보
-    // 기온
+    // 날씨, 기온
     @PostMapping("/update2")
-    public void saveWeatherInfo_1(@RequestParam Long areacode) {
+    public void updateWeatherInfo_middle(@RequestParam Long areacode) {
         Areacode area = areaService.findByAreaCode(areacode);
-        weatherService_2.saveWeatherInfo_1(area.getAreacode(), area.getRegId());
+        weatherService_2.saveWeatherInfo_middle(area.getAreacode(), area.getRegId());
     }
 
     @GetMapping("/getWeather2")
-    public List<WeatherDTO_2> getWeatherInfo_1(@RequestParam Long areacode) {
+    public List<WeatherDTO_2> getWeatherInfo_middle(@RequestParam Long areacode) {
         Areacode area = areaService.findByAreaCode(areacode);
-        return weatherService_2.getWeatherInfo_1(area.getAreacode(), area.getRegId());
-    }
-
-    // 날씨
-    @PostMapping("/update3")
-    public void saveWeatherInfo_2(@RequestParam Long areacode) {
-        Areacode area = areaService.findByAreaCode(areacode);
-        weatherService_2.saveWeatherInfo_2(area.getAreacode(), area.getRegId2());
-    }
-
-    @GetMapping("/getWeather3")
-    public List<WeatherDTO_2> getWeatherInfo_2(@RequestParam Long areacode) {
-        Areacode area = areaService.findByAreaCode(areacode);
-        return weatherService_2.getWeatherInfo_2(area.getAreacode(), area.getRegId2());
+        return weatherService_2.getWeatherInfo_middle(area.getAreacode(), area.getRegId());
     }
 
 }

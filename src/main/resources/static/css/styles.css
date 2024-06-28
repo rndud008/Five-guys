@@ -117,6 +117,19 @@ body {
     font-size: 1em;
     font-weight: bold;
 }
+.rain-blue-left{
+    color: #2b82f8;
+    font-size: 0.8em;
+    font-weight: bold;
+    float: right;
+
+}
+.rain-blue-right{
+    color: #2b82f8;
+    font-size: 0.8em;
+    font-weight: bold;
+    float: left;
+}
 
 .gray {
     color: #a9a9a9;
@@ -131,14 +144,14 @@ body {
 /*관광지, 축제 페이지로 이동*/
 .link-container {
     width: 670px;
-    margin: 0 auto; /* 수평 가운데 정렬을 위해 margin-left을 제거하고 margin을 auto로 설정 */
-    text-align: center; /* 내부 요소들을 가운데 정렬하기 위해 text-align을 center로 설정 */
+    margin-left: 100px;
+    text-align: center;
 }
 
 .link-container button {
     width: 200px;
     height: 40px;
-    margin: 0 15px; /* 좌우 여백을 조정 */
+    margin: 0 15px;
 }
 
 
