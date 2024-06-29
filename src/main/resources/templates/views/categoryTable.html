@@ -15,8 +15,10 @@
 
 <style>
     .loading {
-        text-align: center;
-        margin: 20px 0;
+        left: 50%;
+        /*bottom: 0;*/
+        /*text-align: center;*/
+        /*margin: 20px 0;*/
         display: none;
     }
 </style>
@@ -153,7 +155,8 @@
     let offset = 0;
     const limit = 20; // 한 번에 가져올 데이터의 개수
 
-    let test;
+    let currentUrl = window.location.href;
+
 
     function getUrlParameter(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -166,15 +169,11 @@
     $(document).ready(function () {
         // 지역 카테고리 클릭 이벤트 처리
 
-        test = getUrlParameter('regionQuery')
-        console.log(test);
-        let count = 0;
-
-        if (test !== '' && count === 0) {
+        if (regiontest1 !== '') {
 
             // test 값과 일치하는 지역을 찾습니다.
             let $element = $('.region-category-list').filter(function () {
-                return $(this).data('subcategory') === parseInt(test);
+                return $(this).data('subcategory') === parseInt(regiontest1);
             });
 
             console.log($element); // 선택된 요소를 콘솔에 출력합니다.
@@ -184,15 +183,14 @@
 
 
             // 선택한 지역을 1번 항목에 표시
-            updateSelectedRegionDisplay(test, nameValue);
+            updateSelectedRegionDisplay(regiontest1, nameValue);
 
             // 다른 지역 카테고리 링크 숨기기
             hideOtherRegionCategories();
 
             // 선택한 지역의 시군구 카테고리 표시
-            showSelectedRegionSubcategories(test);
+            showSelectedRegionSubcategories(regiontest1);
 
-            count++;
             // 시군구 카테고리 클릭 이벤트 처리
             $('.region-subcategory-list').off('click').click(function (event) {
                 event.preventDefault();
@@ -205,10 +203,10 @@
                 offset = 0;
 
                 // 선택한 시군구 지역을 1번 항목에 표시
-                updateSelectedRegionDisplay(test, nameValue, sigungu, sigunguName);
+                updateSelectedRegionDisplay(regiontest1, nameValue, sigungu, sigunguName);
 
                 // 선택한 시군구 카테고리 강조
-                highlightSelectedSubcategory(test, sigungu);
+                highlightSelectedSubcategory(regiontest1, sigungu);
 
                 resultCategpryAjex();
             });
@@ -367,6 +365,11 @@
             const subcategoryName = $(this).prevAll('[data-name]').first().data('name');
 
             const subcategoryStr = String(subcategory);
+
+            if(currentUrl.split('?')[0] !== null){
+                let newUrl = currentUrl.split('?')[0];
+                history.pushState(null, null, newUrl);
+            }
 
             if (subcategory === undefined || !subcategoryStr.includes('-')) {
                 resetSelectedRegion();
