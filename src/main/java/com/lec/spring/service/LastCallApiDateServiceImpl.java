@@ -17,9 +17,13 @@ public class LastCallApiDateServiceImpl implements LastCallApiDateService {
     }
 
     @Override
-    public int save(LastCallApiDate apiData) {
+    public int save(LastCallApiDate apiDate) {
 
+        return lastCallApiDateRepository.save(apiDate);
+    }
 
-        return 0;
+    @Override
+    public LastCallApiDate selectedByUrlAndRegDate(String url, String regdate) {
+        return lastCallApiDateRepository.findByUrlAndRegDate(url, regdate);
     }
 }

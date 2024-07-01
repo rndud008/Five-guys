@@ -89,6 +89,11 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 JsonNode items = body.get("items");
                 JsonNode itemArray = items.get("item");
 
+                // 마지막 호출 데이터 저장
+                LastCallApiDate lastCallApiDate = new LastCallApiDate();
+                lastCallApiDate.setUrl(url);
+                lastCallApiDateRepository.save(lastCallApiDate);
+
                 // areacode로 Areacode 객체 가져오기
                 Areacode areaCodeObj = areacodeRepository.findByAreaCode(areacode);
                 // WeatherDTO_2 리스트 생성
@@ -126,11 +131,6 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 body = response.get("body");
                 items = body.get("items");
                 itemArray = items.get("item");
-
-                // 마지막 호출 데이터 저장
-                LastCallApiDate lastCallApiDate = new LastCallApiDate();
-                lastCallApiDate.setUrl(url + areacode);
-                lastCallApiDateRepository.save(lastCallApiDate);
 
                 // WeatherDTO_2 리스트 생성
                 weatherList = parseAndMapToDTO_2(weatherList, itemArray, lastCallApiDate, areaCodeObj);
