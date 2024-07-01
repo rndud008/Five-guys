@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>날씨 예보</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome CSS 추가 -->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
@@ -13,8 +12,6 @@
     <link rel="stylesheet" href="/css/detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
-    <!--    <script type="text/javascript"-->
-    <!--            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>-->
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,89 +20,23 @@
 
 <body>
 <div id="wrap">
-    <!--------------------------------------------------------------------------------------------------------------------------------->
     <!-- header -->
-    <header class="line scroll">
-        <div class="navbar-container">
-            <div>
-                <h1 class="logo">
-                    <a href="/">로고</a></h1>
-                <nav>
-                    <ul class="nav-login">
-                        <li><a class="login">Login</a></li>
-                    </ul>
-                    <ul class="nav-menu">
-                        <li><a th:href="@{/categoryTable/{id}(id=${12})}">관광지</a></li>
-                        <li><a th:href="@{/categoryTable/{id}(id=${15})}">축제</a></li>
-                        <li><a>게시판</a></li>
-                    </ul>
+    <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
-                </nav>
-            </div>
-        </div>
-    </header>
-
-    <!-- 모달 창 -->
-    <div id="modalSignin" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title">Travel Login</h1>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="form-signin">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="아이디"
-                                   name="floatingInput" autocomplete="floatingInput">
-                            <label for="floatingInput" class="visually-hidden">아이디</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호"
-                                   name="floatingPassword" autocomplete="floatingPassword">
-                            <label for="floatingPassword" class="visually-hidden">비밀번호</label>
-                        </div>
-                        <button class="btn btn-lightblue btn-block user" type="submit">로그인</button><br>
-                        <button class="btn btn-lightblue btn-block user" type="submit">회원가입</button><br>
-                        <hr class="my-4">
-                        <button class="btn btn-lightblue btn-block login kakao" type="submit">
-                            <img src="../img/kakao_logo.png" alt="Kakao Logo">
-                            <span>카카오로 로그인</span>
-                        </button><br>
-                        <button class="btn btn-lightblue btn-block login google" type="submit">
-                            <img src="../img/google_logo.png" alt="google Logo">
-                            <span>구글로 로그인</span>
-                        </button><br>
-                        <button class="btn btn-lightblue btn-block login naver" type="submit">
-                            <img src="../img/naver_logo.png" alt="naver Logo">
-                            <span>네이버로 로그인</span>
-                        </button><br>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--------------------------------------------------------------------------------------------------------------------------------->
     <!-- article -->
     <article>
         <div class="main-left">
             <iframe class="map" src="/img/map.svg" width="550" height="800"></iframe>
         </div>
         <div class="main-right">
+            <div class="header-container">
+                <h3 id="tableHeader"></h3>
+                <span id="current-date"></span>
+            </div>
             <table class="weatherTable">
-                <thead>
-                <div class="header-container">
-                    <h3 id="tableHeader"></h3>
-                    <p id="current-date"></p>
-                </div>
-                </thead>
-                <div class="body-container">
-                    <tbody id="weatherTableBody"></tbody>
-                    <tbody id="weather2TableBody"></tbody>
-                </div>
+                <tbody id="weatherTableBody"></tbody>
+                <tbody id="weather2TableBody"></tbody>
             </table>
             <div id="link-container" class="link-container">
                 <button id="tourismButton" class="d-none"><a href="#"><span>관광지</span></a></button>
@@ -114,21 +45,21 @@
         </div>
     </article>
 
-    <!--------------------------------------------------------------------------------------------------------------------------------->
-    <!-- footer -->
-    <footer id="footer">
-        <ul class="icons">
-            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>&copy; Untitled</li>
-            <li>Design: KT</li>
-        </ul>
-    </footer>
+<!--    &lt;!&ndash; footer &ndash;&gt;-->
+<!--    <footer id="footer">-->
+<!--        <ul class="icons">-->
+<!--            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>-->
+<!--            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>-->
+<!--            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>-->
+<!--            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>-->
+<!--            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>-->
+<!--        </ul>-->
+<!--        <ul class="copyright">-->
+<!--            <li>&copy; Untitled</li>-->
+<!--            <li>Design: KT</li>-->
+<!--        </ul>-->
+<!--    </footer>-->
+    <th:block th:insert="~{fragment/footer::footer}"></th:block>
 
 </div>
 

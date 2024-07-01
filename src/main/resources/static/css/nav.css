@@ -6,6 +6,7 @@
     border-radius: 4%;
     border: none;
     outline: none;
+    font-size: 14px;
 }
 
 .login button:hover {

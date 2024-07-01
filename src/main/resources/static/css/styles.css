@@ -47,7 +47,7 @@ body {
     margin-right: 100px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 .map {
     border: none;
@@ -62,10 +62,11 @@ body {
     margin-left: 100px;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
+    margin-top: 0;
 }
 
 .weatherTable th, .weatherTable td {
-    padding: 18px;
+    padding-bottom: 15px;
     text-align: center;
 }
 
@@ -79,27 +80,36 @@ body {
     height: 48px;
 }
 
-/* Header and Body Containers */
-.header-container {
-    display: flex;
-    align-items: center;
-}
-
-.body-container {
-
-}
-
 #tableHeader {
     margin-top: 70px;
     margin-left: 16%;
+    width: auto;
 }
 
 /* Date and Time */
 #current-date {
     font-size: 0.8em;
+    margin-top: 85px;
+    padding-left: 10px;
     color: gray;
-    padding-left: 20px;
-    padding-top: 90px;
+}
+.header-container {
+    margin-bottom: 20px;
+}
+
+.header-container h3 {
+    float: left;
+    margin: 0;
+}
+
+.header-container span {
+    float: left;
+    margin-top: 85px;
+
+}
+
+.body-container {
+    margin-top: 0; /* body-container 위쪽 여백 제거 */
 }
 
 .dayOfWeek {
@@ -154,19 +164,12 @@ body {
     margin: 0 15px;
 }
 
-
-
 #wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-header {
-    background: #f8f9fa;
-    padding: 20px;
-    text-align: center;
-}
 
 article {
     display: flex;
@@ -186,41 +189,29 @@ footer {
     display: none !important;}
 
 
-.navbar-content button {
-    background: #007bff;
-    width: 120px;
-    height: 40px;
-    margin: auto 0;
-    border-radius: 4%;
-    border: none;
-    outline: none;
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
-
-.nav-login{
-    display: flex;
-    justify-content: right;
+.main-right.slide-in {
+    animation: slideInFromRight 1s ease-out;
 }
-.nav-menu {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-
+article {
+    transform: translateX(100%);
+    animation: slideInFromRight 2s ease-out forwards; /* 애니메이션을 진행하고 끝난 후 원래 위치에 고정 */
 }
-
-.nav-login li, .nav-menu li {
-    list-style: none;
-    margin-right: 5px;
-    float: right;
-}
-
-
-.nav-login a, .nav-menu a {
-    color: black;
-    text-decoration: none;
-    padding: 10px;
-}
-
-.nav-login a:hover, .nav-menu a:hover {
-    background-color: lightgrey;
+/* 애니메이션 효과 */
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
