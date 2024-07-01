@@ -13,8 +13,12 @@ $('.map').on('load', function () {
         console.log(areacode);
         console.log(title);
 
+        document.querySelector('.main-right').classList.add('slide-in');
+
         // 'tableHeader' 내용을 'title' 값 + ' 주간 예보'로 변경
         $("#tableHeader").text(title + " 주간 예보");
+
+
 
         // 현재 날짜를 가져오기 (YYYY-MM-DD 형식)
         let today = new Date().toISOString().slice(0, 10);
@@ -275,10 +279,12 @@ function middleWeatherGif(description) {
             return basePath + "sun.gif";
         case "흐림":
             return basePath + "blur.gif";
-        case "흐리고 비":
-            return basePath + "rain.gif";
         case "구름많음":
             return basePath + "cloudy.gif";
+        case "흐리고 비":
+            return basePath + "rain.gif";
+        case "구름많고 비":
+            return basePath + "rain.gif";
         default:
             return basePath + "default.gif"; // 기본 이미지
     }

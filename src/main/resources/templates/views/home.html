@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>날씨 예보</title>
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-    <!-- Font Awesome CSS 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
@@ -13,8 +12,6 @@
     <link rel="stylesheet" href="/css/detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
-    <!--    <script type="text/javascript"-->
-    <!--            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04f2a8050054f9bc4f2acd74c6e8c884&libraries=services"></script>-->
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,33 +20,27 @@
 
 <body>
 <div id="wrap">
-    <!--------------------------------------------------------------------------------------------------------------------------------->
     <!-- header -->
     <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
     <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
-    <!--------------------------------------------------------------------------------------------------------------------------------->
     <!-- article -->
     <article>
         <div class="main-left">
             <iframe class="map" src="/img/map.svg" width="550" height="800"></iframe>
         </div>
         <div class="main-right">
+            <div class="header-container">
+                <h3 id="tableHeader"></h3>
+                <span id="current-date"></span>
+            </div>
             <table class="weatherTable">
-                <thead>
-                <div class="header-container">
-                    <h3 id="tableHeader"></h3>
-                    <p id="current-date"></p>
-                </div>
-                </thead>
-                <div class="body-container">
-                    <tbody id="weatherTableBody"></tbody>
-                    <tbody id="weather2TableBody"></tbody>
-                </div>
+                <tbody id="weatherTableBody"></tbody>
+                <tbody id="weather2TableBody"></tbody>
             </table>
             <div id="link-container" class="link-container">
-                <button id="tourismButton" class="d-none"><a href="#"><span style="display: block;height: 25px;padding-top: 15px;">관광지</span></a></button>
-                <button id="festivalButton" class="d-none"><a href="#"><span style="display: block;height: 25px;padding-top: 15px;">축제·공연·행사</span></a></button>
+                <button id="tourismButton" class="d-none"><a href="#"><span>관광지</span></a></button>
+                <button id="festivalButton" class="d-none"><a href="#"><span>축제·공연·행사</span></a></button>
             </div>
         </div>
     </article>
