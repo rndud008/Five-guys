@@ -21,6 +21,11 @@ public class UserController {
 
     @Autowired
     private static UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
     /**
      * 로그인 관련 처리
      */
