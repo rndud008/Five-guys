@@ -131,13 +131,14 @@ $('.map').on('load', function () {
                             let row = "<tr>" +
                                 "<td>" + formattedDate + "</td>" +
                                 "<td><span class='rain-blue-left'>" + morning.pop + "%</span></td>" +
-                                "<td><img src='" + shortWeatherGif(morning.sky) + "' alt='" + weatherText(morning.sky) + "'></td>" +
-                                "<td><img src='" + shortWeatherGif(afternoon.sky) + "' alt='" + weatherText(afternoon.sky) + "'></td>" +
+                                "<td><img src='" + shortWeatherGif(morning.sky, morning.pop) + "' alt='" + weatherText(morning.sky) + "'></td>" +
+                                "<td><img src='" + shortWeatherGif(afternoon.sky, afternoon.pop) + "' alt='" + weatherText(afternoon.sky) + "'></td>" +
                                 "<td><span class='rain-blue-right'>" + afternoon.pop + "%</span></td>" +
                                 `<td><span class='blue'>${morningTmn}℃</span> <span class='gray'>/</span> <span class='red'>${afternoonTmx}℃</span></td>` +
                                 "</tr>";
 
                             tbody.append(row);
+
                         }
 
                         // AJAX 요청3: 중기예보 정보(기온) 업데이트
@@ -258,19 +259,30 @@ function formatDateMid(dateObj) {
             <span class="date">${month}.${day}</span>`;
 }
 
-function shortWeatherGif(sky) {
+function shortWeatherGif(sky, pop) {
     const basePath = "/img/";
-    switch (sky) {
-        case "1":
-            return basePath + "sun.gif";
-        case "3":
-            return basePath + "blur.gif";
-        case "4":
-            return basePath + "cloudy.gif";
-        default:
-            return "default.gif"; // 기본 이미지
+    const popInt = parseInt(pop, 10); // pop 값을 정수로 변환
+
+    // sky 값이 1이면 무조건 sun.gif 반환
+    if (sky === "1") {
+        return basePath + "sun.gif";
     }
+
+    // sky 값이 3인 경우 pop 값을 확인하여 blur.gif 또는 rain.gif 반환
+    if (sky === "3") {
+        return popInt < 50 ? basePath + "blur.gif" : basePath + "rain.gif";
+    }
+
+    // sky 값이 4인 경우 pop 값을 확인하여 cloudy.gif 또는 rain.gif 반환
+    if (sky === "4") {
+        return popInt <= 50 ? basePath + "cloudy.gif" : basePath + "rain.gif";
+    }
+
+    // 기본 이미지 반환
+    return basePath + "default.gif";
 }
+
+
 
 function middleWeatherGif(description) {
     const basePath = "/img/";
