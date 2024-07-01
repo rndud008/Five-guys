@@ -50,29 +50,4 @@ public class HomeController {
 
         return "home";
     }
-
-
-    @Autowired
-    UserValidator userValidator;
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder){
-        binder.setValidator(userValidator);
-    }
-
-    @GetMapping("/fragment/login")
-    public void login() {
-    }
-
-    // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
-    // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
-    @PostMapping("fragment/loginError")
-    public String loginError() {
-        return "fragment/login";
-    }
-
-    @RequestMapping("fragment/rejectAuth")
-    public String rejectAuth() {
-        return "common/rejectAuth";
-    }
 }
