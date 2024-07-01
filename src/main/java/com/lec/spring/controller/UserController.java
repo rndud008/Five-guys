@@ -27,12 +27,12 @@ public class UserController {
     @GetMapping("/fragment/navbar")
     public void navbar(){}
 
-    @GetMapping("/fragment/register")
+    @GetMapping("/register")
     public String register(Model model) {
-        return "/fragment/register";
+        return "/user/register";
     }
 
-    @PostMapping("/fragment/register")
+    @PostMapping("/register")
     public String registerOk(
             @Valid User user,
             BindingResult result,
@@ -59,10 +59,10 @@ public class UserController {
                 redirectAttrs.addFlashAttribute("error", err.getCode());
             }
 
-            return "redirect:/fragment/register";
+            return "redirect:/user/register";
         }
         // 에러 없었으면 회원 등록 진행
-        String page = "/fragment/registerOk";
+        String page = "/user/registerOk";
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
         return page;
@@ -76,18 +76,18 @@ public class UserController {
         binder.setValidator(userValidator);
     }
 
-    @GetMapping("/fragment/login")
+    @GetMapping("/login")
     public void login() {
     }
 
     // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
     // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
-    @PostMapping("fragment/loginError")
+    @PostMapping("/loginError")
     public String loginError() {
-        return "fragment/login";
+        return "user/login";
     }
 
-    @RequestMapping("fragment/rejectAuth")
+    @RequestMapping("/rejectAuth")
     public String rejectAuth() {
         return "common/rejectAuth";
     }
