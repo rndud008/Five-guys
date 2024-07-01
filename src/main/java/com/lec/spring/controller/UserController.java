@@ -13,19 +13,19 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/fragment")
 public class UserController {
 
-    private UserService userService;
-
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private static UserService userService;
+    /**
+     * 로그인 관련 처리
+     */
+    @GetMapping("/fragment/navbar")
+    public void navbar(){}
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -61,14 +61,12 @@ public class UserController {
 
             return "redirect:/user/register";
         }
-
         // 에러 없었으면 회원 등록 진행
         String page = "/user/registerOk";
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
         return page;
     }
-
 
     @Autowired
     UserValidator userValidator;
@@ -93,7 +91,4 @@ public class UserController {
     public String rejectAuth() {
         return "common/rejectAuth";
     }
-
-    @RequestMapping("/home")
-    public String home() { return "user/home"; }
 }

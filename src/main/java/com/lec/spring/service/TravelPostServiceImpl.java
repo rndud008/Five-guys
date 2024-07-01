@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +65,9 @@ public class TravelPostServiceImpl implements TravelPostService {
                     "contentTypeId=%d", apikey, travelType.getId());
             System.out.println(apiUrl);
             JsonNode items = null;
+
+
+
 
             items = dataService.fetchApiData(apiUrl);
 
@@ -376,6 +380,53 @@ public class TravelPostServiceImpl implements TravelPostService {
             if (count == 1000) {
                 // 트래픽 허용량
                 break;
+            }
+
+        }
+
+    }
+
+    @Override
+    public void modifiedtimeTravelPosts() throws IOException, URISyntaxException {
+        List<TravelType> travelTypeList = travelTypeRepository.findAll();
+
+        LocalDate ysesterday = LocalDate.now().minusDays(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = ysesterday.format(formatter);
+
+        for (TravelType travelType : travelTypeList){
+            String apiUrl =String.format("https://apis.data.go.kr/B551011/KorService1/" +
+                    "areaBasedList1?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "contentTypeId=%d&modifiedtime=%s", apikey, travelType.getId(), formattedDate);
+
+            JsonNode items = null;
+            LastCallApiDate lastCallApiDate = new LastCallApiDate();
+
+            if (lastCallApiDataRepository.findByUrl(apiUrl) == null){
+                lastCallApiDate.setUrl(apiUrl);
+                lastCallApiDataRepository.save(lastCallApiDate);
+
+                try {
+                    items = dataService.fetchApiData(apiUrl);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                if (items != null){
+                    for (JsonNode item : items){
+
+                        travelPostTransacionService.itemSaveAndUpdate(item, travelType);
+
+                    }
+                }else {
+                    System.out.println("데이터 없음..");
+                }
+
+            }else {
+                System.out.println("오늘 이미 호출함.");
             }
 
         }
