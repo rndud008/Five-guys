@@ -50,27 +50,4 @@ public class HomeController {
 
         return "home";
     }
-
-
-
-    @RestController
-    public class BlogRestController {
-
-        @GetMapping("/api/blogs")
-        public List<BlogReview> getMoreBlogs(@RequestParam("id") String id, @RequestParam("offset") int offset) throws IOException {
-
-            TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
-            System.out.println(blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3));
-
-            return blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3);
-        }
-
-        @GetMapping("/api/blogs/count")
-        public List<BlogReview> getMoreBlogs2(@RequestParam("id") String id) throws IOException {
-
-            TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
-
-            return blogReviewService.getsumBlogReview(travelPost);
-        }
-    }
 }

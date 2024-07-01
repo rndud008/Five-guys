@@ -13,6 +13,7 @@ import java.util.List;
 public interface TravelPostService {
     void saveTravelPosts() throws IOException, URISyntaxException;
     void updateApiErrorTravelPosts() throws IOException, URISyntaxException;
+    void modifiedtimeTravelPosts() throws IOException, URISyntaxException;
     TravelPost update(TravelPost travelPost,LastCallApiDate lastCallApiDate);
 
     List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail,String title);
