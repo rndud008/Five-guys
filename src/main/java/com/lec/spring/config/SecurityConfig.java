@@ -41,8 +41,10 @@ public class SecurityConfig {
                  *  로그인 설정
                  */
                 .formLogin(form -> form
-                        .loginPage("/user/login")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
-                        .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
+//                        .loginPage("/user/login")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
+                        .loginPage("/fragment/navbar")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
+//                        .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
+                        .loginProcessingUrl("/fragment/navbar")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
                         .defaultSuccessUrl("/") // 이전 페이지에서 로그인 요청하여 로그인 성공 시, 해당 페이지로 다시 이동
                         .successHandler(new CustomLoginSuccessHandler("/board/list"))
                         .failureHandler(new CustomLoginFailureHandler())
@@ -78,7 +80,7 @@ public class SecurityConfig {
                  * OAuth2 로그인
                  */
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
-                        .loginPage("/user/login")
+                        .loginPage("/fragment/navbar")
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(principalOauth2UserService)))
 

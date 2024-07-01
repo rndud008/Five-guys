@@ -1,19 +1,24 @@
 package com.lec.spring.controller;
 
-import com.lec.spring.config.PrincipalDetails;
 import com.lec.spring.domain.*;
 import com.lec.spring.service.BlogReviewService;
 import com.lec.spring.service.BlogReviewServiceImpl;
 import com.lec.spring.service.TravelPostService;
+import com.lec.spring.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,6 +28,12 @@ import java.util.regex.Pattern;
 
 @Controller
 public class HomeController {
+
+    private UserService userService;
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     private TravelPostService travelPostService;
@@ -88,14 +99,80 @@ public class HomeController {
     }
 
 
-    @GetMapping("/nav")     // detail/글의 ID
-    public String navbar(){
-        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
-    }
+//    @GetMapping("/nav")     // detail/글의 ID
+//    public String nvabar(){
+//        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
+//    }
 
 
     @GetMapping("/fragment/navbar")
-    public void nvabar(){}
+    public void navbar(){}
+
+    @GetMapping("/fragment/register")
+    public String register(Model model) {
+        return "/fragment/register";
+    }
+
+    @PostMapping("/fragment/register")
+    public String registerOk(
+            @Valid User user,
+            BindingResult result,
+            Model model,
+            RedirectAttributes redirectAttrs,
+            @RequestParam("email_id") String emailId,
+            @RequestParam("domain") String domain,
+            @RequestParam(value = "custom_domain", required = false) String customDomain
+    ) {
+        String email;
+        if (domain.equals("custom")) { email = emailId + "@" + customDomain; }
+        else { email = emailId + "@" + domain; }
+
+        user.setEmail(email);
+
+        // 검증 에러가 있을 경우 redirect 한다
+        if (result.hasErrors()) {
+            redirectAttrs.addFlashAttribute("username", user.getUsername());
+            redirectAttrs.addFlashAttribute("name", user.getName());
+            redirectAttrs.addFlashAttribute("email", user.getEmail());
+
+            List<FieldError> errList = result.getFieldErrors();
+            for (FieldError err : errList) {
+                redirectAttrs.addFlashAttribute("error", err.getCode());
+            }
+
+            return "redirect:/fragment/register";
+        }
+        // 에러 없었으면 회원 등록 진행
+        String page = "/fragment/registerOk";
+        int cnt = userService.register(user);
+        model.addAttribute("result", cnt);
+        return page;
+    }
+
+    @Autowired
+    UserValidator userValidator;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.setValidator(userValidator);
+    }
+
+    @GetMapping("/login")
+    public void login() {
+    }
+
+    // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
+    // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
+    @PostMapping("/loginError")
+    public String loginError() {
+        return "fragment/login";
+    }
+
+    @RequestMapping("/rejectAuth")
+    public String rejectAuth() {
+        return "common/rejectAuth";
+    }
+
 
     public String extraUrl(String homepage){
         if(homepage == null || homepage.isEmpty()){
