@@ -5,7 +5,14 @@
 
 <head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" th:href="@{/css/boardlist.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/list.js}"></script>
 
@@ -13,72 +20,80 @@
 </head>
 
 <body>
+<div id="wrap" >
+    <!-- header -->
+    <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
-<div class="board">
-    <!-- 지역명 선택란 -->
-    <div>
-        <h1 style="margin-bottom: 30px; margin-left: 10px; margin-top: 0">게시판</h1>
-        <div class="areaMenuContainer">
-            <div class="areaMenu">
-                <form th:action="@{/board/list}" method="get">
-                    <button>전체</button>
-                </form>
-                <!-- 지역 전부 표시 버튼 -->
-                <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}">
-                    <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
-                </form>
-            </div>
-        </div>
-    </div>
+    <div class="bg-top"></div>
 
-
-    <!-- 게시판 -->
-    <div class="post">
-        <span class="selectedArea" th:unless="${selectareacode}">지역: 전체</span>
-        <div class="conA">
-            <!-- 페이징 헤더 -->
-            <div class="pagingHeader">
-                <span>총 [[${cnt}]]개</span>
-                <span>page [[${page}]]/[[${totalPage}]]</span>
-            </div>
-            <!-- 페이징 헤더 -->
-            <a class="writeBtn" th:href="@{/board/write}">작성</a>
-        </div>
-
-
-
+    <div class="board">
+        <!-- 지역명 선택란 -->
         <div>
-            <table class="tableContainer">
-                <thead>
-                <tr>
-                    <th style="width: 85px">게시글 번호</th>
-                    <th style="width: 200px">제목</th>
-                    <th style="width: 70px">작성자</th>
-                    <th style="width: 60px">조회수</th>
-                    <th style="width: 160px">작성일</th>
-                    <th style="width: 60px">좋아요</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="post : ${list}">
-                    <td th:text="${post.id}"></td>
-                    <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}" th></a> </td>
-                    <td th:text="${post.user.name}"></td>
-                    <td th:text="${post.viewcnt}"></td>
-                    <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td th:text="${post.likecnt}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- pagination-->
-            <th:block th:insert="~{board/pagination::pagination}"></th:block>
-            <!-- pagination-->
+            <h1 style="margin-bottom: 30px; margin-left: 10px; margin-top: 0">게시판</h1>
+            <div class="areaMenuContainer">
+                <div class="areaMenu">
+                    <form th:action="@{/board/list}" method="get">
+                        <button>전체</button>
+                    </form>
+                    <!-- 지역 전부 표시 버튼 -->
+                    <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}">
+                        <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
+                    </form>
+                </div>
+            </div>
         </div>
 
+
+        <!-- 게시판 -->
+        <div class="post">
+            <span class="selectedArea" th:unless="${selectareacode}">지역: 전체</span>
+            <div class="conA">
+                <!-- 페이징 헤더 -->
+                <div class="pagingHeader">
+                    <span>총 [[${cnt}]]개</span>
+                    <span>page [[${page}]]/[[${totalPage}]]</span>
+                </div>
+                <!-- 페이징 헤더 -->
+                <a class="writeBtn" th:href="@{/board/write}">작성</a>
+            </div>
+
+
+
+            <div>
+                <table class="tableContainer">
+                    <thead>
+                    <tr>
+                        <th style="width: 85px">게시글 번호</th>
+                        <th style="width: 200px">제목</th>
+                        <th style="width: 70px">작성자</th>
+                        <th style="width: 60px">조회수</th>
+                        <th style="width: 160px">작성일</th>
+                        <th style="width: 60px">좋아요</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="post : ${list}">
+                        <td th:text="${post.id}"></td>
+                        <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}" th></a> </td>
+                        <td th:text="${post.user.name}"></td>
+                        <td th:text="${post.viewcnt}"></td>
+                        <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${post.likecnt}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- pagination-->
+                <th:block th:insert="~{board/pagination::pagination}"></th:block>
+                <!-- pagination-->
+            </div>
+
+        </div>
     </div>
+    <th:block th:insert="~{fragment/footer::footer}"></th:block>
 </div>
 
-
-
+<script src="/js/nav.js"></script>
+<script src="/js/modallogin.js"></script>
 </body>
 </html>

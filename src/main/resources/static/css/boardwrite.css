@@ -1,5 +1,4 @@
 body {
-    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -10,31 +9,31 @@ body {
 }
 .body-container {
     width: 1000px;
+    padding-top: 250px;
 }
 
-h2 {
+.body-container h2 {
     text-align: center;
     color: #333;
 }
 
-form {
+.body-container form {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px;
 }
 
-label {
+.body-container label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;
 }
 
-input[type="text"],
-textarea,
-select {
+.body-container input[type="text"],
+.body-container textarea,
+.body-container select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -44,91 +43,72 @@ select {
     font-size: 14px;
 }
 
-textarea {
+.body-container textarea {
     resize: vertical;
     min-height: 150px;
 }
 
-button[type="submit"],
-button[type="button"],
-a {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #5cb85c;
-    color: white;
-    text-align: center;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 14px;
+.body-container .okBtn,
+.body-container #btnAdd,
+.body-container .listA {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #6b82a7;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
 }
 
-button[type="button"] {
-    background-color: red;
-}
-
-a {
+.body-container a {
     background-color: #6b82a7;
 }
 
-#btnAdd {
-    background-color: #0275d8;
+.body-container #btnAdd {
+    background-color: #6b82a7;
 }
 
-button[type="submit"]:hover,
-button[type="button"]:hover,
-a:hover {
+.body-container #files button{
+    background-color: #6b82a7;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+.body-container button[type="submit"]:hover,
+.body-container button[type="button"]:hover,
+.body-container a:hover {
     opacity: 0.8;
 }
 
-hr {
+.body-container hr {
     margin: 20px 0;
 }
 
-span {
+.body-container span {
     display: block;
     margin-bottom: 10px;
     color: #777;
 }
 
-#files {
+.body-container #files {
     margin-bottom: 15px;
 }
 
-#btnAdd {
+.body-container #btnAdd {
     margin-top: 10px;
 }
 
-.ck-editor__editable {
+.body-container .ck-editor__editable {
     min-height: 300px;
 }
-.links {
+.body-container .links {
     display: flex;
     justify-content: space-between;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    form {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    h2 {
-        font-size: 18px;
-    }
-
-    button[type="submit"],
-    button[type="button"],
-    a {
-        padding: 8px 16px;
-        font-size: 12px;
-    }
 }
