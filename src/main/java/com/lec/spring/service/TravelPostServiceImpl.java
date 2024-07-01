@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,9 +66,6 @@ public class TravelPostServiceImpl implements TravelPostService {
             System.out.println(apiUrl);
             JsonNode items = null;
 
-
-
-
             items = dataService.fetchApiData(apiUrl);
 
             if (items != null) {
@@ -77,7 +75,6 @@ public class TravelPostServiceImpl implements TravelPostService {
                     try {
 
                         travelPostTransacionService.itemSave(item, travelType, detailInfo1, detailCommon1, detailIntro1);
-
 
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -382,6 +379,47 @@ public class TravelPostServiceImpl implements TravelPostService {
             }
 
         }
+
+    }
+
+    @Override
+    public void modifiedtimeTravelPosts() throws IOException, URISyntaxException {
+        List<TravelType> travelTypeList = travelTypeRepository.findAll();
+
+        LocalDate ysesterday = LocalDate.now().minusDays(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = ysesterday.format(formatter);
+
+        for (TravelType travelType : travelTypeList){
+            String apiUrl =String.format("https://apis.data.go.kr/B551011/KorService1/" +
+                    "areaBasedList1?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "contentTypeId=%d&modifiedtime=%s", apikey, travelType.getId(), formattedDate);
+
+            JsonNode items = null;
+
+            try {
+                items = dataService.fetchApiData(apiUrl);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+
+            for (JsonNode item : items){
+
+                travelPostTransacionService.itemSaveAndUpdate(item, travelType);
+
+            }
+
+
+        }
+
+
+
+
+
+
+
 
     }
 
