@@ -42,11 +42,11 @@ public class SecurityConfig {
                  */
                 .formLogin(form -> form
 //                        .loginPage("/user/login")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
-                        .loginPage("/fragment/navbar")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
+                        .loginPage("/user/login")   // 로그인 필요한 상황 발생시 "/user/login" 으로 request 요청
 //                        .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
-                        .loginProcessingUrl("/fragment/navbar")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
+                        .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
                         .defaultSuccessUrl("/") // 이전 페이지에서 로그인 요청하여 로그인 성공 시, 해당 페이지로 다시 이동
-                        .successHandler(new CustomLoginSuccessHandler("/board/list"))
+                        .successHandler(new CustomLoginSuccessHandler("/"))
                         .failureHandler(new CustomLoginFailureHandler())
                 )
 
@@ -55,7 +55,7 @@ public class SecurityConfig {
                  */
                 // ※ 아래 설정 없이도 기본적으로 /logout 으로 로그아웃 된다
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
-                                .logoutUrl("/fragment/logout")  // 로그아웃 수행 url
+                                .logoutUrl("/user/logout")  // 로그아웃 수행 url
 
                                 //                              .logoutSuccessUrl("/home")  // 로그아웃 성공후 redirect url
 
@@ -80,7 +80,7 @@ public class SecurityConfig {
                  * OAuth2 로그인
                  */
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
-                        .loginPage("/fragment/navbar")
+                        .loginPage("/user/login")
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(principalOauth2UserService)))
 

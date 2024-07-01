@@ -308,3 +308,44 @@ function weatherText(sky) {
             return "정보 없음";
     }
 }
+
+
+// weather.js
+window.onload = function() {
+    // <iframe> 요소에 접근
+    var iframe = document.querySelector('.map');
+    var svgDoc = iframe.contentDocument;
+    var svgRoot = svgDoc.documentElement;
+
+
+    // SVG 요소에 데이터 적용
+    const lands = svgDoc.querySelectorAll('.land');
+
+    lands.forEach(land => {
+        land.addEventListener('click', () => {
+            lands.forEach(l => {
+                l.style.fill = l.classList.contains('Seoul') ? '#AFBF36' :
+                    l.classList.contains('Busan') ? '#D55A76' :
+                        l.classList.contains('Daejeon') ? '#35845C' :
+                            l.classList.contains('NorthJeolla') ? '#ECBA1C' :
+                                l.classList.contains('Gangwon') ? '#7BBD42' :
+                                    l.classList.contains('SouthGyeongsang') ? '#EC8189' :
+                                        l.classList.contains('Gwangju') ? '#C07236' :
+                                            l.classList.contains('SouthJeolla') ? '#F19153' :
+                                                l.classList.contains('Gyeonggi') ? '#C6D92C' :
+                                                    l.classList.contains('Sejong') ? '#35845C' :
+                                                        l.classList.contains('SouthChungcheong') ? '#4FB988' :
+                                                            l.classList.contains('NorthChungcheong') ? '#7AC284' :
+                                                                l.classList.contains('Daegu') ? '#145968' :
+                                                                    l.classList.contains('Ulsan') ? '#4865B1' :
+                                                                        l.classList.contains('NorthGyeongsang') ? '#378CB0' :
+                                                                            l.classList.contains('Incheon') ? '#9CBB6D' :
+                                                                                l.classList.contains('Jeju') ? '#FFA500' : '#FFA500';
+            });
+
+            land.style.fill = 'white';
+
+
+        });
+    });
+}
