@@ -14,5 +14,5 @@ public interface UserService {
 
     List<Authority> selectAuthoritiesById(Long id);
 
-    int deleteUser(Long id);
+    int deleteUser(User user);
 }

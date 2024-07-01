@@ -3,8 +3,13 @@ package com.lec.spring.controller;
 import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,11 +31,8 @@ public class UserController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    /**
-     * 로그인 관련 처리
-     */
-//    @GetMapping("/fragment/navbar")
-//    public void navbar(){}
+
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -85,11 +87,41 @@ public class UserController {
     public void login() {
     }
 
-    @ResponseBody
+    @GetMapping("/delete")
+    public String delete(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+        return "user/delete";
+    }
+
+
     @PostMapping("/delete")
-    public String deleteOk(Long id, Model model) {
-        model.addAttribute("result", userService.deleteUser(id));
-        return "user/deleteOk";
+    public String deleteOk(@RequestParam("password") String password, HttpServletRequest request, Model model) {
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println("username:" + username);
+        User user = userService.findByUsername(username);
+        System.out.println("password:" + password);
+        System.out.println("password:" + passwordEncoder.encode(password));
+        System.out.println("password:" + user.getPassword());
+        int result = 0;
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            result = userService.deleteUser(user);
+        }
+
+
+        if (result > 0) {
+            // redirect 시 계정 정보 session 에서 삭제.
+            SecurityContextHolder.clearContext();
+            request.getSession().invalidate();
+            return "redirect:/";
+        } else {
+            System.out.println("비밀번호가 맞지 않습니다");
+            return "/user/delete";
+        }
     }
 
     // onAuthenticationFailure 에서 로그인 실패시 forwarding 용

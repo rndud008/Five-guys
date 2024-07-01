@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<script th:src="@{/js/user.js}"></script>
 <style>
     body {
         margin: 0;
@@ -70,12 +70,14 @@
                 <span>[[${user.username}]]</span>
                 <div class="login-profile">
                     <div class="first">
-                        <span><span>[[${user.name}]]</span><span>##로그아웃##</span></span>
+                        <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+                        <span><span>[[${user.name}]]</span><span><button type="submit">로그아웃</button></span></span>
+                        </form>
                         <span >[[${user.email}]]</span>
                     </div>
                     <div class="second">
                         <a >회원 정보 수정</a>
-                        <a id="delUser" href="#">회원 탈퇴</a>
+                        <a id="delUser" th:href="@{/user/delete}">회원 탈퇴</a>
                     </div>
                 </div>
             </h1>

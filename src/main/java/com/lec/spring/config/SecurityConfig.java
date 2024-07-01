@@ -64,7 +64,7 @@ public class SecurityConfig {
                                 // false 로 세팅한다
 
                                 // 로그아웃 성공후 수행할 코드
-                                // .logoutSuccessHandler(LogoutSuccessHandler)
+//                                 .logoutSuccessHandler(LogoutSuccessHandler)
                                 .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 )
                 /**
