@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>날씨 예보</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
@@ -39,20 +39,24 @@
                 <tbody id="weather2TableBody"></tbody>
             </table>
             <div id="link-container" class="link-container">
-                <button id="tourismButton" class="d-none"><a href="#"><span>관광지</span></a></button>
-                <button id="festivalButton" class="d-none"><a href="#"><span>축제·공연·행사</span></a></button>
+                <button id="tourismButton" class="d-none"><span>관광지</span></button>
+                <button id="festivalButton" class="d-none"><span>축제·공연·행사</span></button>
             </div>
         </div>
     </article>
 
-    <!--------------------------------------------------------------------------------------------------------------------------------->
     <th:block th:insert="~{fragment/footer::footer}"></th:block>
 
 </div>
 
+<script th:inline="javascript" th:with="loggedUser=${loggedUser}">
+    /*<![CDATA[*/
+    var loggedUser = [[${loggedUser}]];
+    /*]]>*/
+</script>
+
 <script src="/js/weather.js"></script>
 <script src="/js/nav.js"></script>
 <script src="/js/modallogin.js"></script>
-
 </body>
 </html>
