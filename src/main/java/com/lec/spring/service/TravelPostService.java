@@ -1,5 +1,6 @@
 package com.lec.spring.service;
 
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.Sigungucode;
 import com.lec.spring.domain.TravelClassDetail;
 import com.lec.spring.domain.TravelPost;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface TravelPostService {
     void saveTravelPosts() throws IOException, URISyntaxException;
     void updateApiErrorTravelPosts() throws IOException, URISyntaxException;
-    TravelPost update(TravelPost travelPost);
+    TravelPost update(TravelPost travelPost,LastCallApiDate lastCallApiDate);
 
     List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail,String title);
 
@@ -42,7 +43,7 @@ public interface TravelPostService {
     // 특정 여행 타입 전체정보 조회 검색리스트 총데이터수 확인
     List<TravelPost> selectedByTravelTypAndSearchList(List<TravelClassDetail> travelClassDetailList, long travelTypeId, String searchQuery,int limit, int offset);
 
-    TravelPost getTravelPostBycontentId(String contentid) throws IOException;
+    TravelPost getTravelPostBycontentId(String id) throws IOException;
 
     int saveLike(Long postId, Long userId);
     int deleteLike(Long postId, Long userId);

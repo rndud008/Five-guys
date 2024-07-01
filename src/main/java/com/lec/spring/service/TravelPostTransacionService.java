@@ -121,17 +121,17 @@ public class TravelPostTransacionService {
     public  void localInfo(TravelPost travelPost, Sigungucode sigungucode, TravelClassDetail travelClassDetail, JsonNode item){
         travelPost.setSigungucode(sigungucode);
         travelPost.setTravelClassDetail(travelClassDetail);
-        travelPost.setTitle(item.get("title").asText());
-        travelPost.setAddr1(item.get("addr1").asText());
-        travelPost.setAddr2(item.get("addr2").asText());
-        travelPost.setContentid(item.get("contentid").asText());
-        travelPost.setFirstimage(item.get("firstimage").asText());
-        travelPost.setFirstimage2(item.get("firstimage2").asText());
-        travelPost.setCpyrhtDivCd(item.get("cpyrhtDivCd").asText());
-        travelPost.setMapx(item.get("mapx").asDouble());
-        travelPost.setMapy(item.get("mapy").asDouble());
-        travelPost.setModifiedtime(item.get("modifiedtime").asText());
-        travelPost.setTel(item.get("tel").asText());
+        travelPost.setTitle(item.get("title").asText().isEmpty() ? null : item.get("title").asText());
+        travelPost.setAddr1(item.get("addr1").asText().isEmpty() ? null : item.get("addr1").asText());
+        travelPost.setAddr2(item.get("addr2").asText().isEmpty() ? null : item.get("addr2").asText());
+        travelPost.setContentid(item.get("contentid").asText().isEmpty() ? null : item.get("contentid").asText());
+        travelPost.setFirstimage(item.get("firstimage").asText().isEmpty() ? null : item.get("firstimage").asText());
+        travelPost.setFirstimage2(item.get("firstimage2").asText().isEmpty() ? null : item.get("firstimage2").asText());
+        travelPost.setCpyrhtDivCd(item.get("cpyrhtDivCd").asText().isEmpty() ? null : item.get("cpyrhtDivCd").asText());
+        travelPost.setMapx(item.get("mapx").asText().isEmpty() ? null : item.get("mapx").asDouble());
+        travelPost.setMapy(item.get("mapy").asText().isEmpty() ? null : item.get("mapy").asDouble());
+        travelPost.setModifiedtime(item.get("modifiedtime").asText().isEmpty() ? null : item.get("modifiedtime").asText());
+        travelPost.setTel(item.get("tel").asText().isEmpty() ? null : item.get("tel").asText());
     }
 
     @Transactional
@@ -139,14 +139,13 @@ public class TravelPostTransacionService {
 
         detailCommon1.setUrl(apiUrl);
 
-//        timeUnit();
         items2 = dataService.fetchApiData(apiUrl);
         System.out.println("공통정보 api 호출 완료");
 
         if (items2 != null){
             for (JsonNode item2 : items2) {
-                travelPost.setHomepage(item2.get("homepage").asText());
-                travelPost.setOverview(item2.get("overview").asText());
+                travelPost.setHomepage(item2.get("homepage").asText().isEmpty() ? null : item2.get("homepage").asText());
+                travelPost.setOverview(item2.get("overview").asText().isEmpty() ? null : item2.get("overview").asText());
             }
         }
 
@@ -158,17 +157,15 @@ public class TravelPostTransacionService {
 
         detailIntro1.setUrl(apiUrl);
 
-//        timeUnit();
-
         items2 = dataService.fetchApiData(apiUrl);
         System.out.println("소개정보 api 호출 완료");
         if (items2 != null){
             if (travelType.getId() == 12) {
                 for (JsonNode item2 : items2) {
-                    travelPost.setInfocenter(item2.get("infocenter").asText());
-                    travelPost.setParking(item2.get("parking").asText());
-                    travelPost.setRestdate(item2.get("restdate").asText());
-                    travelPost.setUsetime(item2.get("usetime").asText());
+                    travelPost.setInfocenter(item2.get("infocenter").asText().isEmpty() ? null : item2.get("infocenter").asText());
+                    travelPost.setParking(item2.get("parking").asText().isEmpty() ? null : item2.get("parking").asText());
+                    travelPost.setRestdate(item2.get("restdate").asText().isEmpty() ? null : item2.get("restdate").asText());
+                    travelPost.setUsetime(item2.get("usetime").asText().isEmpty() ? null : item2.get("usetime").asText());
                     travelPost.setUsetimefestival(null);
                     travelPost.setEventplace(null);
                     travelPost.setPlaytime(null);
@@ -177,11 +174,11 @@ public class TravelPostTransacionService {
                 }
             } else if (travelType.getId() == 15) {
                 for (JsonNode item2 : items2) {
-                    travelPost.setUsetimefestival(item2.get("usetimefestival").asText());
-                    travelPost.setEventplace(item2.get("eventplace").asText());
-                    travelPost.setPlaytime(item2.get("playtime").asText());
-                    travelPost.setEventstartdate(item2.get("eventstartdate").asText());
-                    travelPost.setEventenddate(item2.get("eventenddate").asText());
+                    travelPost.setUsetimefestival(item2.get("usetimefestival").asText().isEmpty() ? null : item2.get("usetimefestival").asText());
+                    travelPost.setEventplace(item2.get("eventplace").asText().isEmpty() ? null : item2.get("eventplace").asText());
+                    travelPost.setPlaytime(item2.get("playtime").asText().isEmpty() ? null : item2.get("playtime").asText());
+                    travelPost.setEventstartdate(item2.get("eventstartdate").asText().isEmpty() ? null : item2.get("eventstartdate").asText());
+                    travelPost.setEventenddate(item2.get("eventenddate").asText().isEmpty() ? null : item2.get("eventenddate").asText());
                     travelPost.setInfocenter(null);
                     travelPost.setParking(null);
                     travelPost.setRestdate(null);
@@ -198,16 +195,14 @@ public class TravelPostTransacionService {
 
         detailInfo1.setUrl(apiUrl);
 
-//        timeUnit();
-
         items2 = dataService.fetchApiData(apiUrl);
         if (items2 != null) {
             for (JsonNode item2 : items2) {
-                int fldgubunCheck = item2.get("fldgubun").asInt();
+                String infonameCheck = item2.get("infoname").asText();
                 // 행사내용만 저장
-                if (fldgubunCheck == 1) {
-                    travelPost.setInfoname(item2.get("infoname").asText());
-                    travelPost.setInfotext(item2.get("infotext").asText());
+                if (infonameCheck.equals("행사내용")) {
+                    travelPost.setInfoname(item2.get("infoname").asText().isEmpty() ? null : item2.get("infoname").asText());
+                    travelPost.setInfotext(item2.get("infotext").asText().isEmpty() ? null : item2.get("infotext").asText());
                 }
             }
             System.out.println("반복정보 api 호출 완료");
