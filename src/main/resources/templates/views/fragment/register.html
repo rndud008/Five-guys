@@ -11,13 +11,14 @@
 <!--    <link rel="stylesheet" href="/css/reset.css">-->
 <!--    <link rel="stylesheet" href="/css/detail.css">-->
 <!--    <link rel="stylesheet" href="/css/nav.css">-->
+    <link rel="stylesheet" href="/css/register.css">
     <script th:src="@{/js/register.js}"></script>
     <title>회원가입</title>
 </head>
 
 <body>
-<th:block th:insert="~{fragment/navbar::navbar}"></th:block>
-<th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
+<!--<th:block th:insert="~{fragment/navbar::navbar}"></th:block>-->
+<!--<th:block th:insert="~{fragment/navbar::loginModal}"></th:block>-->
 
 <div>
     <div>
@@ -31,12 +32,12 @@
         <div>
             <label for="username">아이디</label>
             <input type="text" id="username" name="username" placeholder="사용자 아이디" th:value="${username}" required>
-            <ul>
-                <li>영문, 숫자로 구성</li>
-                <li>4자 이상 11자 이내</li>
-                <li>특수문자는 '_'만 가능</li>
-            </ul>
-        </div>
+            <div><span class="danger" th:if="${error_username}" th:utext="${error_username}"></span></div>
+<!--            <ul>-->
+<!--                <li>영문, 숫자로 구성</li>-->
+<!--                <li>4자 이상 11자 이내</li>-->
+<!--                <li>특수문자는 ' _ ' 만 사용 가능</li>-->
+<!--            </ul>-->
 
         <div>
             <label for="name">이름</label>
