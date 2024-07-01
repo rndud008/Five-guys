@@ -433,6 +433,18 @@ ul {
     left: 50%;
 }
 
+.event-container{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    color: white;
+    background-color: #ed4043;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 5px 10px;
+}
+
 @media screen and (min-width: 768px) {
     .item-card {
         grid-template-rows: 300px 1fr; /* 미디어 쿼리에서 그리드 행 설정 */
