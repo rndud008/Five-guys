@@ -17,10 +17,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/detail.js}"></script>
 
-    <script th:inline="javascript">
-        // 댓글 작성시 필요
-        const logged_id = [[${logged_user.id}]]
-    </script>
+
+
 
     <style>
         /*표 생성시*/
@@ -121,7 +119,13 @@
     </div>
     <th:block th:insert="~{fragment/footer::footer}"></th:block>
 </div>
-
+<script th:inline="javascript">
+    // 댓글 작성시 필요
+    const logged_id = [[${logged_user.id}]]
+    var loggedUser = [[${logged_user}]]
+    console.log(loggedUser);
+    console.log(logged_id);
+</script>
 <script src="/js/nav.js"></script>
 <script src="/js/modallogin.js"></script>
 </body>

@@ -19,7 +19,7 @@
     <title>게시판</title>
 </head>
 
-<body>
+<body th:with="logged_user=null">
 <div id="wrap" >
     <!-- header -->
     <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
@@ -92,7 +92,13 @@
     </div>
     <th:block th:insert="~{fragment/footer::footer}"></th:block>
 </div>
-
+<script th:inline="javascript">
+    // 댓글 작성시 필요
+    const logged_id = [[${logged_user.id}]]
+    var loggedUser = [[${logged_user}]]
+    console.log(loggedUser);
+    console.log(logged_id);
+</script>
 <script src="/js/nav.js"></script>
 <script src="/js/modallogin.js"></script>
 </body>

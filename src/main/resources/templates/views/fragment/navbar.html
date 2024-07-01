@@ -65,13 +65,13 @@
                     <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
                 </ul>
             </nav>
-            <h1 class="login" th:if="${loggedUser == null}"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
-            <h1 class="login loginSuccess" th:if="${loggedUser != null}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
-                <span th:text="${loggedUser.username}">## 유저아이디 ##</span>
+            <h1 class="login" th:if="${#authentication.principal.user == null}"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+            <h1 class="login loginSuccess" th:if="${#authentication.principal.user != null}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+                <span th:text="${#authentication.principal.user.username}">## 유저아이디 ##</span>
                 <div class="login-profile">
                     <div class="first">
-                        <span><span th:text="${loggedUser.name}">## 닉네임 ## </span><span>##로그아웃##</span></span>
-                        <span th:text="${loggedUser.email}">## 이메일 ## </span>
+                        <span><span th:text="${#authentication.principal.user.name}">## 닉네임 ## </span><span>##로그아웃##</span></span>
+                        <span th:text="${#authentication.principal.user.email}">## 이메일 ## </span>
                     </div>
                     <div class="second">
                         <a >회원 정보 수정</a>
