@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/fragment")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -24,8 +24,8 @@ public class UserController {
     /**
      * 로그인 관련 처리
      */
-    @GetMapping("/fragment/navbar")
-    public void navbar(){}
+//    @GetMapping("/fragment/navbar")
+//    public void navbar(){}
 
     @GetMapping("/register")
     public String register(Model model) {
