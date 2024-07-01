@@ -212,8 +212,8 @@ FROM travel_post tp
          JOIN areacode a ON s.areacode = a.areacode
          JOIN last_call_api_date lcad ON tp.last_call_api_id = lcad.id
 where
-    tt.id= 15
-# and
+    tt.id= 12
+and
 #     tcd2.decode = 'a02'
 #     a.areacode =1
 # and
@@ -221,9 +221,9 @@ where
 # and
 #     STR_TO_DATE(tp.eventstartdate, '%Y%m%d') >= CURDATE()
 # order by tp.eventstartdate asc
-  and
-    tp.overview is null
-#     tp.contentid = 2702596
+#   and
+#     tp.title like '%태백등기소%'
+    tp.contentid = 2702643
 ;
 
 
@@ -248,7 +248,7 @@ and tcd.code = 'A01011900'
 select br.*
 from blog_review br
 join travel_post tp on  br.travel_post_id = tp.id
-where br.link = 'https://sweetit.co.kr/11029262'
+where br.link = 'https://sweetit.co.kr/11029262';
 
 SELECT * FROM travel_post;
 SELECT * FROM comment;
@@ -303,8 +303,20 @@ select * from travel_post;
 select * from travel_diary_post;
 select * from travel_type;
 
+select *
+from last_call_api_date where url = 'https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=oshjO8WG9VLp87/CQQK/YzU9KWIOr/3VlA8jNBbi40aHpZM1RyvXyDNiCfF3IMl4wPg0UicSNMFHYNtQZVfzNQ==&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1&contentId=2702643&contentTypeId=12';
+
+delete from last_call_api_date where id = 46101;
 
 INSERT INTO travel_diary_post (user_id, areacode, subject, content)
 SELECT user_id, areacode, subject, content
 FROM travel_diary_post;
 
+
+delete
+from user_authorities
+where user_id = 9;
+
+delete
+from user
+where id = 9;

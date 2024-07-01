@@ -1,9 +1,7 @@
 package com.lec.spring.controller;
 
-import com.lec.spring.domain.BlogReview;
-import com.lec.spring.domain.TravelClassDetail;
-import com.lec.spring.domain.TravelPost;
-import com.lec.spring.domain.TravelType;
+import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.domain.*;
 import com.lec.spring.service.BlogReviewService;
 import com.lec.spring.service.BlogReviewServiceImpl;
 import com.lec.spring.service.TravelPostService;
@@ -32,8 +30,16 @@ public class HomeController {
     private BlogReviewService blogReviewService;
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println("[실행확인]: home.html");
+
+        if(userDetails != null){
+            User loggedUser = ((PrincipalDetails) userDetails).getUser();
+            model.addAttribute("loggedUser", loggedUser);
+        }else {
+            model.addAttribute("loggedUser", null);
+        }
+
         return "home";
     }
 
@@ -41,12 +47,13 @@ public class HomeController {
     public String post(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
         if(userDetails != null){
-            model.addAttribute("loggedUser", userDetails);
+            User loggedUser = ((PrincipalDetails) userDetails).getUser();
+            model.addAttribute("loggedUser", loggedUser);
         }else {
             model.addAttribute("loggedUser", null);
         }
 
-        TravelPost travelPost = travelPostService.getTravelPostById(id);
+        TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
         travelPost = travelPostService.update(travelPost);
 
@@ -58,7 +65,6 @@ public class HomeController {
 
         model.addAttribute("blogReview",blogReviewList);
 
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
         return "post";
     }
 
@@ -66,12 +72,13 @@ public class HomeController {
     public String festival(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
         if(userDetails != null){
-            model.addAttribute("loggedUser", userDetails);
+            User loggedUser = ((PrincipalDetails) userDetails).getUser();
+            model.addAttribute("loggedUser", loggedUser);
         }else {
             model.addAttribute("loggedUser", null);
         }
 
-        TravelPost travelPost = travelPostService.getTravelPostById(id);
+        TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
         travelPost = travelPostService.update(travelPost);
 
@@ -82,24 +89,11 @@ public class HomeController {
         List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost, 0, 5);
         model.addAttribute("blogReview",blogReviewList);
 
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
-//
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
 
         return "festival";
     }
 
-
-    @GetMapping("/nav")     // detail/글의 ID
-    public String navbar(){
-        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
-    }
-
-
-    @GetMapping("/fragment/navbar")
-    public void nvabar(){}
-
-    public String extraUrl(String homepage){
+        public String extraUrl(String homepage){
         if(homepage == null || homepage.isEmpty()){
             return "";
         }
@@ -115,13 +109,21 @@ public class HomeController {
     }
 
 
+    @GetMapping("/nav")     // detail/글의 ID
+    public String navbar(){
+        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
+    }
+
+    @GetMapping("/fragment/navbar")
+    public void nvabar(){}
+
     @RestController
     public class BlogRestController {
 
         @GetMapping("/api/festival/blogs")
         public List<BlogReview> getMoreBlogs(@RequestParam("id") String id, @RequestParam("offset") int offset) throws IOException {
 
-            TravelPost travelPost = travelPostService.getTravelPostById(id);
+            TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
             System.out.println(blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3));
 
             return blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3);
@@ -130,7 +132,7 @@ public class HomeController {
         @GetMapping("/api/festival/blogs/count")
         public List<BlogReview> getMoreBlogs2(@RequestParam("id") String id) throws IOException {
 
-            TravelPost travelPost = travelPostService.getTravelPostById(id);
+            TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
             return blogReviewService.getsumBlogReview(travelPost);
         }

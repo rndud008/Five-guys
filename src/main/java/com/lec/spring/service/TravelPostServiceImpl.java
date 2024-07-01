@@ -64,9 +64,6 @@ public class TravelPostServiceImpl implements TravelPostService {
             System.out.println(apiUrl);
             JsonNode items = null;
 
-
-
-
             items = dataService.fetchApiData(apiUrl);
 
             if (items != null) {
@@ -248,7 +245,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                     break;
                 }
 
-                if(items != null){
+                if (items != null) {
 
                     for (JsonNode item : items) {
                         Long areacodeCheck = item.get("areacode").asLong();
@@ -367,7 +364,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                         break;
                     }
 
-                }else {
+                } else {
                     System.out.println("공통데이터 없음");
                     travelPostRepository.delete(travelPost);
                     System.out.println("삭제 완료");
@@ -396,9 +393,11 @@ public class TravelPostServiceImpl implements TravelPostService {
                 "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1" +
                 "&contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
 
+        System.out.println(apiUrl);
+
         JsonNode items = null;
 
-        if(lastCallApiDataRepository.findByUrlAndRegDate(apiUrl,formattedDate) == null){
+        if (lastCallApiDataRepository.findByUrlAndRegDate(apiUrl, formattedDate) == null) {
 
             try {
                 items = dataService.fetchApiData(apiUrl);
@@ -436,11 +435,13 @@ public class TravelPostServiceImpl implements TravelPostService {
             }
 
 
-
             LastCallApiDate lastCallApiDate = new LastCallApiDate();
             lastCallApiDate.setUrl(apiUrl);
             System.out.println(apiUrl);
-            lastCallApiDataRepository.save(lastCallApiDate);
+
+            if (lastCallApiDataRepository.findByUrlAndRegDate(apiUrl, formattedDate) == null) {
+                lastCallApiDataRepository.save(lastCallApiDate);
+            }
 
             // 소개정보 api
             apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
@@ -516,7 +517,7 @@ public class TravelPostServiceImpl implements TravelPostService {
             travelPostRepository.update(travelPost);
             System.out.println("item update 완료");
 
-        }else {
+        } else {
             System.out.println(formattedDate + " 업데이트 진행했음.");
         }
 
@@ -613,8 +614,8 @@ public class TravelPostServiceImpl implements TravelPostService {
     }
 
     @Override
-    public TravelPost getTravelPostById(String id) throws IOException {
-        return travelPostRepository.findPostByContentId(id);
+    public TravelPost getTravelPostBycontentId(String contentid) throws IOException {
+        return travelPostRepository.findPostByContentId(contentid);
     }
 
     @Override

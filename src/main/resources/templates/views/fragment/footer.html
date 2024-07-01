@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mountain Footer</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<!-- 페이지 콘텐츠 -->
-<div class="content">
-    <h1>Welcome to My Website</h1>
-    <p>Here is some content for the page.</p>
-</div>
 
-<!-- 푸터 시작 -->
-<footer>
-    <div class="mountain">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-            <polygon points="0,100 50,20 100,100" class="mountain-shape"/>
-            <polygon points="50,20 52,30 48,30" class="flag"/>
-        </svg>
-    </div>
-    <div class="footer-content">
-        <p>© 2024 Your Website. All rights reserved.</p>
-    </div>
-</footer>
-</body>
+
+<th:block th:fragment="footer">
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Untitled</li><li>Design: KT</li>
+        </ul>
+    </footer>
+</th:block>
+
+
 </html>

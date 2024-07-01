@@ -6,6 +6,7 @@
     border-radius: 4%;
     border: none;
     outline: none;
+    font-size: 14px;
 }
 
 .login button:hover {
@@ -15,6 +16,48 @@
 
 .login button span {
     color: white;
+}
+
+h1.loginSuccess > span:first-of-type{
+    cursor:pointer;
+}
+
+.login-profile{
+    display: none;
+    position: fixed;
+    border: 1px solid black;
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.login-profile div.first > span{
+    margin-left: 10px;
+    width: 100%;
+    display: block;
+}
+.login-profile div.first > span > span:nth-child(2){
+    margin-left: 10px;
+    cursor: pointer;
+
+}
+.login-profile div.second{
+    font-size: 16px;
+    display: flex;
+    justify-content: space-around;
+    background: lightgray;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+    border-top: 1px solid;
+    cursor: pointer;
+}
+
+.login-profile div.second a{
+    width: 50%;
+}
+.login-profile div.second a:first-child{
+    border-right: 1px solid;
 }
 
 /*모달창 애니메이션 효과*/
@@ -51,10 +94,8 @@
     animation: scale-up-ver-top 0.4s ease-in-out; /* 애니메이션 적용 */
 }
 
-
-
 /* 모달창 배경 스타일 */
-#modalSignin {
+#modalSign {
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -69,16 +110,16 @@
 }
 
 /* 모달창 컨텐츠 스타일 */
-#modalSignin .modal-dialog {
+#modalSign .modal-dialog {
     max-width: 400px;
     margin: 1.75rem auto;
 }
 
-#modalSignin .modal-content {
+#modalSign .modal-content {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 400px;
     pointer-events: auto;
     background-color: #fff;
     background-clip: padding-box;
@@ -87,16 +128,15 @@
     outline: 0;
 }
 
-
-#modalSignin .user{
+#modalSign .user{
     color: white;
     background-color: #007bff;
 }
-#modalSignin .user:hover{
+#modalSign .user:hover{
     background-color: lightskyblue;
 }
 
-#modalSignin .modal-header {
+#modalSign .modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -131,20 +171,20 @@
 }
 
 
-#modalSignin .modal-header .close {
+#modalSign .modal-header .close {
     padding: 1rem;
     margin: -1rem -1rem -1rem auto;
 }
 
 /* 모달창 본문 스타일 */
-#modalSignin .modal-body {
+#modalSign .modal-body {
     position: relative;
     flex: 1 1 auto;
     padding: 1rem;
 }
 
 /* 모달창 푸터 스타일 */
-#modalSignin .modal-footer {
+#modalSign .modal-footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -155,11 +195,9 @@
     border-bottom-left-radius: calc(0.3rem - 1px);
 }
 
-#modalSignin .modal-footer>* {
+#modalSign .modal-footer>* {
     margin: 0.25rem;
 }
-
-
 
 .close:hover {
     color: #000;
@@ -358,14 +396,6 @@
     margin-left: auto;
     margin-right: auto;
 }
-
-
-
-
-
-
-
-
 
 .visually-hidden {
     position: absolute !important;

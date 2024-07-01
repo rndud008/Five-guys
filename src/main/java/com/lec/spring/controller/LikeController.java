@@ -71,12 +71,7 @@ public class LikeController {
             return ResponseEntity.ok(" ");
         }
 
-        System.out.println(userId);
-        System.out.println(postId);
         Long result = travelPostService.selectedLike(postId,userId);
-
-        System.out.println("reuslt : " + result);
-        System.out.println("2 : " + travelPostService.selectedLike(userId,postId));
 
         if (result == 1) {
             return ResponseEntity.ok(1);

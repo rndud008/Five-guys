@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.ParameterScriptAssert;
 
 import java.util.List;
 
-public interface TravelClassDetailRepository extends GenericRepository<TravelClassDetail>{
+public interface TravelClassDetailRepository{
     int save(TravelClassDetail travelClassDetail);
     // 여행정보 유형분류 저장
     int update(TravelClassDetail travelClassDetail);

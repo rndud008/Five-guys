@@ -40,17 +40,17 @@ public interface TravelPostRepository {
 
     List<TravelPost> findTravelTypeByAreacodeList(
             @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList, @Param("sigungucodeList") List<Sigungucode> sigungucodeList,
-            @Param("travelTypeId") long travelTypeId,@Param("limit")int limit,@Param("offset")int offset);
+            @Param("travelTypeId") long travelTypeId, @Param("limit") int limit, @Param("offset") int offset);
     // 특정타입 과 해당지역 시군구리스트
 
     List<TravelPost> findTravelTypeByAreacodeAndSearchTotalList(
             @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList, @Param("sigungucodeList") List<Sigungucode> sigungucodeList,
-            @Param("travelTypeId") long travelTypeId, @Param("searchQuery")String searchQuery);
+            @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery);
     // 특정타입 과 해당지역 시군구리스트 검색리스트 총데이터수 확인
 
     List<TravelPost> findTravelTypeByAreacodeAndSearchList(
             @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList, @Param("sigungucodeList") List<Sigungucode> sigungucodeList,
-            @Param("travelTypeId") long travelTypeId, @Param("searchQuery")String searchQuery,@Param("limit")int limit,@Param("offset")int offset);
+            @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery, @Param("limit") int limit, @Param("offset") int offset);
     // 특정타입 과 해당지역 시군구리스트 검색리스트
 
     List<TravelPost> findTravelTypeByAreacodeAndSigungucodeTotalList(
@@ -60,17 +60,17 @@ public interface TravelPostRepository {
 
     List<TravelPost> findTravelTypeByAreacodeAndSigungucodeList(
             @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList, @Param("sigungucode") Sigungucode sigungucode,
-            @Param("travelTypeId") long travelTypeId,@Param("limit")int limit,@Param("offset")int offset);
+            @Param("travelTypeId") long travelTypeId, @Param("limit") int limit, @Param("offset") int offset);
     // 특정타입 과 해당지역 단일시군구 리스트
 
     List<TravelPost> findTravelTypeByAreacodeAndSigungucodeAndSearchTotalList(
             @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList, @Param("sigungucode") Sigungucode sigungucode,
-            @Param("travelTypeId") long travelTypeId, @Param("searchQuery")String searchQuery);
+            @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery);
     // 특정타입 과 해당지역 단일시군구 검색리스트 총데이터수 확인
 
     List<TravelPost> findTravelTypeByAreacodeAndSigungucodeAndSearchList(
             @Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList, @Param("sigungucode") Sigungucode sigungucode,
-            @Param("travelTypeId") long travelTypeId, @Param("searchQuery")String searchQuery,@Param("limit")int limit,@Param("offset")int offset);
+            @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery, @Param("limit") int limit, @Param("offset") int offset);
     // 특정타입 과 해당지역 단일시군구 검색리스트
 
     List<TravelPost> findByTravelTypeTotalList(@Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList
@@ -78,24 +78,27 @@ public interface TravelPostRepository {
     // 특정 여행 타입 전체정보 조회 총데이터수 확인
 
     List<TravelPost> findByTravelTypeList(@Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList
-            , @Param("travelTypeId") long travelTypeId,@Param("limit")int limit,@Param("offset")int offset);
+            , @Param("travelTypeId") long travelTypeId, @Param("limit") int limit, @Param("offset") int offset);
     // 특정 여행 타입 전체정보 조회
 
     List<TravelPost> findByTravelTypAndSearchTotalList(@Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList
-            , @Param("travelTypeId") long travelTypeId, @Param("searchQuery")String searchQuery);
+            , @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery);
     // 특정 여행 타입 전체정보 조회 검색리스트 총데이터수 확인
 
     List<TravelPost> findByTravelTypAndSearchList(@Param("travelClassDetailList") List<TravelClassDetail> travelClassDetailList
-            , @Param("travelTypeId") long travelTypeId, @Param("searchQuery")String searchQuery,@Param("limit")int limit,@Param("offset")int offset);
+            , @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery, @Param("limit") int limit, @Param("offset") int offset);
     // 특정 여행 타입 전체정보 조회 검색리스트
 
-    TravelPost findPostByContentId(String id);
+    TravelPost findPostByContentId(String contentid);
 
     // -- 좋아요 -- 기능
-    int addTravelPostLike(@Param("postId")Long postId,@Param("userId")Long userId);
-    int deleteTravelPostLike(@Param("postId")Long postId,@Param("userId")Long userId);
-    Long findLike(@Param("postId")Long postId, @Param("userId")Long userId);
-    Long countLike(@Param("postId")Long postId);
+    int addTravelPostLike(@Param("postId") Long postId, @Param("userId") Long userId);
+
+    int deleteTravelPostLike(@Param("postId") Long postId, @Param("userId") Long userId);
+
+    Long findLike(@Param("postId") Long postId, @Param("userId") Long userId);
+
+    Long countLike(@Param("postId") Long postId);
 
 
 }
