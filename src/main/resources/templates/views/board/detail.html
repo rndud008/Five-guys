@@ -6,9 +6,15 @@
 <th:block th:if="${post}" th:with="logged_user=${#authentication.principal.user}">
 <head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" th:href="@{/css/boarddetail.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/detail.js}"></script>
 
     <script th:inline="javascript">
@@ -33,6 +39,12 @@
 </head>
 
 <body th:with="logged_user=${#authentication.principal.user}">
+<div id="wrap" >
+    <!-- header -->
+    <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
+
+    <div class="bg-top"></div>
 
     <div class="details">
         <h1>조회</h1>
@@ -107,6 +119,11 @@
 
         </section>
     </div>
+    <th:block th:insert="~{fragment/footer::footer}"></th:block>
+</div>
+
+<script src="/js/nav.js"></script>
+<script src="/js/modallogin.js"></script>
 </body>
 
 </th:block>

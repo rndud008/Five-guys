@@ -2,24 +2,18 @@
 body {
     font-family: Arial, sans-serif;
     max-width: 1000px;
-    margin: 50px auto;
+    margin: 0 auto;
     padding: 0;
     border-radius: 5px;
     background-color: #f0f0f0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 15px;
-}
-
 .details {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-top: 90px;
 }
 
 .details .info {
@@ -29,7 +23,6 @@ h2 {
 
 .details .info span {
     margin-right: 10px;
-    font-weight: bold;
 }
 
 .details label {
@@ -61,6 +54,7 @@ h2 {
     justify-content: space-between;
     align-items: center;
     height: 40px;
+    margin-bottom: 10px;
 }
 .details .links div {
     display: flex;
@@ -88,24 +82,24 @@ h2 {
 }
 
 .details .links .crudBtn a{
-    background-color: #0275d8;
+    background-color: #6b82a7;
 }
 .details .links .crudBtn .writeA{
-    background-color: #5cb85c;
+    background-color: #6b82a7;
 }
 .details .links .crudBtn button{
-    background-color: red;
+    background-color: #6b82a7;
 }
 
 .details .links a:hover{
-    background-color: #5490ce;
+    background-color: #8b96a2;
 
 }
 .details .links .crudBtn .writeA:hover{
-    background-color: #96d796;
+    background-color: #8b96a2;
 }
 .details .links button:hover{
-    background-color: #ff6d6d;
+    background-color: #8b96a2;
 }
 
 
@@ -230,7 +224,7 @@ h2 {
 
 .comment-form #btn_comment {
     padding: 7px 12px;
-    background-color: #0275d8;
+    background-color: #6b82a7;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -240,7 +234,7 @@ h2 {
     margin: 0 5px 5px 0;
 }
 .comment-form #btn_comment:hover{
-    background-color: #5490ce;
+    background-color: #8490a6;
 }
 .comment-form #char_count {
     display: inline-block;
@@ -305,27 +299,38 @@ textarea[readonly] {
     transform: scale(1.1);
 }
 
+#cmt_list .like-count {
+    margin-left: 10px;
+    font-size: 18px;
+    color: black;
+}
+
 #cmt_table .edit-comment-btn{
-    background-color: #0275d8;
+    background-color: #6b82a7;
+    padding: 5px;
 }
 #cmt_table .edit-comment-btn:hover,
 #cmt_table .confirm-comment-btn:hover{
-    background-color: #5490ce;
+    background-color: #8b96a2;
     cursor: pointer;
 }
 #cmt_table .confirm-comment-btn{
-    background-color: #5cb85c;
+    background-color: #6b82a7;
+    padding: 5px;
+
 }
 #cmt_table .confirm-comment-btn:hover{
-    background-color: #96d796;
+    background-color: #8b96a2;
 }
 #cmt_table .delete-comment-btn,
 #cmt_table .cancel-comment-btn{
-    background-color: #ff3a3a;
+    background-color: #6b82a7;
+    padding: 5px;
+
 }
 
 #cmt_table .delete-comment-btn:hover,
 #cmt_table .cancel-comment-btn:hover{
-    background-color: #ff6d6d;
+    background-color: #8b96a2;
     cursor: pointer;
 }
