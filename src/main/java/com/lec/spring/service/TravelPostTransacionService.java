@@ -213,6 +213,8 @@ public class TravelPostTransacionService {
             }
 
             lastCallApiDate.setUrl(apiUrl);
+            lastCallApiDataRepository.save(lastCallApiDate);
+
             travelPost.setLastCallApiDate(lastCallApiDate);
             travelPostRepository.update(travelPost);
 

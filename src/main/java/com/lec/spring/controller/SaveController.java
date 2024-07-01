@@ -57,6 +57,13 @@ public class SaveController {
         return "travelPostServiceData travelPostUpdate successfully!";
     }
 
+    @GetMapping("/travelPostModfied")
+    public String apiErrorTravelPostModfied() throws IOException, URISyntaxException {
+        travelPostService.modifiedtimeTravelPosts();
+
+        return "travelPostServiceData travelPostUpdate successfully!";
+    }
+
     @GetMapping("/travelBlog")
     public String travelBlogFetchAndSave(){
         try {

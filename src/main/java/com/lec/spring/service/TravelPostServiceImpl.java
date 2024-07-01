@@ -396,30 +396,36 @@ public class TravelPostServiceImpl implements TravelPostService {
                     "contentTypeId=%d&modifiedtime=%s", apikey, travelType.getId(), formattedDate);
 
             JsonNode items = null;
+            LastCallApiDate lastCallApiDate = new LastCallApiDate();
 
-            try {
-                items = dataService.fetchApiData(apiUrl);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+            if (lastCallApiDataRepository.findByUrl(apiUrl) == null){
+                lastCallApiDate.setUrl(apiUrl);
+                lastCallApiDataRepository.save(lastCallApiDate);
+
+                try {
+                    items = dataService.fetchApiData(apiUrl);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                if (items != null){
+                    for (JsonNode item : items){
+
+                        travelPostTransacionService.itemSaveAndUpdate(item, travelType);
+
+                    }
+                }else {
+                    System.out.println("데이터 없음..");
+                }
+
+            }else {
+                System.out.println("오늘 이미 호출함.");
             }
-
-            for (JsonNode item : items){
-
-                travelPostTransacionService.itemSaveAndUpdate(item, travelType);
-
-            }
-
 
         }
-
-
-
-
-
-
-
 
     }
 
