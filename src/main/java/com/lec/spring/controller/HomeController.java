@@ -1,12 +1,14 @@
 package com.lec.spring.controller;
 
+import com.lec.spring.config.PrincipalDetails;
 import com.lec.spring.domain.*;
 import com.lec.spring.service.BlogReviewService;
-import com.lec.spring.service.BlogReviewServiceImpl;
+import com.lec.spring.service.LastCallApiDateService;
 import com.lec.spring.service.TravelPostService;
 import com.lec.spring.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,6 +32,8 @@ import java.util.regex.Pattern;
 
 @Controller
 public class HomeController {
+    @Value("${app.apikey}")
+    private String apikey;
 
     private UserService userService;
     @Autowired
@@ -39,19 +45,30 @@ public class HomeController {
     private TravelPostService travelPostService;
     @Autowired
     private BlogReviewService blogReviewService;
+    @Autowired
+    private LastCallApiDateService lastCallApiDateService;
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println("[실행확인]: home.html");
+
+        if (userDetails != null) {
+            User loggedUser = ((PrincipalDetails) userDetails).getUser();
+            model.addAttribute("loggedUser", loggedUser);
+        } else {
+            model.addAttribute("loggedUser", null);
+        }
+
         return "home";
     }
 
     @GetMapping("/post/{id}")
     public String post(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
-        if(userDetails != null){
-            model.addAttribute("loggedUser", userDetails);
-        }else {
+        if (userDetails != null) {
+            User loggedUser = ((PrincipalDetails) userDetails).getUser();
+            model.addAttribute("loggedUser", loggedUser);
+        } else {
             model.addAttribute("loggedUser", null);
         }
 
@@ -62,7 +79,23 @@ public class HomeController {
             throw new RuntimeException(e);
         }
 
-        travelPost = travelPostService.update(travelPost);
+        String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/" +
+                "detailCommon1?serviceKey=%s" +
+                "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1" +
+                "&contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
+
+
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = today.format(formatter);
+
+        if (lastCallApiDateService.selectedByUrlAndRegDate(apiUrl, formattedDate) == null) {
+            LastCallApiDate lastCallApiDate = new LastCallApiDate();
+            lastCallApiDate.setUrl(apiUrl);
+            lastCallApiDateService.save(lastCallApiDate);
+
+            travelPost = travelPostService.update(travelPost,lastCallApiDate);
+        }
 
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
         System.out.println(travelPost.getHomepage());
@@ -70,37 +103,65 @@ public class HomeController {
 
         List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost, 0, 5);
 
-        model.addAttribute("blogReview",blogReviewList);
+        model.addAttribute("blogReview", blogReviewList);
 
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
         return "post";
     }
 
     @GetMapping("/festival/{id}") //495
     public String festival(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
-        if(userDetails != null){
-            model.addAttribute("loggedUser", userDetails);
-        }else {
+        if (userDetails != null) {
+            User loggedUser = ((PrincipalDetails) userDetails).getUser();
+            model.addAttribute("loggedUser", loggedUser);
+        } else {
             model.addAttribute("loggedUser", null);
         }
 
         TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
-        travelPost = travelPostService.update(travelPost);
+        String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/" +
+                "detailCommon1?serviceKey=%s" +
+                "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1" +
+                "&contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
+
+
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = today.format(formatter);
+
+        if (lastCallApiDateService.selectedByUrlAndRegDate(apiUrl, formattedDate) == null) {
+            LastCallApiDate lastCallApiDate = new LastCallApiDate();
+            lastCallApiDate.setUrl(apiUrl);
+            lastCallApiDateService.save(lastCallApiDate);
+
+            travelPost = travelPostService.update(travelPost,lastCallApiDate);
+        }
 
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));
         model.addAttribute("post", travelPost);
 
 
         List<BlogReview> blogReviewList = blogReviewService.selectedTravelPostByBlogReview(travelPost, 0, 5);
-        model.addAttribute("blogReview",blogReviewList);
+        model.addAttribute("blogReview", blogReviewList);
 
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
-//
-//        System.out.println("post 결과:"+travelPostService.getTravelPostById(id));
 
         return "festival";
+    }
+
+    public String extraUrl(String homepage) {
+        if (homepage == null || homepage.isEmpty()) {
+            return "";
+        }
+
+        Pattern pattern = Pattern.compile("\"(http[^\"]*)\"");
+        Matcher matcher = pattern.matcher(homepage);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return "";
     }
 
 
@@ -181,20 +242,7 @@ public class HomeController {
     }
 
 
-    public String extraUrl(String homepage){
-        if(homepage == null || homepage.isEmpty()){
-            return "";
-        }
 
-        Pattern pattern = Pattern.compile("\"(http[^\"]*)\"");
-        Matcher matcher = pattern.matcher(homepage);
-
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-
-        return "";
-    }
 
 
     @RestController

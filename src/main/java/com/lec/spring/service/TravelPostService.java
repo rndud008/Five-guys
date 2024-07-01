@@ -1,5 +1,6 @@
 package com.lec.spring.service;
 
+import com.lec.spring.domain.LastCallApiDate;
 import com.lec.spring.domain.Sigungucode;
 import com.lec.spring.domain.TravelClassDetail;
 import com.lec.spring.domain.TravelPost;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface TravelPostService {
     void saveTravelPosts() throws IOException, URISyntaxException;
     void updateApiErrorTravelPosts() throws IOException, URISyntaxException;
-    TravelPost update(TravelPost travelPost);
+    TravelPost update(TravelPost travelPost,LastCallApiDate lastCallApiDate);
 
     List<TravelPost> selectedTravelTypeByTitleList(TravelClassDetail travelClassDetail,String title);
 

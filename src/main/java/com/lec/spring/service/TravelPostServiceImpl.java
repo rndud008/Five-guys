@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -384,12 +385,9 @@ public class TravelPostServiceImpl implements TravelPostService {
 
     }
 
+    @Transactional
     @Override
-    public TravelPost update(TravelPost travelPost) {
-
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = today.format(formatter);
+    public TravelPost update(TravelPost travelPost,LastCallApiDate lastCallApiDate) {
 
         String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/" +
                 "detailCommon1?serviceKey=%s" +
@@ -397,8 +395,6 @@ public class TravelPostServiceImpl implements TravelPostService {
                 "&contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
 
         JsonNode items = null;
-
-        if(lastCallApiDataRepository.findByUrlAndRegDate(apiUrl,formattedDate) == null){
 
             try {
                 items = dataService.fetchApiData(apiUrl);
@@ -419,28 +415,21 @@ public class TravelPostServiceImpl implements TravelPostService {
 
                 travelPost.setSigungucode(sigungucode);
                 travelPost.setTravelClassDetail(travelClassDetail);
-                travelPost.setTitle(item.get("title").asText());
-                travelPost.setAddr1(item.get("addr1").asText());
-                travelPost.setAddr2(item.get("addr2").asText());
-                travelPost.setContentid(item.get("contentid").asText());
-                travelPost.setFirstimage(item.get("firstimage").asText());
-                travelPost.setFirstimage2(item.get("firstimage2").asText());
-                travelPost.setCpyrhtDivCd(item.get("cpyrhtDivCd").asText());
-                travelPost.setMapx(item.get("mapx").asDouble());
-                travelPost.setMapy(item.get("mapy").asDouble());
-                travelPost.setModifiedtime(item.get("modifiedtime").asText());
-                travelPost.setTel(item.get("tel").asText());
+                travelPost.setTitle(item.get("title").asText().isEmpty() ? null : item.get("title").asText());
+                travelPost.setAddr1(item.get("addr1").asText().isEmpty() ? null : item.get("addr1").asText());
+                travelPost.setAddr2(item.get("addr2").asText().isEmpty() ? null : item.get("addr2").asText());
+                travelPost.setContentid(item.get("contentid").asText().isEmpty() ? null : item.get("contentid").asText());
+                travelPost.setFirstimage(item.get("firstimage").asText().isEmpty() ? null : item.get("firstimage").asText());
+                travelPost.setFirstimage2(item.get("firstimage2").asText().isEmpty() ? null : item.get("firstimage2").asText());
+                travelPost.setCpyrhtDivCd(item.get("cpyrhtDivCd").asText().isEmpty() ? null : item.get("cpyrhtDivCd").asText());
+                travelPost.setMapx(item.get("mapx").asText().isEmpty() ? null : item.get("mapx").asDouble());
+                travelPost.setMapy(item.get("mapy").asText().isEmpty() ? null : item.get("mapy").asDouble());
+                travelPost.setModifiedtime(item.get("modifiedtime").asText().isEmpty() ? null : item.get("modifiedtime").asText());
+                travelPost.setTel(item.get("tel").asText().isEmpty() ? null : item.get("tel").asText());
                 travelPost.setHomepage(item.get("homepage").asText().isEmpty() ? null : item.get("homepage").asText());
                 travelPost.setOverview(item.get("overview").asText().isEmpty() ? null : item.get("overview").asText());
 
             }
-
-
-
-            LastCallApiDate lastCallApiDate = new LastCallApiDate();
-            lastCallApiDate.setUrl(apiUrl);
-            System.out.println(apiUrl);
-            lastCallApiDataRepository.save(lastCallApiDate);
 
             // 소개정보 api
             apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
@@ -497,11 +486,11 @@ public class TravelPostServiceImpl implements TravelPostService {
 
                 if (items != null) {
                     for (JsonNode item : items) {
-                        int fldgubunCheck = item.get("fldgubun").asInt();
+                        String infonameCheck = item.get("infoname").asText();
                         // 행사내용만 저장
-                        if (fldgubunCheck == 1) {
+                        if (infonameCheck.equals("행사내용")) {
                             travelPost.setInfoname(item.get("infoname").asText().isEmpty() ? null : item.get("infoname").asText());
-                            travelPost.setInfotext(item.get("infotext").asText().isEmpty() ? null : item.get("infoname").asText());
+                            travelPost.setInfotext(item.get("infotext").asText().isEmpty() ? null : item.get("infotext").asText());
                         }
                     }
                     System.out.println("반복정보 api 호출 완료");
@@ -512,13 +501,10 @@ public class TravelPostServiceImpl implements TravelPostService {
                 travelPost.setInfoname(null);
                 travelPost.setInfotext(null);
             }
+
             travelPost.setLastCallApiDate(lastCallApiDate);
             travelPostRepository.update(travelPost);
             System.out.println("item update 완료");
-
-        }else {
-            System.out.println(formattedDate + " 업데이트 진행했음.");
-        }
 
         return travelPost;
 

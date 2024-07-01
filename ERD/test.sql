@@ -212,8 +212,8 @@ FROM travel_post tp
          JOIN areacode a ON s.areacode = a.areacode
          JOIN last_call_api_date lcad ON tp.last_call_api_id = lcad.id
 where
-    tt.id= 12
-and
+    tt.id= 15
+# and
 #     tcd2.decode = 'a02'
 #     a.areacode =1
 # and
@@ -223,7 +223,7 @@ and
 # order by tp.eventstartdate asc
 #   and
 #     tp.title like '%태백등기소%'
-    tp.contentid = 2702643
+#     tp.contentid = 1957556
 ;
 
 
