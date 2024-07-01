@@ -185,14 +185,7 @@
     </div>
     <th:block th:insert="~{fragment/footer::footer}"></th:block>
 </div>
-<script th:inline="javascript" th:with="loggedUser=${loggedUser}">
-    /*<![CDATA[*/
-    var postId = [[${post.id}]];
-    var postContentid = [[${post.contentid}]];
-    var loggedUser = [[${loggedUser}]];
-    var post = /*[[${post}]]*/ {};
-    /*]]>*/
-</script>
+
 <script src="/js/nav.js"></script>
 <script src="/js/modallogin.js"></script>
 </body>
