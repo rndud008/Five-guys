@@ -42,4 +42,10 @@
             email = #{email}
         WHERE id = #{id}
     </update>
+
+    <delete id="delete" flushCache="true" parameterType="com.lec.spring.domain.User">
+        DELETE
+        FROM user
+        WHERE username = #{username};
+    </delete>
 </mapper>
