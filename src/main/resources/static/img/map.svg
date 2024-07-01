@@ -2,10 +2,9 @@
 <!-- (c) ammap.com | SVG map of South Korea - High -->
 
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+
     <defs>
         <style type="text/css">
-
-
             .land {
             transition: fill 1.5s ease, transform 1.5s ease;
             transform-origin: 60% 50%;
@@ -27,72 +26,75 @@
             }
 
             .Seoul {
-            fill: #5499C7; /* 서울 색상 변경 */
+            fill: #AFBF36; /* 서울 색상 변경 (또렷한 빨강) */
             }
 
             .Busan {
-            fill: #52BE80; /* 부산 색상 변경 */
+            fill: #D55A76; /* 부산 색상 변경 (또렷한 청록) */
             }
 
             .Daejeon {
-            fill: #AF7AC5; /* 대전 색상 변경 */
+            fill: #35845C; /* 대전 색상 변경 (또렷한 주황) */
             }
 
             .NorthJeolla {
-            fill: #E59866; /* 전북 색상 변경 */
+            fill: #ECBA1C; /* 전북 색상 변경 (또렷한 주황) */
             }
 
             .Gangwon {
-            fill: #F4D03F; /* 강원도 색상 변경 */
+            fill: #7BBD42;
             }
 
             .SouthGyeongsang {
-            fill: #48C9B0; /* 경남 색상 변경 */
+            fill: #EC8189; /* 경남 색상 변경 (또렷한 파랑) */
             }
 
             .Gwangju {
-            fill: #1ABC9C; /* 광주 색상 변경 */
+            fill: #C07236; /* 광주 색상 변경 (또렷한 주황) */
             }
 
             .SouthJeolla {
-            fill: #5499C7; /* 전남 색상 변경 */
+            fill: #F19153; /* 전남 색상 변경 (또렷한 주황) */
             }
 
             .Gyeonggi {
-            fill: #D98880; /* 경기도 색상 변경 */
+            fill: #C6D92C; /* 경기도 색상 변경 (또렷한 주황) */
             }
 
             .Sejong {
-            fill: #F7DC6F; /* 세종시 색상 변경 */
+            fill: #35845C; /* 세종시 색상 변경 (또렷한 파랑) */
             }
 
             .SouthChungcheong {
-            fill: #F4D03F; /* 충남 색상 변경 */
+            fill: #4FB988; /* 충남 색상 변경 (또렷한 분홍) */
             }
 
             .NorthChungcheong {
-            fill: #E59866; /* 충북 색상 변경 */
+            fill: #7AC284; /* 충북 색상 변경 (또렷한 주황) */
             }
 
             .Daegu {
-            fill: #1ABC9C; /* 대구 색상 변경 */
+            fill: #145968; /* 대구 색상 변경 (또렷한 청록) */
             }
 
             .Ulsan {
-            fill: #AF7AC5; /* 울산 색상 변경 */
+            fill: #4865B1; /* 울산 색상 변경 (또렷한 붉은색) */
             }
 
             .NorthGyeongsang {
-            fill: #5499C7; /* 경북 색상 변경 */
+            fill: #378CB0; /* 경북 색상 변경 (또렷한 붉은색) */
             }
 
             .Incheon {
-            fill: #52BE80; /* 인천 색상 변경 */
+            fill: #9CBB6D;
             }
 
             .Jeju {
-            fill: #red; /* 제주도 색상 변경 */
+            fill: #FFA500; /* 제주도 색상 변경 (또렷한 주황) */
             }
+
+
+
 
             map-frame {
             display: flex; /* 내부 요소를 가로로 정렬하기 위해 flex 사용 */
@@ -100,12 +102,8 @@
             }
 
         </style>
-        <script src="/js/weather.js"/>
 
         <amcharts:ammap id="map-frame" projection="mercator" leftLongitude="125.384458" topLatitude="38.612296" rightLongitude="131.873029" bottomLatitude="33.194027"></amcharts:ammap>
-
-        <!-- All areas are listed in the line below. You can use this list in your script. -->
-        <!--{id:"KR-11"},{id:"KR-26"},{id:"KR-27"},{id:"KR-28"},{id:"KR-29"},{id:"KR-30"},{id:"KR-31"},{id:"KR-41"},{id:"KR-42"},{id:"KR-43"},{id:"KR-44"},{id:"KR-45"},{id:"KR-46"},{id:"KR-47"},{id:"KR-48"},{id:"KR-49"},{id:"KR-50"}-->
 
         <clipPath id="cut-off-top">
             <!-- 상단 부분을 자를 영역 지정 -->
