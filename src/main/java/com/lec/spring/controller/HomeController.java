@@ -72,12 +72,7 @@ public class HomeController {
             model.addAttribute("loggedUser", null);
         }
 
-        TravelPost travelPost = null;
-        try {
-            travelPost = travelPostService.getTravelPostBycontentId(id);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
         String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/" +
                 "detailCommon1?serviceKey=%s" +
@@ -163,12 +158,6 @@ public class HomeController {
 
         return "";
     }
-
-
-//    @GetMapping("/nav")     // detail/글의 ID
-//    public String nvabar(){
-//        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
-//    }
 
     /**
      * 로그인 관련 처리

@@ -603,7 +603,6 @@ public class TravelPostServiceImpl implements TravelPostService {
         return travelPostRepository.findPostByContentId(contentid);
     }
 
-
     @Override
     public int saveLike(Long postId, Long userId) {
         return travelPostRepository.addTravelPostLike(postId, userId);
