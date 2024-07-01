@@ -57,17 +57,27 @@
 <th:block th:fragment="navbar">
     <header class="line scroll">
         <div>
-            <h1 class="logo">
-                <a href="/">로고</a></h1>
+            <a th:href="@{/}"><h1 class="logo"></h1></a>
             <nav>
                 <ul>
                     <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
                     <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
-                    <li><a href=""><span>게시판</span></a></li>
+                    <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
                 </ul>
             </nav>
-            <h1 class="login">
-                <button><span><b>TRAVEL</b></span><br><span>login</span></button>
+            <h1 class="login" th:if="${loggedUser == null}"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+            <h1 class="login loginSuccess" th:if="${loggedUser != null}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+                <span th:text="${loggedUser.username}">## 유저아이디 ##</span>
+                <div class="login-profile">
+                    <div class="first">
+                        <span><span th:text="${loggedUser.name}">## 닉네임 ## </span><span>##로그아웃##</span></span>
+                        <span th:text="${loggedUser.email}">## 이메일 ## </span>
+                    </div>
+                    <div class="second">
+                        <a >회원 정보 수정</a>
+                        <a >회원 탈퇴</a>
+                    </div>
+                </div>
             </h1>
         </div>
     </header>
@@ -143,7 +153,7 @@
         border-bottom-left-radius: calc(0.3rem - 1px);
     }
 
-    #modalSignin .modal-footer > * {
+    #modalSignin .modal-footer>* {
         margin: 0.25rem;
     }
 
@@ -229,7 +239,7 @@
         background-color: transparent;
     }
 
-    .btn-lightblue {
+    .btn-lightblue{
         background-color: rgba(49, 81, 243, 0.85);
     }
 
@@ -257,8 +267,9 @@
 </style>
 
 
+
 <th:block th:fragment="loginModal">
-    <div class="modal fade" tabindex="-1" role="dialog" id="modalSignin">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalSign">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-animate">
                 <div class="modal-header">
@@ -295,24 +306,18 @@
                         <button class="btn btn-lightblue btn-block user" type="submit">회원가입</button>
                         <br>
                         <hr class="my-4">
-                        <a class="btn btn-lightblue btn-block login kakao"
-                           th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
-                    client_id=${@environment.getProperty('app.oauth2.kakao.client-id')},
-                    redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
+                        <button class="btn btn-lightblue btn-block login kakao" type="submit">
                             <img src="../img/kakao_logo.png" alt="Kakao Logo">
                             <span>카카오로 로그인</span>
-                        </a>
-                        <br>
-                        <a class="btn btn-lightblue btn-block login google" th:href="@{/oauth2/authorization/google}">
+                        </button><br>
+                        <button class="btn btn-lightblue btn-block login google" type="submit">
                             <img src="../img/google_logo.png" alt="google Logo">
                             <span>구글로 로그인</span>
-                        </a>
-                        <br>
-                        <button class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}>
+                        </button><br>
+                        <button class="btn btn-lightblue btn-block login naver" type="submit">
                             <img src="../img/naver_logo.png" alt="naver Logo">
                             <span>네이버로 로그인</span>
-                        </button>
-                        <br>
+                        </button><br>
                     </form>
                 </div>
             </div>

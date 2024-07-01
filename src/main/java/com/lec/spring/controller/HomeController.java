@@ -1,9 +1,7 @@
 package com.lec.spring.controller;
 
-import com.lec.spring.domain.BlogReview;
-import com.lec.spring.domain.TravelClassDetail;
-import com.lec.spring.domain.TravelPost;
-import com.lec.spring.domain.TravelType;
+import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.domain.*;
 import com.lec.spring.service.BlogReviewService;
 import com.lec.spring.service.BlogReviewServiceImpl;
 import com.lec.spring.service.TravelPostService;
@@ -91,13 +89,13 @@ public class HomeController {
 
 
     @GetMapping("/nav")     // detail/글의 ID
-    public String nvabar(){
+    public String navbar(){
         return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
     }
 
 
     @GetMapping("/fragment/navbar")
-    public void navbar(){}
+    public void nvabar(){}
 
     public String extraUrl(String homepage){
         if(homepage == null || homepage.isEmpty()){

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>날씨 예보</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/map.css">
@@ -39,31 +39,24 @@
                 <tbody id="weather2TableBody"></tbody>
             </table>
             <div id="link-container" class="link-container">
-                <button id="tourismButton" class="d-none"><a href="#"><span>관광지</span></a></button>
-                <button id="festivalButton" class="d-none"><a href="#"><span>축제·공연·행사</span></a></button>
+                <button id="tourismButton" class="d-none"><span>관광지</span></button>
+                <button id="festivalButton" class="d-none"><span>축제·공연·행사</span></button>
             </div>
         </div>
     </article>
 
-<!--    &lt;!&ndash; footer &ndash;&gt;-->
-<!--    <footer id="footer">-->
-<!--        <ul class="icons">-->
-<!--            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>-->
-<!--            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>-->
-<!--            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>-->
-<!--            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>-->
-<!--            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>-->
-<!--        </ul>-->
-<!--        <ul class="copyright">-->
-<!--            <li>&copy; Untitled</li>-->
-<!--            <li>Design: KT</li>-->
-<!--        </ul>-->
-<!--    </footer>-->
     <th:block th:insert="~{fragment/footer::footer}"></th:block>
 
 </div>
 
-<script src="/js/weather.js"></script>
+<script th:inline="javascript" th:with="loggedUser=${loggedUser}">
+    /*<![CDATA[*/
+    var loggedUser = [[${loggedUser}]];
+    /*]]>*/
+</script>
 
+<script src="/js/weather.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/modallogin.js"></script>
 </body>
 </html>

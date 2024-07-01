@@ -37,13 +37,13 @@ $('.map').on('load', function () {
         // 관광지 살펴보기 버튼
         $("#tourismButton").on("click", function () {
             $(this).removeClass("d-none");
-            $(this).find('a').attr('href', `/categoryTable/12?regionQuery=${areacode}`);
+            window.location.href = `/categoryTable/12?regionQuery=${areacode}`;
         });
 
         // 축제·공연·행사 버튼
         $("#festivalButton").on("click", function () {
             $(this).removeClass("d-none");
-            $(this).find('a').attr('href', `/categoryTable/15?regionQuery=${areacode}`);
+            window.location.href = `/categoryTable/15?regionQuery=${areacode}`;
         });
 
         // AJAX 요청1: 단기예보 정보 업데이트
@@ -307,38 +307,4 @@ function weatherText(sky) {
         default:
             return "정보 없음";
     }
-}
-
-const modal = document.getElementById('modalSignin');
-const openModalBtn = document.querySelector('.login');
-
-if (modal !== null) {
-    openModalBtn.addEventListener('click', () => {
-        $('#modalSignin').modal('show'); // jQuery를 사용하여 모달을 표시합니다.
-        centerModal(); // 모달을 중앙 정렬하는 함수 호출
-    });
-
-    const closeModalBtn = document.querySelector('.modal .close');
-    closeModalBtn.addEventListener('click', () => {
-        $('#modalSignin').modal('hide'); // jQuery를 사용하여 모달을 숨깁니다.
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            $('#modalSignin').modal('hide'); // jQuery를 사용하여 모달을 숨깁니다.
-        }
-    });
-
-    function centerModal() {
-        const dialog = modal.querySelector('.modal-dialog');
-        if (dialog.offsetHeight < window.innerHeight) {
-            dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
-        } else {
-            dialog.style.marginTop = '';
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        modal.style.display = 'none'; // 페이지가 로드될 때 모달이 숨겨지도록 설정합니다.
-    });
 }
