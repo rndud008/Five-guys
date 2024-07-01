@@ -89,12 +89,12 @@
             <!-- 하단 링크 -->
             <div class="links">
                 <div>
-                    <a th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
+                    <a class="listA" th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
                 </div>
-                <div>
+                <div class="crudBtn">
                     <a th:href="@{'/board/update/' + ${post.id}}" th:if="${logged_user.id == post.user.id}">수정</a>
                     <button style="margin: 0 10px" type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
-                    <a th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
+                    <a class="writeA" th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
                 </div>
             </div>
             <!-- 하단 링크 -->

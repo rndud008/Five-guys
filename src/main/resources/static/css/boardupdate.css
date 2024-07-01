@@ -113,6 +113,22 @@ span[style="color: red"] {
     justify-content: space-between;
 }
 
+.exFiles {
+    display: flex;
+    margin: 15px 0;
+}
+.exFiles input[type="text"] {
+    width: auto;
+    margin: 0;
+}
+.exFiles button[type="button"] {
+    margin: 0;
+}
+.links {
+    display: flex;
+    justify-content: space-between;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     form {

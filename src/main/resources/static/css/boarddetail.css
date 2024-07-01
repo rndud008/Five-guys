@@ -83,10 +83,31 @@ h2 {
     align-content: center;
 }
 
-.details .links button:hover,
-.details .links a:hover{
-    background-color: #007bff;
+.details .links .listA:hover {
+    background-color: #8b96a2;
 }
+
+.details .links .crudBtn a{
+    background-color: #0275d8;
+}
+.details .links .crudBtn .writeA{
+    background-color: #5cb85c;
+}
+.details .links .crudBtn button{
+    background-color: red;
+}
+
+.details .links a:hover{
+    background-color: #5490ce;
+
+}
+.details .links .crudBtn .writeA:hover{
+    background-color: #96d796;
+}
+.details .links button:hover{
+    background-color: #ff6d6d;
+}
+
 
 /*첨부파일*/
 .details .attachments {
@@ -209,7 +230,7 @@ h2 {
 
 .comment-form #btn_comment {
     padding: 7px 12px;
-    background-color: #6b82a7;
+    background-color: #0275d8;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -219,7 +240,7 @@ h2 {
     margin: 0 5px 5px 0;
 }
 .comment-form #btn_comment:hover{
-    background-color: #007bff;
+    background-color: #5490ce;
 }
 .comment-form #char_count {
     display: inline-block;
@@ -282,4 +303,29 @@ textarea[readonly] {
 #cmt_list .like-comment-btn:hover{
     cursor: pointer;
     transform: scale(1.1);
+}
+
+#cmt_table .edit-comment-btn{
+    background-color: #0275d8;
+}
+#cmt_table .edit-comment-btn:hover,
+#cmt_table .confirm-comment-btn:hover{
+    background-color: #5490ce;
+    cursor: pointer;
+}
+#cmt_table .confirm-comment-btn{
+    background-color: #5cb85c;
+}
+#cmt_table .confirm-comment-btn:hover{
+    background-color: #96d796;
+}
+#cmt_table .delete-comment-btn,
+#cmt_table .cancel-comment-btn{
+    background-color: #ff3a3a;
+}
+
+#cmt_table .delete-comment-btn:hover,
+#cmt_table .cancel-comment-btn:hover{
+    background-color: #ff6d6d;
+    cursor: pointer;
 }

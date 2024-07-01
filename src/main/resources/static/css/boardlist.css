@@ -102,16 +102,19 @@ body {
 
 /* 게시글 제목 링크 스타일 */
 .tableContainer a {
-    color: #007bff;
+    color: black;
     text-decoration: none;
     transition: color 0.3s;
+}
+.tableContainer a:hover{
+    text-decoration: underline;
 }
 
 /* 작성 버튼 스타일 */
 .writeBtn {
     display: inline-block;
     padding: 10px 20px;
-    background-color: skyblue;
+    background-color: #6b82a7;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -120,7 +123,7 @@ body {
 }
 
 .writeBtn:hover {
-    background-color: deepskyblue;
+    background-color: #6999e0;
     color: white;
 }
 
@@ -157,19 +160,19 @@ body {
     line-height: 40px;
     text-decoration: none;
     color: white;
-    background-color: skyblue;
-    border: 1px solid skyblue;
+    background-color: #6b82a7;
+    border: 1px solid #6b82a7;
     border-radius: 5px;
     font-size: 20px;
     transition: background-color 0.3s;
 }
 .page a:hover{
-    background-color: deepskyblue;
+    background-color: #6999e0;
     color: white;
 }
 .page .active a{
     /*현재 페이지 색상변경*/
-    background-color: deepskyblue;
+    background-color: #3e6aa9;
 }
 
 

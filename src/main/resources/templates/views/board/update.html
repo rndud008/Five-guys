@@ -166,7 +166,7 @@
         <div id="delFiles"></div>  <!-- 삭제할 file 의 id 값(들)을 담기위한 div -->
         <div>
             <label>첨부파일:</label>
-            <div th:each="attachment : ${post.fileList}">
+            <div class="exFiles" th:each="attachment : ${post.fileList}">
                 <input type="text" readonly th:value="${attachment.sourcename}">
                 <button type="button" th:data-fileid-del="${attachment.id}">삭제</button>
             </div>
@@ -185,10 +185,14 @@
         <!-- 새로운 첨부파일 추가 -->
 
         <!-- 하단 링크 -->
-        <div>
-            <button type="submit" th:if="${logged_user.id == post.user.id}">수정완료</button>
-            <button class="back" type="button" onclick="history.back()">이전으로</button>
-            <a th:href="@{/board/list}">목록</a>
+        <div class="links">
+            <div>
+                <a th:href="@{/board/list}">목록</a>
+                <button class="back" type="button" onclick="history.back()">이전으로</button>
+            </div>
+            <div>
+                <button type="submit" th:if="${logged_user.id == post.user.id}">수정완료</button>
+            </div>
         </div>
         <!-- 하단 링크 -->
 
