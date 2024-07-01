@@ -85,6 +85,13 @@ public class UserController {
     public void login() {
     }
 
+    @ResponseBody
+    @PostMapping("/delete")
+    public String deleteOk(Long id, Model model) {
+        model.addAttribute("result", userService.deleteUser(id));
+        return "user/deleteOk";
+    }
+
     // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
     // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
     @PostMapping("/loginError")
@@ -97,3 +104,5 @@ public class UserController {
         return "common/rejectAuth";
     }
 }
+
+
