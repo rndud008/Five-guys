@@ -225,8 +225,15 @@
         border-radius: 4%;
         border: none;
         outline: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         /*padding: auto 0;*/
         background-color: transparent;
+    }
+
+    .btn span {
+        text-align: center;
     }
 
     .btn-lightblue {
@@ -269,7 +276,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
+                    <form class="form-signin" th:action="@{/fragment/navbar}" method="POST" autocomplete="off">
                         <!-- 에러 메세지 -->
                         <div>
                             <div th:text="${errorMessage}"></div>
@@ -278,27 +285,27 @@
                         <!-- 아이디 입력란 -->
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="username" placeholder="아이디"
-                                   name="username" autocomplete="floatingInput">
+                                   name="username" th:value="${username}" required>
                             <label for="username" class="visually-hidden">아이디</label>
                         </div>
 
                         <!-- 비밀번호 입력란 -->
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control" id="password" placeholder="비밀번호"
-                                   name="password">
+                                   name="password" th:value="${password}" required>
                             <label for="password" class="visually-hidden">비밀번호</label>
                         </div>
 
                         <!-- 로그인 및 회원가입 버튼 -->
                         <button class="btn btn-lightblue btn-block user" type="submit">로그인</button>
                         <br>
-                        <button class="btn btn-lightblue btn-block user" type="submit">회원가입</button>
+                        <a class="btn btn-lightblue btn-block user" th:href="@{/fragment/register}" style="display: block; text-align: center;  line-height: 43px; font-size: 13.5px;">회원가입</a>
                         <br>
                         <hr class="my-4">
                         <a class="btn btn-lightblue btn-block login kakao"
-                           th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
-                    client_id=${@environment.getProperty('app.oauth2.kakao.client-id')},
-                    redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
+                               th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
+                           client_id=${@environment.getProperty('app.oauth2.kakao.client-id')},
+                            redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
                             <img src="../img/kakao_logo.png" alt="Kakao Logo">
                             <span>카카오로 로그인</span>
                         </a>
@@ -308,10 +315,10 @@
                             <span>구글로 로그인</span>
                         </a>
                         <br>
-                        <button class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}>
+                        <a class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}">
                             <img src="../img/naver_logo.png" alt="naver Logo">
                             <span>네이버로 로그인</span>
-                        </button>
+                        </a>
                         <br>
                     </form>
                 </div>

@@ -8,19 +8,16 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/detail.css">
-    <link rel="stylesheet" th:href="@{/css/categoryTable.css}">
-    <link rel="stylesheet" href="/css/nav.css">
+<!--    <link rel="stylesheet" href="/css/reset.css">-->
+<!--    <link rel="stylesheet" href="/css/detail.css">-->
+<!--    <link rel="stylesheet" href="/css/nav.css">-->
     <script th:src="@{/js/register.js}"></script>
-
     <title>회원가입</title>
 </head>
 
 <body>
 <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
 <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
-
 
 <div>
     <div>
@@ -29,7 +26,8 @@
 </div>
 
 <div>
-    <form method="POST" th:action="@{/user/register}">
+<!--    <form method="POST" th:action="@{/user/register}">-->
+    <form method="POST" th:action="@{/fragment/register}">
         <div>
             <label for="username">아이디</label>
             <input type="text" id="username" name="username" placeholder="사용자 아이디" th:value="${username}" required>
