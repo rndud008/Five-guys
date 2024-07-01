@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
-    private final String DEFAULT_FAILURE_URL = "/user/loginError";
+    private final String DEFAULT_FAILURE_URL = "/fragment/loginError";
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {

@@ -1,6 +1,59 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+<style>
+    body {
+        margin: 0;
+        min-height: 2000px;
+    }
+
+    .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-container.sticky {
+        height: 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-container a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 0px 15px;
+        vertical-align: middle;
+        font-size: 16px;
+    }
+
+    .navbar-container button {
+        background: lightskyblue;
+        width: 120px;
+        height: 40px;
+        margin: auto 0;
+        border-radius: 4%;
+        border: none;
+        outline: none;
+    }
+
+    .navbar-container button:hover {
+        cursor: pointer;
+    }
+
+    .navbar-container button span {
+        color: white;
+    }
+</style>
+
 <th:block th:fragment="navbar">
     <header class="line scroll">
         <div>
@@ -30,6 +83,197 @@
     </header>
 </th:block>
 
+<style>
+    /* 모달창 배경 스타일 */
+    #modalSignin {
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1050;
+        overflow: auto;
+    }
+
+    /* 모달창 컨텐츠 스타일 */
+    #modalSignin .modal-dialog {
+        max-width: 400px;
+        margin: 1.75rem auto;
+    }
+
+    #modalSignin .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        outline: 0;
+    }
+
+    /* 모달창 헤더 스타일 */
+    #modalSignin .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        border-top-left-radius: calc(0.3rem - 1px);
+        border-top-right-radius: calc(0.3rem - 1px);
+    }
+
+    #modalSignin .modal-header .close {
+        padding: 1rem;
+        margin: -1rem -1rem -1rem auto;
+    }
+
+    /* 모달창 본문 스타일 */
+    #modalSignin .modal-body {
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1rem;
+    }
+
+    /* 모달창 푸터 스타일 */
+    #modalSignin .modal-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0.75rem;
+        border-top: 1px solid #dee2e6;
+        border-bottom-right-radius: calc(0.3rem - 1px);
+        border-bottom-left-radius: calc(0.3rem - 1px);
+    }
+
+    #modalSignin .modal-footer>* {
+        margin: 0.25rem;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        text-align: center;
+        width: 100%;
+        font-weight: 1000;
+    }
+
+    .close {
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 0.5;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+    }
+
+    .close:hover {
+        color: #000;
+        text-decoration: none;
+        opacity: .75;
+        cursor: pointer;
+    }
+
+    .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+
+    /* 전체 폼 스타일 */
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    /* 입력 필드 스타일 */
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        z-index: 2;
+    }
+
+    /* 버튼 스타일 */
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .btn {
+        border-radius: 4%;
+        height: 40px;
+        margin: auto 0;
+        border-radius: 4%;
+        border: none;
+        outline: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*padding: auto 0;*/
+        background-color: transparent;
+    }
+
+    .btn span {
+        text-align: center;
+    }
+
+    .btn-lightblue {
+        background-color: rgba(49, 81, 243, 0.85);
+    }
+
+
+    /* 간편 로그인 섹션 스타일 */
+    .h5 {
+        margin-bottom: 1rem;
+    }
+
+    .btn img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .visually-hidden {
+        position: absolute !important;
+        clip: rect(1px, 1px, 1px, 1px);
+        padding: 0 !important;
+        border: 0 !important;
+        height: 1px !important;
+        width: 1px !important;
+        overflow: hidden;
+    }
+</style>
+
+
 <th:block th:fragment="loginModal">
     <div class="modal fade" tabindex="-1" role="dialog" id="modalSign">
         <div class="modal-dialog" role="document">
@@ -42,36 +286,49 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="form-signin">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="아이디"
-                                   name="floatingInput" autocomplete="floatingInput">
-                            <label for="floatingInput" class="visually-hidden">아이디</label>
+                    <form class="form-signin" th:action="@{/fragment/navbar}" method="POST" autocomplete="off">
+                        <!-- 에러 메세지 -->
+                        <div>
+                            <div th:text="${errorMessage}"></div>
                         </div>
+
+                        <!-- 아이디 입력란 -->
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호"
-                                   name="floatingPassword" autocomplete="floatingPassword">
-                            <label for="floatingPassword" class="visually-hidden">비밀번호</label>
+                            <input type="text" class="form-control" id="username" placeholder="아이디"
+                                   name="username" th:value="${username}" required>
+                            <label for="username" class="visually-hidden">아이디</label>
                         </div>
+
+                        <!-- 비밀번호 입력란 -->
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="비밀번호"
+                                   name="password" th:value="${password}" required>
+                            <label for="password" class="visually-hidden">비밀번호</label>
+                        </div>
+
+                        <!-- 로그인 및 회원가입 버튼 -->
                         <button class="btn btn-lightblue btn-block user" type="submit">로그인</button>
                         <br>
-                        <button class="btn btn-lightblue btn-block user" type="submit">회원가입</button>
+                        <a class="btn btn-lightblue btn-block user" th:href="@{/fragment/register}" style="display: block; text-align: center;  line-height: 43px; font-size: 13.5px;">회원가입</a>
                         <br>
                         <hr class="my-4">
-                        <button class="btn btn-lightblue btn-block login kakao" type="submit">
+                        <a class="btn btn-lightblue btn-block login kakao"
+                               th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
+                           client_id=${@environment.getProperty('app.oauth2.kakao.client-id')},
+                            redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
                             <img src="../img/kakao_logo.png" alt="Kakao Logo">
                             <span>카카오로 로그인</span>
-                        </button>
+                        </a>
                         <br>
-                        <button class="btn btn-lightblue btn-block login google" type="submit">
+                        <a class="btn btn-lightblue btn-block login google" th:href="@{/oauth2/authorization/google}">
                             <img src="../img/google_logo.png" alt="google Logo">
                             <span>구글로 로그인</span>
-                        </button>
+                        </a>
                         <br>
-                        <button class="btn btn-lightblue btn-block login naver" type="submit">
+                        <a class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}">
                             <img src="../img/naver_logo.png" alt="naver Logo">
                             <span>네이버로 로그인</span>
-                        </button>
+                        </a>
                         <br>
                     </form>
                 </div>
@@ -79,5 +336,71 @@
         </div>
     </div>
 </th:block>
+
+<script>
+
+    const navbarContainer = document.querySelector('header');
+    const navbarHeight = navbarContainer.offsetHeight;
+
+    window.addEventListener('scroll', function () {
+        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
+        if (window.pageYOffset >= navbarHeight) {
+            navbarContainer.classList.add('sticky');
+        } else {
+            navbarContainer.classList.remove('sticky');
+        }
+    });
+
+</script>
+
+<script>
+    // HTML에서 모달창 요소 선택
+    const modal = document.getElementById('modalSignin');
+
+    // HTML에서 모달창 열기 버튼 선택
+    const openModalBtn = document.querySelector('.navbar-content button');
+
+    // 모달창 요소가 존재하는지 확인
+    if (modal !== null) {
+        // 모달창 열기 이벤트 리스너 등록
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            centerModal();
+        });
+
+        // 모달창 닫기 버튼 선택
+        const closeModalBtn = document.querySelector('.modal .close');
+
+        // 모달창 닫기 이벤트 리스너 등록
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // 모달창 외부 클릭 시 닫기
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // 모달 창 중앙 정렬 함수
+        function centerModal() {
+            const dialog = modal.querySelector('.modal-dialog');
+
+            // 모달 창의 높이가 화면 높이보다 작을 경우
+            if (dialog.offsetHeight < window.innerHeight) {
+                dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
+            } else {
+                dialog.style.marginTop = '';
+            }
+        }
+
+        // 새로고침 시 모달창 열리지 않도록 설정
+        window.addEventListener('DOMContentLoaded', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+</script>
 
 </html>
