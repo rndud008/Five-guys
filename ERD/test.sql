@@ -278,6 +278,10 @@ SELECT * FROM travel_post;
 SELECT * FROM user;
 SELECT * FROM user_authorities;
 SELECT * FROM comment;
+SELECT * FROM user_comment u, comment c where u.comment_id = c.id;
+SELECT * FROM user_comment WHERE user_id = 1;
+
+
 
 SELECT * FROM travel_diary_post;
 INSERT INTO travel_diary_post (user_id, areacode, subject, content)

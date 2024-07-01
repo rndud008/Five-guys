@@ -6,9 +6,15 @@
 <th:block th:if="${post}" th:with="logged_user=${#authentication.principal.user}">
 <head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" th:href="@{/css/boarddetail.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/detail.js}"></script>
 
     <script th:inline="javascript">
@@ -33,14 +39,30 @@
 </head>
 
 <body th:with="logged_user=${#authentication.principal.user}">
+<div id="wrap" >
+    <!-- header -->
+    <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
+    <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
+
+    <div class="bg-top"></div>
 
     <div class="details">
         <h1>조회</h1>
+
+        <div class="subject">
+            <label>제목:</label>
+            <span th:text="${post.subject}"></span>
+        </div>
+
         <div class="info">
-            <span>지역명: [[${areacode.name}]]</span>
-            <span>작성자: [[${post.user.name}]]</span>
-            <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
-            <span>조회수: [[${post.viewcnt}]]</span>
+            <div>
+                <span>작성자: [[${post.user.name}]]</span>
+                <span>지역명: [[${areacode.name}]]</span>
+            </div>
+            <div>
+                <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+                <span>조회수: [[${post.viewcnt}]]</span>
+            </div>
         </div>
 
 
@@ -52,10 +74,6 @@
             </form>
             <!-- 삭제 기능 -->
 
-            <div class="subject">
-                <label>제목:</label>
-                <span th:text="${post.subject}"></span>
-            </div>
             <div class="content">
                 <label>내용:</label>
                 <div class="contentarea" th:utext="${post.content}"></div>
@@ -75,7 +93,7 @@
 
             <!-- 좋아요 -->
             <div class="actions">
-                <button type="button" id="btnLike"><i class="fa fa-heart" style="font-size: 24px"></i></button>
+                <button type="button" id="btnLike"><i class="fa fa-heart" style="font-size: 40px"></i></button>
                 <span id="cntLike"></span>
             </div>
             <!-- 좋아요 -->
@@ -83,12 +101,12 @@
             <!-- 하단 링크 -->
             <div class="links">
                 <div>
-                    <a th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
+                    <a class="listA" th:href="@{/board/listArea(areacode=${areacode.areacode})}">목록</a>
                 </div>
-                <div>
+                <div class="crudBtn">
                     <a th:href="@{'/board/update/' + ${post.id}}" th:if="${logged_user.id == post.user.id}">수정</a>
-                    <button type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
-                    <a th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
+                    <button style="margin: 0 10px" type="button" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</button>
+                    <a class="writeA" th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
                 </div>
             </div>
             <!-- 하단 링크 -->
@@ -101,6 +119,11 @@
 
         </section>
     </div>
+    <th:block th:insert="~{fragment/footer::footer}"></th:block>
+</div>
+
+<script src="/js/nav.js"></script>
+<script src="/js/modallogin.js"></script>
 </body>
 
 </th:block>

@@ -1,0 +1,114 @@
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.body-container {
+    width: 1000px;
+    padding-top: 250px;
+}
+
+.body-container h2 {
+    text-align: center;
+    color: #333;
+}
+
+.body-container form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.body-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.body-container input[type="text"],
+.body-container textarea,
+.body-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.body-container textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.body-container .okBtn,
+.body-container #btnAdd,
+.body-container .listA {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #6b82a7;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+}
+
+.body-container a {
+    background-color: #6b82a7;
+}
+
+.body-container #btnAdd {
+    background-color: #6b82a7;
+}
+
+.body-container #files button{
+    background-color: #6b82a7;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+.body-container button[type="submit"]:hover,
+.body-container button[type="button"]:hover,
+.body-container a:hover {
+    opacity: 0.8;
+}
+
+.body-container hr {
+    margin: 20px 0;
+}
+
+.body-container span {
+    display: block;
+    margin-bottom: 10px;
+    color: #777;
+}
+
+.body-container #files {
+    margin-bottom: 15px;
+}
+
+.body-container #btnAdd {
+    margin-top: 10px;
+}
+
+.body-container .ck-editor__editable {
+    min-height: 300px;
+}
+.body-container .links {
+    display: flex;
+    justify-content: space-between;
+}
