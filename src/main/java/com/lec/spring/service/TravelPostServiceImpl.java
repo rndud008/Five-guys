@@ -613,8 +613,8 @@ public class TravelPostServiceImpl implements TravelPostService {
     }
 
     @Override
-    public TravelPost getTravelPostById(String id) throws IOException {
-        return travelPostRepository.findPostByContentId(id);
+    public TravelPost getTravelPostBycontentId(String contentid) throws IOException {
+        return travelPostRepository.findPostByContentId(contentid);
     }
 
     @Override

@@ -55,7 +55,12 @@ public class HomeController {
             model.addAttribute("loggedUser", null);
         }
 
-        TravelPost travelPost = travelPostService.getTravelPostById(id);
+        TravelPost travelPost = null;
+        try {
+            travelPost = travelPostService.getTravelPostBycontentId(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         travelPost = travelPostService.update(travelPost);
 
@@ -80,7 +85,7 @@ public class HomeController {
             model.addAttribute("loggedUser", null);
         }
 
-        TravelPost travelPost = travelPostService.getTravelPostById(id);
+        TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
         travelPost = travelPostService.update(travelPost);
 
@@ -198,7 +203,7 @@ public class HomeController {
         @GetMapping("/api/festival/blogs")
         public List<BlogReview> getMoreBlogs(@RequestParam("id") String id, @RequestParam("offset") int offset) throws IOException {
 
-            TravelPost travelPost = travelPostService.getTravelPostById(id);
+            TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
             System.out.println(blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3));
 
             return blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3);
@@ -207,7 +212,7 @@ public class HomeController {
         @GetMapping("/api/festival/blogs/count")
         public List<BlogReview> getMoreBlogs2(@RequestParam("id") String id) throws IOException {
 
-            TravelPost travelPost = travelPostService.getTravelPostById(id);
+            TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
 
             return blogReviewService.getsumBlogReview(travelPost);
         }
