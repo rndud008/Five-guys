@@ -136,75 +136,6 @@ function LoadComment(travel_diary_post_id){
     })
 }
 function buildComment(result) {
-    // $("#cmt_cnt").text(result.count);  // 댓글 총 개수
-    //
-    // const out = [];
-    // result.data.forEach(comment => {
-    //     let id = comment.id;
-    //     let content = comment.content.trim();
-    //     let regdate = comment.regdate;
-    //     let likecnt = comment.likecnt;
-    //
-    //     let user_id = parseInt(comment.user.id);
-    //     let username = comment.user.username;
-    //     let name = comment.user.name;
-    //
-    //     let likechk;
-    //
-    //     $.ajax({
-    //         url: "/like/cLikeChk",
-    //         type: "POST",
-    //         data: {
-    //             "user_id": logged_id,
-    //             "comment_id": id,
-    //         },
-    //         cache: false,
-    //         success: function (data){
-    //             console.log(data + "commentId = " + content);
-    //             (data == 0) ? likechk = 0 : likechk = 1;
-    //
-    //             // 수정버튼 여부
-    //             const upBtn = (logged_id !== user_id) ? '' : `
-    //     <button data-cmtup-id="${id}" class="edit-comment-btn" title="수정" style="height: 30px">수정</button>
-    //     `;
-    //             // 삭제버튼 여부
-    //             const delBtn = (logged_id !== user_id) ? '' : `
-    //     <button data-cmtdel-id="${id}" class="delete-comment-btn" title="삭제" style="height: 30px">삭제</button>
-    //     `;
-    //             // 수정버튼 눌렀을 때 확인버튼
-    //             const submitBtn = `
-    //     <button data-cmtsub-id="${id}" class="confirm-comment-btn" title="확인" style="height: 30px; display: none;">확인</button>
-    //     `
-    //             // 수정버튼 눌렀을 때 취소버튼
-    //             const cancelBtn = `
-    //     <button data-cmtcan-id="${id}" class="cancel-comment-btn" title="취소" style="height: 30px; display: none;">취소</button>
-    //     `
-    //             // 댓글 좋아요 버튼 userid 가 다르면 좋아요 회색 같으면 빨간색
-    //             const likeBtn = (likechk == 1) ?
-    //                 `<button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px; color: red;"><i class="fa fa-heart" style="font-size: 24px"></i></button>
-    //             <span class="like-count">${likecnt}</span>`
-    //                 :
-    //                 `<button data-cmtlike-id="${id}" class="like-comment-btn" title="좋아요" style="height: 30px; color: #909090;"><i class="fa fa-heart" style="font-size: 24px"></i></button>
-    //             <span class="like-count">${likecnt}</span>`
-    //
-    //             ;
-    //
-    //             const row = `
-    //         <tr>
-    //             <td><span><strong>${username}</strong><br><small>(${name})</small></span></td>
-    //             <td style="display: flex; justify-content: space-between; align-items: center">
-    //                 <textarea readonly class="content${id}" id="textarea_comment" value="${content}">${content}</textarea><div>${upBtn}${submitBtn}${cancelBtn}${delBtn}</div>
-    //             </td>
-    //             <td>${likeBtn}</td>
-    //             <td><span><small>${regdate}</small></span></td>
-    //         </tr>
-    //     `;
-    //             out.push(row);
-    //
-    //             $("#cmt_list").html(out.join('\n'));
-    //         }
-    //     });
-    // });
 
     $("#cmt_cnt").text(result.count);  // 댓글 총 개수
 
@@ -284,41 +215,9 @@ function buildComment(result) {
         // 모든 댓글 HTML을 한 번에 추가
         $("#cmt_list").html(out.join('\n'));
     };
-// 댓글 처리 함수 호출
+    // 댓글 처리 함수 호출
     processComments();
 }
-
-// 댓글 삭제 버튼이 눌렸을때, 해당 댓글 삭제하는 이벤트를 등록
-// function addDelete() {
-//
-//     // 현재 글의 id
-//     const id = $("input[name='id']").val().trim();
-//
-//     $("[data-cmtdel-id]").click(function () {
-//         if(!confirm("댓글을 삭제하시겠습니까?")) return;
-//
-//         // 삭제할 댓글의 id
-//         const comment_id = $(this).attr("data-cmtdel-id");
-//
-//         $.ajax({
-//             url: "/comment/delete",
-//             type: "POST",
-//             cache: false,
-//             data: {"id": comment_id},
-//             success: function (data, status) {
-//                 if (status == "success") {
-//                     if (data.status !== "OK") {
-//                         alert(data.status);
-//                         return;
-//                     }
-//
-//                     // 삭제후에도 댓글 목록 불러와야 한다
-//                     LoadComment(id);
-//                 }
-//             },
-//         });
-//     });
-// }
 
 $(function () {
 

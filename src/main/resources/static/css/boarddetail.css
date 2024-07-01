@@ -23,9 +23,8 @@ h2 {
 }
 
 .details .info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 24px;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 .details .info span {
@@ -39,7 +38,10 @@ h2 {
 }
 
 .details .subject {
+    font-weight: bold;
+    font-size: 24px;
     margin: 15px 0;
+    word-break: break-word;
 }
 
 .details .content div{

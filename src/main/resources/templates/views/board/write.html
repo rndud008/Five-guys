@@ -12,7 +12,7 @@
 
     <style>
         .ck.ck-editor {
-            max-width: 800px;
+            max-width: 920px;
         }
         .ck-editor__editable {
             min-height: 300px;
@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<div th:with="user=${#authentication.getPrincipal().getUser()}">
+<div class="body-container" th:with="user=${#authentication.getPrincipal().getUser()}">
     <h2>작성</h2>
     <hr>
     <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
@@ -50,7 +50,6 @@
         <div>
             <label>내용</label>
             <textarea rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
-
             <script>
                 CKEDITOR.ClassicEditor.create(document.getElementById("content"), {
                     toolbar: {
@@ -153,8 +152,6 @@
                     ]
                 });
             </script>
-
-
         </div>
 
         <!-- 첨부파일 -->

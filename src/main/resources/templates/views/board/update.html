@@ -8,14 +8,14 @@
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-    <link rel="stylesheet" th:href="@{/css/boardwrite.css}">
+    <link rel="stylesheet" th:href="@{/css/boardupdate.css}">
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/super-build/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/super-build/translations/ko.js"></script>
     <script th:src="@{/js/update.js}"></script>
 
     <style>
         .ck.ck-editor {
-            max-width: 800px;
+            max-width: 960px;
         }
         .ck-editor__editable {
             min-height: 300px;
@@ -26,11 +26,11 @@
 </head>
 <body>
 
-<div>
+<div class="body-container">
     <h2>수정</h2>
     <hr>
     <div>
-        <span>id: [[${post.id}]]</span>
+        <span>글 번호: [[${post.id}]]</span>
         <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
         <span>조회수: [[${post.viewcnt}]]</span>
     </div>

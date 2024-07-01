@@ -8,6 +8,9 @@ body {
     align-items: center;
     min-height: 100vh;
 }
+.body-container {
+    width: 1000px;
+}
 
 h2 {
     text-align: center;
@@ -19,8 +22,6 @@ form {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
     margin: 20px;
 }
 
@@ -65,11 +66,15 @@ a {
 }
 
 button[type="button"] {
-    background-color: #0275d8;
+    background-color: #d9534f;
 }
 
 a {
-    background-color: #d9534f;
+    background-color: #6b82a7;
+}
+
+#btnAdd {
+    background-color: #0275d8;
 }
 
 button[type="submit"]:hover,

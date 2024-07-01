@@ -36,11 +36,21 @@
 
     <div class="details">
         <h1>조회</h1>
+
+        <div class="subject">
+            <label>제목:</label>
+            <span th:text="${post.subject}"></span>
+        </div>
+
         <div class="info">
-            <span>지역명: [[${areacode.name}]]</span>
-            <span>작성자: [[${post.user.name}]]</span>
-            <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
-            <span>조회수: [[${post.viewcnt}]]</span>
+            <div>
+                <span>작성자: [[${post.user.name}]]</span>
+                <span>지역명: [[${areacode.name}]]</span>
+            </div>
+            <div>
+                <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+                <span>조회수: [[${post.viewcnt}]]</span>
+            </div>
         </div>
 
 
@@ -52,10 +62,6 @@
             </form>
             <!-- 삭제 기능 -->
 
-            <div class="subject">
-                <label>제목:</label>
-                <span th:text="${post.subject}"></span>
-            </div>
             <div class="content">
                 <label>내용:</label>
                 <div class="contentarea" th:utext="${post.content}"></div>
