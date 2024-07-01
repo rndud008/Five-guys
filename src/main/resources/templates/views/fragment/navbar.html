@@ -57,17 +57,27 @@
 <th:block th:fragment="navbar">
     <header class="line scroll">
         <div>
-            <h1 class="logo">
-                <a href="/">로고</a></h1>
+            <a th:href="@{/}"><h1 class="logo"></h1></a>
             <nav>
                 <ul>
                     <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
                     <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
-                    <li><a href=""><span>게시판</span></a></li>
+                    <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
                 </ul>
             </nav>
-            <h1 class="login">
-                <button><span><b>TRAVEL</b></span><br><span>login</span></button>
+            <h1 class="login" th:if="${loggedUser == null}"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+            <h1 class="login loginSuccess" th:if="${loggedUser != null}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+                <span th:text="${loggedUser.username}">## 유저아이디 ##</span>
+                <div class="login-profile">
+                    <div class="first">
+                        <span><span th:text="${loggedUser.name}">## 닉네임 ## </span><span>##로그아웃##</span></span>
+                        <span th:text="${loggedUser.email}">## 이메일 ## </span>
+                    </div>
+                    <div class="second">
+                        <a >회원 정보 수정</a>
+                        <a >회원 탈퇴</a>
+                    </div>
+                </div>
             </h1>
         </div>
     </header>
@@ -143,7 +153,7 @@
         border-bottom-left-radius: calc(0.3rem - 1px);
     }
 
-    #modalSignin .modal-footer > * {
+    #modalSignin .modal-footer>* {
         margin: 0.25rem;
     }
 
@@ -315,10 +325,10 @@
                             <span>구글로 로그인</span>
                         </a>
                         <br>
-                        <a class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}">
+                        <button class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}>
                             <img src="../img/naver_logo.png" alt="naver Logo">
                             <span>네이버로 로그인</span>
-                        </a>
+                        </button>
                         <br>
                     </form>
                 </div>

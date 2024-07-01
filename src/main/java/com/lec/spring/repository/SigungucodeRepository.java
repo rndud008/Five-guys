@@ -6,7 +6,7 @@ import com.lec.spring.domain.Sigungucode;
 import java.util.List;
 
 
-public interface SigungucodeRepository extends GenericRepository<Sigungucode> {
+public interface SigungucodeRepository {
     int save(Sigungucode sigungucode);
 
     int update(Sigungucode sigungucode);

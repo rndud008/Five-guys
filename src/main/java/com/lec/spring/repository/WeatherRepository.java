@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface WeatherRepository {
     WeatherDTO findByAreacodeFcstDateTime(WeatherDTO weather);
-    void updateWeather(WeatherDTO weather);
-    void insertWeather(WeatherDTO weather);
+    void updateWeather_short(WeatherDTO weather);
+    void insertWeather_short(WeatherDTO weather);
     List<WeatherDTO> findWeatherByAreacodeAndCoordinates(@Param("areacode") Long areacode, @Param("nx") int nx, @Param("ny") int ny);
 
 }
