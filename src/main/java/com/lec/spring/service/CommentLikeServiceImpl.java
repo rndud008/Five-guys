@@ -30,4 +30,11 @@ public class CommentLikeServiceImpl implements CommentLikeService {
     public Long likeCount(Long commentId) {
         return commentLikeRepository.countByComment(commentId);
     }
+
+    @Override
+    public int likeChk(Long userId, Long commentId) {
+        if(commentLikeRepository.findLike(userId, commentId) == null){
+            return 0;
+        } else return 1;
+    }
 }
