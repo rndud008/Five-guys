@@ -23,9 +23,8 @@ h2 {
 }
 
 .details .info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 .details .info span {
@@ -38,9 +37,16 @@ h2 {
     margin-right: 10px;
 }
 
+.details .subject {
+    font-weight: bold;
+    font-size: 24px;
+    margin: 15px 0;
+    word-break: break-word;
+}
+
 .details .content div{
     margin: 10px 0;
-    width: 940px;
+    width: 938px;
     max-height: 600px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -60,7 +66,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     height: 40px;
-    width: 200px;
+    /*width: 200px;*/
 }
 .details .links button,
 .details .links a{
@@ -77,10 +83,31 @@ h2 {
     align-content: center;
 }
 
-.details .links button:hover,
-.details .links a:hover{
-    background-color: #007bff;
+.details .links .listA:hover {
+    background-color: #8b96a2;
 }
+
+.details .links .crudBtn a{
+    background-color: #0275d8;
+}
+.details .links .crudBtn .writeA{
+    background-color: #5cb85c;
+}
+.details .links .crudBtn button{
+    background-color: red;
+}
+
+.details .links a:hover{
+    background-color: #5490ce;
+
+}
+.details .links .crudBtn .writeA:hover{
+    background-color: #96d796;
+}
+.details .links button:hover{
+    background-color: #ff6d6d;
+}
+
 
 /*첨부파일*/
 .details .attachments {
@@ -109,19 +136,25 @@ h2 {
     justify-content: center;
 }
 .details .actions #cntLike {
-    line-height: 34px;
+    line-height: 50px;
+    font-size: 24px;
 }
 
 .details .actions button {
-    padding: 5px 10px;
+    padding: 5px 5px;
+    margin-right: 10px;
     font-size: 14px;
     color: red;
     background-color: white;
     border: none;
     cursor: pointer;
     border-radius: 3px;
+    transition: transform 0.3s ease;
 }
 
+.details .actions button:hover{
+    transform: scale(1.1);
+}
 
 /* 댓글 섹션 */
 /*.comment-section {*/
@@ -163,23 +196,23 @@ h2 {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 900px;
+    padding: 20px 0;
+    margin: 20px 0;
+    max-width: 958px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .comment-section label {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-left: 20px;
 }
 
 .comment-form {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-top: 10px;
+    margin: 10px 20px;
     position: relative;
     height: 100px;
 }
@@ -197,7 +230,7 @@ h2 {
 
 .comment-form #btn_comment {
     padding: 7px 12px;
-    background-color: #6b82a7;
+    background-color: #0275d8;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -207,7 +240,7 @@ h2 {
     margin: 0 5px 5px 0;
 }
 .comment-form #btn_comment:hover{
-    background-color: #007bff;
+    background-color: #5490ce;
 }
 .comment-form #char_count {
     display: inline-block;
@@ -218,8 +251,8 @@ h2 {
 }
 
 #cmt_table {
-    width: 100%;
-    margin-top: 20px;
+    width: 918px;
+    margin: 20px 20px 0 20px;
     border-collapse: collapse;
 }
 #cmt_table button{
@@ -248,8 +281,51 @@ h2 {
 #cmt_list tr:hover {
     background-color: #f0f0f0;
 }
+
+textarea[readonly] {
+    border: none; /* 경계선을 없앰 */
+    outline: none; /* 포커스 표시를 없앰 */
+    resize: none; /* 크기 조정 기능을 없앰 */
+    background-color: transparent; /* 배경색을 투명하게 설정 (필요에 따라 설정) */
+}
 #cmt_list textarea {
     resize: none;
     width: 400px;
     height: auto;
+    border: none;
+}
+
+#cmt_list .like-comment-btn{
+    background-color: transparent;
+    transition: transform 0.3s ease;
+}
+
+#cmt_list .like-comment-btn:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#cmt_table .edit-comment-btn{
+    background-color: #0275d8;
+}
+#cmt_table .edit-comment-btn:hover,
+#cmt_table .confirm-comment-btn:hover{
+    background-color: #5490ce;
+    cursor: pointer;
+}
+#cmt_table .confirm-comment-btn{
+    background-color: #5cb85c;
+}
+#cmt_table .confirm-comment-btn:hover{
+    background-color: #96d796;
+}
+#cmt_table .delete-comment-btn,
+#cmt_table .cancel-comment-btn{
+    background-color: #ff3a3a;
+}
+
+#cmt_table .delete-comment-btn:hover,
+#cmt_table .cancel-comment-btn:hover{
+    background-color: #ff6d6d;
+    cursor: pointer;
 }
