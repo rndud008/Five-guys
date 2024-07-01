@@ -724,5 +724,54 @@ ul.icons.major li {
     background-color: #0056b3; /* 호버 시 배경색 변경 */
 }
 
+.like-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
 
+/* 좋아요 버튼 스타일 */
+.like-button {
+    font-size: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    transition: transform 0.3s, color 0.3s;
+    margin-left: 370px;
+}
+
+.like-button:hover {
+    transform: scale(1.1); /* 호버 시 버튼 약간 확대 */
+    color: #007bff; /* 호버 시 색상 변경 */
+}
+
+/* 좋아요 아이콘 스타일 */
+.like-button i {
+    align-items: center;
+    font-size: 50px; /* 아이콘 크기 조정 */
+}
+
+/* 좋아요 텍스트 스타일 */
+.like-text {
+    margin-right: 5px;
+}
+
+/* 좋아요 수 스타일 */
+.like-count {
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 30px;
+    color: #888;
+    transition: transform 0.3s ease;
+}
+
+/* 좋아요 수 증가 애니메이션 */
+.like-count.increment {
+    transform: scale(1.2); /* 좋아요 수가 증가할 때 약간 확대 */
+    color: #007bff; /* 좋아요 수가 증가할 때 색상 변경 */
+}
 
