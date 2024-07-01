@@ -60,13 +60,10 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=500&pageNo=13&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=14000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId()); // TODO pageNo=12 완료
             System.out.println(apiUrl);
             JsonNode items = null;
-
-
-
 
             items = dataService.fetchApiData(apiUrl);
 
