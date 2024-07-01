@@ -55,7 +55,7 @@ public class SecurityConfig {
                  */
                 // ※ 아래 설정 없이도 기본적으로 /logout 으로 로그아웃 된다
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
-                                .logoutUrl("/user/logout")  // 로그아웃 수행 url
+                                .logoutUrl("/fragment/logout")  // 로그아웃 수행 url
 
                                 //                              .logoutSuccessUrl("/home")  // 로그아웃 성공후 redirect url
 

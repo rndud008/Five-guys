@@ -55,7 +55,12 @@ public class HomeController {
             model.addAttribute("loggedUser", null);
         }
 
-        TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
+        TravelPost travelPost = null;
+        try {
+            travelPost = travelPostService.getTravelPostBycontentId(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         travelPost = travelPostService.update(travelPost);
 
@@ -104,7 +109,9 @@ public class HomeController {
 //        return "navbar";      // board 밑에 있는 detail.html(뷰) 리턴
 //    }
 
-
+    /**
+     * 로그인 관련 처리
+     */
     @GetMapping("/fragment/navbar")
     public void navbar(){}
 
@@ -157,18 +164,18 @@ public class HomeController {
         binder.setValidator(userValidator);
     }
 
-    @GetMapping("/login")
+    @GetMapping("/fragment/login")
     public void login() {
     }
 
     // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
     // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
-    @PostMapping("/loginError")
+    @PostMapping("fragment/loginError")
     public String loginError() {
         return "fragment/login";
     }
 
-    @RequestMapping("/rejectAuth")
+    @RequestMapping("fragment/rejectAuth")
     public String rejectAuth() {
         return "common/rejectAuth";
     }

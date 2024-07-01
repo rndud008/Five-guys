@@ -15,7 +15,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         // 로그아웃 시간 남기기
         // todo 필요한가
 
-        String redirectUrl = "/user/login?logoutHandler";
+        String redirectUrl = "/fragment/login?logoutHandler";
 
         // return_url 이 있는 경우 logout 후 해당 url 로 redirect.
         if(request.getParameter("ret_url")!=null){
