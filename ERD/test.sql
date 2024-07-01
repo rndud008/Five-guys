@@ -302,7 +302,7 @@ select * from travel_type;
 select *
 from last_call_api_date where url = 'https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=oshjO8WG9VLp87/CQQK/YzU9KWIOr/3VlA8jNBbi40aHpZM1RyvXyDNiCfF3IMl4wPg0UicSNMFHYNtQZVfzNQ==&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1&contentId=2702643&contentTypeId=12';
 
-delete from last_call_api_date where id = 46101
+delete from last_call_api_date where id = 46101;
 
 INSERT INTO travel_diary_post (user_id, areacode, subject, content)
 SELECT user_id, areacode, subject, content

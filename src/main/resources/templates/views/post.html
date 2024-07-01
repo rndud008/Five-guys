@@ -19,51 +19,9 @@
     <script src="https://kit.fontawesome.com/fcca3fae9a.js" crossorigin="anonymous"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KK8LFW3LEV"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        let offset = 5; // 초기 offset 값 설정
-        let postId = [[${post.contentid}]]; // Thymeleaf를 이용해 postId 가져오기
-        let totalBlogs = 0; // 총 블로그 개수
 
-        $(document).ready(function() {
-            // 페이지 로드 시 총 블로그 개수를 가져옴
-            $.get("/api/festival/blogs/count", { id: postId }, function(data) {
-                totalBlogs = data;
-            });
-        });
-
-        function loadMore() {
-            $.get("/api/festival/blogs", { id: postId, offset: offset }, function(data) {
-                if (data.length > 0) {
-                    let blogList = $('#blogList');
-                    data.forEach(function(blog) {
-                        blogList.append(
-                            '<li>' +
-                            '<div>' +
-                            '<a href="' + blog.link + '" target="_blank" class="tit">' +
-                            '<strong>' + blog.title + '</strong>' +
-                            '<span>' + blog.postdate.substring(2, 4) + '.' + blog.postdate.substring(4, 6) + '.' + blog.postdate.substring(6, 8) + '</span>' +
-                            '</a>' +
-                            '<a href="' + blog.link + '" target="_blank" class="desc">' +
-                            blog.description +
-                            '</a>' +
-                            '</div>' +
-                            '</li>'
-                        );
-                    });
-                    offset += 3; // 다음 요청을 위해 offset 값을 증가
-
-                    // 현재 로드된 블로그 수와 총 블로그 수를 비교
-                    if (offset >= totalBlogs) {
-                        $('#loadMore').hide(); // 모든 블로그가 로드되면 "더보기" 버튼 숨기기
-                    }
-                } else {
-                    $('#loadMore').hide(); // 더 이상 데이터가 없을 때 "더보기" 버튼 숨기기
-                }
-            });
-        }
-
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         .like-container {
             display: flex;
@@ -193,10 +151,7 @@
                     </div>
 
                     <div class="like-container">
-                        <button class="like-button">
-                            <i class="far fa-heart"></i>
-                            <span class="like-text">좋아요</span>
-                        </button>
+                        <button class="like-button"></button>
                         <span class="like-count">0</span>
                     </div>
 
@@ -224,101 +179,67 @@
     </main>
     <!-- //container -->
 
-    <!-- footer -->
-    <footer id="footer">
-        <ul class="icons">
-            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-            <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-            <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>&copy; Untitled</li><li>Design: KT</li>
-        </ul>
-    </footer>
+    <th:block th:insert="~{fragment/footer::footer}"></th:block>
+
 </div>
 
 <script th:inline="javascript" th:with="loggedUser=${loggedUser}">
-    <!--    좋아요 기능 javaScript-->
+    /*<![CDATA[*/
+    var postId = [[${post.id}]];
+    var postContentid = [[${post.contentid}]];
+    var loggedUser = [[${loggedUser}]];
+    /*]]>*/
+</script>
+
+<script type="text/javascript">
+
+    let offset = 5; // 초기 offset 값 설정
+    let totalBlogs = 0; // 총 블로그 개수
+
     $(document).ready(function () {
-        let postId = [[${post.id}]];
 
-        function loadLikeStatus() {
-            console.log("loadLikeStatus 실행")
-
-            $.ajax({
-                url: '/like/getTravelPostLike',
-                type: 'GET',
-                data: {
-                    travelPostId: postId
-                },
-                success: function (response) {
-                    if (response === ' ') {
-                        $('.like-button').html(`<i class="fa-regular fa-thumbs-up"></i>`)
-                    } else {
-                        $('.like-button').html(`<i class="fa-solid fa-thumbs-up"></i>`)
-                    }
-
-                    updateLikeCount();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching search results:', error);
-
-                }
-            });
-        }
-
-        function updateLikeCount() {
-            $.ajax({
-                url: '/like/travelPostLikeCount',
-                type: 'GET',
-                data: {
-                    travelPostId: postId
-                },
-                success: function (response) {
-                    $('.like-count').html(response)
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching search results:', error);
-                }
-            });
-        }
-
-
-        $('.like-button').on('click', function () {
-
-            if ([[${loggedUser == null}]]) {
-                alert('로그인이 필요합니다.');
-                window.location.href = '/user/login';
-            }
-
-            $.ajax({
-                url: '/like/postTravelPostLike',
-                type: 'POST',
-                data: {
-                    travelPostId: postId
-                },
-                success: function (response) {
-                    if (response === ' ') {
-                        $('.like-button').html(`<i class="fa-regular fa-thumbs-up"></i>`)
-                    } else {
-                        $('.like-button').html(`<i class="fa-solid fa-thumbs-up"></i>`)
-                    }
-
-                    updateLikeCount();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching search results:', error);
-                }
-            });
+        // 페이지 로드 시 총 블로그 개수를 가져옴
+        $.get("/api/festival/blogs/count", {id: postContentid}, function (data) {
+            totalBlogs = data;
         });
+    });
 
-        loadLikeStatus();
+    function loadMore() {
+        console.log("클릭")
+        $.get("/api/festival/blogs", {id: postContentid, offset: offset}, function (data) {
+            if (data.length > 0) {
+                let blogList = $('#blogList');
+                data.forEach(function (blog) {
+                    blogList.append(
+                        '<li>' +
+                        '<div>' +
+                        '<a href="' + blog.link + '" target="_blank" class="tit">' +
+                        '<strong>' + blog.title + '</strong>' +
+                        '<span>' + blog.postdate.substring(2, 4) + '.' + blog.postdate.substring(4, 6) + '.' + blog.postdate.substring(6, 8) + '</span>' +
+                        '</a>' +
+                        '<a href="' + blog.link + '" target="_blank" class="desc">' +
+                        blog.description +
+                        '</a>' +
+                        '</div>' +
+                        '</li>'
+                    );
+                });
+                offset += 3; // 다음 요청을 위해 offset 값을 증가
 
-    })
+                // 현재 로드된 블로그 수와 총 블로그 수를 비교
+                if (offset >= totalBlogs) {
+                    $('#loadMore').hide(); // 모든 블로그가 로드되면 "더보기" 버튼 숨기기
+                }
+            } else {
+                $('#loadMore').hide(); // 더 이상 데이터가 없을 때 "더보기" 버튼 숨기기
+            }
+        });
+    }
+</script>
 
 
+
+<script th:inline="javascript">
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var markers = []; // 모든 마커를 담을 배열
     var categoryMarkers = []; // 카테고리 검색 결과 마커를 담을 배열
@@ -334,12 +255,12 @@
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // 기존 마커 표시
-        var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
-        var marker = new kakao.maps.Marker({
-            position: markerPosition,
-        });
-        marker.setMap(map); // 마커를 지도에 표시
-        markers.push(marker); // markers 배열에 추가
+    var markerPosition = new kakao.maps.LatLng(post.mapy, post.mapx);
+    var marker = new kakao.maps.Marker({
+        position: markerPosition,
+    });
+    marker.setMap(map); // 마커를 지도에 표시
+    markers.push(marker); // markers 배열에 추가
 
     // 각 카테고리에 클릭 이벤트를 등록합니다
     var category = document.getElementById('category'),
@@ -505,69 +426,10 @@
         }
     }
 
-</script>
-<script>
-    const navbarContainer = document.querySelector('header');
-    const navbarHeight = navbarContainer.offsetHeight;
+</script> <!--kakaomap-->
 
-    window.addEventListener('scroll', function () {
-        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
-        if (window.pageYOffset >= navbarHeight) {
-            navbarContainer.classList.add('sticky');
-        } else {
-            navbarContainer.classList.remove('sticky');
-        }
-    });
-
-</script>
-<script>
-    // HTML에서 모달창 요소 선택
-    const modal = document.getElementById('modalSignin');
-
-    // HTML에서 모달창 열기 버튼 선택
-    const openModalBtn = document.querySelector('.login button');
-
-    // 모달창 요소가 존재하는지 확인
-    if (modal !== null) {
-        // 모달창 열기 이벤트 리스너 등록
-        openModalBtn.addEventListener('click', () => {
-            modal.style.display = 'block';
-            centerModal();
-        });
-
-        // 모달창 닫기 버튼 선택
-        const closeModalBtn = document.querySelector('.modal .close');
-
-        // 모달창 닫기 이벤트 리스너 등록
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        // 모달창 외부 클릭 시 닫기
-        window.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // 모달 창 중앙 정렬 함수
-        function centerModal() {
-            const dialog = modal.querySelector('.modal-dialog');
-
-            // 모달 창의 높이가 화면 높이보다 작을 경우
-            if (dialog.offsetHeight < window.innerHeight) {
-                dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
-            } else {
-                dialog.style.marginTop = '';
-            }
-        }
-
-        // 새로고침 시 모달창 열리지 않도록 설정
-        window.addEventListener('DOMContentLoaded', () => {
-            modal.style.display = 'none';
-        });
-    }
-
-</script>
+<script src="/js/nav.js"></script>
+<script src="/js/travelLike.js"></script>
+<script src="/js/modallogin.js"></script>
 </body>
 </html>

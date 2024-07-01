@@ -89,7 +89,7 @@ public interface TravelPostRepository {
             , @Param("travelTypeId") long travelTypeId, @Param("searchQuery") String searchQuery, @Param("limit") int limit, @Param("offset") int offset);
     // 특정 여행 타입 전체정보 조회 검색리스트
 
-    TravelPost findPostByContentId(String id);
+    TravelPost findPostByContentId(String contentid);
 
     // -- 좋아요 -- 기능
     int addTravelPostLike(@Param("postId") Long postId, @Param("userId") Long userId);

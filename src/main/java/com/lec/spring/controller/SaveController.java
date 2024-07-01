@@ -5,16 +5,14 @@ import com.lec.spring.service.SigungucodeService;
 import com.lec.spring.service.TravelClassDetailService;
 import com.lec.spring.service.TravelPostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 @RestController
-public class MainController {
+public class SaveController {
     @Autowired
     private SigungucodeService sigungucodeService;
     @Autowired
@@ -29,17 +27,10 @@ public class MainController {
 
         try {
             sigungucodeService.saveSigungucodes();
-            return "sigungucodeServiceData fetched and saved successfully!";
-        } catch (IOException e) {
-            return "Error occurred: " + e.getMessage();
-        }
-    }
 
-    @GetMapping("/travelType")
-    public String travelTypeFetchAndSave() {
-        try {
             travelClassDetailService.saveTravelClassDetails();
-            return "travelClassDetailServiceData fetched and saved successfully!";
+
+            return "saved successfully!";
         } catch (IOException e) {
             return "Error occurred: " + e.getMessage();
         } catch (URISyntaxException e) {

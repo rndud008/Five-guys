@@ -137,6 +137,7 @@ main > section{position: relative; width: 100%; background: #fff; z-index: 100; 
 
 #footer .icons {
     font-size: 1.25em;
+    justify-content: center;
 }
 
 #footer .icons a {
@@ -155,6 +156,7 @@ main > section{position: relative; width: 100%; background: #fff; z-index: 100; 
     list-style: none;
     padding: 0;
     text-transform: uppercase;
+    justify-content: center;
 }
 
 #footer .copyright li {
