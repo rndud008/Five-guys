@@ -120,7 +120,7 @@ public class HomeController {
     @RestController
     public class BlogRestController {
 
-        @GetMapping("/api/festival/blogs")
+        @GetMapping("/api/blogs")
         public List<BlogReview> getMoreBlogs(@RequestParam("id") String id, @RequestParam("offset") int offset) throws IOException {
 
             TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
@@ -129,7 +129,7 @@ public class HomeController {
             return blogReviewService.selectedTravelPostByBlogReview(travelPost, offset, 3);
         }
 
-        @GetMapping("/api/festival/blogs/count")
+        @GetMapping("/api/blogs/count")
         public List<BlogReview> getMoreBlogs2(@RequestParam("id") String id) throws IOException {
 
             TravelPost travelPost = travelPostService.getTravelPostBycontentId(id);
