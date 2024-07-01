@@ -121,6 +121,8 @@
     <th:block th:insert="~{fragment/navbar::navbar}"></th:block>
     <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
+    <div class="bg-top"></div>
+
     <main>
         <section class="sub">
             <div class="view tour">
@@ -200,19 +202,17 @@
 
                     <div class="title justify">
                         <h4>관련 블로그 리뷰</h4>
-                        <a href="https://search.naver.com/search.naver?ssc=tab.blog.all&amp;sm=tab_jum&amp;query=경주세계자동차박물관" target="_blank" class="btn-blog">네이버 검색 바로가기</a>
+                        <a th:href="'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=' + ${post.title}" target="_blank" class="btn-search">네이버 검색 바로가기</a>
                     </div>
                     <div class="blog">
-                        <ul id="blogList" th:each="blog : ${blogReview}">
-                            <li>
+                        <ul id="blogList">
+                            <li th:each="blog : ${blogReview}">
                                 <div>
                                     <a th:href="${blog.link}" target="_blank" class="tit">
-                                        <strong th:utext="${blog.title}"><b>경주</b> <b>아이</b>와가볼만한곳추천 <b>경주세계자동차박물관</b> 19개월<b>아기</b></strong>
-                                        <span th:text="${#strings.substring(blog.postdate, 2, 4)} + '.' + ${#strings.substring(blog.postdate, 4, 6)} + '.' + ${#strings.substring(blog.postdate, 6, 8)}">2023.10.02</span>
+                                        <strong th:utext="${blog.title}"></strong>
+                                        <span th:text="${#strings.substring(blog.postdate, 2, 4)} + '.' + ${#strings.substring(blog.postdate, 4, 6)} + '.' + ${#strings.substring(blog.postdate, 6, 8)}"></span>
                                     </a>
-                                    <a th:href="${blog.link}" target="_blank" class="desc" th:utext="${blog.description}">
-                                        <b>경주</b>로 <b>아이</b>와 여행을 갔다가 <b>경주세계자동차박물관</b>에 다녀왔어요 활동성 많은 19개월 <b>아기</b>에 <b>자동차</b>... 분야의 <b>박물관</b>을 오니 입이 귀에 걸렸어요 2층 엘레베이터 옆에 이렇게 운전하는 장난감이 놓여...
-                                    </a>
+                                    <a th:href="${blog.link}" target="_blank" class="desc" th:utext="${blog.description}"></a>
                                 </div>
                             </li>
                         </ul>

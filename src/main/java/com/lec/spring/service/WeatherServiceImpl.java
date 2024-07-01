@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponentsBuilder;
-
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -54,20 +52,15 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     @Transactional
-    public void saveWeatherInfo(Long areacode, int nx, int ny) {
-
-
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
-                .queryParam("serviceKey", apiKey)
-                .queryParam("pageNo", "1")
-                .queryParam("numOfRows", numOfRows)
-                .queryParam("dataType", "JSON")
-                .queryParam("base_date", baseDate)
-                .queryParam("base_time", baseTime)
-                .queryParam("nx", nx)
-                .queryParam("ny", ny)
-                .toUriString();
-        System.out.println("saveWeatherInfo 요청 URL: " + url);
+    public void saveWeatherInfo_short(Long areacode, int nx, int ny) {
+        String url =
+                baseUrl +
+                    "?serviceKey=" + apiKey +
+                    "&pageNo=1&numOfRows=" + numOfRows +
+                    "&dataType=json&base_date=" + baseDate +
+                    "&base_time=" + baseTime +
+                    "&nx=" + nx + "&ny=" + ny;
+        System.out.println("단기날씨(1 ~ 3일) 정보 요청 URL: " + url);
 
 
         try {
@@ -124,31 +117,32 @@ public class WeatherServiceImpl implements WeatherService {
                     try {
                         WeatherDTO existingWeather = weatherRepository.findByAreacodeFcstDateTime(weather);
                         if (existingWeather != null) {
-                            weatherRepository.updateWeather(weather);
+                            weatherRepository.updateWeather_short(weather);
                         } else {
-                            weatherRepository.insertWeather(weather);
+                            weatherRepository.insertWeather_short(weather);
                         }
                     } catch (Exception e) {
-                        System.err.println("날씨 정보 저장 중 오류 발생: " + e.getMessage());
+                        System.err.println("단기날씨(1 ~ 3일) 정보 저장 중 오류 발생: " + e.getMessage());
                     }
                 }
-
-
             } else {
-                System.out.println("이미 호출됨: " + url);
+                System.out.println("단기날씨(1 ~ 3일) 이미 호출된 URL: " + url);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        System.out.println("saveWeatherInfo 성공!");
+        System.out.println("단기날씨(1 ~ 3일) 저장 성공!");
     }
 
 
     @Override
-    public List<WeatherDTO> getWeatherInfo(Long areacode, int nx, int ny) {
+    public List<WeatherDTO> getWeatherInfo_short(Long areacode, int nx, int ny) {
+        System.out.println("지역코드: " + areacode + "\nx좌표: " + nx + "\ny좌표: " + ny);
         List<WeatherDTO> weatherList = weatherRepository.findWeatherByAreacodeAndCoordinates(areacode, nx, ny);
+        System.out.println("단기날씨(1 ~ 3일) 불러오기 성공!: " + weatherList);
+        System.out.println();
         return weatherList;
     }
 
@@ -156,23 +150,15 @@ public class WeatherServiceImpl implements WeatherService {
     // JSON 데이터를 파싱하고 WeatherDTO_2로 매핑하는 메서드
     private List<WeatherDTO> parseAndMapToDTO(JsonNode itemArray, LastCallApiDate lastCallApiDate, Areacode areacode) {
         Map<String, WeatherDTO> weatherMap = new HashMap<>();
-
-
         for (JsonNode data : itemArray) {
-
-
             String fcstDate = data.get("fcstDate").asText();
             String fcstTime = data.get("fcstTime").asText();
             String category = data.get("category").asText();
             String fcstValue = data.get("fcstValue").asText();
 
-
-            // 예시로 특정 시간대의 데이터만 처리
             if (!"0600".equals(fcstTime) && !"1500".equals(fcstTime)) {
                 continue; // 0600과 1500 시간이 아닌 경우 건너뜀
             }
-
-
             String key = fcstDate + fcstTime;
             WeatherDTO weather = weatherMap.getOrDefault(key, new WeatherDTO());
             weather.setAreacode(areacode);
@@ -194,7 +180,6 @@ public class WeatherServiceImpl implements WeatherService {
                 weather.setPTY(fcstValue);
             }
 
-
             weatherMap.put(key, weather);
         }
 
@@ -211,7 +196,7 @@ public class WeatherServiceImpl implements WeatherService {
 
 
         List<WeatherDTO> resultList = new ArrayList<>(weatherMap.values());
-//        System.out.println("parseAndMapToDTO finished execution, result: " + resultList);
+        System.out.println("단기날씨(1 ~ 3일) 파싱결과: " + resultList);
         return resultList;
     }
 

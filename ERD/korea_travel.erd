@@ -259,8 +259,8 @@
           "mTfDb3utZoR-OF9zK_ugo",
           "UZ3OA8ylMvY3oNy2V_GYB",
           "vZ7gDaXpTNlfwG-asePf2",
-          "Q87NUxg-BJowKlLjgJSWZ",
           "CfYYdEV8m0LM-hn5GtUqi",
+          "Q87NUxg-BJowKlLjgJSWZ",
           "Pp6dk2HRTMl2EfOn955Yz",
           "bgaIiB2YWYvsHtcKD8heM",
           "PSuJYq8m4sXm100lyi10_",
@@ -281,8 +281,8 @@
           "mTfDb3utZoR-OF9zK_ugo",
           "UZ3OA8ylMvY3oNy2V_GYB",
           "vZ7gDaXpTNlfwG-asePf2",
-          "Q87NUxg-BJowKlLjgJSWZ",
           "CfYYdEV8m0LM-hn5GtUqi",
+          "Q87NUxg-BJowKlLjgJSWZ",
           "Pp6dk2HRTMl2EfOn955Yz",
           "bgaIiB2YWYvsHtcKD8heM",
           "PSuJYq8m4sXm100lyi10_",
@@ -308,7 +308,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1718582911573,
+          "updateAt": 1719475447080,
           "createAt": 1718582895794
         }
       },
@@ -440,15 +440,15 @@
           "GcfLbJke8taqsmXQYSmJO"
         ],
         "ui": {
-          "x": 2281.6462575538176,
-          "y": 1360.1405587304316,
+          "x": 2281.6463,
+          "y": 1360.1406,
           "zIndex": 2,
           "widthName": 91,
           "widthComment": 60,
           "color": ""
         },
         "meta": {
-          "updateAt": 1718582911573,
+          "updateAt": 1719475134800,
           "createAt": 1718582895797
         }
       },
@@ -1436,7 +1436,7 @@
       "aAcI7uZ-XmJlTHXi8tI2U": {
         "id": "aAcI7uZ-XmJlTHXi8tI2U",
         "tableId": "B3ZEstjUloDcVn2wzF-ur",
-        "name": "rnSt7Pm",
+        "name": "d",
         "comment": "7일 후 오후 강수 확률",
         "dataType": "VARCHAR(3)",
         "default": "",
@@ -1449,7 +1449,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1718582895795,
+          "updateAt": 1719475262524,
           "createAt": 1718582895795
         }
       },
@@ -3025,8 +3025,8 @@
           "columnIds": [
             "2L1mHBfZqGSb2jAdfKsR8"
           ],
-          "x": 2394.8962575538176,
-          "y": 1360.1405587304316,
+          "x": 2394.8963,
+          "y": 1360.1406,
           "direction": 4
         },
         "end": {
@@ -3137,8 +3137,8 @@
           "columnIds": [
             "2L1mHBfZqGSb2jAdfKsR8"
           ],
-          "x": 2621.3962575538176,
-          "y": 1360.1405587304316,
+          "x": 2621.3963,
+          "y": 1360.1406,
           "direction": 4
         },
         "end": {
@@ -3342,8 +3342,8 @@
           "columnIds": [
             "jt5Yzrew4wZoe4zl5Hb9J"
           ],
-          "x": 2734.6462575538176,
-          "y": 1416.1405587304316,
+          "x": 2734.6463,
+          "y": 1416.1406,
           "direction": 2
         },
         "meta": {
@@ -3370,8 +3370,8 @@
           "columnIds": [
             "wnZgBActhR_xB6PkflG_y"
           ],
-          "x": 2281.6462575538176,
-          "y": 1472.1405587304316,
+          "x": 2281.6463,
+          "y": 1472.1406,
           "direction": 1
         },
         "meta": {
@@ -3613,8 +3613,8 @@
           "columnIds": [
             "2L1mHBfZqGSb2jAdfKsR8"
           ],
-          "x": 2734.6462575538176,
-          "y": 1528.1405587304316,
+          "x": 2734.6463,
+          "y": 1528.1406,
           "direction": 2
         },
         "end": {
@@ -3692,5 +3692,14 @@
     "indexColumnEntities": {},
     "memoEntities": {}
   },
-  "lww": {}
+  "lww": {
+    "aAcI7uZ-XmJlTHXi8tI2U": [
+      "tableColumnEntities",
+      -1,
+      -1,
+      {
+        "name": 1719475262523
+      }
+    ]
+  }
 }
