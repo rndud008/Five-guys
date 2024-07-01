@@ -1,5 +1,4 @@
 body {
-    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -8,33 +7,40 @@ body {
     align-items: center;
     min-height: 100vh;
 }
+
 .body-container {
     width: 1000px;
+    margin-top: 20px; /* 상단 여백 추가 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
 }
 
-h2 {
+.body-container h2 {
     text-align: center;
     color: #333;
+    margin-bottom: 20px; /* 제목과 내용 사이 여백 추가 */
+    margin-top: 420px;
 }
 
-form {
+.body-container form {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 960px;
+    width: 100%;
+    max-width: 960px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
 }
 
-label {
+.body-container label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;
 }
 
-input[type="text"],
-textarea,
-select {
+.body-container input[type="text"],
+.body-container textarea,
+.body-container select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -44,14 +50,20 @@ select {
     font-size: 14px;
 }
 
-textarea {
+.body-container textarea {
     resize: vertical;
     min-height: 150px;
 }
 
-button[type="submit"],
-button[type="button"],
-a {
+.body-container .links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.body-container .links button[type="submit"],
+.body-container .links button[type="button"],
+.body-container .links a {
     display: inline-block;
     padding: 10px 20px;
     margin-top: 10px;
@@ -64,91 +76,69 @@ a {
     font-size: 14px;
 }
 
-button[type="button"] {
-    background-color: red;
-}
-button[type="submit"] {
-    background-color: #5cb85c;
-}
-
-a {
+.body-container .links button[type="button"] {
     background-color: #6b82a7;
 }
 
+.body-container .links button[type="submit"] {
+    background-color: #6b82a7;
+}
+.body-container .links a {
+    background-color: #6b82a7;
+}
 
-button[type="submit"]:hover,
-button[type="button"]:hover,
-a:hover {
+.body-container .links button[type="submit"]:hover,
+.body-container .links button[type="button"]:hover,
+.body-container .links a:hover {
     opacity: 0.9;
 }
 
-hr {
+.body-container hr {
     margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
 }
 
-span {
+.body-container span {
     display: block;
     margin-bottom: 10px;
     color: #777;
 }
 
-span[style="color: red"] {
-    color: red;
-}
-
-#files {
+.body-container #files {
     margin-bottom: 15px;
 }
 
-#btnAdd {
-    margin-top: 10px;
-    background-color: #0275d8;
+.body-container #files button{
+    background-color: #6b82a7;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 10px;
 }
 
-.ck-editor__editable {
+.body-container #btnAdd {
+    margin-top: 10px;
+    background-color: #6b82a7;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+}
+
+.body-container .ck-editor__editable {
     min-height: 300px;
 }
-.links {
-    display: flex;
-    justify-content: space-between;
-}
 
-.exFiles {
+.body-container .exFiles {
     display: flex;
     margin: 15px 0;
 }
-.exFiles input[type="text"] {
+
+.body-container .exFiles input[type="text"] {
     width: auto;
     margin: 0;
 }
-.exFiles button[type="button"] {
+
+.body-container .exFiles button[type="button"] {
     margin: 0;
-}
-.links {
-    display: flex;
-    justify-content: space-between;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    form {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    h2 {
-        font-size: 18px;
-    }
-
-    button[type="submit"],
-    button[type="button"],
-    a {
-        padding: 8px 16px;
-        font-size: 12px;
-    }
 }
