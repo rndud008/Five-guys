@@ -36,3 +36,4 @@ public class CommentController {
         return commentService.update(id, content);
     }
 }
+

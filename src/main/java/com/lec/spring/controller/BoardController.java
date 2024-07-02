@@ -70,6 +70,7 @@ public class BoardController {
 
         model.addAttribute("list", boardService.list(page, model));
         model.addAttribute("areacode", boardService.findAllArea());
+//        model.addAttribute("logged_user", )
     }
 
 
