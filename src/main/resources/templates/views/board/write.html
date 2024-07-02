@@ -17,7 +17,7 @@
 
     <style>
         .ck.ck-editor {
-            max-width: 960px;
+            max-width: 1000px;
         }
         .ck-editor__editable {
             min-height: 300px;
@@ -33,156 +33,159 @@
     <th:block th:insert="~{fragment/navbar::loginModal}"></th:block>
 
     <div class="bg-top"></div>
-    <div class="body-container" th:with="user=${#authentication.getPrincipal().getUser()}">
+    <div style="margin: auto">
+        <div class="body-container" th:with="user=${#authentication.getPrincipal().getUser()}">
 
-        <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
-            <h2>작성</h2>
-            <div>
-                <label>작성자</label>
-                <span>[[${user.username}]]([[${user.name}]])</span>
-            </div>
-
-            <div>
-                <label>지역명</label>
-                <select id="areacode" name="areacode">
-                    <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}"
-                            th:selected="${areacode.areacode} == ${selectedArea}"></option>
-                </select>
-            </div>
-
-            <div>
-                <label>제목</label>
-                <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject}">
-                <br>
-                <span style="color: red" th:if="${error_subject}" th:utext="${error_subject}"></span>
-            </div>
-
-            <div>
-                <label>내용</label>
-                <textarea rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
-                <script>
-                    CKEDITOR.ClassicEditor.create(document.getElementById("content"), {
-                        toolbar: {
-                            items: [
-                                'findAndReplace', 'selectAll', '|',
-                                'heading', '|',
-                                'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
-                                'bulletedList', 'numberedList', 'todoList', '|',
-                                'outdent', 'indent', '|',
-                                'undo', 'redo', '|',
-                                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                                'alignment', '|',
-                                'insertImage', 'blockQuote', 'insertTable', 'codeBlock', 'htmlEmbed', '|',
-                                'specialCharacters', 'horizontalLine', 'pageBreak'
-                            ],
-                            shouldNotGroupWhenFull: true
-                        },
-                        list: {
-                            properties: {
-                                styles: true,
-                                startIndex: true,
-                                reversed: true
-                            }
-                        },
-                        heading: {
-                            options: [
-                                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                                { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                                { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
-                            ]
-                        },
-                        placeholder: '내용을 입력하세요',
-                        fontFamily: {
-                            options: [
-                                'default',
-                                'Arial, Helvetica, sans-serif',
-                                'Courier New, Courier, monospace',
-                                'Georgia, serif',
-                                'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                                'Tahoma, Geneva, sans-serif',
-                                'Times New Roman, Times, serif',
-                                'Trebuchet MS, Helvetica, sans-serif',
-                                'Verdana, Geneva, sans-serif'
-                            ],
-                            supportAllValues: true
-                        },
-                        fontSize: {
-                            options: [10, 12, 14, 'default', 18, 20, 22],
-                            supportAllValues: true
-                        },
-                        htmlSupport: {
-                            allow: [
-                                {
-                                    name: /.*/,
-                                    attributes: true,
-                                    classes: true,
-                                    styles: true
-                                }
-                            ]
-                        },
-                        htmlEmbed: {
-                            showPreviews: true
-                        },
-                        mention: {
-                            feeds: [
-                                {
-                                    marker: '@',
-                                    feed: [
-                                        '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
-                                        '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
-                                        '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
-                                        '@sugar', '@sweet', '@topping', '@wafer'
-                                    ],
-                                    minimumCharacters: 1
-                                }
-                            ]
-                        },
-                        language: 'ko',
-                        removePlugins: [
-                            'ExportPdf',
-                            'ExportWord',
-                            'CKBox',
-                            'CKFinder',
-                            'EasyImage',
-                            'RealTimeCollaborativeComments',
-                            'RealTimeCollaborativeTrackChanges',
-                            'RealTimeCollaborativeRevisionHistory',
-                            'PresenceList',
-                            'Comments',
-                            'TrackChanges',
-                            'TrackChangesData',
-                            'RevisionHistory',
-                            'Pagination',
-                            'WProofreader',
-                            'MathType'
-                        ]
-                    });
-                </script>
-            </div>
-
-            <!-- 첨부파일 -->
-            <div>
+            <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
+                <h2>작성</h2>
                 <div>
-                    <label>첨부파일:</label>
-                    <div id="files">
-
-                    </div>
-                    <button type="button" id="btnAdd">추가</button>
+                    <label>작성자</label>
+                    <span>[[${user.username}]]([[${user.name}]])</span>
                 </div>
-            </div>
-            <!-- 첨부파일 -->
 
-            <div class="links">
-                <a class="listA" th:href="@{/board/list}">목록</a>
-                <button class="okBtn" type="submit">작성완료</button>
-            </div>
+                <div>
+                    <label>지역명</label>
+                    <select id="areacode" name="areacode">
+                        <option th:each="areacode : ${areacodelist}" th:text="${areacode.name}" th:value="${areacode.areacode}"
+                                th:selected="${areacode.areacode} == ${selectedArea}"></option>
+                    </select>
+                </div>
 
-        </form>
+                <div>
+                    <label>제목</label>
+                    <input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject" th:value="${subject}">
+                    <br>
+                    <span style="color: red" th:if="${error_subject}" th:utext="${error_subject}"></span>
+                </div>
+
+                <div>
+                    <label>내용</label>
+                    <textarea rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
+                    <script>
+                        CKEDITOR.ClassicEditor.create(document.getElementById("content"), {
+                            toolbar: {
+                                items: [
+                                    'findAndReplace', 'selectAll', '|',
+                                    'heading', '|',
+                                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                                    'bulletedList', 'numberedList', 'todoList', '|',
+                                    'outdent', 'indent', '|',
+                                    'undo', 'redo', '|',
+                                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                                    'alignment', '|',
+                                    'insertImage', 'blockQuote', 'insertTable', 'codeBlock', 'htmlEmbed', '|',
+                                    'specialCharacters', 'horizontalLine', 'pageBreak'
+                                ],
+                                shouldNotGroupWhenFull: true
+                            },
+                            list: {
+                                properties: {
+                                    styles: true,
+                                    startIndex: true,
+                                    reversed: true
+                                }
+                            },
+                            heading: {
+                                options: [
+                                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                                    { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                                    { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                                ]
+                            },
+                            placeholder: '내용을 입력하세요',
+                            fontFamily: {
+                                options: [
+                                    'default',
+                                    'Arial, Helvetica, sans-serif',
+                                    'Courier New, Courier, monospace',
+                                    'Georgia, serif',
+                                    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                                    'Tahoma, Geneva, sans-serif',
+                                    'Times New Roman, Times, serif',
+                                    'Trebuchet MS, Helvetica, sans-serif',
+                                    'Verdana, Geneva, sans-serif'
+                                ],
+                                supportAllValues: true
+                            },
+                            fontSize: {
+                                options: [10, 12, 14, 'default', 18, 20, 22],
+                                supportAllValues: true
+                            },
+                            htmlSupport: {
+                                allow: [
+                                    {
+                                        name: /.*/,
+                                        attributes: true,
+                                        classes: true,
+                                        styles: true
+                                    }
+                                ]
+                            },
+                            htmlEmbed: {
+                                showPreviews: true
+                            },
+                            mention: {
+                                feeds: [
+                                    {
+                                        marker: '@',
+                                        feed: [
+                                            '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                                            '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                                            '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                                            '@sugar', '@sweet', '@topping', '@wafer'
+                                        ],
+                                        minimumCharacters: 1
+                                    }
+                                ]
+                            },
+                            language: 'ko',
+                            removePlugins: [
+                                'ExportPdf',
+                                'ExportWord',
+                                'CKBox',
+                                'CKFinder',
+                                'EasyImage',
+                                'RealTimeCollaborativeComments',
+                                'RealTimeCollaborativeTrackChanges',
+                                'RealTimeCollaborativeRevisionHistory',
+                                'PresenceList',
+                                'Comments',
+                                'TrackChanges',
+                                'TrackChangesData',
+                                'RevisionHistory',
+                                'Pagination',
+                                'WProofreader',
+                                'MathType'
+                            ]
+                        });
+                    </script>
+                </div>
+
+                <!-- 첨부파일 -->
+                <div>
+                    <div>
+                        <label>첨부파일:</label>
+                        <div id="files">
+
+                        </div>
+                        <button type="button" id="btnAdd">추가</button>
+                    </div>
+                </div>
+                <!-- 첨부파일 -->
+
+                <div class="links">
+                    <a class="listA" th:href="@{/board/list}">목록</a>
+                    <button class="okBtn" type="submit">작성완료</button>
+                </div>
+
+            </form>
+        </div>
     </div>
+
     <th:block th:insert="~{fragment/footer::footer}"></th:block>
 </div>
 
