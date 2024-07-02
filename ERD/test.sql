@@ -303,7 +303,9 @@ select * from travel_post;
 select * from travel_diary_post;
 select * from travel_type;
 
-delete from last_call_api_date where id = 46490;
+show databases ;
+
+delete from last_call_api_date where id = 46683;
 
 select *
 from sigungucode where areacode = 31;
