@@ -21,44 +21,61 @@
 h1.loginSuccess > span:first-of-type{
     cursor:pointer;
 }
-
-.login-profile{
+.login-profile {
     display: none;
     position: fixed;
-    border: 1px solid black;
-    width: 300px;
-    background-color: white;
-    border-radius: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-top: 10px;
+    width: 250px;
+    height: 260px;
     font-size: 16px;
 }
 
-.login-profile div.first > span{
-    margin-left: 10px;
-    width: 100%;
+.login-profile .first {
+    padding-bottom: 40px;
+}
+.login-profile .first span:nth-child(1){
+    padding-bottom: 20px;
+    text-align: center;
+
+}
+
+.login-profile .first span {
+    margin-left: 0;
+    margin-bottom: 10px;
+    text-align: center;
     display: block;
 }
-.login-profile div.first > span > span:nth-child(2){
+
+.login-profile .first span span:nth-child(2) {
     margin-left: 10px;
     cursor: pointer;
-
 }
-.login-profile div.second{
-    font-size: 16px;
+
+.login-profile .second {
     display: flex;
-    justify-content: space-around;
-    background: lightgray;
+    justify-content: center;
     text-align: center;
-    border-radius: 0 0 10px 10px;
-    border-top: 1px solid;
-    cursor: pointer;
 }
 
-.login-profile div.second a{
+.login-profile .second a {
+    margin-left: 0;
     width: 50%;
 }
-.login-profile div.second a:first-child{
-    border-right: 1px solid;
+
+.login-profile .third {
+    margin: 10px 0;
+    padding-top: 30px;
+    text-align: center;
 }
+
+.login-profile .third a {
+    margin-left: 0;
+}
+
 
 /*모달창 애니메이션 효과*/
 
