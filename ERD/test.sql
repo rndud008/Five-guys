@@ -292,7 +292,6 @@ UPDATE travel_diary_post SET subject = 11111111111111111111111111111111111111111
 
 delete FROM travel_diary_post WHERE id = 22;
 
-select * from user;
 select * from short_weather;
 select * from middle_weather;
 select * from last_call_api_date;
@@ -302,6 +301,7 @@ select * from blog_review;
 select * from travel_post;
 select * from travel_diary_post;
 select * from travel_type;
+select * from user;
 
 delete from last_call_api_date where id = 46490;
 

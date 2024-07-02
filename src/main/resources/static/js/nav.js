@@ -13,11 +13,8 @@ $(document).ready(function (){
     });
 
     $('.loginSuccess').click(function (){
-        if ($('.login-profile').is(':visible')) {
-            $('.login-profile').hide(); // 보이는 상태라면 숨깁니다.
-        } else {
-            $('.login-profile').show(); // 숨겨진 상태라면 보이게 합니다.
-        }
+        $('.login-profile').toggleClass('show');
+
     })
 });
 

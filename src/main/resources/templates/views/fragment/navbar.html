@@ -71,21 +71,28 @@
                     <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
                 </ul>
             </nav>
-            <h1 class="login" sec:authorize="isAnonymous()"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+            <h1 class="login" sec:authorize="isAnonymous()"><button class="login-button"><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
             <h1 class="login loginSuccess" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
-                <span>[[${user.username}]]</span>
+                <span class="login-username">[[${user.username}]] ▼</span>
+
                 <div class="login-profile">
-                    <div class="first">
-                        <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
-                        <span><span>[[${user.name}]]</span><span><button type="submit">로그아웃</button></span></span>
-                        </form>
-                        <span >[[${user.email}]]</span>
+                    <div class="login-profile-left">
+                        <img src="https://ssl.pstatic.net/static/common/myarea/myInfo.gif" alt="Logo" style="width: 105px; height: 150px;">
                     </div>
-                    <div class="second">
-                        <a th:href="@{/user/updateUser}">회원 정보 수정</a>
+                    <div class="login-profile-right">
+                        <span><span class="nickName-text">#닉네임</span><span class="welcome-text"> 님 환영합니다</span></span>
+                        <br>
+                        <span class="email">이메일@</span>
+                        <div class="links">
+                            <a th:href="@{/user/updateUser}">내 정보 수정</a>|
+                            <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+                                <button class="logout-button" type="submit">로그아웃</button>
+                            </form>
+                        </div>
                         <a id="delUser" th:href="@{/user/delete}">회원 탈퇴</a>
                     </div>
                 </div>
+
             </h1>
         </div>
     </header>
@@ -161,7 +168,7 @@
         border-bottom-left-radius: calc(0.3rem - 1px);
     }
 
-    #modalSignin .modal-footer>* {
+    #modalSignin .modal-footer > * {
         margin: 0.25rem;
     }
 
@@ -246,7 +253,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        /*padding: auto 0;*/
         background-color: transparent;
     }
 
@@ -257,7 +263,6 @@
     .btn-lightblue {
         background-color: rgba(49, 81, 243, 0.85);
     }
-
 
     /* 간편 로그인 섹션 스타일 */
     .h5 {
@@ -279,8 +284,9 @@
         width: 1px !important;
         overflow: hidden;
     }
-</style>
 
+
+</style>
 
 <th:block th:fragment="loginModal">
     <div class="modal fade" tabindex="-1" role="dialog" id="modalSign">
@@ -292,38 +298,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
                 <div class="modal-body">
                     <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
-                        <!-- 에러 메세지 -->
                         <div>
                             <div class="text-danger" th:text="${errorMessage}"></div>
                         </div>
-
-                        <!-- 아이디 입력란 -->
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="username" placeholder="아이디"
-                                   name="username" th:value="${username}" required>
+                            <input type="text" class="form-control" id="username" placeholder="아이디" name="username" th:value="${username}" required>
                             <label for="username" class="visually-hidden">아이디</label>
                         </div>
-
-                        <!-- 비밀번호 입력란 -->
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="password" placeholder="비밀번호"
-                                   name="password" th:value="${password}" required>
+                            <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password" th:value="${password}" required>
                             <label for="password" class="visually-hidden">비밀번호</label>
                         </div>
-
-                        <!-- 로그인 및 회원가입 버튼 -->
                         <button class="btn btn-lightblue btn-block user" type="submit">로그인</button>
                         <br>
                         <a class="btn btn-lightblue btn-block user" th:href="@{/user/register}" style="display: block; text-align: center;  line-height: 43px; font-size: 13.5px;">회원가입</a>
                         <br>
                         <hr class="my-4">
-                        <a class="btn btn-lightblue btn-block login kakao"
-                               th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
-                           client_id=${@environment.getProperty('app.oauth2.kakao.client-id')},
-                            redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
+                        <a class="btn btn-lightblue btn-block login kakao" th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'}, client_id=${@environment.getProperty('app.oauth2.kakao.client-id')}, redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
                             <img src="../img/kakao_logo.png" alt="Kakao Logo">
                             <span>카카오로 로그인</span>
                         </a>
@@ -345,13 +338,12 @@
     </div>
 </th:block>
 
-<script>
 
+<script>
     const navbarContainer = document.querySelector('header');
     const navbarHeight = navbarContainer.offsetHeight;
 
     window.addEventListener('scroll', function () {
-        // 스크롤 위치가 navbar 높이를 넘어섰는지 확인합니다.
         if (window.pageYOffset >= navbarHeight) {
             navbarContainer.classList.add('sticky');
         } else {
@@ -359,9 +351,6 @@
         }
     });
 
-</script>
-
-<script>
     // HTML에서 모달창 요소 선택
     const modal = document.getElementById('modalSignin');
 
@@ -395,7 +384,6 @@
         function centerModal() {
             const dialog = modal.querySelector('.modal-dialog');
 
-            // 모달 창의 높이가 화면 높이보다 작을 경우
             if (dialog.offsetHeight < window.innerHeight) {
                 dialog.style.marginTop = (window.innerHeight - dialog.offsetHeight) / 2 + 'px';
             } else {
@@ -408,7 +396,6 @@
             modal.style.display = 'none';
         });
     }
-
 </script>
 
 </html>

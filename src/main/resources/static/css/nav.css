@@ -1,4 +1,4 @@
-.login button {
+.login-button {
     background: lightskyblue;
     width: 120px;
     height: 40px;
@@ -9,12 +9,12 @@
     font-size: 14px;
 }
 
-.login button:hover {
+.login-button:hover {
     cursor: pointer;
     background: #007bff;
 }
 
-.login button span {
+.login-button span {
     color: white;
 }
 
@@ -22,42 +22,93 @@ h1.loginSuccess > span:first-of-type{
     cursor:pointer;
 }
 
-.login-profile{
+
+.login-profile {
     display: none;
     position: fixed;
-    border: 1px solid black;
-    width: 300px;
-    background-color: white;
-    border-radius: 10px;
-    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-top: 10px;
+    width: 320px;
+    height: 150px;
+    right: 10px;
 }
 
-.login-profile div.first > span{
-    margin-left: 10px;
-    width: 100%;
-    display: block;
-}
-.login-profile div.first > span > span:nth-child(2){
-    margin-left: 10px;
-    cursor: pointer;
-
-}
-.login-profile div.second{
-    font-size: 16px;
+.login-profile.show {
     display: flex;
-    justify-content: space-around;
-    background: lightgray;
-    text-align: center;
-    border-radius: 0 0 10px 10px;
-    border-top: 1px solid;
-    cursor: pointer;
 }
 
-.login-profile div.second a{
-    width: 50%;
+.login-profile-left {
+    flex: 0 0 auto; /* 가로 너비 고정 */
+    padding-right: 15px; /* 좌우 간격 조절 */
 }
-.login-profile div.second a:first-child{
-    border-right: 1px solid;
+
+.login-profile-left img {
+    width: 100px; /* 로고 이미지 크기 조절 */
+    height: auto;
+}
+
+.login-profile-right {
+    flex: 1;
+    margin-left: 35px;
+}
+
+.login-username {
+    font-size: 16px;
+    color: lightskyblue;
+}
+
+.nickName-text {
+    font-weight: bold;
+    font-size: 18px;
+}
+.welcome-text {
+    font-size: 16px;
+}
+
+.email {
+    font-size: 16px;
+    color: #888;
+}
+
+.links {
+    font-weight: normal;
+    font-size: 16px;
+    color: #888;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.links a {
+    margin-right: 10px;
+}
+
+.links form {
+    display: inline-block;
+    margin: 0;
+}
+
+.links a:hover,
+.links button:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+
+#delUser {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.logout-button {
+    font-size: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 /*모달창 애니메이션 효과*/
