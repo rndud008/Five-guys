@@ -53,11 +53,13 @@ h1.loginSuccess > span:first-of-type{
 .login-profile-right {
     flex: 1;
     margin-left: 35px;
+    line-height: 1;
+
 }
 
 .login-username {
     font-size: 16px;
-    color: lightskyblue;
+    color: #007BFF;
 }
 
 .nickName-text {
@@ -464,7 +466,7 @@ h1.loginSuccess > span:first-of-type{
     background-repeat: no-repeat; /* 이미지 반복 방지 */
     background-position: center; /* 이미지 위치 */
     width: 200px; /* 너비 설정 */
-    height: 60px; /* 높이 설정 */
+    height: 100px; /* 높이 설정 */
     display: inline-block; /* 인라인 블록으로 설정 */
     text-indent: -9999px; /* 텍스트 숨기기 */
 }
