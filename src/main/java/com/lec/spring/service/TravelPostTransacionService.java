@@ -172,6 +172,8 @@ public class TravelPostTransacionService {
             }
 
             lastCallApiDate.setUrl(apiUrl);
+            lastCallApiDataRepository.save(lastCallApiDate);
+
             travelPost.setLastCallApiDate(lastCallApiDate);
             travelPostRepository.save(travelPost);
             System.out.println("item 저장완료");

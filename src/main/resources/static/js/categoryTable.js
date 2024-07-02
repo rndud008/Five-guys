@@ -497,7 +497,7 @@ function hideOtherRegionCategories() {
 }
 
 function showSelectedRegionSubcategories(sigungu) {
-    // 선택한 지역의 시군구 카테고리 표시
+    // 선택한 지역의 시군구 카테고리 표 ./시
     $('.region-subcategory-container').hide();
     $('#' + sigungu).show();
 }

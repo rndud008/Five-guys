@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/travelkorea")
     public String home() {
         System.out.println("[실행확인]: home.html");
 
