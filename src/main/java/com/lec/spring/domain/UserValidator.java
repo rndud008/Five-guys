@@ -31,6 +31,8 @@ public class UserValidator implements Validator {
         String username = user.getUsername();
         String password = user.getPassword();
 
+        System.out.println(username);
+        System.out.println(password);
 
         /**
          * 아이디 관련
