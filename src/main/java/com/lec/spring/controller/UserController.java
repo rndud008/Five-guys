@@ -87,10 +87,7 @@ public class UserController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+    public String delete() {
         return "user/delete";
     }
 
@@ -101,11 +98,8 @@ public class UserController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println("username:" + username);
         User user = userService.findByUsername(username);
-        System.out.println("password:" + password);
-        System.out.println("password:" + passwordEncoder.encode(password));
-        System.out.println("password:" + user.getPassword());
+
         int result = 0;
         if (passwordEncoder.matches(password, user.getPassword())) {
             result = userService.deleteUser(user);
@@ -131,13 +125,21 @@ public class UserController {
     }
 
     @GetMapping("/updateUser")
-    public String update(Model model) {
+    public String update(@RequestParam("password") String password, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         String name = userService.findByUsername(username).getName();
+        String userPassword = userService.findByUsername(username).getPassword();
+
         model.addAttribute("username", username);
         model.addAttribute("name", name);
-        return "user/updateUser";
+
+        if (passwordEncoder.matches(password, userPassword)){
+            return "user/updateUser";
+        } else {
+            return "redirect:/user/updateCheckUser";
+        }
+
     }
 
     @PostMapping("/updateUser")
@@ -174,6 +176,11 @@ public class UserController {
         int cnt = userService.updateUser(user, passwordEncoder.encode(password), email);
         model.addAttribute("result", cnt);
         return page;
+    }
+
+    @GetMapping("/updateCheckUser")
+    public String updateCheckUser() {
+        return "user/updateCheckUser";
     }
 
     @RequestMapping("/rejectAuth")
