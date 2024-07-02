@@ -15,6 +15,8 @@ public class UserValidator implements Validator {
 
     private static final String emailId_regex = "^[a-zA-Z0-9._%+-]+$";
     private static final String emailDomain_regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$";
+    private static final String email_regex = "^[a-zA-Z0-9._%+-]+$";
+
 
     @Autowired
     UserService userService;
@@ -30,9 +32,13 @@ public class UserValidator implements Validator {
 
         String username = user.getUsername();
         String password = user.getPassword();
+        String email = user.getEmail();
+        String name = user.getName();
 
-        System.out.println(username);
-        System.out.println(password);
+        System.out.println(user);
+        System.out.println("username = "+username);
+        System.out.println("password = "+password);
+        System.out.println("email = "+email);
 
         /**
          * 아이디 관련
@@ -50,7 +56,10 @@ public class UserValidator implements Validator {
         /**
          * 이름 관련
          */
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name 은 필수입니다.");
+        if(name == null || name.trim().isEmpty()){
+            errors.rejectValue("name", "이름은 필수입니다");
+        }
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name 은 필수입니다.");
 
         /**
          * 비밀번호 관련
@@ -66,10 +75,6 @@ public class UserValidator implements Validator {
         /**
          * 이메일 관련
          */
-        String email = user.getEmail();
-        System.out.println(email);
-        System.out.println(user.getEmail());
-        System.out.println(email);
 
 
     }

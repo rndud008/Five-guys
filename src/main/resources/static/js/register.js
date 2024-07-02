@@ -9,3 +9,14 @@ function updateCustomDomain() {
         customDomainInput.disabled = true;
     }
 }
+
+$(function () {
+    $('[name="registerform"]').submit( function() {
+        $('[name="email"]').val(
+            $('[name="email_id"]').val() + '@' + $('[name="domain"]').val()
+        );
+        console.log($('[name="email"]').val());
+        // $(this).submit();
+        return true;
+    });
+});

@@ -46,16 +46,9 @@ public class UserController {
             @Valid User user,
             BindingResult result,
             Model model,
-            RedirectAttributes redirectAttrs,
-            @RequestParam("email_id") String emailId,
-            @RequestParam("domain") String domain,
-            @RequestParam(value = "custom_domain", required = false) String customDomain
+            RedirectAttributes redirectAttrs
     ) {
-        String email;
-        if (domain.equals("")) { email = emailId + "@" + customDomain; }
-        else { email = emailId + "@" + domain; }
 
-        user.setEmail(email);
 
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
@@ -63,11 +56,13 @@ public class UserController {
             List<FieldError> errList = result.getFieldErrors();
             for (FieldError err : errList) {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
+                System.out.println(err.getField() + " == " + err.getCode());
             }
 
             return "redirect:/user/register";
         }
         // 에러 없었으면 회원 등록 진행
+
         String page = "/user/registerOk";
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);

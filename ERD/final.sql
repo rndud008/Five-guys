@@ -427,3 +427,12 @@ ALTER TABLE user_authorities
     ADD CONSTRAINT FK_user_TO_user_authorities
         FOREIGN KEY (user_id) REFERENCES user(id)
             ON DELETE CASCADE;
+
+ALTER TABLE user_authorities
+    DROP FOREIGN KEY FK_user_TO_user_authorities;
+
+ALTER TABLE user_authorities
+    ADD CONSTRAINT FK_user_TO_user_authorities
+        FOREIGN KEY (user_id) REFERENCES user(id)
+            ON DELETE CASCADE;
+
