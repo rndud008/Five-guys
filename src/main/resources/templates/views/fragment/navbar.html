@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<script th:src="@{/js/user.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <style>
     body {
         margin: 0;
@@ -52,12 +54,16 @@
     .navbar-container button span {
         color: white;
     }
+
+    .text-danger {
+        color: #c83939;
+    }
 </style>
 
 <th:block th:fragment="navbar">
     <header class="line scroll">
         <div>
-            <a th:href="@{/}"><h1 class="logo"></h1></a>
+            <a th:href="@{/travelkorea}"><h1 class="logo"></h1></a>
             <nav>
                 <ul>
                     <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
@@ -74,11 +80,11 @@
                         <img src="https://ssl.pstatic.net/static/common/myarea/myInfo.gif" alt="Logo" style="width: 105px; height: 150px;">
                     </div>
                     <div class="login-profile-right">
-                        <span><span class="nickName-text">#닉네임</span><span class="welcome-text"> 님 환영합니다</span></span>
+                        <span><span class="nickName-text">[[${user.name}]]</span><span class="welcome-text"> 님 환영합니다</span></span>
                         <br>
-                        <span class="email">이메일@</span>
+                        <span class="email">[[${user.email}]]</span>
                         <div class="links">
-                            <a th:href="@{/user/updateUser}">내 정보 수정</a>|
+                            <a th:href="@{/user/updateCheckUser}">내 정보 수정</a>|
                             <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
                                 <button class="logout-button" type="submit">로그아웃</button>
                             </form>
@@ -295,7 +301,7 @@
                 <div class="modal-body">
                     <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
                         <div>
-                            <div th:text="${errorMessage}"></div>
+                            <div class="text-danger" th:text="${errorMessage}"></div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="username" placeholder="아이디" name="username" th:value="${username}" required>
