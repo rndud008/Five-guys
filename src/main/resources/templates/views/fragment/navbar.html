@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<script th:src="@{/js/user.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <style>
     body {
         margin: 0;
@@ -51,6 +53,10 @@
 
     .navbar-container button span {
         color: white;
+    }
+
+    .text-danger {
+        color: #c83939;
     }
 </style>
 
@@ -295,7 +301,7 @@
                 <div class="modal-body">
                     <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
                         <div>
-                            <div th:text="${errorMessage}"></div>
+                            <div class="text-danger" th:text="${errorMessage}"></div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="username" placeholder="아이디" name="username" th:value="${username}" required>

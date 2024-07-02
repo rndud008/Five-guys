@@ -52,7 +52,7 @@ public class UserController {
             @RequestParam(value = "custom_domain", required = false) String customDomain
     ) {
         String email;
-        if (domain.equals("custom")) { email = emailId + "@" + customDomain; }
+        if (domain.equals("")) { email = emailId + "@" + customDomain; }
         else { email = emailId + "@" + domain; }
 
         user.setEmail(email);
@@ -62,7 +62,7 @@ public class UserController {
 
             List<FieldError> errList = result.getFieldErrors();
             for (FieldError err : errList) {
-                redirectAttrs.addFlashAttribute("error", err.getCode());
+                redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
             }
 
             return "redirect:/user/register";
@@ -187,6 +187,8 @@ public class UserController {
     public String rejectAuth() {
         return "common/rejectAuth";
     }
+
+
 }
 
 

@@ -20,6 +20,7 @@
         <div>
             <label for="username">아이디</label>
             <input type="text" id="username" name="username" placeholder="사용자 아이디" th:value="${username}" required>
+            <div><span class="text-danger" th:if="${error_username}" th:utext="${error_username}"></span></div>
             <ul>
                 <li>영문, 숫자로 구성</li>
                 <li>4자 이상 11자 이내</li>
@@ -35,6 +36,7 @@
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" name="password" placeholder="비밀번호" required>
+            <div><span class="text-danger" th:if="${error_password}" th:utext="${error_password}"></span></div>
             <ul>
                 <li>영문, 숫자, 특수문자 최소 한 개씩</li>
                 <li>8자 이상</li>
@@ -46,6 +48,7 @@
             <label for="re_password">비밀번호 확인</label>
             <input type="password" id="re_password" name="re_password" placeholder="비밀번호 확인" required>
         </div>
+        <div><span class="text-danger" th:if="${error_re_password}" th:utext="${error_re_password}"></span></div>
 
         <div>
             <label for="email_id">E-Mail</label>
@@ -59,6 +62,8 @@
                 <option value="daum.net">daum.net</option>
             </select>
         </div>
+        <div><span class="text-danger" th:if="${error_email_id}" th:utext="${error_email_id}"></span></div>
+        <div><span class="text-danger" th:if="${error_custom_domain}" th:utext="${error_custom_domain}"></span></div>
         <button type="submit">가입완료</button>
 
 
