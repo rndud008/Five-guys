@@ -167,11 +167,9 @@ public class UserController {
         String username = userDetails.getUsername();
         User user = userService.findByUsername(username);
         String email;
-        if (domain.equals("custom")) { email = emailId + "@" + customDomain; }
+        if (domain.equals("")) { email = emailId + "@" + customDomain; }
         else { email = emailId + "@" + domain; }
-        System.out.println(user.getUsername());
-        System.out.println(password);
-        System.out.println(email);
+
         String page = "/user/updateOk";
         int cnt = userService.updateUser(user, passwordEncoder.encode(password), email);
         model.addAttribute("result", cnt);
