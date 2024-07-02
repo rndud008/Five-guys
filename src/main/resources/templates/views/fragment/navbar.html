@@ -80,11 +80,11 @@
                         <img src="https://ssl.pstatic.net/static/common/myarea/myInfo.gif" alt="Logo" style="width: 105px; height: 150px;">
                     </div>
                     <div class="login-profile-right">
-                        <span><span class="nickName-text">#닉네임</span><span class="welcome-text"> 님 환영합니다</span></span>
+                        <span><span class="nickName-text">[[${user.name}]]</span><span class="welcome-text"> 님 환영합니다</span></span>
                         <br>
-                        <span class="email">이메일@</span>
+                        <span class="email">[[${user.email}]]</span>
                         <div class="links">
-                            <a th:href="@{/user/updateUser}">내 정보 수정</a>|
+                            <a th:href="@{/user/updateCheckUser}">내 정보 수정</a>|
                             <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
                                 <button class="logout-button" type="submit">로그아웃</button>
                             </form>

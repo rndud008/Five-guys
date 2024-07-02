@@ -88,9 +88,6 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
         return "user/delete";
     }
 
@@ -101,11 +98,7 @@ public class UserController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println("username:" + username);
         User user = userService.findByUsername(username);
-        System.out.println("password:" + password);
-        System.out.println("password:" + passwordEncoder.encode(password));
-        System.out.println("password:" + user.getPassword());
         int result = 0;
         if (passwordEncoder.matches(password, user.getPassword())) {
             result = userService.deleteUser(user);
@@ -129,6 +122,34 @@ public class UserController {
     public String loginError() {
         return "home";
     }
+
+    @GetMapping("/updateCheckUser")
+    public String updateCheck() {
+        return "user/updateCheckUser";
+    }
+
+    @PostMapping("/updateCheckUser")
+    public String updateCheckOk(@RequestParam("password") String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        int result = 0;
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            result = 1;
+        }
+
+
+        if (result > 0) {
+            return "redirect:/user/updateUser";
+        } else {
+            System.out.println("비밀번호가 맞지 않습니다");
+            return "/user/updateCheckUser";
+        }
+
+    }
+
+
 
     @GetMapping("/updateUser")
     public String update(Model model) {
@@ -180,6 +201,8 @@ public class UserController {
     public String rejectAuth() {
         return "common/rejectAuth";
     }
+
+
 }
 
 
