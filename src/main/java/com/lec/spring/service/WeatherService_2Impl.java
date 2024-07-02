@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 public class WeatherService_2Impl implements WeatherService_2 {
@@ -80,7 +81,6 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 }
                 rd.close();
                 conn.disconnect();
-
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode jsonObject = mapper.readTree(sb.toString());
 
@@ -88,7 +88,6 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 JsonNode body = response.get("body");
                 JsonNode items = body.get("items");
                 JsonNode itemArray = items.get("item");
-
                 // 마지막 호출 데이터 저장
                 LastCallApiDate lastCallApiDate = new LastCallApiDate();
                 lastCallApiDate.setUrl(url);

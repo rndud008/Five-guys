@@ -31,7 +31,7 @@ header.sticky {
 
 
 header > div{display: flex; justify-content: center; align-items: center; position: relative; width: 1200px; height: 92px; margin: 0 auto; z-index: 100;}
-header h1.logo{position: absolute; left: 0; top: 22px; z-index: 10;}
+header h1.logo{position: absolute; left: 0; top: 0; z-index: 10;}
 header h1.login{position: absolute; right: 0; top: 22px; z-index: 10;}
 
 
