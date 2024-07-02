@@ -7,6 +7,9 @@ select *
 from user_travel_post;
 
 select *
+from travel_class_detail;
+
+select *
 from user;
 
 delete from user_travel_post

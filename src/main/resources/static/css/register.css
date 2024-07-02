@@ -1,3 +1,85 @@
-li {
-    color: #fa0f0f;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #f7f7f7;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 500px;
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 9px;
+}
+
+.error {
+    color: red;
+}
+
+/* form {
+    display: flex;
+    flex-direction: column;
+} */
+
+input[type="text"],
+input[type="password"],
+select {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 480px;
+
+}
+
+.name{
+    margin-top: 20px;
+}
+
+.email{
+    margin-top: 20px;
+}
+
+.password{
+    margin-top: 20px;
+}
+
+ul {
+    margin-top: 5px;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #555;
+    font-size: 12px;
+}
+
+button {
+    margin-top: 50px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #0f86ee;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 500px
+}
+
+button:hover {
+    background-color: #003487;
+}
+
+#email_id{
+    width: 25%;
+}
+
+#custom_domain{
+    width: 35%;
+}
+
+#domain{
+    width: 25%;
 }
