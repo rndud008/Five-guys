@@ -12,9 +12,8 @@ public class UserValidator implements Validator {
 
     private static final String username_regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{3,11}$";
     private static final String password_regex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[a-zA-Z\\d!@#$%^&*(),.?\":{}|<>]{8,12}$";
+    private static final String email_regex = "^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,7}$";
 
-    private static final String emailId_regex = "^[a-zA-Z0-9._%+-]+$";
-    private static final String emailDomain_regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$";
 
     @Autowired
     UserService userService;
@@ -71,6 +70,9 @@ public class UserValidator implements Validator {
         System.out.println(user.getEmail());
         System.out.println(email);
 
+        if(!email.matches(email_regex)) {
+            errors.rejectValue("email","E-mail 형식이 맞지 않습니다.");
+        }
 
     }
 }

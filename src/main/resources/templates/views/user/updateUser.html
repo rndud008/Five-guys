@@ -7,7 +7,7 @@
 <body>
 <div style="outline: auto; width: 600px; margin: 0 auto; height: 400px; margin-top: 200px;">
     <h1 style="text-align: center; margin: 0; padding-top: 10px;"> 회원 정보 수정</h1>
-    <form th:action="@{/user/updateUser}" method="post" th:with="user=${#authentication.getPrincipal().getUser()}">
+    <form name="registerform" th:action="@{/user/updateUser}" method="post" th:with="user=${#authentication.getPrincipal().getUser()}">
 
         <div style="outline: auto; padding-top: 10px; padding-bottom: 10px; width: 550px; margin: 0 auto; margin-top: 10px;">
             <label for="username" style="margin-left: 10px;">아이디 : </label>

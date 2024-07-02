@@ -36,6 +36,8 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
+
     @GetMapping("/register")
     public String register(Model model) {
         return "/user/register";
@@ -46,16 +48,8 @@ public class UserController {
             @Valid User user,
             BindingResult result,
             Model model,
-            RedirectAttributes redirectAttrs,
-            @RequestParam("email_id") String emailId,
-            @RequestParam("domain") String domain,
-            @RequestParam(value = "custom_domain", required = false) String customDomain
+            RedirectAttributes redirectAttrs
     ) {
-        String email;
-        if (domain.equals("")) { email = emailId + "@" + customDomain; }
-        else { email = emailId + "@" + domain; }
-
-        user.setEmail(email);
 
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
