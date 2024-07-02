@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<script th:src="@{/js/user.js}"></script>
 <style>
     body {
         margin: 0;
@@ -52,7 +52,40 @@
     .navbar-container button span {
         color: white;
     }
+</style>
 
+<th:block th:fragment="navbar">
+    <header class="line scroll">
+        <div>
+            <a th:href="@{/}"><h1 class="logo"></h1></a>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
+                    <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
+                    <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
+                </ul>
+            </nav>
+            <h1 class="login" sec:authorize="isAnonymous()"><button><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
+            <h1 class="login loginSuccess" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+                <span>[[${user.username}]]</span>
+                <div class="login-profile">
+                    <div class="first">
+                        <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+                        <span><span>[[${user.name}]]</span><span><button type="submit">로그아웃</button></span></span>
+                        </form>
+                        <span >[[${user.email}]]</span>
+                    </div>
+                    <div class="second">
+                        <a th:href="@{/user/updateUser}">회원 정보 수정</a>
+                        <a id="delUser" th:href="@{/user/delete}">회원 탈퇴</a>
+                    </div>
+                </div>
+            </h1>
+        </div>
+    </header>
+</th:block>
+
+<style>
     /* 모달창 배경 스타일 */
     #modalSignin {
         background-color: rgba(0, 0, 0, 0.5);

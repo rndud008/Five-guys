@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Account</title>
+</head>
+<body>
+<h1>계정 탈퇴</h1>
+<form th:action="@{/user/delete}" method="post" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+    <label for="username">아이디</label>
+    <span th:text="${username}" id="username"></span>
+    <br>
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">계정 삭제</button>
+</form>
+</body>
+</html>

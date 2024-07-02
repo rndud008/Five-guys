@@ -38,19 +38,21 @@
 
     <div class="bg-top"></div>
     <div class="body-container">
-        <h2>수정</h2>
-        <div>
-            <span>글 번호: [[${post.id}]]</span>
-            <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
-            <span>조회수: [[${post.viewcnt}]]</span>
-        </div>
-
 
         <form th:action="@{/board/update}" method="post" enctype="multipart/form-data">
+            <h2>수정</h2>
             <input type="hidden" name="id" th:value="${post.id}"/>
-            <div>
-                <label>작성자:</label>
-                <span readonly th:text="${post.user.username}"></span>
+            <div style="display: flex; justify-content: space-between">
+                <div style="align-content: center">
+                    <label>작성자:</label>
+                    <span readonly th:text="${post.user.username}"></span>
+                </div>
+
+                <div>
+                    <span>글 번호: [[${post.id}]]</span>
+                    <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+                    <span>조회수: [[${post.viewcnt}]]</span>
+                </div>
             </div>
             <div>
                 <label>지역명</label>

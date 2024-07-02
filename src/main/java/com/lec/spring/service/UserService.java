@@ -14,5 +14,7 @@ public interface UserService {
 
     List<Authority> selectAuthoritiesById(Long id);
 
-    void deleteUser(Long id);
+    int deleteUser(User user);
+
+    int updateUser(User user, String password, String username);
 }

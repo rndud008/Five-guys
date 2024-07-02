@@ -3,7 +3,6 @@ body {
     background-color: #f0f0f0;
     margin: 0 auto;
     padding: 0;
-    max-width: 1200px;
 }
 
 /* 게시판 컨테이너 스타일 */
@@ -11,12 +10,19 @@ body {
     background-color: #fff;
     height: 800px;
     padding: 20px;
-    margin-top: 100px;
+    margin: 150px auto 50px auto;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.board .container {
+    margin-right: 40px;
+}
+.container h1 {
+    margin: 0 0 20px 50px;
 }
 .post {
     width: 800px;
@@ -29,6 +35,20 @@ body {
     height: 600px;
 
     overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
+
+}
+
+.areaMenuContainer::-webkit-scrollbar {
+    width: 8px; /* Chrome, Safari 등 WebKit 기반 브라우저 스크롤바 너비 */
+}
+
+.areaMenuContainer::-webkit-scrollbar-thumb {
+    background-color: #6b82a7; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 모서리 둥글게 */
+}
+
+.areaMenuContainer::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* 스크롤바 트랙 배경색 */
 }
 
 /* 지역명 선택란 스타일 */
@@ -45,7 +65,7 @@ body {
     display: block;
     width: 100%;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #6b82a7;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -54,7 +74,7 @@ body {
 }
 
 .areaMenu button:hover {
-    background-color: #0056b3;
+    opacity: 0.8;
 }
 .board .post .conA{
     display: flex;
@@ -122,7 +142,7 @@ body {
 }
 
 .writeBtn:hover {
-    background-color: #6999e0;
+    opacity: 0.8;
     color: white;
 }
 
@@ -166,75 +186,11 @@ body {
     transition: background-color 0.3s;
 }
 .page a:hover{
-    background-color: #6999e0;
+    opacity: 0.8;
     color: white;
 }
 .page .active a{
     /*현재 페이지 색상변경*/
-    background-color: #3e6aa9;
+    background-color: #1a478d;
 }
-
-
-
-
-
-
-
-/*.areaMenu button{*/
-/*    background-color: skyblue;*/
-/*    border: none;*/
-/*    width: 150px;*/
-/*    height: 50px;*/
-/*    margin-bottom: 10px;*/
-/*    border-radius: 10px;*/
-
-/*}*/
-
-/*.areaMenu button:hover{*/
-/*    background-color: dodgerblue;*/
-/*}*/
-/*.board .writeBtn {*/
-
-/*    text-decoration: none;*/
-/*    color: #99209b;*/
-/*}*/
-
-/*.board .post .conA {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    height: 20px;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-/*.board {*/
-/*    display: flex;*/
-/*    justify-content: space-around;*/
-/*}*/
-/*.board .post {*/
-/*    width: 1000px;*/
-/*    height: 1040px;*/
-/*}*/
-
-/*.post table {*/
-/*    width: 1000px;*/
-/*    height: 1000px;*/
-/*    border-spacing: 0;*/
-
-/*}*/
-
-/*.board .post th,td {*/
-/*    margin: 0;*/
-/*    padding: 15px;*/
-/*    font-size: 15px;*/
-/*    border-bottom: 1px solid black;*/
-/*    align-items: center;*/
-
-/*}*/
-
-/*tbody  {*/
-/*    height: 100px;*/
-/*}*/
-/*thead th {*/
-/*    min-width: 100px;*/
-/*}*/
-
 

@@ -2,23 +2,17 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
 }
 
 .body-container {
     width: 1000px;
-    margin-top: 20px; /* 상단 여백 추가 */
-    margin-bottom: 20px; /* 하단 여백 추가 */
+    margin: auto;
 }
 
 .body-container h2 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px; /* 제목과 내용 사이 여백 추가 */
-    margin-top: 420px;
 }
 
 .body-container form {
@@ -28,7 +22,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 960px; /* 최대 너비 설정 */
-    margin: 0 auto; /* 가운데 정렬 */
+    margin: 150px auto 50px auto; /* 가운데 정렬 */
 }
 
 .body-container label {
@@ -90,7 +84,7 @@ body {
 .body-container .links button[type="submit"]:hover,
 .body-container .links button[type="button"]:hover,
 .body-container .links a:hover {
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 .body-container hr {

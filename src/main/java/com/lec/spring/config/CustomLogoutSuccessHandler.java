@@ -12,10 +12,9 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        // 로그아웃 시간 남기기
-        // todo 필요한가
 
-        String redirectUrl = "/fragment/login?logoutHandler";
+
+        String redirectUrl = "/travelkorea";
 
         // return_url 이 있는 경우 logout 후 해당 url 로 redirect.
         if(request.getParameter("ret_url")!=null){
