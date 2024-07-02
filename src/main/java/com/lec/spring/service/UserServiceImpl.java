@@ -64,4 +64,13 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    @Override
+    public int updateUser(User user, String password, String email) {
+        int result = 0;
+        user.setPassword(password);
+        user.setEmail(email);
+        result = userRepository.update(user);
+        return result;
+    }
 }

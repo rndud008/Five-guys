@@ -14,7 +14,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
 
 
-        String redirectUrl = "/";
+        String redirectUrl = "/travelkorea";
 
         // return_url 이 있는 경우 logout 후 해당 url 로 redirect.
         if(request.getParameter("ret_url")!=null){

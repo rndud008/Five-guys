@@ -46,7 +46,7 @@ public class SecurityConfig {
 //                        .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
                         .loginProcessingUrl("/user/login")  // "/user/login" url 로 POST request 가 들어오면 Security 가 fetch 하여 처리. "인증" 과정
                         .defaultSuccessUrl("/") // 이전 페이지에서 로그인 요청하여 로그인 성공 시, 해당 페이지로 다시 이동
-                        .successHandler(new CustomLoginSuccessHandler("/"))
+                        .successHandler(new CustomLoginSuccessHandler("/travelkorea"))
                         .failureHandler(new CustomLoginFailureHandler())
                 )
 

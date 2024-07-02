@@ -327,4 +327,9 @@ where user_id = 9;
 
 delete
 from user
-where username = 'USER2';
+where username = 'USER3';
+
+update user
+set password = '15922ne1@@@',
+    email = 'user3@naver.com'
+where username = 'USER3';
