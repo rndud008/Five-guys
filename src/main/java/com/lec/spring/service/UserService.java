@@ -13,4 +13,6 @@ public interface UserService {
     int register(User user);
 
     List<Authority> selectAuthoritiesById(Long id);
+
+    void deleteUser(Long id);
 }
