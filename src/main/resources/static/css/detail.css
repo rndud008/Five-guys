@@ -20,9 +20,6 @@
 header{position: fixed; left: 0; top:0; overflow: hidden; width: 100%; background: #fff; z-index: 9000; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); transition: height 0.5s ease; height: 100px}
 header.scroll::after,
 header.line::after{position:absolute; left: 0; top: 91px; width: 100%; height: 1px; content:"";}
-/*header{*/
-/*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);*/
-/*}*/
 
 header.sticky {
     height: 85px;
@@ -30,29 +27,25 @@ header.sticky {
 }
 
 
-header > div{display: flex; justify-content: center; align-items: center; position: relative; width: 1200px; height: 92px; margin: 0 auto; z-index: 100;}
-header h1.logo{position: absolute; left: 0; top: 0; z-index: 10;}
-header h1.login{position: absolute; right: 0; top: 22px; z-index: 10;}
-
-
+header > div{align-items: center; position: relative; width: 1200px; height: 92px; margin: 0 auto; z-index: 100;}
+header h1.logo{margin-bottom: 5px;}
+header h1.login{margin-top: 27px;}
+header h1.login a{display: none}
 
 header h2{display: none;}
-header nav{position: absolute; left: 0; top: 0; width: 100%; text-align: center;}
-header nav ul{display: inline-flex;}
-header nav ul li{position: relative; padding: 0 80px;}
+header nav{    display: flex; justify-content: space-between;}
+
+header nav ul{display: flex; margin-top: 10px;width: 50%;justify-content: space-between;}
+
+header nav ul li{padding-left: 10px; padding-right: 10px;}
 header nav ul li a{display: block;}
 header nav ul li a span{display: block; font-size: 24px; color: #000; font-weight: 500; line-height: 92px;}
-
 
 header nav ul li a:hover span{font-weight: 700; color: var(--color-primary);}
 header nav ul li a.on span{font-weight: 700; color: var(--color-primary);}
 
-
-
 header nav ul li::after{display: block; position: absolute; left: -5px; top: 0; font-size: 30px; color: #fff; line-height: 80px; opacity: 0.5; font-weight: 100; content: "/";}
 header nav ul li:first-child::after{display: none;}
-/*header .btn-search{position: absolute; right: -18px; top: 14px; width: 63px; height: 63px; background: url(../images/common/ico_search.svg) center / 36px auto no-repeat; text-indent: -9999em; z-index: 10; transition: top 0.5s ease;}*/
-/*header .btn-close{position: absolute; right: -20px; top: calc(-100% - 8px); width: 63px; height: 63px; background: url(../images/common/ico_close.svg) center / 55px auto no-repeat; text-indent: -9999em; z-index: 10; transition: all 0.5s ease;}*/
 header .btn-close:hover{transform: rotate(180deg);}
 header .btn-menu{display: none;}
 header.search nav{top: 100%;}
@@ -66,21 +59,19 @@ header.search .btn-close{top: 14px;}
 
 
 @media all and (max-width:1300px) {
-    header{overflow: hidden; height: 60px; transition: all 0.5s ease;}
+    header{overflow: hidden;  transition: all 0.5s ease;}
     header.scroll::after,
     header.line::after{top: 59px;}
-    header > div{display: block; width: 100%; height: 60px; padding: 10px 0; text-align: center; box-sizing: border-box;}
-    header h1{left: 20px; top: 0; height: 60px; font-size: 0; line-height: 1;}
-    /*header h1 a{width: 43px; height: 100%; background-image: url(../images/common/logo_m.png);}*/
+    header > div{display: block; width: 100%; height: 60px; text-align: center; box-sizing: border-box;}
+    header h1{margin-bottom: 10px;display: flex;right: 10px;top: 20px;}
+    header h1.login {position: absolute;right: 10px;top: 1px;}
+    header h1.login a{margin-left: 10px; display: block;align-self: center;}
+    header h1 a{width: 43px; height: 100%; }
     header h2{display: inline-block; position: absolute; left: 50%; top: 0; transform: translateX(-50%); z-index: 200;}
     header h2 a{display: block; font-size: 17px; line-height: 60px; font-weight: 500; color: #000;}
-    header nav{position: fixed; left: 100%; top: 50%; transform: translateY(-50%); width: 100%;}
-    header nav ul{display: block;}
-    header nav ul li{overflow: hidden; height: 45px;}
-    header nav ul li a{transform: translateY(100px); opacity: 0;}
+    header nav ul{background-color: #fff;width: 100%;position: fixed;margin-top: 85px;flex-direction: column;align-items: center;display: flex; display: none}
     header nav ul li a span{font-size: 22px; line-height: 45px;}
     header nav ul li a:hover span{font-weight: 400; color: #000;}
-    header nav ul li:nth-of-type(1) a{transition: all 0.7s 0.3s ease;}
     header nav ul li:nth-of-type(2) a{transition: all 0.7s 0.5s ease;}
     header .btn-search{display: none;}
     header .btn-menu{display: block; position: absolute; right: 0; top: 0; width: 60px; height: 60px; background: none; text-indent: -9999em;}
@@ -122,11 +113,6 @@ main > section{position: relative; width: 100%; background: #fff; z-index: 100; 
     .sub .view .content{width: 100%; padding: 0; background: none;}
     .sub .view .etc{width: 100%; margin-bottom: 0;}
 }
-
-
-
-
-
 
 /* footer */
 #footer {

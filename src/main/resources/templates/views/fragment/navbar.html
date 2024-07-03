@@ -63,37 +63,39 @@
 <th:block th:fragment="navbar">
     <header class="line scroll">
         <div>
-            <a th:href="@{/travelkorea}"><h1 class="logo"></h1></a>
+
             <nav>
-                <ul>
+                <a th:href="@{/travelkorea}"><h1 class="logo"></h1></a>
+                <ul class="nav-menu">
                     <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
                     <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
                     <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
                 </ul>
-            </nav>
-            <h1 class="login" sec:authorize="isAnonymous()"><button class="login-button"><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
-            <h1 class="login loginSuccess" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
-                <span class="login-username">[[${user.name}]] ▼</span>
+                <h1 class="login" sec:authorize="isAnonymous()"><button class="login-button"><span><b>TRAVEL</b></span><br><span>login</span></button>
+                    <a href="#"><i class="fa-solid fa-bars"></i></a></h1>
+                <h1 class="login loginSuccess" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+                    <span class="login-username">[[${user.name}]] ▼</span>
 
-                <div class="login-profile">
-                    <div class="login-profile-left">
-                        <img src="https://ssl.pstatic.net/static/common/myarea/myInfo.gif" alt="Logo" style="width: 105px; height: 150px;">
-                    </div>
-                    <div class="login-profile-right">
-                        <span><span class="nickName-text">[[${user.name}]]</span><span class="welcome-text"> 님 환영합니다</span></span>
-                        <br>
-                        <span class="email">[[${user.email}]]</span>
-                        <div class="links">
-                            <a th:href="@{/user/updateCheckUser}">내 정보 수정</a>|
-                            <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
-                                <button class="logout-button" type="submit">로그아웃</button>
-                            </form>
+                    <div class="login-profile">
+                        <div class="login-profile-left">
+                            <img src="https://ssl.pstatic.net/static/common/myarea/myInfo.gif" alt="Logo" style="width: 105px; height: 150px;">
                         </div>
-                        <a id="delUser" th:href="@{/user/delete}">회원 탈퇴</a>
+                        <div class="login-profile-right">
+                            <span><span class="nickName-text">[[${user.name}]]</span><span class="welcome-text"> 님 환영합니다</span></span>
+                            <br>
+                            <span class="email">[[${user.email}]]</span>
+                            <div class="links">
+                                <a th:href="@{/user/updateCheckUser}">내 정보 수정</a>|
+                                <form th:action="@{/user/logout}" method="POST" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
+                                    <button class="logout-button" type="submit">로그아웃</button>
+                                </form>
+                            </div>
+                            <a id="delUser" th:href="@{/user/delete}">회원 탈퇴</a>
+                        </div>
                     </div>
-                </div>
 
-            </h1>
+                </h1>
+            </nav>
         </div>
     </header>
 </th:block>

@@ -16,6 +16,20 @@ $(document).ready(function (){
         $('.login-profile').toggleClass('show');
 
     })
+
+    const $navmenu = $('.nav-menu');
+    const $ham = $('.fa-solid.fa-bars');
+
+    $ham.click(function (){
+        // if($navmenu.is(':visible')){
+        //     $navmenu.hide();
+        // }else {
+        //     $navmenu.show();
+        // }
+        $navmenu.toggle();
+
+    })
+
 });
 
 function loadRegisterPage() {
