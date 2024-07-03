@@ -63,7 +63,7 @@ public class UserController {
             return "redirect:/user/register";
         }
         // 에러 없었으면 회원 등록 진행
-        String page = "/user/registerOk";
+        String page = "user/registerOk";
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
         return page;
