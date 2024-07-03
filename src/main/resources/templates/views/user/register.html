@@ -11,7 +11,7 @@
 
 <body>
 <div class="container">
-<!--    <div class="error" th:text="${error}"></div>-->
+
     <form name="registerform" method="POST" th:action="@{/user/register}">
         <div class="id">
             <label for="username" class="name">아이디</label><br>
@@ -51,7 +51,7 @@
         <div class="email">
             <label for="email_id" class="text">E-Mail</label><br>
             <input type="text" id="email_id" name="email_id" th:value="${email_id}" required>
-            @</span>
+            @
             <input type="text" id="custom_domain" name="custom_domain" placeholder="직접 입력">
             <select id="domain" name="domain" onchange="updateCustomDomain()">
                 <option value="">직접입력</option>

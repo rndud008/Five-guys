@@ -148,8 +148,13 @@ public class UserController {
             RedirectAttributes redirectAttrs
     ) {
 
-        User loggedUser = ((PrincipalDetails) userDetails).getUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+        PrincipalDetails userDetails1 = (PrincipalDetails) authentication.getPrincipal();
+//        userDetails1.getUser();
+        User user1 = userDetails1.getUser();
 
+        System.out.println(user1);
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
 
@@ -161,12 +166,8 @@ public class UserController {
             return "redirect:/user/updateUser";
         }
 
-        System.out.println(loggedUser.getUsername());
-
-
-
         String page = "/user/updateOk";
-        int cnt = userService.updateUser(loggedUser, passwordEncoder.encode(password), email);
+        int cnt = userService.updateUser(user1, passwordEncoder.encode(password), email);
         model.addAttribute("result", cnt);
         return page;
     }
