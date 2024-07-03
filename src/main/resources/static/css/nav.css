@@ -306,44 +306,6 @@ h1.loginSuccess > span:first-of-type{
     width: 100%;
 }
 
-/*.btn-block.kakao{*/
-/*    background-image: url("../img/kakao_login2.png");*/
-/*    background-size: 100% 100%; !* 이미지 크기를 조절 *!*/
-/*    !*width: 260px;*!*/
-/*    !*height: 40px;*!*/
-/*    background-repeat: no-repeat; !* 이미지 반복 방지 *!*/
-/*    background-position: center; !* 이미지 위치 *!*/
-/*    display: inline-block; !* 인라인 블록으로 설정 *!*/
-/*    text-indent: -9999px; !* 텍스트 숨기기 *!*/
-/*    align-content: center;*/
-/*    margin-bottom: 10px;*/
-/*}*/
-
-/*.btn-block.google{*/
-/*    background-image: url("../img/google_login2.png");*/
-/*    background-size: 100% 100%; !* 이미지 크기를 조절 *!*/
-/*    width: 300px;*/
-/*    height: 45px;*/
-/*    background-repeat: no-repeat; !* 이미지 반복 방지 *!*/
-/*    background-position: center; !* 이미지 위치 *!*/
-/*    display: inline-block; !* 인라인 블록으로 설정 *!*/
-/*    text-indent: -9999px; !* 텍스트 숨기기 *!*/
-/*    align-content: center;*/
-/*    margin-bottom: 10px;*/
-/*}*/
-
-/*.btn-block.naver{*/
-/*    background-image: url("../img/naver_login2.png");*/
-/*    background-size: 100% 100%; !* 이미지 크기를 조절 *!*/
-/*    width: 300px;*/
-/*    height: 60px;*/
-/*    background-repeat: no-repeat; !* 이미지 반복 방지 *!*/
-/*    background-position: center; !* 이미지 위치 *!*/
-/*    display: inline-block; !* 인라인 블록으로 설정 *!*/
-/*    text-indent: -9999px; !* 텍스트 숨기기 *!*/
-/*    align-content: center;*/
-/*    margin-bottom: 10px;*/
-/*}*/
 
 .btn {
     border-radius: 4%;
@@ -355,18 +317,11 @@ h1.loginSuccess > span:first-of-type{
     background-color: transparent;
 }
 
-/*.btn-lightblue{*/
-/*    background-color: #007bff;*/
-/*}*/
-
-
 /* 간편 로그인 섹션 스타일 */
 .h5 {
     margin-bottom: 10px;
     margin-top: 10px;
 }
-
-
 
 /*로그인 버튼*/
 
