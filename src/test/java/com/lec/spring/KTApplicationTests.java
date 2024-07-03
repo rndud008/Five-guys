@@ -1,5 +1,6 @@
 package com.lec.spring;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
@@ -8,64 +9,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+@SpringBootTest
 public class KTApplicationTests {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/travel?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true";
-    private static final String DB_USER = "kt326";
-    private static final String DB_PASSWORD = "1234";
-    public static void main(String[] args) throws IOException {
-        String baseUrl = "https://apis.data.go.kr/1360000/MidFcstInfoService/getMidTa";
-        String serviceKey = "oshjO8WG9VLp87/CQQK/YzU9KWIOr/3VlA8jNBbi40aHpZM1RyvXyDNiCfF3IMl4wPg0UicSNMFHYNtQZVfzNQ==";
-        String pageNo = "1";
-        String numOfRows = "10";
-        String dataType = "json";
-        String regId = "11B10101";
-        String tmFc = "202406200600";
-
-        // URL 구성 using UriComponentsBuilder
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
-                .queryParam("serviceKey", serviceKey)
-                .queryParam("pageNo", pageNo)
-                .queryParam("numOfRows", numOfRows)
-                .queryParam("dataType", dataType)
-                .queryParam("regId", regId)
-                .queryParam("tmFc", tmFc)
-                .toUriString();
-
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-
-        System.out.println("Response code: " + conn.getResponseCode());
-
-        BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-
-        System.out.println("Response: " + sb.toString());
-
-    }
-
-
-
-
-
-
-
-
-
-
 
 }
 

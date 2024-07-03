@@ -245,8 +245,12 @@ public class TravelPostTransacionService {
     public void detailCommon(LastCallApiDate detailCommon1, String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
         detailCommon1.setUrl(apiUrl);
-
+    try{
         items2 = dataService.fetchApiData(apiUrl);
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+
         System.out.println("공통정보 api 호출 완료");
 
         if (items2 != null) {
@@ -261,7 +265,13 @@ public class TravelPostTransacionService {
     @Transactional
     public void detailCommon(String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
+        try{
         items2 = dataService.fetchApiData(apiUrl);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         System.out.println("공통정보 api 호출 완료");
 
         if (items2 != null) {
@@ -278,8 +288,13 @@ public class TravelPostTransacionService {
                             TravelPost travelPost, TravelType travelType) throws IOException, URISyntaxException {
 
         detailIntro1.setUrl(apiUrl);
+try {
 
         items2 = dataService.fetchApiData(apiUrl);
+}catch (Exception e){
+    e.printStackTrace();
+}
+
         System.out.println("소개정보 api 호출 완료");
         if (items2 != null) {
             if (travelType.getId() == 12) {
@@ -314,7 +329,13 @@ public class TravelPostTransacionService {
     @Transactional
     public void detailIntro(String apiUrl, JsonNode items2, TravelPost travelPost, TravelType travelType) throws IOException, URISyntaxException {
 
-        items2 = dataService.fetchApiData(apiUrl);
+        try {
+
+            items2 = dataService.fetchApiData(apiUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         System.out.println("소개정보 api 호출 완료");
         if (items2 != null) {
             if (travelType.getId() == 12) {
@@ -352,7 +373,14 @@ public class TravelPostTransacionService {
 
         detailInfo1.setUrl(apiUrl);
 
-        items2 = dataService.fetchApiData(apiUrl);
+        try {
+
+            items2 = dataService.fetchApiData(apiUrl);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (items2 != null) {
             for (JsonNode item2 : items2) {
                 String infonameCheck = item2.get("infoname").asText();
@@ -371,7 +399,13 @@ public class TravelPostTransacionService {
     @Transactional
     public void detailInfo(String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
+        try{
+
         items2 = dataService.fetchApiData(apiUrl);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         if (items2 != null) {
             for (JsonNode item2 : items2) {
                 String infonameCheck = item2.get("infoname").asText();
