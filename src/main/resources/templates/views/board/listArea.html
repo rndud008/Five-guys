@@ -57,7 +57,7 @@
                         <span>page [[${page}]]/[[${totalPage}]]</span>
                     </div>
                     <!-- 페이징 헤더 -->
-                    <a class="writeBtn" th:href="@{/board/write(areacode=${selectareacode.areacode}, areacodename=${selectareacode.name})}">작성</a>
+                    <a class="writeBtn" th:href="@{/board/write(areacode=${selectareacode.areacode}, areacodename=${selectareacode.name})}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
                 </div>
 
                 <div>

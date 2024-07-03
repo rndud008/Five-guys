@@ -4,11 +4,10 @@ import com.lec.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class UserValidator implements Validator {
+public class UpdateValidator implements Validator {
 
     private static final String username_regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{3,11}$";
     private static final String password_regex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[a-zA-Z\\d!@#$%^&*(),.?\":{}|<>]{8,12}$";
@@ -29,32 +28,11 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
-        String username = user.getUsername();
         String password = user.getPassword();
         String email = user.getEmail();
-        String name = user.getName();
 
-
-        /**
-         * 아이디 관련
-         */
-        if(username == null || username.trim().isEmpty()) { // username 은 필수
-            errors.rejectValue("username", "아이디는 필수입니다.");
-        } else if(userService.isExist(username)) {
-            errors.rejectValue("username", "이미 존재하는 아이디 입니다.");
-        }
-        if(!username.matches(username_regex)) {
-            errors.rejectValue("username", "아이디 형식이 맞지 않습니다.");
-        }
-
-
-        /**
-         * 이름 관련
-         */
-        if(name.length() < 2){
-            errors.rejectValue("name", "이름은 두글자 이상이어야 합니다.");
-        }
-
+        System.out.println(password);
+        System.out.println(email);
         /**
          * 비밀번호 관련
          */
@@ -70,7 +48,9 @@ public class UserValidator implements Validator {
          * 이메일 관련
          */
 
-        System.out.println(email + "===============");
+
+        System.out.println(user.getEmail());
+        System.out.println(email);
 
         if(!email.matches(email_regex)) {
             errors.rejectValue("email","E-mail 형식이 맞지 않습니다.");

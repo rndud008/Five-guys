@@ -338,3 +338,8 @@ update user
 set password = '15922ne1@@@',
     email = 'user3@naver.com'
 where username = 'USER3';
+
+SHOW CREATE TABLE user;
+select * from information_schema.table_constraints where table_name = 'user';
+ALTER TABLE user ADD COLUMN name VARCHAR(80) NOT NULL COMMENT '별명';
+

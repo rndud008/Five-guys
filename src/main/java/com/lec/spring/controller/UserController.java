@@ -1,6 +1,8 @@
 package com.lec.spring.controller;
 
 import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.domain.PasswordValidator;
+import com.lec.spring.domain.UpdateValidator;
 import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
@@ -46,7 +48,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerOk(
-            @Valid User user,
+            @Valid @ModelAttribute("registerUser") User user,
             BindingResult result,
             Model model,
             RedirectAttributes redirectAttrs
@@ -72,7 +74,7 @@ public class UserController {
     @Autowired
     UserValidator userValidator;
 
-    @InitBinder
+    @InitBinder("registerUser")
     public void initBinder(WebDataBinder binder){
         binder.setValidator(userValidator);
     }
@@ -112,43 +114,31 @@ public class UserController {
         }
     }
 
-    // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
-    // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
     @PostMapping("/loginError")
     public String loginError() {
         return "home";
     }
 
     @GetMapping("/updateUser")
-    public String update(@RequestParam("password") String password, Model model) {
+    public String update(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         String name = userService.findByUsername(username).getName();
-        String userPassword = userService.findByUsername(username).getPassword();
 
         model.addAttribute("username", username);
         model.addAttribute("name", name);
 
-        if (passwordEncoder.matches(password, userPassword)){
-            return "user/updateUser";
-        } else {
-            return "redirect:/user/updateCheckUser";
-        }
-
+        return "user/updateUser";
     }
+
 
     @PostMapping("/updateUser")
     public String updateOk(
-            @Valid User user,
+            @Valid @ModelAttribute("updateUser") User user,
             BindingResult result,
-            @RequestParam("password") String password,
-            @RequestParam("email") String email,
             Model model,
-            @AuthenticationPrincipal UserDetails userDetails,
             RedirectAttributes redirectAttrs
     ) {
-
-        User loggedUser = ((PrincipalDetails) userDetails).getUser();
 
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
@@ -161,19 +151,50 @@ public class UserController {
             return "redirect:/user/updateUser";
         }
 
-        System.out.println(loggedUser.getUsername());
-
-
-
-        String page = "/user/updateOk";
-        int cnt = userService.updateUser(loggedUser, passwordEncoder.encode(password), email);
+        String page = "user/updateOk";
+        int cnt = userService.updateUser(user, passwordEncoder.encode(user.getPassword()), user.getEmail());
         model.addAttribute("result", cnt);
         return page;
+    }
+    @Autowired
+    UpdateValidator updateValidator;
+
+    @InitBinder("updateUser")
+    public void upinitBinder(WebDataBinder binder){
+        binder.setValidator(updateValidator);
     }
 
     @GetMapping("/updateCheckUser")
     public String updateCheckUser() {
         return "user/updateCheckUser";
+    }
+
+    @PostMapping("/updateCheckUser")
+    public String updateCheckUserOk(
+            @Valid @ModelAttribute("passwordUser") User user,
+            BindingResult result,
+            RedirectAttributes redirectAttrs
+    ) {
+        // 검증 에러가 있을 경우 redirect 한다
+        if (result.hasErrors()) {
+
+            List<FieldError> errList = result.getFieldErrors();
+            for (FieldError err : errList) {
+                redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
+            }
+
+            return "redirect:/user/updateCheckUser";
+        } else {
+            return "/user/updateUser";
+        }
+    }
+
+    @Autowired
+    PasswordValidator passwordValidator;
+
+    @InitBinder("passwordUser")
+    public void pinitBinder(WebDataBinder binder){
+        binder.setValidator(passwordValidator);
     }
 
     @RequestMapping("/rejectAuth")
