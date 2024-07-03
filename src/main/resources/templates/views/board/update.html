@@ -40,18 +40,15 @@
     <div class="body-container">
 
         <form th:action="@{/board/update}" method="post" enctype="multipart/form-data">
-            <h2>수정</h2>
+            <h2>수정<span class="update-post-id">글 번호: [[${post.id}]]</span></h2>
+
+            <hr>
+
             <input type="hidden" name="id" th:value="${post.id}"/>
             <div style="display: flex; justify-content: space-between">
                 <div style="align-content: center">
                     <label>작성자:</label>
                     <span readonly th:text="${post.user.username}"></span>
-                </div>
-
-                <div>
-                    <span>글 번호: [[${post.id}]]</span>
-                    <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
-                    <span>조회수: [[${post.viewcnt}]]</span>
                 </div>
             </div>
             <div>

@@ -66,22 +66,22 @@
                     <table class="tableContainer">
                         <thead>
                         <tr>
-                            <th style="width: 85px">게시글 번호</th>
-                            <th style="width: 200px">제목</th>
-                            <th style="width: 70px">작성자</th>
-                            <th style="width: 60px">조회수</th>
-                            <th style="width: 160px">작성일</th>
-                            <th style="width: 60px">좋아요</th>
+                            <th style="width: 35px">번호</th>
+                            <th style="width: 190px">제목</th>
+                            <th style="width: 40px">작성자</th>
+                            <th style="width: 35px">조회수</th>
+                            <th style="width: 120px">작성일</th>
+                            <th style="width: 55px">좋아요/댓글</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="post : ${list}">
                             <td th:text="${post.id}"></td>
-                            <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}"></a> </td>
+                            <td><a th:href="@{'/board/detail/' + ${post.id}}" th:text="${post.subject}"></a>  </td>
                             <td th:text="${post.user.name}"></td>
                             <td th:text="${post.viewcnt}"></td>
                             <td th:text="${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:text="${post.likecnt}"></td>
+                            <td style="display: flex; justify-content: space-around"><i class="far fa-heart"></i> [[${post.likecnt}]] <i class='far fa-comment'></i> [[${post.commentcnt}]]</td>
                         </tr>
                         </tbody>
                     </table>

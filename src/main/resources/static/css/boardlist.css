@@ -8,7 +8,7 @@ body {
 /* 게시판 컨테이너 스타일 */
 .board {
     background-color: #fff;
-    height: 800px;
+    height: 700px;
     padding: 20px;
     margin: 150px auto 50px auto;
     border-radius: 8px;
@@ -102,7 +102,7 @@ body {
     white-space: nowrap; /* 줄 바꿈 방지 */
 }
 .board td {
-    max-width: 200px;
+    max-width: 150px;
     overflow: hidden; /* 넘치는 내용 숨기기 */
     text-overflow: ellipsis; /* 넘치는 내용을 생략 부호(...)로 표시 */
     white-space: nowrap; /* 줄 바꿈 방지 */

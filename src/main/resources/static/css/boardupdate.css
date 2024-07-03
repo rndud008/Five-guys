@@ -11,7 +11,6 @@ body {
 }
 
 .body-container h2 {
-    text-align: center;
     color: #333;
 }
 
@@ -135,4 +134,18 @@ body {
 
 .body-container .exFiles button[type="button"] {
     margin: 0;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #6b82a7;
+    color: white;
+}
+
+.body-container .exFiles button[type="button"]:hover {
+    opacity: 0.8;
+}
+
+.update-post-id {
+    float: right;
+    font-size: 15px;
+    margin-top: 10px;
 }

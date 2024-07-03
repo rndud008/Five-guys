@@ -19,6 +19,8 @@ public class Post {
     private Long viewcnt;
 
     private Long likecnt;
+    private int commentcnt;
+
     private User user;
     //    private Areacode areacode;
 //    필요한가?

@@ -33,5 +33,7 @@ public interface PostRepository {
     // 지역 게시판 글의 개수
     int countByArea(Long areacode);
 
+    int commentCnt(Long id);
+
 
 }

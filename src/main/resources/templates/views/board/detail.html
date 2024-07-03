@@ -49,22 +49,18 @@
 
     <div class="detail-container">
         <div class="details">
-            <h1>조회</h1>
 
             <div class="subject">
-                <label>제목:</label>
-                <span th:text="${post.subject}"></span>
+                <label>제목: [[${post.subject}]]</label>
+                <span class="detail-regdate">작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
             </div>
 
+            <br>
+
             <div class="info">
-                <div>
-                    <span>작성자: [[${post.user.name}]]</span>
-                    <span>지역명: [[${areacode.name}]]</span>
-                </div>
-                <div>
-                    <span>작성일: [[${#temporals.format(post.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
-                    <span>조회수: [[${post.viewcnt}]]</span>
-                </div>
+                <span>작성자: [[${post.user.name}]]</span>
+                <span class="info-detail">지역명: [[${areacode.name}]] &nbsp;&nbsp; 조회수: [[${post.viewcnt}]]</span>
+
             </div>
 
 
@@ -77,12 +73,13 @@
                 <!-- 삭제 기능 -->
 
                 <div class="content">
-                    <label>내용:</label>
+                    <hr>
                     <div class="contentarea" th:utext="${post.content}"></div>
                 </div>
 
                 <!-- 첨부파일목록 -->
                 <div class="attachments">
+                    <hr>
                     <label>첨부파일:</label>
                     <!-- 첨부파일 이름, 다운로드 링크 -->
                     <ul>
@@ -92,6 +89,8 @@
                     </ul>
                 </div>
                 <!-- 첨부파일목록 -->
+
+                <hr>
 
                 <!-- 좋아요 -->
                 <div class="actions">

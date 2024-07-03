@@ -342,4 +342,6 @@ where username = 'USER3';
 SHOW CREATE TABLE user;
 select * from information_schema.table_constraints where table_name = 'user';
 ALTER TABLE user ADD COLUMN name VARCHAR(80) NOT NULL COMMENT '별명';
-
+SELECT count(*)
+FROM comment
+WHERE travel_diary_post_id = 1755;

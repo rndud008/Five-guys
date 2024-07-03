@@ -45,4 +45,6 @@ public interface BoardService {
 
     // 특정 id 글 삭제하기 (DELETE)
     int deleteById(Long id);
+
+    int commentCnt(Long postId);
 }

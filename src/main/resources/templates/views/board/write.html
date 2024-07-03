@@ -37,7 +37,8 @@
         <div class="body-container" th:with="user=${#authentication.getPrincipal().getUser()}">
 
             <form th:action="@{/board/write}" method="post" enctype="multipart/form-data">
-                <h2>작성</h2>
+                <h2>글쓰기</h2>
+                <hr>
                 <div>
                     <label>작성자</label>
                     <span>[[${user.username}]]([[${user.name}]])</span>
