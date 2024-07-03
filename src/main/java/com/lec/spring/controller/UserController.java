@@ -7,6 +7,7 @@ import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -153,7 +154,14 @@ public class UserController {
 
         String page = "user/updateOk";
         int cnt = userService.updateUser(user, passwordEncoder.encode(user.getPassword()), user.getEmail());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user1 = userService.findByUsername(username);
+
+        redirectAttrs.addAttribute("user", user1);
         model.addAttribute("result", cnt);
+
         return page;
     }
     @Autowired
@@ -185,6 +193,7 @@ public class UserController {
 
             return "redirect:/user/updateCheckUser";
         } else {
+
             return "/user/updateUser";
         }
     }
