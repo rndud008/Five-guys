@@ -1,6 +1,7 @@
 package com.lec.spring.controller;
 
 import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.domain.UpdateValidator;
 import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
@@ -46,7 +47,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerOk(
-            @Valid User user,
+            @Valid @ModelAttribute("registerUser") User user,
             BindingResult result,
             Model model,
             RedirectAttributes redirectAttrs
@@ -72,7 +73,7 @@ public class UserController {
     @Autowired
     UserValidator userValidator;
 
-    @InitBinder
+    @InitBinder("registerUser")
     public void initBinder(WebDataBinder binder){
         binder.setValidator(userValidator);
     }
@@ -136,10 +137,17 @@ public class UserController {
         }
 
     }
+    @Autowired
+    UpdateValidator updateValidator;
+
+    @InitBinder("updateUser")
+    public void upinitBinder(WebDataBinder binder){
+        binder.setValidator(updateValidator);
+    }
 
     @PostMapping("/updateUser")
     public String updateOk(
-            @Valid User user,
+            @Valid @ModelAttribute("updateUser") User user,
             BindingResult result,
             @RequestParam("password") String password,
             @RequestParam("email") String email,
@@ -147,9 +155,17 @@ public class UserController {
             @AuthenticationPrincipal UserDetails userDetails,
             RedirectAttributes redirectAttrs
     ) {
+        System.out.println(user.getUsername() + "======================");
+        System.out.println(password + "======================");
+        System.out.println(email + "======================");
 
-        User loggedUser = ((PrincipalDetails) userDetails).getUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+        PrincipalDetails userDetails1 = (PrincipalDetails) authentication.getPrincipal();
+//        userDetails1.getUser();
+        User user1 = userDetails1.getUser();
 
+        System.out.println(user1);
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
 
@@ -161,12 +177,8 @@ public class UserController {
             return "redirect:/user/updateUser";
         }
 
-        System.out.println(loggedUser.getUsername());
-
-
-
-        String page = "/user/updateOk";
-        int cnt = userService.updateUser(loggedUser, passwordEncoder.encode(password), email);
+        String page = "user/updateOk";
+        int cnt = userService.updateUser(user1, passwordEncoder.encode(password), email);
         model.addAttribute("result", cnt);
         return page;
     }

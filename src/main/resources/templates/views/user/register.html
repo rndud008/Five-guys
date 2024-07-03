@@ -11,7 +11,7 @@
 
 <body>
 <div class="container">
-<!--    <div class="error" th:text="${error}"></div>-->
+
     <form name="registerform" method="POST" th:action="@{/user/register}">
         <div class="id">
             <label for="username" class="name">아이디</label><br>
@@ -59,14 +59,14 @@
                 <option value="gmail.com">gmail.com</option>
                 <option value="daum.net">daum.net</option>
             </select>
+
+            <input type="hidden" id="email" name="email">
+
+            <div><span class="error" th:if="${error_email}" th:utext="${error_email}"></span></div>
         </div>
-        <div><span class="error" th:if="${error_email}" th:utext="${error_email}"></span></div>
         <button type="submit">가입하기</button>
     </form>
 </div>
 </body>
-
-
-
 
 </html>
