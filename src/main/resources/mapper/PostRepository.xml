@@ -109,4 +109,10 @@
         WHERE areacode = #{areacode};
     </select>
 
+    <select id="commentCnt" resultType="int">
+        SELECT count(*)
+        FROM comment
+        WHERE travel_diary_post_id = #{id};
+    </select>
+
 </mapper>

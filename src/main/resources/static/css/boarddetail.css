@@ -1,4 +1,6 @@
-
+hr {
+    opacity: 0.5;
+}
 body {
     margin: 0 auto;
     padding: 0;
@@ -40,12 +42,21 @@ body {
     margin: 15px 0;
     word-break: break-word;
 }
+.detail-regdate{
+    font-size: 15px;
+    color: gray;
+    float: right;
+    margin-top: 15px;
+}
+.info-detail{
+    float: right;
+}
 
 .details .content div{
     margin: 10px 0;
     width: 977.5px;
     max-height: 600px;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border-radius: 5px;
     padding: 10px;
     word-wrap: break-word;

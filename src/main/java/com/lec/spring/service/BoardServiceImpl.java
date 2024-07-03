@@ -193,6 +193,7 @@ public class BoardServiceImpl implements BoardService {
             list = postRepository.selectFromRow(fromRow, pageRows);
             for(Post p : list){
                 p.setLikecnt(likeRepository.countByPost(p.getId()));
+                p.setCommentcnt(postRepository.commentCnt(p.getId()));
             }
             model.addAttribute("list", list);
         } else {
@@ -257,6 +258,7 @@ public class BoardServiceImpl implements BoardService {
             list = postRepository.selectFromRowArea(fromRow, pageRows, areacode);
             for(Post p : list){
                 p.setLikecnt(likeRepository.countByPost(p.getId()));
+                p.setCommentcnt(postRepository.commentCnt(p.getId()));
             }
             model.addAttribute("list", list);
         } else {
@@ -351,6 +353,13 @@ public class BoardServiceImpl implements BoardService {
             }
             result = postRepository.delete(post);
         }
+        return result;
+    }
+
+    @Override
+    public int commentCnt(Long postId) {
+        int result = postRepository.commentCnt(postId);
+
         return result;
     }
 }
