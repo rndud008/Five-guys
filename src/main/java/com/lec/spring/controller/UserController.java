@@ -1,6 +1,7 @@
 package com.lec.spring.controller;
 
 import com.lec.spring.config.PrincipalDetails;
+import com.lec.spring.domain.PasswordValidator;
 import com.lec.spring.domain.UpdateValidator;
 import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
@@ -145,7 +146,6 @@ public class UserController {
             List<FieldError> errList = result.getFieldErrors();
             for (FieldError err : errList) {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
-                System.out.println("에러 ----------------------" + err.getField() + " " + err.getCode());
             }
 
             return "redirect:/user/updateUser";
@@ -170,16 +170,31 @@ public class UserController {
     }
 
     @PostMapping("/updateCheckUser")
-    public String updateCheckUserOk(@RequestParam("password") String password) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-        User user = userDetails.getUser();
+    public String updateCheckUserOk(
+            @Valid @ModelAttribute("passwordUser") User user,
+            BindingResult result,
+            RedirectAttributes redirectAttrs
+    ) {
+        // 검증 에러가 있을 경우 redirect 한다
+        if (result.hasErrors()) {
 
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            return "/user/updateUser";
-        } else {
+            List<FieldError> errList = result.getFieldErrors();
+            for (FieldError err : errList) {
+                redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
+            }
+
             return "redirect:/user/updateCheckUser";
+        } else {
+            return "/user/updateUser";
         }
+    }
+
+    @Autowired
+    PasswordValidator passwordValidator;
+
+    @InitBinder("passwordUser")
+    public void pinitBinder(WebDataBinder binder){
+        binder.setValidator(passwordValidator);
     }
 
     @RequestMapping("/rejectAuth")
