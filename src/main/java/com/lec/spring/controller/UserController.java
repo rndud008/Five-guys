@@ -1,5 +1,6 @@
 package com.lec.spring.controller;
 
+import com.lec.spring.config.PrincipalDetails;
 import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
@@ -143,9 +144,11 @@ public class UserController {
             @RequestParam("password") String password,
             @RequestParam("email") String email,
             Model model,
+            @AuthenticationPrincipal UserDetails userDetails,
             RedirectAttributes redirectAttrs
     ) {
 
+        User loggedUser = ((PrincipalDetails) userDetails).getUser();
 
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
@@ -158,11 +161,12 @@ public class UserController {
             return "redirect:/user/updateUser";
         }
 
+        System.out.println(loggedUser.getUsername());
 
 
 
         String page = "/user/updateOk";
-        int cnt = userService.updateUser(user, passwordEncoder.encode(password), email);
+        int cnt = userService.updateUser(loggedUser, passwordEncoder.encode(password), email);
         model.addAttribute("result", cnt);
         return page;
     }
