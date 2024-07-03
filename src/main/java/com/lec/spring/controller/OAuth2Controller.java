@@ -68,7 +68,7 @@ public class OAuth2Controller {
         // 사이트 로그인
         loginKakaoUser(kakaoUser);
 
-        return "redirect:/";
+        return "redirect:/travelkorea";
     }
 
     public KakaoOAuthToken kakaoAccessToken(String code) {
