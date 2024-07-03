@@ -113,29 +113,48 @@ public class UserController {
         }
     }
 
-    // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
-    // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
     @PostMapping("/loginError")
     public String loginError() {
         return "home";
     }
 
     @GetMapping("/updateUser")
-    public String update(@RequestParam("password") String password, Model model) {
+    public String update(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         String name = userService.findByUsername(username).getName();
-        String userPassword = userService.findByUsername(username).getPassword();
 
         model.addAttribute("username", username);
         model.addAttribute("name", name);
 
-        if (passwordEncoder.matches(password, userPassword)){
-            return "user/updateUser";
-        } else {
-            return "redirect:/user/updateCheckUser";
+        return "user/updateUser";
+    }
+
+
+    @PostMapping("/updateUser")
+    public String updateOk(
+            @Valid @ModelAttribute("updateUser") User user,
+            BindingResult result,
+            Model model,
+            RedirectAttributes redirectAttrs
+    ) {
+
+        // 검증 에러가 있을 경우 redirect 한다
+        if (result.hasErrors()) {
+
+            List<FieldError> errList = result.getFieldErrors();
+            for (FieldError err : errList) {
+                redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
+                System.out.println("에러 ----------------------" + err.getField() + " " + err.getCode());
+            }
+
+            return "redirect:/user/updateUser";
         }
 
+        String page = "user/updateOk";
+        int cnt = userService.updateUser(user, passwordEncoder.encode(user.getPassword()), user.getEmail());
+        model.addAttribute("result", cnt);
+        return page;
     }
     @Autowired
     UpdateValidator updateValidator;
@@ -145,47 +164,22 @@ public class UserController {
         binder.setValidator(updateValidator);
     }
 
-    @PostMapping("/updateUser")
-    public String updateOk(
-            @Valid @ModelAttribute("updateUser") User user,
-            BindingResult result,
-            @RequestParam("password") String password,
-            @RequestParam("email") String email,
-            Model model,
-            @AuthenticationPrincipal UserDetails userDetails,
-            RedirectAttributes redirectAttrs
-    ) {
-        System.out.println(user.getUsername() + "======================");
-        System.out.println(password + "======================");
-        System.out.println(email + "======================");
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String username = authentication.getName();
-        PrincipalDetails userDetails1 = (PrincipalDetails) authentication.getPrincipal();
-//        userDetails1.getUser();
-        User user1 = userDetails1.getUser();
-
-        System.out.println(user1);
-        // 검증 에러가 있을 경우 redirect 한다
-        if (result.hasErrors()) {
-
-            List<FieldError> errList = result.getFieldErrors();
-            for (FieldError err : errList) {
-                redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
-            }
-
-            return "redirect:/user/updateUser";
-        }
-
-        String page = "user/updateOk";
-        int cnt = userService.updateUser(user1, passwordEncoder.encode(password), email);
-        model.addAttribute("result", cnt);
-        return page;
-    }
-
     @GetMapping("/updateCheckUser")
     public String updateCheckUser() {
         return "user/updateCheckUser";
+    }
+
+    @PostMapping("/updateCheckUser")
+    public String updateCheckUserOk(@RequestParam("password") String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
+
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return "/user/updateUser";
+        } else {
+            return "redirect:/user/updateCheckUser";
+        }
     }
 
     @RequestMapping("/rejectAuth")

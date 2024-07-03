@@ -31,6 +31,8 @@ public class UpdateValidator implements Validator {
         String password = user.getPassword();
         String email = user.getEmail();
 
+        System.out.println(password);
+        System.out.println(email);
         /**
          * 비밀번호 관련
          */
