@@ -61,7 +61,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=500&pageNo=3&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=500&pageNo=2&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId()); // TODO pageNo=12,1,2 완료
             System.out.println(apiUrl);
             JsonNode items = null;
@@ -403,8 +403,7 @@ public class TravelPostServiceImpl implements TravelPostService {
             LastCallApiDate lastCallApiDate = new LastCallApiDate();
 
             if (lastCallApiDataRepository.findByUrl(apiUrl) == null){
-                lastCallApiDate.setUrl(apiUrl);
-                lastCallApiDataRepository.save(lastCallApiDate);
+
 
                 try {
                     items = dataService.fetchApiData(apiUrl);
@@ -425,6 +424,8 @@ public class TravelPostServiceImpl implements TravelPostService {
                     System.out.println("데이터 없음..");
                 }
 
+                lastCallApiDate.setUrl(apiUrl);
+                lastCallApiDataRepository.save(lastCallApiDate);
             }else {
                 System.out.println("오늘 이미 호출함.");
             }

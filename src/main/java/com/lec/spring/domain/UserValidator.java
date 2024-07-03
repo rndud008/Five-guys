@@ -12,10 +12,9 @@ public class UserValidator implements Validator {
 
     private static final String username_regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{3,11}$";
     private static final String password_regex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[a-zA-Z\\d!@#$%^&*(),.?\":{}|<>]{8,12}$";
+    private static final String email_regex = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
 
-    private static final String emailId_regex = "^[a-zA-Z0-9._%+-]+$";
-    private static final String emailDomain_regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$";
-    private static final String email_regex = "^[a-zA-Z0-9._%+-]+$";
+
 
 
     @Autowired
@@ -32,13 +31,9 @@ public class UserValidator implements Validator {
 
         String username = user.getUsername();
         String password = user.getPassword();
-        String email = user.getEmail();
-        String name = user.getName();
 
-        System.out.println(user);
-        System.out.println("username = "+username);
-        System.out.println("password = "+password);
-        System.out.println("email = "+email);
+        System.out.println(username);
+        System.out.println(password);
 
         /**
          * 아이디 관련
@@ -56,10 +51,7 @@ public class UserValidator implements Validator {
         /**
          * 이름 관련
          */
-        if(name == null || name.trim().isEmpty()){
-            errors.rejectValue("name", "이름은 필수입니다");
-        }
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name 은 필수입니다.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name 은 필수입니다.");
 
         /**
          * 비밀번호 관련
@@ -75,7 +67,14 @@ public class UserValidator implements Validator {
         /**
          * 이메일 관련
          */
+        String email = user.getEmail();
+        System.out.println(email);
+        System.out.println(user.getEmail());
+        System.out.println(email);
 
+        if(!email.matches(email_regex)) {
+            errors.rejectValue("email","E-mail 형식이 맞지 않습니다.");
+        }
 
     }
 }

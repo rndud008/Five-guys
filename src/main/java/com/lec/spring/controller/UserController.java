@@ -36,6 +36,8 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
+
     @GetMapping("/register")
     public String register(Model model) {
         return "/user/register";
@@ -49,20 +51,17 @@ public class UserController {
             RedirectAttributes redirectAttrs
     ) {
 
-
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
 
             List<FieldError> errList = result.getFieldErrors();
             for (FieldError err : errList) {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
-                System.out.println(err.getField() + " == " + err.getCode());
             }
 
             return "redirect:/user/register";
         }
         // 에러 없었으면 회원 등록 진행
-
         String page = "/user/registerOk";
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
@@ -139,31 +138,28 @@ public class UserController {
 
     @PostMapping("/updateUser")
     public String updateOk(
-            @RequestParam("newpassword") String password,
-            @RequestParam("email_id") String emailId,
-            @RequestParam("domain") String domain,
-            @RequestParam(value = "custom_domain", required = false) String customDomain,
-            @AuthenticationPrincipal UserDetails userDetails,
-            Model model
+            @Valid User user,
+            BindingResult result,
+            @RequestParam("password") String password,
+            @RequestParam("email") String email,
+            Model model,
+            RedirectAttributes redirectAttrs
     ) {
 
 
-//        // 검증 에러가 있을 경우 redirect 한다
-//        if (result.hasErrors()) {
-//
-//            List<FieldError> errList = result.getFieldErrors();
-//            for (FieldError err : errList) {
-//                redirectAttrs.addFlashAttribute("error", err.getCode());
-//            }
-//
-//            return "redirect:/user/updateUser";
-//        }
-        // 에러 없었으면 회원 등록 진행
-        String username = userDetails.getUsername();
-        User user = userService.findByUsername(username);
-        String email;
-        if (domain.equals("")) { email = emailId + "@" + customDomain; }
-        else { email = emailId + "@" + domain; }
+        // 검증 에러가 있을 경우 redirect 한다
+        if (result.hasErrors()) {
+
+            List<FieldError> errList = result.getFieldErrors();
+            for (FieldError err : errList) {
+                redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
+            }
+
+            return "redirect:/user/updateUser";
+        }
+
+
+
 
         String page = "/user/updateOk";
         int cnt = userService.updateUser(user, passwordEncoder.encode(password), email);
