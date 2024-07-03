@@ -3,75 +3,85 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
-<title>로그인</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/nav.css">
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
+    <title>로그인</title>
+    <style>
+        /* 링크 텍스트 아래 줄 제거 */
+        a.btn {
+            text-decoration: none; /* 기본 링크 텍스트 데코레이션 제거 */
+        }
+
+        /* 추가 스타일 (필요에 따라 적용) */
+        a.btn:hover, a.btn:focus {
+            text-decoration: none; /* 호버 및 포커스 상태에서도 제거 */
+        }
+    </style>
 </head>
 
 <body>
 <div>
-        <div class="modal fade" tabindex="-1" role="dialog" id="modalSign">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content modal-animate">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Travel Login</h1>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalSign">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-animate">
+                <div class="modal-header">
+                    <h1 class="modal-title">Travel Login</h1><br>
+                </div>
 
-                    <div class="modal-body">
-                        <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
-                            <!-- 에러 메세지 -->
-                            <div>
-                                <div th:text="${errorMessage}"></div>
-                            </div>
+                <div class="modal-body">
+                    <form class="form-signin" th:action="@{/user/login}" method="POST" autocomplete="off">
+                        <!-- 에러 메세지 -->
+                        <div>
+                            <div th:text="${errorMessage}"></div>
+                        </div>
 
-                            <!-- 아이디 입력란 -->
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="username" placeholder="아이디"
-                                       name="username" th:value="${username}" required>
-                                <label for="username" class="visually-hidden">아이디</label>
-                            </div>
+                        <!-- 아이디 입력란 -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" placeholder="아이디"
+                                   name="username" th:value="${username}" required>
+                            <label for="username" class="visually-hidden">아이디</label>
+                        </div>
 
-                            <!-- 비밀번호 입력란 -->
-                            <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="password" placeholder="비밀번호"
-                                       name="password" th:value="${password}" required>
-                                <label for="password" class="visually-hidden">비밀번호</label>
-                            </div>
+                        <!-- 비밀번호 입력란 -->
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="비밀번호"
+                                   name="password" th:value="${password}" required>
+                            <label for="password" class="visually-hidden">비밀번호</label>
+                        </div>
 
-                            <!-- 로그인 및 회원가입 버튼 -->
-                            <button class="btn btn-lightblue btn-block user" type="submit">로그인</button>
-                            <br>
-                            <a class="btn btn-lightblue btn-block user" th:href="@{/user/register}" style="display: block; text-align: center;  line-height: 43px; font-size: 13.5px;">회원가입</a>
-                            <br>
-                            <hr class="my-4">
-                            <a class="btn btn-lightblue btn-block login kakao"
-                               th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
+                        <!-- 로그인 및 회원가입 버튼 -->
+                        <button class="btn btn-lightblue btn-block user" type="submit">로그인</button>
+                        <br>
+                        <a class="btn btn-lightblue btn-block user" th:href="@{/user/register}"
+                           style="display: block; text-align: center;  line-height: 43px; font-size: 13.5px;">회원가입</a>
+                        <br>
+                        <hr class="my-4">
+                        <a class="btn btn-lightblue btn-block login kakao"
+                           th:href="@{https://kauth.kakao.com/oauth/authorize(response_type=${'code'},
                            client_id=${@environment.getProperty('app.oauth2.kakao.client-id')},
                             redirect_uri=${@environment.getProperty('app.oauth2.kakao.redirect-uri')})}">
-                                <img src="../img/kakao_logo.png" alt="Kakao Logo">
-                                <span>카카오로 로그인</span>
-                            </a>
-                            <br>
-                            <a class="btn btn-lightblue btn-block login google" th:href="@{/oauth2/authorization/google}">
-                                <img src="../img/google_logo.png" alt="google Logo">
-                                <span>구글로 로그인</span>
-                            </a>
-                            <br>
-                            <a class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}">
-                                <img src="../img/naver_logo.png" alt="naver Logo">
-                                <span>네이버로 로그인</span>
-                            </a>
-                            <br>
-                        </form>
-                    </div>
+                            <img src="../img/kakao_logo.png" alt="Kakao Logo">
+                            <span>카카오로 로그인</span>
+                        </a>
+                        <br>
+                        <a class="btn btn-lightblue btn-block login google" th:href="@{/oauth2/authorization/google}">
+                            <img src="../img/google_logo.png" alt="google Logo">
+                            <span>구글로 로그인</span>
+                        </a>
+                        <br>
+                        <a class="btn btn-lightblue btn-block login naver" th:href="@{/oauth2/authorization/naver}">
+                            <img src="../img/naver_logo.png" alt="naver Logo">
+                            <span>네이버로 로그인</span>
+                        </a>
+                        <br>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 </body>
 
