@@ -81,8 +81,11 @@ public class SecurityConfig {
                  */
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
                         .loginPage("/user/login")
+                        .defaultSuccessUrl("/")
+                        .successHandler(new CustomLoginSuccessHandler("/travelkorea"))
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(principalOauth2UserService)))
+
 
                 /**
                  * - iframe 사용시
