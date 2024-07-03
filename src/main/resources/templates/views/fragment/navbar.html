@@ -73,7 +73,7 @@
             </nav>
             <h1 class="login" sec:authorize="isAnonymous()"><button class="login-button"><span><b>TRAVEL</b></span><br><span>login</span></button></h1>
             <h1 class="login loginSuccess" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
-                <span class="login-username">[[${user.username}]] ▼</span>
+                <span class="login-username">[[${user.name}]] ▼</span>
 
                 <div class="login-profile">
                     <div class="login-profile-left">
