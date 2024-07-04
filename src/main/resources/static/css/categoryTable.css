@@ -10,6 +10,8 @@ body {
     /*padding: 20px;*/
     box-sizing: border-box; /* 모든 요소에 패딩과 테두리를 포함한 너비 적용 */
     margin-top: 60px;
+    font-family: sans-serif;
+
 }
 
 #travellist{
