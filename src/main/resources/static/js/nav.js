@@ -12,10 +12,44 @@ $(document).ready(function (){
         }
     });
 
-    $('.loginSuccess').click(function (){
+    $('.login-username').click(function (){
         $('.login-profile').toggleClass('show');
 
     })
+
+    // const $navmenu = $('.nav-menu');
+    // const $ham = $('.fa-solid.fa-bars');
+    //
+    // $ham.click(function () {
+    //     $navmenu.slideToggle();
+    // });
+    // if($ham.is(':hidden')){
+    //     $navmenu.css('display','flex');
+    // }
+    const $navmenu = $('.nav-menu');
+    const $ham = $('.fa-solid.fa-bars');
+
+    // Toggle the nav menu when the hamburger menu is clicked
+    $ham.click(function() {
+        $navmenu.slideToggle();
+    });
+
+    // Function to set the display property based on window width
+    function checkWidth() {
+        if ($(window).width() > 1300) {
+            $navmenu.css('display', 'flex');
+        } else if (!$ham.is(':visible')) {
+            $navmenu.css('display', 'none');
+        }
+    }
+
+    // Check the width on page load
+    checkWidth();
+
+    // Check the width whenever the window is resized
+    $(window).resize(function() {
+        checkWidth();
+    });
 });
 
 function loadRegisterPage() {

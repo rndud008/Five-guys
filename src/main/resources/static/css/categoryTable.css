@@ -10,9 +10,12 @@ body {
     /*padding: 20px;*/
     box-sizing: border-box; /* 모든 요소에 패딩과 테두리를 포함한 너비 적용 */
     margin-top: 60px;
+    font-family: sans-serif;
+
 }
 
 #travellist{
+    width: 1200px;
     max-width: 1200px;
     margin: 80px auto 0 auto;
     margin-bottom: 100px;
@@ -36,8 +39,7 @@ body {
 
 
 .search-container {
-    width: 100%;
-    max-width: 1100px;
+    width: 90%;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
