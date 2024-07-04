@@ -55,66 +55,76 @@ public class TravelPostTransacionService {
         Sigungucode sigungucode = sigungucodeRepository.findAreacodeBySigungucode(areacode, sigunguCheck);
         sigungucode.setAreacode(areacode);
 
-        if (travelPostRepository.findByContentIdAndType(contentidCheck, travelClassDetail) == null) {
+        try {
 
-            String apiUrl = null;
-            // 지역기반 정보
+            if (travelPostRepository.findByContentIdAndType(contentidCheck, travelClassDetail) == null) {
 
-            localInfo(travelPost, sigungucode, travelClassDetail, item);
+                String apiUrl = null;
+                // 지역기반 정보
 
-            // 공통정보 api 호출 준비
-            apiUrl = String.format(BASE_URL + "detailCommon1?serviceKey=%s" +
-                    "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N&addrinfoYN=N&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1&"
-                    + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
+                localInfo(travelPost, sigungucode, travelClassDetail, item);
 
-            if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
+                // 공통정보 api 호출 준비
+                apiUrl = String.format(BASE_URL + "detailCommon1?serviceKey=%s" +
+                        "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N&addrinfoYN=N&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1&"
+                        + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-                detailCommon(detailCommon1, apiUrl, items2, travelPost);
+                if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
 
-            } else {
-                System.out.println("공통정보 이미호출 완료");
-            }
+                    detailCommon(detailCommon1, apiUrl, items2, travelPost);
 
-            // 소개정보 api 호출 준비
-            apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
-                    "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
-                    "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
+                } else {
+                    System.out.println("공통정보 이미호출 완료");
+                }
 
-            if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
-
-                detailIntro(detailIntro1, apiUrl, items2, travelPost, travelType);
-
-            } else {
-                System.out.println("소개정보 이미호출 완료");
-
-            }
-
-            if (travelType.getId() == 15) {
-                // 반복정보 api 호출 준비
-                apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
+                // 소개정보 api 호출 준비
+                apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
                         "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
                         "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
                 if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
 
-                    detailInfo(detailInfo1, apiUrl, items2, travelPost);
+                    detailIntro(detailIntro1, apiUrl, items2, travelPost, travelType);
+
+                } else {
+                    System.out.println("소개정보 이미호출 완료");
 
                 }
+
+                if (travelType.getId() == 15) {
+                    // 반복정보 api 호출 준비
+                    apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
+                            "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
+                            "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
+
+                    if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
+
+                        detailInfo(detailInfo1, apiUrl, items2, travelPost);
+
+                    }
+                } else {
+
+                    travelPost.setInfoname(null);
+                    travelPost.setInfotext(null);
+                }
+
+                lastCallApiDataRepository.save(detailCommon1);
+                lastCallApiDataRepository.save(detailIntro1);
+                travelPost.setLastCallApiDate(detailIntro1);
+                travelPostRepository.save(travelPost);
+                System.out.println("item 저장완료");
+
             } else {
+                System.out.println("이미 저장되어 있음.");
+            }// end if문...
 
-                travelPost.setInfoname(null);
-                travelPost.setInfotext(null);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("if 문 저장 실패");
+            throw e;
+        }
 
-            lastCallApiDataRepository.save(detailCommon1);
-            lastCallApiDataRepository.save(detailIntro1);
-            travelPost.setLastCallApiDate(detailIntro1);
-            travelPostRepository.save(travelPost);
-            System.out.println("item 저장완료");
 
-        } else {
-            System.out.println("이미 저장되어 있음.");
-        }// end if문...
     }
 
     @Transactional
@@ -135,93 +145,102 @@ public class TravelPostTransacionService {
         Sigungucode sigungucode = sigungucodeRepository.findAreacodeBySigungucode(areacode, sigunguCheck);
         sigungucode.setAreacode(areacode);
 
-        if (travelPostRepository.findByContentIdAndType(contentidCheck, travelClassDetail) == null) {
+        try {
 
-            String apiUrl = null;
-            // 지역기반 정보
+            if (travelPostRepository.findByContentIdAndType(contentidCheck, travelClassDetail) == null) {
 
-            localInfo(travelPost, sigungucode, travelClassDetail, item);
+                String apiUrl = null;
+                // 지역기반 정보
 
-            // 공통정보 api 호출 준비
-            apiUrl = String.format(BASE_URL + "detailCommon1?serviceKey=%s" +
-                    "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N&addrinfoYN=N&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1&"
-                    + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
+                localInfo(travelPost, sigungucode, travelClassDetail, item);
 
-            detailCommon(apiUrl, items2, travelPost);
+                // 공통정보 api 호출 준비
+                apiUrl = String.format(BASE_URL + "detailCommon1?serviceKey=%s" +
+                        "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N&addrinfoYN=N&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1&"
+                        + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-            // 소개정보 api 호출 준비
-            apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
-                    "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
-                    "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
+                detailCommon(apiUrl, items2, travelPost);
 
-            detailIntro(apiUrl, items2, travelPost, travelType);
-
-
-            if (travelType.getId() == 15) {
-                // 반복정보 api 호출 준비
-                apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
+                // 소개정보 api 호출 준비
+                apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
                         "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
                         "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-                detailInfo(apiUrl, items2, travelPost);
+                detailIntro(apiUrl, items2, travelPost, travelType);
+
+
+                if (travelType.getId() == 15) {
+                    // 반복정보 api 호출 준비
+                    apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
+                            "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
+                            "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
+
+                    detailInfo(apiUrl, items2, travelPost);
+
+                } else {
+
+                    travelPost.setInfoname(null);
+                    travelPost.setInfotext(null);
+                }
+
+                lastCallApiDate.setUrl(apiUrl);
+                lastCallApiDataRepository.save(lastCallApiDate);
+
+                travelPost.setLastCallApiDate(lastCallApiDate);
+                travelPostRepository.save(travelPost);
+                System.out.println("item 저장완료");
 
             } else {
 
-                travelPost.setInfoname(null);
-                travelPost.setInfotext(null);
-            }
+                String apiUrl = null;
+                // 지역기반 정보
 
-            lastCallApiDate.setUrl(apiUrl);
-            lastCallApiDataRepository.save(lastCallApiDate);
+                localInfo(travelPost, sigungucode, travelClassDetail, item);
 
-            travelPost.setLastCallApiDate(lastCallApiDate);
-            travelPostRepository.save(travelPost);
-            System.out.println("item 저장완료");
+                // 공통정보 api 호출 준비
+                apiUrl = String.format(BASE_URL + "detailCommon1?serviceKey=%s" +
+                        "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N&addrinfoYN=N&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1&"
+                        + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-        } else {
+                detailCommon(apiUrl, items2, travelPost);
 
-            String apiUrl = null;
-            // 지역기반 정보
-
-            localInfo(travelPost, sigungucode, travelClassDetail, item);
-
-            // 공통정보 api 호출 준비
-            apiUrl = String.format(BASE_URL + "detailCommon1?serviceKey=%s" +
-                    "&MobileOS=ETC&MobileApp=AppTest&_type=json&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N&addrinfoYN=N&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1&"
-                    + "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
-
-            detailCommon(apiUrl, items2, travelPost);
-
-            // 소개정보 api 호출 준비
-            apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
-                    "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
-                    "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
-
-            detailIntro(apiUrl, items2, travelPost, travelType);
-
-
-            if (travelType.getId() == 15) {
-                // 반복정보 api 호출 준비
-                apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
+                // 소개정보 api 호출 준비
+                apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
                         "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
                         "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-                detailInfo(apiUrl, items2, travelPost);
+                detailIntro(apiUrl, items2, travelPost, travelType);
 
-            } else {
 
-                travelPost.setInfoname(null);
-                travelPost.setInfotext(null);
-            }
+                if (travelType.getId() == 15) {
+                    // 반복정보 api 호출 준비
+                    apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
+                            "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
+                            "contentId=%s&contentTypeId=%d", apikey, contentidCheck, travelType.getId());
 
-            lastCallApiDate.setUrl(apiUrl);
-            lastCallApiDataRepository.save(lastCallApiDate);
+                    detailInfo(apiUrl, items2, travelPost);
 
-            travelPost.setLastCallApiDate(lastCallApiDate);
-            travelPostRepository.update(travelPost);
+                } else {
 
-            System.out.println("item 업데이트 완료");
-        }// end if문...
+                    travelPost.setInfoname(null);
+                    travelPost.setInfotext(null);
+                }
+
+                lastCallApiDate.setUrl(apiUrl);
+                lastCallApiDataRepository.save(lastCallApiDate);
+
+                travelPost.setLastCallApiDate(lastCallApiDate);
+                travelPostRepository.update(travelPost);
+
+                System.out.println("item 업데이트 완료");
+            }// end if문...
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+
     }
 
     @Transactional
@@ -245,41 +264,46 @@ public class TravelPostTransacionService {
     public void detailCommon(LastCallApiDate detailCommon1, String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
         detailCommon1.setUrl(apiUrl);
-    try{
-        items2 = dataService.fetchApiData(apiUrl);
-    }catch (Exception e){
-        e.printStackTrace();
-    }
+        try {
+            items2 = dataService.fetchApiData(apiUrl);
 
-        System.out.println("공통정보 api 호출 완료");
 
-        if (items2 != null) {
-            for (JsonNode item2 : items2) {
-                travelPost.setHomepage(item2.get("homepage").asText().isEmpty() ? null : item2.get("homepage").asText());
-                travelPost.setOverview(item2.get("overview").asText().isEmpty() ? null : item2.get("overview").asText());
+            if (items2 != null) {
+                for (JsonNode item2 : items2) {
+                    travelPost.setHomepage(item2.get("homepage").asText().isEmpty() ? null : item2.get("homepage").asText());
+                    travelPost.setOverview(item2.get("overview").asText().isEmpty() ? null : item2.get("overview").asText());
+                }
             }
+
+            System.out.println("공통정보 api 호출 완료");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
+
 
     }
 
     @Transactional
     public void detailCommon(String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
-        try{
-        items2 = dataService.fetchApiData(apiUrl);
+        try {
+            items2 = dataService.fetchApiData(apiUrl);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
-        System.out.println("공통정보 api 호출 완료");
-
-        if (items2 != null) {
-            for (JsonNode item2 : items2) {
-                travelPost.setHomepage(item2.get("homepage").asText().isEmpty() ? null : item2.get("homepage").asText());
-                travelPost.setOverview(item2.get("overview").asText().isEmpty() ? null : item2.get("overview").asText());
+            if (items2 != null) {
+                for (JsonNode item2 : items2) {
+                    travelPost.setHomepage(item2.get("homepage").asText().isEmpty() ? null : item2.get("homepage").asText());
+                    travelPost.setOverview(item2.get("overview").asText().isEmpty() ? null : item2.get("overview").asText());
+                }
             }
+
+            System.out.println("공통정보 api 호출 완료");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
+
 
     }
 
@@ -288,41 +312,44 @@ public class TravelPostTransacionService {
                             TravelPost travelPost, TravelType travelType) throws IOException, URISyntaxException {
 
         detailIntro1.setUrl(apiUrl);
-try {
+        try {
 
-        items2 = dataService.fetchApiData(apiUrl);
-}catch (Exception e){
-    e.printStackTrace();
-}
+            items2 = dataService.fetchApiData(apiUrl);
 
-        System.out.println("소개정보 api 호출 완료");
-        if (items2 != null) {
-            if (travelType.getId() == 12) {
-                for (JsonNode item2 : items2) {
-                    travelPost.setInfocenter(item2.get("infocenter").asText().isEmpty() ? null : item2.get("infocenter").asText());
-                    travelPost.setParking(item2.get("parking").asText().isEmpty() ? null : item2.get("parking").asText());
-                    travelPost.setRestdate(item2.get("restdate").asText().isEmpty() ? null : item2.get("restdate").asText());
-                    travelPost.setUsetime(item2.get("usetime").asText().isEmpty() ? null : item2.get("usetime").asText());
-                    travelPost.setUsetimefestival(null);
-                    travelPost.setEventplace(null);
-                    travelPost.setPlaytime(null);
-                    travelPost.setEventstartdate(null);
-                    travelPost.setEventenddate(null);
+            if (items2 != null) {
+                if (travelType.getId() == 12) {
+                    for (JsonNode item2 : items2) {
+                        travelPost.setInfocenter(item2.get("infocenter").asText().isEmpty() ? null : item2.get("infocenter").asText());
+                        travelPost.setParking(item2.get("parking").asText().isEmpty() ? null : item2.get("parking").asText());
+                        travelPost.setRestdate(item2.get("restdate").asText().isEmpty() ? null : item2.get("restdate").asText());
+                        travelPost.setUsetime(item2.get("usetime").asText().isEmpty() ? null : item2.get("usetime").asText());
+                        travelPost.setUsetimefestival(null);
+                        travelPost.setEventplace(null);
+                        travelPost.setPlaytime(null);
+                        travelPost.setEventstartdate(null);
+                        travelPost.setEventenddate(null);
+                    }
+                } else if (travelType.getId() == 15) {
+                    for (JsonNode item2 : items2) {
+                        travelPost.setUsetimefestival(item2.get("usetimefestival").asText().isEmpty() ? null : item2.get("usetimefestival").asText());
+                        travelPost.setEventplace(item2.get("eventplace").asText().isEmpty() ? null : item2.get("eventplace").asText());
+                        travelPost.setPlaytime(item2.get("playtime").asText().isEmpty() ? null : item2.get("playtime").asText());
+                        travelPost.setEventstartdate(item2.get("eventstartdate").asText().isEmpty() ? null : item2.get("eventstartdate").asText());
+                        travelPost.setEventenddate(item2.get("eventenddate").asText().isEmpty() ? null : item2.get("eventenddate").asText());
+                        travelPost.setInfocenter(null);
+                        travelPost.setParking(null);
+                        travelPost.setRestdate(null);
+                        travelPost.setUsetime(null);
+                    }
                 }
-            } else if (travelType.getId() == 15) {
-                for (JsonNode item2 : items2) {
-                    travelPost.setUsetimefestival(item2.get("usetimefestival").asText().isEmpty() ? null : item2.get("usetimefestival").asText());
-                    travelPost.setEventplace(item2.get("eventplace").asText().isEmpty() ? null : item2.get("eventplace").asText());
-                    travelPost.setPlaytime(item2.get("playtime").asText().isEmpty() ? null : item2.get("playtime").asText());
-                    travelPost.setEventstartdate(item2.get("eventstartdate").asText().isEmpty() ? null : item2.get("eventstartdate").asText());
-                    travelPost.setEventenddate(item2.get("eventenddate").asText().isEmpty() ? null : item2.get("eventenddate").asText());
-                    travelPost.setInfocenter(null);
-                    travelPost.setParking(null);
-                    travelPost.setRestdate(null);
-                    travelPost.setUsetime(null);
-                }
+
+                System.out.println("소개정보 api 호출 완료");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
+
 
     }
 
@@ -332,38 +359,43 @@ try {
         try {
 
             items2 = dataService.fetchApiData(apiUrl);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        System.out.println("소개정보 api 호출 완료");
-        if (items2 != null) {
-            if (travelType.getId() == 12) {
-                for (JsonNode item2 : items2) {
-                    travelPost.setInfocenter(item2.get("infocenter").asText().isEmpty() ? null : item2.get("infocenter").asText());
-                    travelPost.setParking(item2.get("parking").asText().isEmpty() ? null : item2.get("parking").asText());
-                    travelPost.setRestdate(item2.get("restdate").asText().isEmpty() ? null : item2.get("restdate").asText());
-                    travelPost.setUsetime(item2.get("usetime").asText().isEmpty() ? null : item2.get("usetime").asText());
-                    travelPost.setUsetimefestival(null);
-                    travelPost.setEventplace(null);
-                    travelPost.setPlaytime(null);
-                    travelPost.setEventstartdate(null);
-                    travelPost.setEventenddate(null);
-                }
-            } else if (travelType.getId() == 15) {
-                for (JsonNode item2 : items2) {
-                    travelPost.setUsetimefestival(item2.get("usetimefestival").asText().isEmpty() ? null : item2.get("usetimefestival").asText());
-                    travelPost.setEventplace(item2.get("eventplace").asText().isEmpty() ? null : item2.get("eventplace").asText());
-                    travelPost.setPlaytime(item2.get("playtime").asText().isEmpty() ? null : item2.get("playtime").asText());
-                    travelPost.setEventstartdate(item2.get("eventstartdate").asText().isEmpty() ? null : item2.get("eventstartdate").asText());
-                    travelPost.setEventenddate(item2.get("eventenddate").asText().isEmpty() ? null : item2.get("eventenddate").asText());
-                    travelPost.setInfocenter(null);
-                    travelPost.setParking(null);
-                    travelPost.setRestdate(null);
-                    travelPost.setUsetime(null);
+
+            if (items2 != null) {
+                if (travelType.getId() == 12) {
+                    for (JsonNode item2 : items2) {
+                        travelPost.setInfocenter(item2.get("infocenter").asText().isEmpty() ? null : item2.get("infocenter").asText());
+                        travelPost.setParking(item2.get("parking").asText().isEmpty() ? null : item2.get("parking").asText());
+                        travelPost.setRestdate(item2.get("restdate").asText().isEmpty() ? null : item2.get("restdate").asText());
+                        travelPost.setUsetime(item2.get("usetime").asText().isEmpty() ? null : item2.get("usetime").asText());
+                        travelPost.setUsetimefestival(null);
+                        travelPost.setEventplace(null);
+                        travelPost.setPlaytime(null);
+                        travelPost.setEventstartdate(null);
+                        travelPost.setEventenddate(null);
+                    }
+                } else if (travelType.getId() == 15) {
+                    for (JsonNode item2 : items2) {
+                        travelPost.setUsetimefestival(item2.get("usetimefestival").asText().isEmpty() ? null : item2.get("usetimefestival").asText());
+                        travelPost.setEventplace(item2.get("eventplace").asText().isEmpty() ? null : item2.get("eventplace").asText());
+                        travelPost.setPlaytime(item2.get("playtime").asText().isEmpty() ? null : item2.get("playtime").asText());
+                        travelPost.setEventstartdate(item2.get("eventstartdate").asText().isEmpty() ? null : item2.get("eventstartdate").asText());
+                        travelPost.setEventenddate(item2.get("eventenddate").asText().isEmpty() ? null : item2.get("eventenddate").asText());
+                        travelPost.setInfocenter(null);
+                        travelPost.setParking(null);
+                        travelPost.setRestdate(null);
+                        travelPost.setUsetime(null);
+                    }
                 }
             }
+
+            System.out.println("소개정보 api 호출 완료");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
+
 
     }
 
@@ -377,46 +409,51 @@ try {
 
             items2 = dataService.fetchApiData(apiUrl);
 
+            if (items2 != null) {
+                for (JsonNode item2 : items2) {
+                    String infonameCheck = item2.get("infoname").asText();
+                    // 행사내용만 저장
+                    if (infonameCheck.equals("행사내용")) {
+                        travelPost.setInfoname(item2.get("infoname").asText().isEmpty() ? null : item2.get("infoname").asText());
+                        travelPost.setInfotext(item2.get("infotext").asText().isEmpty() ? null : item2.get("infotext").asText());
+                    }
+                }
+                System.out.println("반복정보 api 호출 완료");
+                lastCallApiDataRepository.save(detailInfo1);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
-        if (items2 != null) {
-            for (JsonNode item2 : items2) {
-                String infonameCheck = item2.get("infoname").asText();
-                // 행사내용만 저장
-                if (infonameCheck.equals("행사내용")) {
-                    travelPost.setInfoname(item2.get("infoname").asText().isEmpty() ? null : item2.get("infoname").asText());
-                    travelPost.setInfotext(item2.get("infotext").asText().isEmpty() ? null : item2.get("infotext").asText());
-                }
-            }
-            System.out.println("반복정보 api 호출 완료");
-            lastCallApiDataRepository.save(detailInfo1);
-        }
 
     }
 
     @Transactional
     public void detailInfo(String apiUrl, JsonNode items2, TravelPost travelPost) throws IOException, URISyntaxException {
 
-        try{
+        try {
 
-        items2 = dataService.fetchApiData(apiUrl);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+            items2 = dataService.fetchApiData(apiUrl);
 
-        if (items2 != null) {
-            for (JsonNode item2 : items2) {
-                String infonameCheck = item2.get("infoname").asText();
-                // 행사내용만 저장
-                if (infonameCheck.equals("행사내용")) {
-                    travelPost.setInfoname(item2.get("infoname").asText().isEmpty() ? null : item2.get("infoname").asText());
-                    travelPost.setInfotext(item2.get("infotext").asText().isEmpty() ? null : item2.get("infotext").asText());
+            if (items2 != null) {
+                for (JsonNode item2 : items2) {
+                    String infonameCheck = item2.get("infoname").asText();
+                    // 행사내용만 저장
+                    if (infonameCheck.equals("행사내용")) {
+                        travelPost.setInfoname(item2.get("infoname").asText().isEmpty() ? null : item2.get("infoname").asText());
+                        travelPost.setInfotext(item2.get("infotext").asText().isEmpty() ? null : item2.get("infotext").asText());
+                    }
                 }
+                System.out.println("반복정보 api 호출 완료");
             }
-            System.out.println("반복정보 api 호출 완료");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
+
 
     }
 

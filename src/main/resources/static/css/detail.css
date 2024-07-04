@@ -59,6 +59,7 @@ header.search .btn-close{top: 14px;}
 
 
 @media all and (max-width:1300px) {
+    #travellist { max-width: 900px}
     header{overflow: hidden;  transition: all 0.5s ease;}
     header.scroll::after,
     header.line::after{top: 59px;}

@@ -50,8 +50,13 @@ where areacode = 37;
 select *
 FROM travel_type;
 
+select now();
+
 select *
-FROM last_call_api_date;
+FROM last_call_api_date
+where url like '%modified%';
+
+delete from last_call_api_date where id = 19906;
 
 select travel_post_id
 from user_travel_post

@@ -26,4 +26,5 @@ public class LastCallApiDateServiceImpl implements LastCallApiDateService {
     public LastCallApiDate selectedByUrlAndRegDate(String url, String regdate) {
         return lastCallApiDateRepository.findByUrlAndRegDate(url, regdate);
     }
+
 }

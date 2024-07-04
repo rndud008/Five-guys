@@ -61,12 +61,10 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=1000&pageNo=4&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=1000&pageNo=9&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId()); // TODO pageNo=12,1,2 완료
             System.out.println(apiUrl);
             JsonNode items = null;
-
-
 
 
             items = dataService.fetchApiData(apiUrl);
@@ -78,7 +76,6 @@ public class TravelPostServiceImpl implements TravelPostService {
                     try {
 
                         travelPostTransacionService.itemSave(item, travelType, detailInfo1, detailCommon1, detailIntro1);
-
 
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -250,7 +247,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                     break;
                 }
 
-                if(items != null){
+                if (items != null) {
 
                     for (JsonNode item : items) {
                         Long areacodeCheck = item.get("areacode").asLong();
@@ -369,7 +366,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                         break;
                     }
 
-                }else {
+                } else {
                     System.out.println("공통데이터 없음");
                     travelPostRepository.delete(travelPost);
                     System.out.println("삭제 완료");
@@ -394,15 +391,15 @@ public class TravelPostServiceImpl implements TravelPostService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String formattedDate = ysesterday.format(formatter);
 
-        for (TravelType travelType : travelTypeList){
-            String apiUrl =String.format("https://apis.data.go.kr/B551011/KorService1/" +
+        for (TravelType travelType : travelTypeList) {
+            String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/" +
                     "areaBasedList1?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d&modifiedtime=%s", apikey, travelType.getId(), formattedDate);
 
             JsonNode items = null;
             LastCallApiDate lastCallApiDate = new LastCallApiDate();
 
-            if (lastCallApiDataRepository.findByUrl(apiUrl) == null){
+            if (lastCallApiDataRepository.findByUrl(apiUrl) == null) {
 
 
                 try {
@@ -414,19 +411,26 @@ public class TravelPostServiceImpl implements TravelPostService {
                 }
 
 
-                if (items != null){
-                    for (JsonNode item : items){
+                if (items != null) {
+                    for (JsonNode item : items) {
 
-                        travelPostTransacionService.itemSaveAndUpdate(item, travelType);
+                        try {
+
+                            travelPostTransacionService.itemSaveAndUpdate(item, travelType);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("item 저장 and 업데이트 실패");
+                        }
+
 
                     }
-                }else {
+                } else {
                     System.out.println("데이터 없음..");
                 }
 
                 lastCallApiDate.setUrl(apiUrl);
                 lastCallApiDataRepository.save(lastCallApiDate);
-            }else {
+            } else {
                 System.out.println("오늘 이미 호출함.");
             }
 
@@ -436,7 +440,7 @@ public class TravelPostServiceImpl implements TravelPostService {
 
     @Transactional
     @Override
-    public TravelPost update(TravelPost travelPost,LastCallApiDate lastCallApiDate) {
+    public TravelPost update(TravelPost travelPost, LastCallApiDate lastCallApiDate) {
 
         String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/" +
                 "detailCommon1?serviceKey=%s" +
@@ -445,43 +449,85 @@ public class TravelPostServiceImpl implements TravelPostService {
 
         JsonNode items = null;
 
-            try {
-                items = dataService.fetchApiData(apiUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            items = dataService.fetchApiData(apiUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
 
+        }
+
+        for (JsonNode item : items) {
+            Long areacodeCheck = item.get("areacode").asLong();
+            Long sigunguCheck = item.get("sigungucode").asLong();
+            String cat3Check = item.get("cat3").asText();
+
+            TravelClassDetail travelClassDetail = travelClassDetailRepository.findTravelTypeIdByCode(travelPost.getTravelClassDetail().getTravelType(), cat3Check);
+
+            Areacode areacode = areacodeRepository.findByAreaCode(areacodeCheck);
+            Sigungucode sigungucode = sigungucodeRepository.findAreacodeBySigungucode(areacode, sigunguCheck);
+
+            travelPost.setSigungucode(sigungucode);
+            travelPost.setTravelClassDetail(travelClassDetail);
+            travelPost.setTitle(item.get("title").asText().isEmpty() ? null : item.get("title").asText());
+            travelPost.setAddr1(item.get("addr1").asText().isEmpty() ? null : item.get("addr1").asText());
+            travelPost.setAddr2(item.get("addr2").asText().isEmpty() ? null : item.get("addr2").asText());
+            travelPost.setContentid(item.get("contentid").asText().isEmpty() ? null : item.get("contentid").asText());
+            travelPost.setFirstimage(item.get("firstimage").asText().isEmpty() ? null : item.get("firstimage").asText());
+            travelPost.setFirstimage2(item.get("firstimage2").asText().isEmpty() ? null : item.get("firstimage2").asText());
+            travelPost.setCpyrhtDivCd(item.get("cpyrhtDivCd").asText().isEmpty() ? null : item.get("cpyrhtDivCd").asText());
+            travelPost.setMapx(item.get("mapx").asText().isEmpty() ? null : item.get("mapx").asDouble());
+            travelPost.setMapy(item.get("mapy").asText().isEmpty() ? null : item.get("mapy").asDouble());
+            travelPost.setModifiedtime(item.get("modifiedtime").asText().isEmpty() ? null : item.get("modifiedtime").asText());
+            travelPost.setTel(item.get("tel").asText().isEmpty() ? null : item.get("tel").asText());
+            travelPost.setHomepage(item.get("homepage").asText().isEmpty() ? null : item.get("homepage").asText());
+            travelPost.setOverview(item.get("overview").asText().isEmpty() ? null : item.get("overview").asText());
+
+        }
+
+        // 소개정보 api
+        apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
+                "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
+                "contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
+
+        try {
+            items = dataService.fetchApiData(apiUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        if (items != null) {
+            if (travelPost.getTravelClassDetail().getTravelType().getId() == 12) {
+                for (JsonNode item : items) {
+                    travelPost.setInfocenter(item.get("infocenter").asText().isEmpty() ? null : item.get("infocenter").asText());
+                    travelPost.setParking(item.get("parking").asText().isEmpty() ? null : item.get("parking").asText());
+                    travelPost.setRestdate(item.get("restdate").asText().isEmpty() ? null : item.get("restdate").asText());
+                    travelPost.setUsetime(item.get("usetime").asText().isEmpty() ? null : item.get("usetime").asText());
+                    travelPost.setUsetimefestival(null);
+                    travelPost.setEventplace(null);
+                    travelPost.setPlaytime(null);
+                    travelPost.setEventstartdate(null);
+                    travelPost.setEventenddate(null);
+                }
+            } else if (travelPost.getTravelClassDetail().getTravelType().getId() == 15) {
+                for (JsonNode item : items) {
+                    travelPost.setUsetimefestival(item.get("usetimefestival").asText().isEmpty() ? null : item.get("usetimefestival").asText());
+                    travelPost.setEventplace(item.get("eventplace").asText().isEmpty() ? null : item.get("eventplace").asText());
+                    travelPost.setPlaytime(item.get("playtime").asText().isEmpty() ? null : item.get("playtime").asText());
+                    travelPost.setEventstartdate(item.get("eventstartdate").asText().isEmpty() ? null : item.get("eventstartdate").asText());
+                    travelPost.setEventenddate(item.get("eventenddate").asText().isEmpty() ? null : item.get("eventenddate").asText());
+                    travelPost.setInfocenter(null);
+                    travelPost.setParking(null);
+                    travelPost.setRestdate(null);
+                    travelPost.setUsetime(null);
+                }
             }
+        }
 
-            for (JsonNode item : items) {
-                Long areacodeCheck = item.get("areacode").asLong();
-                Long sigunguCheck = item.get("sigungucode").asLong();
-                String cat3Check = item.get("cat3").asText();
+        // 반복정보 api 호출
+        if (travelPost.getTravelClassDetail().getTravelType().getId() == 15) {
 
-                TravelClassDetail travelClassDetail = travelClassDetailRepository.findTravelTypeIdByCode(travelPost.getTravelClassDetail().getTravelType(), cat3Check);
-
-                Areacode areacode = areacodeRepository.findByAreaCode(areacodeCheck);
-                Sigungucode sigungucode = sigungucodeRepository.findAreacodeBySigungucode(areacode, sigunguCheck);
-
-                travelPost.setSigungucode(sigungucode);
-                travelPost.setTravelClassDetail(travelClassDetail);
-                travelPost.setTitle(item.get("title").asText().isEmpty() ? null : item.get("title").asText());
-                travelPost.setAddr1(item.get("addr1").asText().isEmpty() ? null : item.get("addr1").asText());
-                travelPost.setAddr2(item.get("addr2").asText().isEmpty() ? null : item.get("addr2").asText());
-                travelPost.setContentid(item.get("contentid").asText().isEmpty() ? null : item.get("contentid").asText());
-                travelPost.setFirstimage(item.get("firstimage").asText().isEmpty() ? null : item.get("firstimage").asText());
-                travelPost.setFirstimage2(item.get("firstimage2").asText().isEmpty() ? null : item.get("firstimage2").asText());
-                travelPost.setCpyrhtDivCd(item.get("cpyrhtDivCd").asText().isEmpty() ? null : item.get("cpyrhtDivCd").asText());
-                travelPost.setMapx(item.get("mapx").asText().isEmpty() ? null : item.get("mapx").asDouble());
-                travelPost.setMapy(item.get("mapy").asText().isEmpty() ? null : item.get("mapy").asDouble());
-                travelPost.setModifiedtime(item.get("modifiedtime").asText().isEmpty() ? null : item.get("modifiedtime").asText());
-                travelPost.setTel(item.get("tel").asText().isEmpty() ? null : item.get("tel").asText());
-                travelPost.setHomepage(item.get("homepage").asText().isEmpty() ? null : item.get("homepage").asText());
-                travelPost.setOverview(item.get("overview").asText().isEmpty() ? null : item.get("overview").asText());
-
-            }
-
-            // 소개정보 api
-            apiUrl = String.format(BASE_URL + "detailIntro1?serviceKey=%s" +
+            apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
                     "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
                     "contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
 
@@ -489,71 +535,29 @@ public class TravelPostServiceImpl implements TravelPostService {
                 items = dataService.fetchApiData(apiUrl);
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
 
             if (items != null) {
-                if (travelPost.getTravelClassDetail().getTravelType().getId() == 12) {
-                    for (JsonNode item : items) {
-                        travelPost.setInfocenter(item.get("infocenter").asText().isEmpty() ? null : item.get("infocenter").asText());
-                        travelPost.setParking(item.get("parking").asText().isEmpty() ? null : item.get("parking").asText());
-                        travelPost.setRestdate(item.get("restdate").asText().isEmpty() ? null : item.get("restdate").asText());
-                        travelPost.setUsetime(item.get("usetime").asText().isEmpty() ? null : item.get("usetime").asText());
-                        travelPost.setUsetimefestival(null);
-                        travelPost.setEventplace(null);
-                        travelPost.setPlaytime(null);
-                        travelPost.setEventstartdate(null);
-                        travelPost.setEventenddate(null);
-                    }
-                } else if (travelPost.getTravelClassDetail().getTravelType().getId() == 15) {
-                    for (JsonNode item : items) {
-                        travelPost.setUsetimefestival(item.get("usetimefestival").asText().isEmpty() ? null : item.get("usetimefestival").asText());
-                        travelPost.setEventplace(item.get("eventplace").asText().isEmpty() ? null : item.get("eventplace").asText());
-                        travelPost.setPlaytime(item.get("playtime").asText().isEmpty() ? null : item.get("playtime").asText());
-                        travelPost.setEventstartdate(item.get("eventstartdate").asText().isEmpty() ? null : item.get("eventstartdate").asText());
-                        travelPost.setEventenddate(item.get("eventenddate").asText().isEmpty() ? null : item.get("eventenddate").asText());
-                        travelPost.setInfocenter(null);
-                        travelPost.setParking(null);
-                        travelPost.setRestdate(null);
-                        travelPost.setUsetime(null);
+                for (JsonNode item : items) {
+                    String infonameCheck = item.get("infoname").asText();
+                    // 행사내용만 저장
+                    if (infonameCheck.equals("행사내용")) {
+                        travelPost.setInfoname(item.get("infoname").asText().isEmpty() ? null : item.get("infoname").asText());
+                        travelPost.setInfotext(item.get("infotext").asText().isEmpty() ? null : item.get("infotext").asText());
                     }
                 }
+                System.out.println("반복정보 api 호출 완료");
             }
 
-            // 반복정보 api 호출
-            if (travelPost.getTravelClassDetail().getTravelType().getId() == 15) {
+        } else {
+            // Contentid ==  15 가 아닐경우.
+            travelPost.setInfoname(null);
+            travelPost.setInfotext(null);
+        }
 
-                apiUrl = String.format(BASE_URL + "detailInfo1?serviceKey=%s" +
-                        "&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows=10&pageNo=1&" +
-                        "contentId=%s&contentTypeId=%d", apikey, travelPost.getContentid(), travelPost.getTravelClassDetail().getTravelType().getId());
-
-                try {
-                    items = dataService.fetchApiData(apiUrl);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (items != null) {
-                    for (JsonNode item : items) {
-                        String infonameCheck = item.get("infoname").asText();
-                        // 행사내용만 저장
-                        if (infonameCheck.equals("행사내용")) {
-                            travelPost.setInfoname(item.get("infoname").asText().isEmpty() ? null : item.get("infoname").asText());
-                            travelPost.setInfotext(item.get("infotext").asText().isEmpty() ? null : item.get("infotext").asText());
-                        }
-                    }
-                    System.out.println("반복정보 api 호출 완료");
-                }
-
-            } else {
-                // Contentid ==  15 가 아닐경우.
-                travelPost.setInfoname(null);
-                travelPost.setInfotext(null);
-            }
-
-            travelPost.setLastCallApiDate(lastCallApiDate);
-            travelPostRepository.update(travelPost);
-            System.out.println("item update 완료");
+        travelPost.setLastCallApiDate(lastCallApiDate);
+        travelPostRepository.update(travelPost);
+        System.out.println("item update 완료");
 
         return travelPost;
 

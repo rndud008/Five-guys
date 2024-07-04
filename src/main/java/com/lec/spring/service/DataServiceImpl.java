@@ -63,6 +63,7 @@ public class DataServiceImpl implements DataService {
                 // 예외 처리
                 e.printStackTrace();
                 System.out.println("An error occurred while fetching the response.");
+                throw e;
             }
 
         }
