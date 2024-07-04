@@ -9,26 +9,6 @@
         min-height: 2000px;
     }
 
-    .navbar-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 50px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-container.sticky {
-        height: 40px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-
     .navbar-container a {
         text-decoration: none;
         display: inline-block;
@@ -68,13 +48,15 @@
                 <a th:href="@{/travelkorea}"><h1 class="logo"></h1></a>
                 <ul class="nav-menu">
                     <li><a th:href="@{/categoryTable/{id}(id=${12})}"><span>관광지</span></a></li>
-                    <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제·공연·행사</span></a></li>
+                    <li><a th:href="@{/categoryTable/{id}(id=${15})}"><span>축제 · 공연 · 행사</span></a></li>
                     <li><a th:href="@{/board/list}"><span>게시판</span></a></li>
                 </ul>
                 <h1 class="login" sec:authorize="isAnonymous()"><button class="login-button"><span><b>TRAVEL</b></span><br><span>login</span></button>
                     <a href="#"><i class="fa-solid fa-bars"></i></a></h1>
+
                 <h1 class="login loginSuccess" sec:authorize="isAuthenticated()" th:with="user=${#authentication.getPrincipal().getUser()}">
                     <span class="login-username">[[${user.name}]] ▼</span>
+                    <a href="#"><i class="fa-solid fa-bars"></i></a>
 
                     <div class="login-profile">
                         <div class="login-profile-left">
