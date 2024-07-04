@@ -103,7 +103,7 @@ function LoadLike(travel_diary_post_id){
                         alert(data.status);
                         return;
                     }
-                    LoadComment(id);  // 댓글목록 다시 업데이트
+                    LoadComment(id);
                     $("#input_comment").val('');
                 }
             }

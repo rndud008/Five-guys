@@ -39,7 +39,7 @@
                             <button>전체</button>
                         </form>
                         <!-- 지역 전부 표시 버튼 -->
-                        <form th:action="@{/board/listArea}" method="get" th:each="areacode : ${areacode}">
+                        <form th:action="@{/board/list}" method="get" th:each="areacode : ${areacode}">
                             <button name="areacode" th:text="${areacode.name}" th:value="${areacode.areacode}"></button>
                         </form>
                     </div>
@@ -50,6 +50,7 @@
             <!-- 게시판 -->
             <div class="post">
                 <span class="selectedArea" th:unless="${selectareacode}">지역: 전체</span>
+                <span class="selectedArea" th:if="${selectareacode}">지역: [[${selectareacode.name}]]</span>
                 <div class="conA">
                     <!-- 페이징 헤더 -->
                     <div class="pagingHeader">
@@ -57,7 +58,7 @@
                         <span>page [[${page}]]/[[${totalPage}]]</span>
                     </div>
                     <!-- 페이징 헤더 -->
-                    <a class="writeBtn" th:href="@{/board/write}" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">작성</a>
+                    <a class="writeBtn" th:href="@{/board/write}">작성</a>
                 </div>
 
 

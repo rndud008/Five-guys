@@ -88,8 +88,7 @@ body {
 
 .body-container hr {
     margin: 20px 0;
-    border: none;
-    border-top: 1px solid #ddd;
+    opacity: 0.5;
 }
 
 .body-container span {

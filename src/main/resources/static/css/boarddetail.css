@@ -7,6 +7,11 @@ body {
     border-radius: 5px;
     background-color: #f0f0f0;
 }
+
+.links a {
+    margin: 0;
+}
+
 .detail-container{
     margin: auto;
 }
@@ -247,7 +252,7 @@ body {
 }
 
 #cmt_list tr:hover {
-    opacity: 0.8;
+    background-color: snow;
 }
 
 textarea[readonly] {

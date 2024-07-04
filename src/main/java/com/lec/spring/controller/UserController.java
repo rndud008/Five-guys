@@ -152,17 +152,12 @@ public class UserController {
             return "redirect:/user/updateUser";
         }
 
-        String page = "user/updateOk";
         int cnt = userService.updateUser(user, passwordEncoder.encode(user.getPassword()), user.getEmail());
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user1 = userService.findByUsername(username);
-
-        redirectAttrs.addAttribute("user", user1);
         model.addAttribute("result", cnt);
 
-        return page;
+        return "redirect:/travelkorea";
+
+//        return "user/updateOk";
     }
     @Autowired
     UpdateValidator updateValidator;

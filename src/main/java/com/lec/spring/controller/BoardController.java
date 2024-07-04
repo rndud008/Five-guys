@@ -66,23 +66,12 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public void list(Integer page, Model model){
+    public void list(Integer page, Long areacode, Model model){
 
-        model.addAttribute("list", boardService.list(page, model));
+        model.addAttribute("list", boardService.list(page, areacode, model));
         model.addAttribute("areacode", boardService.findAllArea());
-//        model.addAttribute("logged_user", )
-    }
-
-
-    @GetMapping("/listArea")
-    public String listArea(Integer page, @RequestParam("areacode") Long areacode, Model model){
-
-        model.addAttribute("list", boardService.listByAreacode(page, areacode, model));
         model.addAttribute("selectareacode", boardService.findAreaByAreacode(areacode));
-        model.addAttribute("areacode", boardService.findAllArea());
 
-
-        return "board/listArea";
     }
 
     @GetMapping("/update/{id}")
