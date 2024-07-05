@@ -392,7 +392,7 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-function resultCategpryAjax() {
+async function resultCategpryAjax() {
 
     loading = true;
 
@@ -406,40 +406,45 @@ function resultCategpryAjax() {
     console.log(queyrtest3)
     console.log(searchQuery)
 
-    $.ajax({
-        url: '/Search/' + categoryId,
-        type: 'POST',
-        data: {
-            Query: queyrtest3,
-            regionQuery: regiontest1,
-            sigunguQuery: sigungutest2,
-            searchQuery: searchQuery,
-            offset: offset, // 서버에 전달할 offset 값 추가
-            limit: limit   // 서버에 전달할 limit 값 추가
-        },
-        success: function (response) {
-            console.log(this.url);
+    try{
+        await $.ajax({
+            url: '/Search/' + categoryId,
+            type: 'POST',
+            data: {
+                Query: queyrtest3,
+                regionQuery: regiontest1,
+                sigunguQuery: sigungutest2,
+                searchQuery: searchQuery,
+                offset: offset, // 서버에 전달할 offset 값 추가
+                limit: limit   // 서버에 전달할 limit 값 추가
+            },
+            success: function (response) {
+                console.log(this.url);
 
-            if (offset === 0) {
-                $('#categoryResults').html(response);
-            } else {
-                $('#categoryResults').append(response);
+                if (offset === 0) {
+                    $('#categoryResults').html(response);
+                } else {
+                    $('#categoryResults').append(response);
+                }
+
+                // 로딩 상태 업데이트
+                loading = false;
+                $('#loading').hide();
+
+                offset += limit;
+                loadLikeStatus();
+
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching search results:', error);
+                loading = false;
+                $('#loading').hide();
             }
+        });
+    }catch (error) {
+        console.error('Error:', error);
+    }
 
-            // 로딩 상태 업데이트
-            loading = false;
-            $('#loading').hide();
-
-            offset += limit;
-            loadLikeStatus();
-
-        },
-        error: function (xhr, status, error) {
-            console.error('Error fetching search results:', error);
-            loading = false;
-            $('#loading').hide();
-        }
-    });
 }
 
 function loadLikeStatus() {
