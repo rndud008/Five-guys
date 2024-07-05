@@ -66,7 +66,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(formatter);
 
-            boolean urlCheck = lastCallApiDateRepository.findByUrl(apiURL) == null || lastCallApiDateRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
+            boolean urlCheck = lastCallApiDateRepository.findByUrlAndRegDate(apiURL,formattedDate) == null;
             if (urlCheck){
                 Map<String, String> requestHeaers = new HashMap<>();
                 requestHeaers.put("X-Naver-Client-Id", clientId);
@@ -102,7 +102,7 @@ public class BlogReviewServiceImpl implements BlogReviewService {
                 System.out.println(travelPost.getId());
             }
 
-            timeUnit();
+//            timeUnit();
 
         }
 
