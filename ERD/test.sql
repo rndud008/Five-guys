@@ -1,4 +1,6 @@
 
+select now();
+
 -- areacode 테이블 데이터 확인
 SELECT *
 FROM areacode;
