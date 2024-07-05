@@ -64,6 +64,8 @@ public class TravelInfomationController {
             lastCallApiDateService.save(lastCallApiDate);
 
             travelPost = travelPostService.update(travelPost,lastCallApiDate);
+        }else {
+            System.out.println("이미 update 진행함.");
         }
 
         travelPost.setHomepage(extraUrl(travelPost.getHomepage()));

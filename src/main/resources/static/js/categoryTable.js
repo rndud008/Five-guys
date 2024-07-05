@@ -55,13 +55,13 @@ $(document).ready(function () {
             // 선택한 시군구 카테고리 강조
             highlightSelectedSubcategory(regiontest1, sigungu);
 
-            resultCategpryAjex();
+            resultCategpryAjax();
         });
 
     }
 
     $('#loading').show();
-    resultCategpryAjex();
+    resultCategpryAjax();
 
     if (currentUrl.split('?')[0] !== null) {
         let newUrl = currentUrl.split('?')[0];
@@ -75,7 +75,7 @@ $(document).ready(function () {
             if (!loading && count > offset) {
 
                 $('#loading').show();
-                resultCategpryAjex();
+                resultCategpryAjax();
 
             }
 
@@ -98,7 +98,7 @@ $(document).ready(function () {
         // 선택한 지역의 시군구 카테고리 표시
         showSelectedRegionSubcategories(region);
 
-        resultCategpryAjex();
+        resultCategpryAjax();
 
         // 시군구 카테고리 클릭 이벤트 처리
         $('.region-subcategory-list').off('click').click(function (event) {
@@ -117,7 +117,7 @@ $(document).ready(function () {
             // 선택한 시군구 카테고리 강조
             highlightSelectedSubcategory(region, sigungu);
 
-            resultCategpryAjex();
+            resultCategpryAjax();
         });
     });
 
@@ -140,7 +140,7 @@ $(document).ready(function () {
         // 선택한 대분류의 중분류 카테고리 표시
         showSelectedCategorySubcategories(big);
 
-        resultCategpryAjex();
+        resultCategpryAjax();
 
         // 중분류 카테고리 클릭 이벤트 처리
         $('.middle-list').off('click').on('click', function (event) {
@@ -163,7 +163,7 @@ $(document).ready(function () {
             // 선택한 중분류의 소분류 카테고리 표시
             showSelectedCategorySubcategories(middle);
 
-            resultCategpryAjex();
+            resultCategpryAjax();
 
             // 소분류 카테고리 클릭 이벤트 처리
             $('.small-list').off('click').on('click', function (event) {
@@ -182,7 +182,7 @@ $(document).ready(function () {
                 // 선택한 소분류 카테고리 강조
                 highlightSelectedCategorySubcategory(small);
 
-                resultCategpryAjex();
+                resultCategpryAjax();
 
             });
         });
@@ -196,7 +196,7 @@ $(document).ready(function () {
         offset = 0
         updateSearchResultDisplay(searchQuery);
 
-        resultCategpryAjex()
+        resultCategpryAjax()
 
     });
 
@@ -207,7 +207,7 @@ $(document).ready(function () {
         searchQuery = ''
         offset = 0
 
-        resultCategpryAjex()
+        resultCategpryAjax()
 
     })
 
@@ -226,7 +226,7 @@ $(document).ready(function () {
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategpryAjax();
             return;
         }
 
@@ -251,7 +251,7 @@ $(document).ready(function () {
             // 선택한 시군구 카테고리 강조
             highlightSelectedSubcategory(parentContainerId, categoryValue);
 
-            resultCategpryAjex();
+            resultCategpryAjax();
 
         } else {
             // 지역 항목으로 복귀
@@ -261,7 +261,7 @@ $(document).ready(function () {
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategpryAjax();
         }
 
     });
@@ -280,7 +280,7 @@ $(document).ready(function () {
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategpryAjax();
             return;
         }
 
@@ -309,7 +309,7 @@ $(document).ready(function () {
             // 선택한 대분류의 중분류 카테고리 표시
             showSelectedCategorySubcategories(parentContainerId);
 
-            resultCategpryAjex();
+            resultCategpryAjax();
         } else if (subcategoryParts.length === 3) {
             // '-' 문자가 2개 있는 경우
 
@@ -332,7 +332,7 @@ $(document).ready(function () {
 
             $('.small-list').css('color', '');
 
-            resultCategpryAjex();
+            resultCategpryAjax();
 
         } else {
             // 대분류 항목으로 복귀
@@ -342,7 +342,7 @@ $(document).ready(function () {
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategpryAjax();
         }
     });
 
@@ -392,7 +392,7 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-function resultCategpryAjex() {
+function resultCategpryAjax() {
 
     loading = true;
 
