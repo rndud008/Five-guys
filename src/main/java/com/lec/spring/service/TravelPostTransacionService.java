@@ -115,7 +115,7 @@ public class TravelPostTransacionService {
                 System.out.println("item 저장완료");
 
             } else {
-                System.out.println("이미 저장되어 있음.");
+//                System.out.println("이미 저장되어 있음.");
             }// end if문...
 
         } catch (Exception e) {
