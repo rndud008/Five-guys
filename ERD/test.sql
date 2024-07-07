@@ -34,6 +34,9 @@ FROM short_weather;
 
 -- middle_weather 테이블 데이터 조회
 select *
+from middle_weather;
+
+select *
 from areacode;
 
 SELECT name

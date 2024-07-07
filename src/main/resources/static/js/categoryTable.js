@@ -406,13 +406,6 @@ function resultCategoryAjax() {
     query = query || 99;
     searchQuery = searchQuery || 99;
 
-    console.log(regionQuery)
-    console.log(sigunguQuery)
-    console.log(query)
-    console.log(searchQuery)
-
-    console.log(offset)
-
     if (currentRequest) {
         currentRequest.abort();
     }
