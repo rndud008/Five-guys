@@ -61,7 +61,7 @@ public class TravelPostServiceImpl implements TravelPostService {
         for (TravelType travelType : travelTypes) {
             String apiUrl = null;
             apiUrl = String.format(BASE_URL + "areaBasedList1?serviceKey=%s" +
-                    "&numOfRows=1000&pageNo=11&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
+                    "&numOfRows=15000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&" +
                     "contentTypeId=%d", apikey, travelType.getId()); // TODO pageNo=12,1,2 완료
             System.out.println(apiUrl);
             JsonNode items = null;
@@ -81,7 +81,7 @@ public class TravelPostServiceImpl implements TravelPostService {
                         System.out.println(e.getMessage());
                         System.out.println("contentid : " + item.get("contentid").asText());
                         System.out.println("contenttypeid" + travelType.getId());
-                        System.out.println("item 저장 실패");
+//                        System.out.println("item 저장 실패");
                     }
 
                 }// end item

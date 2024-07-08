@@ -36,7 +36,7 @@
                 <article class="content">
                     <div class="top-wrap">
                         <div class="tit">
-                            <h2 th:text="${post.title}"></h2>
+                            <h2 th:utext="${post.title}"></h2>
                             <span class="txt" th:text="${post.addr1}"></span>
                         </div>
                         <div class="util">
@@ -55,7 +55,7 @@
                         <h4>상세정보</h4>
                     </div>
                     <div class="detail">
-                        <p class="desc" th:text="${post.overview}"></p>
+                        <p class="desc" th:utext="${post.overview}"></p>
 
                         <h5 class="hide">지도보기</h5>
                         <div class="map_wrap">
@@ -89,13 +89,13 @@
                             <dt>주소</dt>
                             <dd th:utext= "${#strings.isEmpty(post.addr1) ? '없음' : post.addr1}"></dd>
                             <dt>문의 및 안내</dt>
-                            <dd th:text= "${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}" ></dd>
+                            <dd th:utext= "${#strings.isEmpty(post.infocenter) ? '없음' : post.infocenter}" ></dd>
                             <dt>이용시간</dt>
-                            <dd th:text="${#strings.isEmpty(post.usetime) ? '상시' : post.usetime}"></dd>
+                            <dd th:utext="${#strings.isEmpty(post.usetime) ? '상시' : post.usetime}"></dd>
                             <dt>휴일</dt>
-                            <dd th:text="${#strings.isEmpty(post.restdate) ? '없음' : post.restdate}"></dd>
+                            <dd th:utext="${#strings.isEmpty(post.restdate) ? '없음' : post.restdate}"></dd>
                             <dt>주차시설</dt>
-                            <dd th:text="${#strings.isEmpty(post.parking) ? '없음' : post.parking}"></dd>
+                            <dd th:utext="${#strings.isEmpty(post.parking) ? '없음' : post.parking}"></dd>
                         </dl>
                     </div>
 

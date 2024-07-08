@@ -185,7 +185,7 @@ public class UserController {
 
             return "redirect:/user/updateCheckUser";
         } else {
-            return "/user/updateUser";
+            return "user/updateUser";
         }
     }
 

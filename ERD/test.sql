@@ -34,6 +34,9 @@ FROM short_weather;
 
 -- middle_weather 테이블 데이터 조회
 select *
+from middle_weather;
+
+select *
 from areacode;
 
 SELECT name
@@ -104,8 +107,8 @@ select tp.*
 FROM travel_post tp
          join travel_class_detail tcd on tp.travel_class_detail_id = tcd.id
          join travel_type tt on tcd.travel_type_id = tt.id
-where tt.id = 15
-  and infotext is null;
+where tt.id = 12
+  and tp.overview is null;
 
 select tp.*
 FROM travel_post tp
@@ -231,10 +234,16 @@ where
 # and
 #     STR_TO_DATE(tp.eventstartdate, '%Y%m%d') >= CURDATE()
 # order by tp.eventstartdate asc
-#   and
+  and
 #     tp.title like '%태백등기소%'
-#     tp.contentid = 1957556
+    tp.contentid = 3330805
 ;
+delete from travel_post where id = 9231;
+
+SELECT tp.contentid, COUNT(*)
+FROM travel_post tp
+GROUP BY tp.contentid
+HAVING COUNT(*) >= 2;
 
 
 SELECT distinct
