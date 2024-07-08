@@ -302,8 +302,8 @@ UPDATE travel_diary_post SET subject = 11111111111111111111111111111111111111111
 
 delete FROM travel_diary_post WHERE id = 22;
 
-select * from short_weather;
-select * from middle_weather;
+select * from short_weather WHERE areacode=32 order by fcstTime ASC ;
+select * from middle_weather WHERE areacode=32;
 select * from last_call_api_date;
 select * from areacode;
 select * from sigungucode;

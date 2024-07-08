@@ -297,6 +297,8 @@ function middleWeatherGif(description) {
             return basePath + "rain.gif";
         case "구름많고 비":
             return basePath + "rain.gif";
+        case "구름많고 소나기":
+            return basePath + "rain.gif";
         default:
             return basePath + "default.gif"; // 기본 이미지
     }
