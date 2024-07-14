@@ -7,7 +7,7 @@ $(document).ready(function() {
     if ($modal.length) {
         $openModalBtn.on('click', function() {
             $modal.show();
-            // centerModal();
+            $('#redirectUrl').val(window.location.href);
         });
 
         $closeModalBtn.on('click', function() {
@@ -23,6 +23,7 @@ $(document).ready(function() {
         // 새로고침 시 모달창 열리지 않도록 설정
         $modal.hide();
     }
+
 });
 
 function centerModal() {

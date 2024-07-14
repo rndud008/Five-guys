@@ -8,6 +8,7 @@ import com.lec.spring.domain.User;
 import com.lec.spring.service.BlogReviewService;
 import com.lec.spring.service.LastCallApiDateService;
 import com.lec.spring.service.TravelPostService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
@@ -35,6 +37,13 @@ public class TravelInfomationController {
     private BlogReviewService blogReviewService;
     @Autowired
     private LastCallApiDateService lastCallApiDateService;
+
+    @ModelAttribute
+    public void addAttributes(HttpServletRequest request, Model model) {
+        String currentUrl = request.getRequestURI();
+        model.addAttribute("currentUrl", currentUrl);
+    }
+
 
     @GetMapping("/post/{id}")
     public String post(@PathVariable String id, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {

@@ -4,6 +4,7 @@ import com.lec.spring.domain.Areacode;
 import com.lec.spring.domain.Post;
 import com.lec.spring.domain.PostValidator;
 import com.lec.spring.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,13 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @ModelAttribute
+    public void addAttributes(HttpServletRequest request, Model model) {
+        String currentUrl = request.getRequestURI();
+        model.addAttribute("currentUrl", currentUrl);
+    }
+
 
 
     @GetMapping("/write")

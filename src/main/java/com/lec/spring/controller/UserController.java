@@ -1,20 +1,25 @@
 package com.lec.spring.controller;
 
+import com.lec.spring.config.PrincipalDetailService;
 import com.lec.spring.config.PrincipalDetails;
 import com.lec.spring.domain.PasswordValidator;
 import com.lec.spring.domain.UpdateValidator;
 import com.lec.spring.domain.User;
 import com.lec.spring.domain.UserValidator;
 import com.lec.spring.service.UserService;
+import com.lec.spring.util.U;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,16 +38,26 @@ public class UserController {
     private static UserService userService;
 
     @Autowired
+    private PrincipalDetailService principalDetailService;
+
+    @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @ModelAttribute
+    public void addAttributes(HttpServletRequest request, Model model) {
+        String currentUrl = request.getRequestURI();
+        model.addAttribute("currentUrl", currentUrl);
+    }
 
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(@RequestParam(name = "redirectUrl", required = false) String redirectUrl, Model model) {
+        model.addAttribute("redirectUrl",redirectUrl);
+
         return "user/register";
     }
 
@@ -51,11 +66,17 @@ public class UserController {
             @Valid @ModelAttribute("registerUser") User user,
             BindingResult result,
             Model model,
+            @RequestParam("redirectUrl") String redirectUrl,
             RedirectAttributes redirectAttrs
     ) {
 
         // 검증 에러가 있을 경우 redirect 한다
         if (result.hasErrors()) {
+
+            redirectAttrs.addFlashAttribute("username",user.getUsername());
+            redirectAttrs.addFlashAttribute("name",user.getName());
+            redirectAttrs.addFlashAttribute("email_id",user.getEmail().substring(0, user.getEmail().lastIndexOf('@')));
+            redirectAttrs.addFlashAttribute("custom_domain",user.getEmail().substring(user.getEmail().lastIndexOf('@')+1, user.getEmail().length()));
 
             List<FieldError> errList = result.getFieldErrors();
             for (FieldError err : errList) {
@@ -68,7 +89,26 @@ public class UserController {
         String page = "user/registerOk";
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
-        return page;
+
+        user = userService.findByUsername(user.getUsername());
+
+        UserDetails userDetails = principalDetailService.loadUserByUsername(user.getUsername());
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
+        HttpSession session = U.getSession();
+
+        if(session != null){
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        }
+
+        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+            return "redirect:" + redirectUrl;
+        } else {
+            return page;
+        }
     }
 
     @Autowired
@@ -81,6 +121,7 @@ public class UserController {
 
     @GetMapping("/login")
     public void login() {
+
     }
 
     @GetMapping("/delete")
@@ -90,7 +131,11 @@ public class UserController {
 
 
     @PostMapping("/delete")
-    public String deleteOk(@RequestParam("password") String password, HttpServletRequest request, Model model) {
+    public String deleteOk(@RequestParam("password") String password,
+                           HttpServletRequest request,
+                           Model model,
+                           RedirectAttributes redirectAttrs) {
+
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -100,17 +145,21 @@ public class UserController {
         int result = 0;
         if (passwordEncoder.matches(password, user.getPassword())) {
             result = userService.deleteUser(user);
+        }else {
+            redirectAttrs.addFlashAttribute("errorMessage", "비밀번호가 맞지 않습니다.");
+            return "redirect:/user/delete"; // 에러 발생 시 돌아갈 페이지
         }
-
 
         if (result > 0) {
             // redirect 시 계정 정보 session 에서 삭제.
             SecurityContextHolder.clearContext();
             request.getSession().invalidate();
-            return "redirect:/travelkorea";
+            model.addAttribute("result",result);
+
+            return "user/deleteOk";
         } else {
             System.out.println("비밀번호가 맞지 않습니다");
-            return "/user/delete";
+            return "user/delete";
         }
     }
 
@@ -125,8 +174,12 @@ public class UserController {
         String username = authentication.getName();
         String name = userService.findByUsername(username).getName();
 
-        model.addAttribute("username", username);
-        model.addAttribute("name", name);
+        User user = userService.findByUsername(username);
+
+//        model.addAttribute("username", username);
+//        model.addAttribute("name", name);
+//        model.addAttribute("email_id", user.getEmail().substring(0,user.getEmail().lastIndexOf('@')));
+//        model.addAttribute("custom_domain", user.getEmail().substring(user.getEmail().lastIndexOf('@')+1,user.getEmail().length()));
 
         return "user/updateUser";
     }
@@ -154,6 +207,21 @@ public class UserController {
         String page = "user/updateOk";
         int cnt = userService.updateUser(user, passwordEncoder.encode(user.getPassword()), user.getEmail());
         model.addAttribute("result", cnt);
+
+        user = userService.findByUsername(user.getUsername());
+
+        UserDetails userDetails = principalDetailService.loadUserByUsername(user.getUsername());
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
+        HttpSession session = U.getSession();
+
+        if(session != null){
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        }
+
         return page;
     }
     @Autowired

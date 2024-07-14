@@ -69,6 +69,7 @@ public class OAuth2Controller {
         loginKakaoUser(kakaoUser);
 
         return "redirect:/travelkorea";
+
     }
 
     public KakaoOAuthToken kakaoAccessToken(String code) {
