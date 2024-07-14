@@ -97,7 +97,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
                 // areacode로 Areacode 객체 가져오기
                 Areacode areaCodeObj = areacodeRepository.findByAreaCode(areacode);
                 // WeatherDTO_2 리스트 생성
-                List<WeatherDTO_2> weatherList = parseAndMapToDTO_1(itemArray, areaCodeObj,today);
+                List<WeatherDTO_2> weatherList = parseAndMapToDTO_1(itemArray, areaCodeObj);
 
                 url = baseUrl_2 +
                         "?serviceKey=" + apiKey +
