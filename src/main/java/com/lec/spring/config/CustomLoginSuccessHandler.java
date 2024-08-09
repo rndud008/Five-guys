@@ -3,8 +3,11 @@ package com.lec.spring.config;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,10 +15,10 @@ import java.util.List;
 
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    public CustomLoginSuccessHandler(String defaultTargetUrl) {
-        // 로그인 후 redirect 할 URL 이 특별히 없는 경우 default 로 redirect 할 URL 설정
-        setDefaultTargetUrl(defaultTargetUrl);
-    }
+//    public CustomLoginSuccessHandler(String defaultTargetUrl) {
+//        // 로그인 후 redirect 할 URL 이 특별히 없는 경우 default 로 redirect 할 URL 설정
+//        setDefaultTargetUrl(defaultTargetUrl);
+//    }
 
     @Override  // Authentication 은 로그인한 정보 객체
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
@@ -27,10 +30,17 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
             roleNames.add(authority.getAuthority());
         });
 
-        // 로그인 직전 Url 로 redirect 하기
-        super.onAuthenticationSuccess(request, response, authentication);
+        String redirectUrl = request.getParameter("redirectUrl");
+
+        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+            getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+        } else {
+            getRedirectStrategy().sendRedirect(request, response, "/travelkorea");
+        }
+
 
     }
+
 
     // request 를 한 client ip 가져오기
     public static String getClientIp(HttpServletRequest request) {

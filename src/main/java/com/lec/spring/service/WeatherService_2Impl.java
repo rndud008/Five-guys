@@ -37,10 +37,7 @@ public class WeatherService_2Impl implements WeatherService_2 {
     private AreacodeRepository areacodeRepository;
     private LastCallApiDateRepository lastCallApiDateRepository;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'0600'");
-    String tmFc = dateFormat.format(new Date());
-    SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-    String tmFc1 = dateFormat1.format(new Date());
+
     @Autowired
     public WeatherService_2Impl(SqlSession sqlSession) {
         weatherRepository_2 = sqlSession.getMapper(WeatherRepository_2.class);
@@ -51,6 +48,10 @@ public class WeatherService_2Impl implements WeatherService_2 {
     @Override
     @Transactional
     public void saveWeatherInfo_middle(Long areacode, String regId) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'0600'");
+        String tmFc = dateFormat.format(new Date());
+
+
         String url =
                 baseUrl_1 +
                         "?serviceKey=" + apiKey +
@@ -163,6 +164,9 @@ public class WeatherService_2Impl implements WeatherService_2 {
     }
 
     private List<WeatherDTO_2> parseAndMapToDTO_1(JsonNode itemArray, Areacode areacode) {
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        String tmFc1 = dateFormat1.format(new Date());
+
         List<WeatherDTO_2> weatherList = new ArrayList<>();
         WeatherDTO_2 dto = new WeatherDTO_2();
         for (JsonNode item : itemArray) {

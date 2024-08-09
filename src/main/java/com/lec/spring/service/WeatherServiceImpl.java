@@ -37,11 +37,6 @@ public class WeatherServiceImpl implements WeatherService {
     private LastCallApiDateRepository lastCallApiDateRepository;
 
 
-    // 현재 시간을 yyyyMMdd 형식으로 포맷팅
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-    String baseDate = dateFormat.format(new Date());
-
-
     @Autowired
     public WeatherServiceImpl(SqlSession sqlSession) {
         weatherRepository = sqlSession.getMapper(WeatherRepository.class);
@@ -53,6 +48,11 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     @Transactional
     public void saveWeatherInfo_short(Long areacode, int nx, int ny) {
+
+        // 현재 시간을 yyyyMMdd 형식으로 포맷팅
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String baseDate = dateFormat.format(new Date());
+
         String url =
                 baseUrl +
                     "?serviceKey=" + apiKey +

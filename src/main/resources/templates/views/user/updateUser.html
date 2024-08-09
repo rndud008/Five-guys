@@ -128,10 +128,10 @@
         <div class="form-group email-group">
             <input type="hidden" name="email">
             <label for="email_id">E-Mail : </label>
-            <input type="text" id="email_id" name="email_id" th:value="${email_id}" required>
+            <input type="text" id="email_id" name="email_id" th:value="${user.email != null ? #strings.substring(user.email,0,#strings.indexOf(user.email,'@')) : ''}" required>
             @
-            <input type="text" th:id="custom_domain" th:name="custom_domain" th:placeholder="'직접 입력'">
-            <select th:id="domain" th:name="domain" onchange="updateCustomDomain()">
+            <input type="text" id="custom_domain" name="custom_domain" th:value="${user.email != null ?#strings.substring(user.email,#strings.indexOf(user.email,'@')+1,#strings.length(user.email)):''}" placeholder="'직접 입력'">
+            <select id="domain" name="domain" onchange="updateCustomDomain()">
                 <option value="">직접입력</option>
                 <option value="naver.com">naver.com</option>
                 <option value="gmail.com">gmail.com</option>

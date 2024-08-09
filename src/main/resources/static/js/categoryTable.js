@@ -1,8 +1,10 @@
 
-let regiontest1 = getUrlParameter('regionQuery');
-let sigungutest2;
-let queyrtest3;
+let regionQuery = getUrlParameter('regionQuery');
+let sigunguQuery;
+let query;
 let searchQuery;
+
+let currentRequest = null;
 
 let loading = false;
 
@@ -16,11 +18,13 @@ const $modal = $('#modalSign');
 $(document).ready(function () {
     // 지역 카테고리 클릭 이벤트 처리
 
-    if (regiontest1 !== '') {
+
+
+    if (regionQuery !== '') {
 
         // test 값과 일치하는 지역을 찾습니다.
         let $element = $('.region-category-list').filter(function () {
-            return $(this).data('subcategory') === parseInt(regiontest1);
+            return $(this).data('subcategory') === parseInt(regionQuery);
         });
 
         console.log($element); // 선택된 요소를 콘솔에 출력합니다.
@@ -28,15 +32,16 @@ $(document).ready(function () {
         let nameValue = $element.data('name'); // 선택된 요소의 지역 이름을 가져옵니다.
         console.log(nameValue); // 지역 이름을 콘솔에 출력합니다.
 
+        offset = 0;
 
         // 선택한 지역을 1번 항목에 표시
-        updateSelectedRegionDisplay(regiontest1, nameValue);
+        updateSelectedRegionDisplay(regionQuery, nameValue);
 
         // 다른 지역 카테고리 링크 숨기기
         hideOtherRegionCategories();
 
         // 선택한 지역의 시군구 카테고리 표시
-        showSelectedRegionSubcategories(regiontest1);
+        showSelectedRegionSubcategories(regionQuery);
 
         // 시군구 카테고리 클릭 이벤트 처리
         $('.region-subcategory-list').off('click').click(function (event) {
@@ -45,23 +50,23 @@ $(document).ready(function () {
             const sigunguName = $(this).data('name');
 
             const regionSubCategoryParts = sigungu.split('-');
-            sigungutest2 = regionSubCategoryParts[1];
+            sigunguQuery = regionSubCategoryParts[1];
 
             offset = 0;
 
             // 선택한 시군구 지역을 1번 항목에 표시
-            updateSelectedRegionDisplay(regiontest1, nameValue, sigungu, sigunguName);
+            updateSelectedRegionDisplay(regionQuery, nameValue, sigungu, sigunguName);
 
             // 선택한 시군구 카테고리 강조
-            highlightSelectedSubcategory(regiontest1, sigungu);
+            highlightSelectedSubcategory(regionQuery, sigungu);
 
-            resultCategpryAjex();
+            resultCategoryAjax();
         });
 
     }
 
     $('#loading').show();
-    resultCategpryAjex();
+    resultCategoryAjax();
 
     if (currentUrl.split('?')[0] !== null) {
         let newUrl = currentUrl.split('?')[0];
@@ -75,7 +80,7 @@ $(document).ready(function () {
             if (!loading && count > offset) {
 
                 $('#loading').show();
-                resultCategpryAjex();
+                resultCategoryAjax();
 
             }
 
@@ -86,7 +91,7 @@ $(document).ready(function () {
         event.preventDefault();
         const region = $(this).data('subcategory');
         const regionName = $(this).data('name');
-        regiontest1 = region
+        regionQuery = region
         offset = 0;
 
         // 선택한 지역을 1번 항목에 표시
@@ -98,7 +103,7 @@ $(document).ready(function () {
         // 선택한 지역의 시군구 카테고리 표시
         showSelectedRegionSubcategories(region);
 
-        resultCategpryAjex();
+        resultCategoryAjax();
 
         // 시군구 카테고리 클릭 이벤트 처리
         $('.region-subcategory-list').off('click').click(function (event) {
@@ -107,7 +112,7 @@ $(document).ready(function () {
             const sigunguName = $(this).data('name');
 
             const regionSubCategoryParts = sigungu.split('-');
-            sigungutest2 = regionSubCategoryParts[1];
+            sigunguQuery = regionSubCategoryParts[1];
 
             offset = 0;
 
@@ -117,7 +122,7 @@ $(document).ready(function () {
             // 선택한 시군구 카테고리 강조
             highlightSelectedSubcategory(region, sigungu);
 
-            resultCategpryAjex();
+            resultCategoryAjax();
         });
     });
 
@@ -127,7 +132,7 @@ $(document).ready(function () {
         const big = $(this).data('subcategory');
         const bigName = $(this).data('name');
 
-        queyrtest3 = big;
+        query = big;
 
         offset = 0;
 
@@ -140,7 +145,7 @@ $(document).ready(function () {
         // 선택한 대분류의 중분류 카테고리 표시
         showSelectedCategorySubcategories(big);
 
-        resultCategpryAjex();
+        resultCategoryAjax();
 
         // 중분류 카테고리 클릭 이벤트 처리
         $('.middle-list').off('click').on('click', function (event) {
@@ -150,7 +155,7 @@ $(document).ready(function () {
 
             const subcategoryParts = middle.split('-');
 
-            queyrtest3 = subcategoryParts[1];
+            query = subcategoryParts[1];
 
             offset = 0;
 
@@ -163,7 +168,7 @@ $(document).ready(function () {
             // 선택한 중분류의 소분류 카테고리 표시
             showSelectedCategorySubcategories(middle);
 
-            resultCategpryAjex();
+            resultCategoryAjax();
 
             // 소분류 카테고리 클릭 이벤트 처리
             $('.small-list').off('click').on('click', function (event) {
@@ -172,7 +177,7 @@ $(document).ready(function () {
                 const smallName = $(this).data('name');
 
                 const subcategoryParts = small.split('-');
-                queyrtest3 = subcategoryParts[2];
+                query = subcategoryParts[2];
 
                 offset = 0;
 
@@ -182,7 +187,7 @@ $(document).ready(function () {
                 // 선택한 소분류 카테고리 강조
                 highlightSelectedCategorySubcategory(small);
 
-                resultCategpryAjex();
+                resultCategoryAjax();
 
             });
         });
@@ -196,7 +201,7 @@ $(document).ready(function () {
         offset = 0
         updateSearchResultDisplay(searchQuery);
 
-        resultCategpryAjex()
+        resultCategoryAjax()
 
     });
 
@@ -207,7 +212,7 @@ $(document).ready(function () {
         searchQuery = ''
         offset = 0
 
-        resultCategpryAjex()
+        resultCategoryAjax()
 
     })
 
@@ -221,12 +226,12 @@ $(document).ready(function () {
 
         if (subcategory === undefined || !subcategoryStr.includes('-')) {
             resetSelectedRegion();
-            regiontest1 = '';
-            sigungutest2 = '';
+            regionQuery = '';
+            sigunguQuery = '';
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategoryAjax();
             return;
         }
 
@@ -238,8 +243,8 @@ $(document).ready(function () {
             const parentContainerId = subcategoryParts[0];
             const categoryValue = subcategoryParts[1];
 
-            regiontest1 = parentContainerId;
-            sigungutest2 = '';
+            regionQuery = parentContainerId;
+            sigunguQuery = '';
 
             offset = 0;
 
@@ -251,17 +256,17 @@ $(document).ready(function () {
             // 선택한 시군구 카테고리 강조
             highlightSelectedSubcategory(parentContainerId, categoryValue);
 
-            resultCategpryAjex();
+            resultCategoryAjax();
 
         } else {
             // 지역 항목으로 복귀
             resetSelectedRegion();
-            regiontest1 = '';
-            sigungutest2 = '';
+            regionQuery = '';
+            sigunguQuery = '';
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategoryAjax();
         }
 
     });
@@ -276,11 +281,11 @@ $(document).ready(function () {
         if (subcategory === undefined) {
             resetSelectedCategory();
 
-            queyrtest3 = '';
+            query = '';
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategoryAjax();
             return;
         }
 
@@ -292,7 +297,7 @@ $(document).ready(function () {
             const parentContainerId = subcategoryParts[0];
             const categoryValue = subcategoryParts[1];
 
-            queyrtest3 = parentContainerId;
+            query = parentContainerId;
 
             offset = 0;
 
@@ -309,7 +314,7 @@ $(document).ready(function () {
             // 선택한 대분류의 중분류 카테고리 표시
             showSelectedCategorySubcategories(parentContainerId);
 
-            resultCategpryAjex();
+            resultCategoryAjax();
         } else if (subcategoryParts.length === 3) {
             // '-' 문자가 2개 있는 경우
 
@@ -317,7 +322,7 @@ $(document).ready(function () {
             const middleCategoryValue = subcategoryParts[0] + '-' + subcategoryParts[1];
             const smallCategoryValue = subcategoryParts[2];
 
-            queyrtest3 = subcategoryParts[1]
+            query = subcategoryParts[1]
 
             offset = 0;
 
@@ -332,17 +337,17 @@ $(document).ready(function () {
 
             $('.small-list').css('color', '');
 
-            resultCategpryAjex();
+            resultCategoryAjax();
 
         } else {
             // 대분류 항목으로 복귀
             resetSelectedCategory();
 
-            queyrtest3 = '';
+            query = '';
 
             offset = 0;
 
-            resultCategpryAjex();
+            resultCategoryAjax();
         }
     });
 
@@ -392,27 +397,26 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-function resultCategpryAjex() {
+function resultCategoryAjax() {
 
     loading = true;
 
-    regiontest1 = regiontest1 || 99;
-    sigungutest2 = sigungutest2 || 99;
-    queyrtest3 = queyrtest3 || 99;
+    regionQuery = regionQuery || 99;
+    sigunguQuery = sigunguQuery || 99;
+    query = query || 99;
     searchQuery = searchQuery || 99;
 
-    console.log(regiontest1)
-    console.log(sigungutest2)
-    console.log(queyrtest3)
-    console.log(searchQuery)
+    if (currentRequest) {
+        currentRequest.abort();
+    }
 
-    $.ajax({
+    currentRequest = $.ajax({
         url: '/Search/' + categoryId,
         type: 'POST',
         data: {
-            Query: queyrtest3,
-            regionQuery: regiontest1,
-            sigunguQuery: sigungutest2,
+            Query: query,
+            regionQuery: regionQuery,
+            sigunguQuery: sigunguQuery,
             searchQuery: searchQuery,
             offset: offset, // 서버에 전달할 offset 값 추가
             limit: limit   // 서버에 전달할 limit 값 추가
@@ -441,6 +445,7 @@ function resultCategpryAjex() {
         }
     });
 }
+
 
 function loadLikeStatus() {
     console.log("loadLikeStatus 실행")

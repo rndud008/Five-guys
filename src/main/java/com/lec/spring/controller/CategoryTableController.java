@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lec.spring.config.PrincipalDetails;
 import com.lec.spring.domain.*;
 import com.lec.spring.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,13 @@ public class CategoryTableController {
     TravelTypeService travelTypeService;
     @Autowired
     TravelPostService travelPostService;
+
+    @ModelAttribute
+    public void addAttributes(HttpServletRequest request, Model model) {
+        String currentUrl = request.getRequestURI();
+        model.addAttribute("currentUrl", currentUrl);
+    }
+
 
     @PostMapping("/Search/{id}")
     public String searchResult(@RequestParam("Query") String query, @RequestParam("regionQuery") Long regionQuery

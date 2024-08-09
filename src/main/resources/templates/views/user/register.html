@@ -51,7 +51,7 @@
             <label for="email_id" class="text">E-Mail</label><br>
             <input type="text" id="email_id" name="email_id" th:value="${email_id}" required>
             @
-            <input type="text" id="custom_domain" name="custom_domain" placeholder="직접 입력">
+            <input type="text" id="custom_domain" name="custom_domain" th:value="${custom_domain}"placeholder="직접 입력">
             <select id="domain" name="domain" onchange="updateCustomDomain()">
                 <option value="">직접입력</option>
                 <option value="naver.com">naver.com</option>
@@ -63,6 +63,8 @@
 
             <div><span class="error" th:if="${error_email}" th:utext="${error_email}"></span></div>
         </div>
+
+        <input type="hidden" name="redirectUrl" th:value="${redirectUrl}">
         <button type="submit">가입하기</button>
     </form>
 </div>
