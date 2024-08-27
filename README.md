@@ -1,3 +1,10 @@
+
+![KakaoTalk_20240827_161450836](https://github.com/user-attachments/assets/ed0dfed2-e23e-4200-918e-c50988aa58f8)
+![KakaoTalk_20240827_161450836_01](https://github.com/user-attachments/assets/8e9f0c6d-4270-44e5-a3cd-42b656eeaad8)
+
+
+
+
 프로젝트명 : 공공데이터API를 이용한 여행정보사이트
 
 개요 : 여행을 계획하는 사용자들을 위해 지역별 날씨, 관광지 축제 정보를 신속하게 제공하여 더 나은 여행 경험을 제공하기 위해
