@@ -1,6 +1,4 @@
 
-![KakaoTalk_20240827_161450836](https://github.com/user-attachments/assets/ed0dfed2-e23e-4200-918e-c50988aa58f8)
-![KakaoTalk_20240827_161450836_01](https://github.com/user-attachments/assets/8e9f0c6d-4270-44e5-a3cd-42b656eeaad8)
 
 
 
