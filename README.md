@@ -1,7 +1,8 @@
 
-
-
-
+<img src="./upload/KakaoTalk_20240827_161450836.gif">
+<img src="./upload/KakaoTalk_20240827_161450836_01.gif">
+<img src="./upload/XiaoYing_Video_17247425112271724742535.gif">
+<img src="./upload/XiaoYing_Video_17247425719391724742594.gif">
 
 프로젝트명 : 공공데이터API를 이용한 여행정보사이트
 
